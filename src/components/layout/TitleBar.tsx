@@ -1,7 +1,12 @@
 import React from 'react'
-import { Minus, Square, X } from 'lucide-react'
+import { Minus, Square, X, ArrowLeft } from 'lucide-react'
 
-const TitleBar: React.FC = () => {
+interface TitleBarProps {
+  showBackButton?: boolean
+  onBackClick?: () => void
+}
+
+const TitleBar: React.FC<TitleBarProps> = ({ showBackButton = false, onBackClick }) => {
   const handleMinimize = () => {
     window.electronAPI?.minimizeWindow()
   }
@@ -16,6 +21,18 @@ const TitleBar: React.FC = () => {
 
   return (
     <div className="title-bar">
+      <div className="title-bar__left">
+        {showBackButton && (
+          <button 
+            className="title-bar__back-btn" 
+            onClick={onBackClick}
+            title="返回菜单"
+          >
+            <ArrowLeft size={18} />
+            <span>返回</span>
+          </button>
+        )}
+      </div>
       <div className="title-bar__title">
         <span style={{ fontSize: '16px' }}>📐</span>
         <span>Math-Efficiency</span>

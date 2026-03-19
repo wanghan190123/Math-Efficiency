@@ -53,6 +53,33 @@
   color: white;
 }
 
+.title-bar__left {
+  width: 100px;
+  display: flex;
+  align-items: center;
+  -webkit-app-region: no-drag;
+}
+
+.title-bar__back-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  transition: all var(--transition-fast);
+}
+
+.title-bar__back-btn:hover {
+  background: var(--color-bg-card);
+  color: var(--color-primary);
+  border-color: var(--color-accent);
+}
+
 /* === 侧边栏 === */
 .sidebar {
   width: 280px;
