@@ -95,9 +95,9 @@ const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
           <div className="card-content">
             <h3>数学计算器</h3>
             <p>求导积分，可视化计算</p>
-            <span className="card-tag developing">开发中</span>
+            <span className="card-tag available">已上线</span>
           </div>
-          <div className="card-arrow disabled">
+          <div className="card-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 5l7 7-7 7" />
             </svg>

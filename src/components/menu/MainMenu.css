@@ -239,7 +239,7 @@
   font-weight: 500;
 }
 
-.card-tag.active {
+.card-tag.available {
   background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.1));
   color: #4CAF50;
   border: 1px solid rgba(76, 175, 80, 0.3);
