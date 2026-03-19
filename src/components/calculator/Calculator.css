@@ -22,32 +22,104 @@
   min-width: 400px;
 }
 
-/* 快捷命令栏 */
-.quick-commands {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 12px 16px;
+/* 符号面板 */
+.symbol-panel {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
 }
 
-.quick-cmd-btn {
-  padding: 6px 12px;
+.symbol-panel__tabs {
+  display: flex;
+  padding: 8px;
+  gap: 4px;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.symbol-tab {
+  padding: 6px 14px;
   font-size: 0.85rem;
+  font-family: 'Noto Serif SC', serif;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.symbol-tab:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.symbol-tab.active {
+  background: var(--accent-gold);
+  color: white;
+  border-color: var(--accent-gold);
+}
+
+.symbol-toggle {
+  margin-left: auto;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.symbol-toggle:hover {
+  color: var(--text-primary);
+}
+
+.symbol-panel__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  padding: 8px;
+}
+
+.symbol-btn {
+  padding: 10px 4px;
+  font-size: 1rem;
+  font-family: 'Times New Roman', serif;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   color: var(--text-primary);
   cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Noto Serif SC', serif;
+  transition: all 0.15s;
+  min-height: 40px;
 }
 
-.quick-cmd-btn:hover {
+.symbol-btn:hover {
   background: var(--accent-gold);
-  color: var(--bg-primary);
+  color: white;
   border-color: var(--accent-gold);
+  transform: scale(1.05);
+}
+
+.symbol-btn:active {
+  transform: scale(0.98);
+}
+
+.show-panel-btn {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-secondary);
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}
+
+.show-panel-btn:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 /* 历史记录面板 */
@@ -133,7 +205,7 @@
 .calc-input {
   flex: 1;
   padding: 12px 16px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-family: 'Fira Code', 'Consolas', monospace;
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
@@ -151,8 +223,37 @@
   color: var(--text-muted);
 }
 
+.input-btn {
+  padding: 12px 16px;
+  font-size: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 50px;
+}
+
+.input-btn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--accent-gold);
+}
+
+.input-btn.backspace:hover {
+  background: #e67e22;
+  color: white;
+  border-color: #e67e22;
+}
+
+.input-btn.clear:hover {
+  background: #e74c3c;
+  color: white;
+  border-color: #e74c3c;
+}
+
 .execute-btn {
-  padding: 12px 24px;
+  padding: 12px 28px;
   font-size: 1rem;
   font-family: 'Noto Serif SC', serif;
   background: linear-gradient(135deg, var(--accent-gold), var(--accent-brown));
@@ -161,6 +262,7 @@
   color: white;
   cursor: pointer;
   transition: all 0.2s;
+  min-width: 80px;
 }
 
 .execute-btn:hover {

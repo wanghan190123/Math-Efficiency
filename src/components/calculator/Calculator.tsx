@@ -21,6 +21,82 @@ interface FunctionData {
   type: string;
 }
 
+// 符号面板数据
+const SYMBOL_PANELS = {
+  basic: {
+    label: '基础',
+    symbols: [
+      { display: '7', insert: '7' }, { display: '8', insert: '8' }, { display: '9', insert: '9' },
+      { display: '÷', insert: '/' }, { display: '(', insert: '(' }, { display: ')', insert: ')' },
+      { display: '4', insert: '4' }, { display: '5', insert: '5' }, { display: '6', insert: '6' },
+      { display: '×', insert: '*' }, { display: '[', insert: '[' }, { display: ']', insert: ']' },
+      { display: '1', insert: '1' }, { display: '2', insert: '2' }, { display: '3', insert: '3' },
+      { display: '-', insert: '-' }, { display: '{', insert: '{' }, { display: '}', insert: '}' },
+      { display: '0', insert: '0' }, { display: '.', insert: '.' }, { display: 'π', insert: 'pi' },
+      { display: '+', insert: '+' }, { display: ',', insert: ', ' }, { display: '=', insert: '=' },
+    ]
+  },
+  functions: {
+    label: '函数',
+    symbols: [
+      { display: 'sin', insert: 'sin(' }, { display: 'cos', insert: 'cos(' }, { display: 'tan', insert: 'tan(' },
+      { display: 'asin', insert: 'asin(' }, { display: 'acos', insert: 'acos(' }, { display: 'atan', insert: 'atan(' },
+      { display: 'sinh', insert: 'sinh(' }, { display: 'cosh', insert: 'cosh(' }, { display: 'tanh', insert: 'tanh(' },
+      { display: 'ln', insert: 'log(' }, { display: 'log₁₀', insert: 'log10(' }, { display: 'log₂', insert: 'log2(' },
+      { display: 'eˣ', insert: 'exp(' }, { display: '√', insert: 'sqrt(' }, { display: '∛', insert: 'cbrt(' },
+      { display: '|x|', insert: 'abs(' }, { display: '⌊x⌋', insert: 'floor(' }, { display: '⌈x⌉', insert: 'ceil(' },
+      { display: 'x²', insert: '^2' }, { display: 'x³', insert: '^3' }, { display: 'xⁿ', insert: '^' },
+      { display: '¹/ₓ', insert: '1/' }, { display: '√ⁿ', insert: 'nthRoot(' }, { display: '!', insert: '!' },
+    ]
+  },
+  calculus: {
+    label: '微积分',
+    symbols: [
+      { display: "d/dx", insert: 'diff(' }, { display: '∫', insert: 'integrate(' }, { display: '∑', insert: 'sum(' },
+      { display: 'lim', insert: 'limit(' }, { display: '∞', insert: 'Infinity' }, { display: '∂', insert: 'derivative(' },
+      { display: 'simplify', insert: 'simplify(' }, { display: 'expand', insert: 'expand(' }, { display: 'factor', insert: 'factor(' },
+      { display: 'solve', insert: 'solve(' }, { display: 'roots', insert: 'roots(' }, { display: 'zeros', insert: 'zeros(' },
+    ]
+  },
+  greek: {
+    label: '希腊字母',
+    symbols: [
+      { display: 'α', insert: 'alpha' }, { display: 'β', insert: 'beta' }, { display: 'γ', insert: 'gamma' },
+      { display: 'δ', insert: 'delta' }, { display: 'ε', insert: 'epsilon' }, { display: 'ζ', insert: 'zeta' },
+      { display: 'η', insert: 'eta' }, { display: 'θ', insert: 'theta' }, { display: 'ι', insert: 'iota' },
+      { display: 'κ', insert: 'kappa' }, { display: 'λ', insert: 'lambda' }, { display: 'μ', insert: 'mu' },
+      { display: 'ν', insert: 'nu' }, { display: 'ξ', insert: 'xi' }, { display: 'π', insert: 'pi' },
+      { display: 'ρ', insert: 'rho' }, { display: 'σ', insert: 'sigma' }, { display: 'τ', insert: 'tau' },
+      { display: 'φ', insert: 'phi' }, { display: 'χ', insert: 'chi' }, { display: 'ψ', insert: 'psi' },
+      { display: 'ω', insert: 'omega' }, { display: 'Δ', insert: 'Delta' }, { display: 'Σ', insert: 'Sigma' },
+    ]
+  },
+  geometry: {
+    label: '几何',
+    symbols: [
+      { display: '点', insert: 'point(' }, { display: '线', insert: 'line(' }, { display: '圆', insert: 'circle(' },
+      { display: '三角形', insert: 'triangle(' }, { display: '矩形', insert: 'rectangle(' }, { display: '多边形', insert: 'polygon(' },
+      { display: '距离', insert: 'distance(' }, { display: '中点', insert: 'midpoint(' }, { display: '斜率', insert: 'slope(' },
+      { display: '面积', insert: 'area(' }, { display: '周长', insert: 'perimeter(' }, { display: '角度', insert: 'angle(' },
+      { display: '平行', insert: 'parallel(' }, { display: '垂直', insert: 'perpendicular(' }, { display: '交点', insert: 'intersect(' },
+      { display: '向量', insert: 'vector(' }, { display: '平移', insert: 'translate(' }, { display: '旋转', insert: 'rotate(' },
+    ]
+  },
+  comparison: {
+    label: '比较',
+    symbols: [
+      { display: '=', insert: '=' }, { display: '≠', insert: '!=' }, { display: '<', insert: '<' },
+      { display: '>', insert: '>' }, { display: '≤', insert: '<=' }, { display: '≥', insert: '>=' },
+      { display: '≈', insert: '~~' }, { display: '≡', insert: '===' }, { display: '∈', insert: ' in ' },
+      { display: '∉', insert: ' not in ' }, { display: '⊂', insert: ' subset ' }, { display: '⊃', insert: ' superset ' },
+      { display: '∪', insert: ' union ' }, { display: '∩', insert: ' intersect ' }, { display: '∅', insert: 'empty' },
+      { display: '∀', insert: 'forall ' }, { display: '∃', insert: 'exists ' }, { display: '∄', insert: 'notexists ' },
+    ]
+  }
+};
+
+type PanelKey = keyof typeof SYMBOL_PANELS;
+
 const Calculator: React.FC = () => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -28,12 +104,45 @@ const Calculator: React.FC = () => {
   const [geometryObjects, setGeometryObjects] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<'input' | 'graph'>('input');
   const [graphMode, setGraphMode] = useState<'function' | 'geometry'>('function');
+  const [activePanel, setActivePanel] = useState<PanelKey>('basic');
+  const [showSymbolPanel, setShowSymbolPanel] = useState(true);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // 颜色列表
   const colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#e91e63', '#00bcd4'];
+
+  // 插入符号到输入框
+  const insertSymbol = (insert: string) => {
+    const inputEl = inputRef.current;
+    if (inputEl) {
+      const start = inputEl.selectionStart || 0;
+      const end = inputEl.selectionEnd || 0;
+      const newInput = input.substring(0, start) + insert + input.substring(end);
+      setInput(newInput);
+      // 设置光标位置
+      setTimeout(() => {
+        inputEl.selectionStart = inputEl.selectionEnd = start + insert.length;
+        inputEl.focus();
+      }, 0);
+    } else {
+      setInput(input + insert);
+    }
+  };
+
+  // 删除最后一个字符
+  const backspace = () => {
+    setInput(input.slice(0, -1));
+    inputRef.current?.focus();
+  };
+
+  // 清空输入
+  const clearInput = () => {
+    setInput('');
+    inputRef.current?.focus();
+  };
 
   // 自动滚动历史记录
   useEffect(() => {
@@ -472,37 +581,56 @@ const Calculator: React.FC = () => {
     }
   };
 
-  // 快捷命令按钮
-  const quickCommands = [
-    { label: 'y = x²', cmd: 'y = x^2' },
-    { label: 'y = sin(x)', cmd: 'y = sin(x)' },
-    { label: '点', cmd: 'point(1,2)' },
-    { label: '圆', cmd: 'circle((0,0),2)' },
-    { label: '直线', cmd: 'line((0,0),(2,2))' },
-    { label: '三角形', cmd: 'triangle((0,0),(2,0),(1,1.732))' },
-    { label: '求导', cmd: 'diff(x^3+2*x^2)' },
-    { label: '解方程', cmd: 'solve(x^2-4=0)' },
-    { label: '距离', cmd: 'distance((0,0),(3,4))' },
-    { label: '清除', cmd: 'clear' },
-  ];
-
   return (
     <div className="calculator">
       <div className="calculator__main">
         {/* 左侧：输入和计算区 */}
         <div className="calculator__left">
-          {/* 快捷命令栏 */}
-          <div className="quick-commands">
-            {quickCommands.map((qc, i) => (
-              <button
-                key={i}
-                className="quick-cmd-btn"
-                onClick={() => setInput(qc.cmd)}
-              >
-                {qc.label}
-              </button>
-            ))}
-          </div>
+          {/* 符号面板 */}
+          {showSymbolPanel && (
+            <div className="symbol-panel">
+              <div className="symbol-panel__tabs">
+                {(Object.keys(SYMBOL_PANELS) as PanelKey[]).map((key) => (
+                  <button
+                    key={key}
+                    className={`symbol-tab ${activePanel === key ? 'active' : ''}`}
+                    onClick={() => setActivePanel(key)}
+                  >
+                    {SYMBOL_PANELS[key].label}
+                  </button>
+                ))}
+                <button 
+                  className="symbol-toggle"
+                  onClick={() => setShowSymbolPanel(false)}
+                  title="隐藏面板"
+                >
+                  ▼
+                </button>
+              </div>
+              <div className="symbol-panel__grid">
+                {SYMBOL_PANELS[activePanel].symbols.map((sym, i) => (
+                  <button
+                    key={i}
+                    className="symbol-btn"
+                    onClick={() => insertSymbol(sym.insert)}
+                    title={sym.insert}
+                  >
+                    {sym.display}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* 显示符号面板按钮 */}
+          {!showSymbolPanel && (
+            <button 
+              className="show-panel-btn"
+              onClick={() => setShowSymbolPanel(true)}
+            >
+              ▲ 显示符号面板
+            </button>
+          )}
 
           {/* 历史记录 */}
           <div className="history-panel" ref={historyRef}>
@@ -527,6 +655,7 @@ const Calculator: React.FC = () => {
           {/* 输入框 */}
           <div className="input-panel">
             <input
+              ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -535,6 +664,12 @@ const Calculator: React.FC = () => {
               className="calc-input"
               autoFocus
             />
+            <button className="input-btn backspace" onClick={backspace} title="退格">
+              ⌫
+            </button>
+            <button className="input-btn clear" onClick={clearInput} title="清空">
+              C
+            </button>
             <button className="execute-btn" onClick={executeCommand}>
               执行
             </button>
