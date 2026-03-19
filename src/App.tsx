@@ -7,29 +7,32 @@ import MainContent from './components/layout/MainContent'
 import StatusBar from './components/layout/StatusBar'
 import MainMenu from './components/menu/MainMenu'
 import Calculator from './components/calculator/Calculator'
+import FormulaBook from './components/formulas/FormulaBook'
 import './styles/components.css'
 
 export type ViewType = 'menu' | 'knowledge' | 'graph' | 'formulas' | 'calculator'
 
 const App: React.FC = () => {
-  const { isDarkMode, currentModule, setCurrentModule } = useAppStore()
+  const { theme, currentModuleId, setModule } = useAppStore()
   const [currentView, setCurrentView] = React.useState<ViewType>('menu')
 
   React.useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
 
   // 从菜单导航到其他页面
   const handleNavigate = (view: ViewType) => {
     if (view === 'knowledge') {
       setCurrentView('knowledge')
-      if (!currentModule) {
-        setCurrentModule(knowledgeModules[0].id)
+      if (!currentModuleId) {
+        setModule(knowledgeModules[0].id)
       }
     } else if (view === 'calculator') {
       setCurrentView('calculator')
-    } else if (view === 'graph' || view === 'formulas') {
-      alert(`${view === 'graph' ? '知识图谱' : '公式手册'}功能开发中，敬请期待！`)
+    } else if (view === 'formulas') {
+      setCurrentView('formulas')
+    } else if (view === 'graph') {
+      alert('知识图谱功能开发中，敬请期待！')
     }
   }
 
@@ -65,6 +68,22 @@ const App: React.FC = () => {
       }}>
         <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
         <Calculator />
+        <StatusBar />
+      </div>
+    )
+  }
+
+  // 公式手册页面
+  if (currentView === 'formulas') {
+    return (
+      <div className="app-container" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        background: 'var(--color-bg-primary)',
+      }}>
+        <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
+        <FormulaBook />
         <StatusBar />
       </div>
     )

@@ -75,9 +75,9 @@ const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
           <div className="card-content">
             <h3>公式手册</h3>
             <p>常用公式，快速查阅</p>
-            <span className="card-tag developing">开发中</span>
+            <span className="card-tag available">已上线</span>
           </div>
-          <div className="card-arrow disabled">
+          <div className="card-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 5l7 7-7 7" />
             </svg>

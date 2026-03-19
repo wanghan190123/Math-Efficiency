@@ -136,7 +136,8 @@ export interface AppState {
   modelState: ModelState
   
   // UI 状态
-  isDarkMode: boolean
+  isDarkMode: boolean // 保留向后兼容
+  theme: ThemeType
   isPlaying: boolean
   isStepping: boolean
   playbackSpeed: number
@@ -148,7 +149,8 @@ export interface AppState {
   // 操作
   setModule: (moduleId: string) => void
   setKnowledge: (knowledgeId: string) => void
-  setDarkMode: (isDark: boolean) => void
+  setDarkMode: (isDark: boolean) => void // 保留向后兼容
+  setTheme: (theme: ThemeType) => void
   setPlaying: (isPlaying: boolean) => void
   setPlaybackSpeed: (speed: number) => void
   toggleCompareMode: () => void
@@ -181,4 +183,14 @@ export interface WindowControls {
   minimize: () => void
   maximize: () => void
   close: () => void
+}
+
+// 主题类型
+export type ThemeType = 'light' | 'dark' | 'morandi' | 'cyberpunk' | 'blackboard'
+
+export interface ThemeInfo {
+  id: ThemeType
+  name: string
+  icon: string
+  description: string
 }

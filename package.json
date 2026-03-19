@@ -5,7 +5,7 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && npm run build:electron",
+    "build": "vite build && npm run build:electron",
     "build:electron": "tsc -p tsconfig.electron.json",
     "preview": "vite preview",
     "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
@@ -51,14 +51,14 @@
     "appId": "com.mathefficiency.app",
     "productName": "Math-Efficiency",
     "directories": {
-      "output": "release"
+      "output": "C:/Users/aizai/Desktop/安装包"
     },
     "files": [
       "dist/**/*",
       "dist-electron/**/*"
     ],
     "win": {
-      "target": "nsis"
+      "target": ["portable", "dir"]
     },
     "mac": {
       "target": "dmg"

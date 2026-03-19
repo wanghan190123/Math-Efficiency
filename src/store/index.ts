@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { AppState, ModelState } from '@/types'
+import { AppState, ModelState, ThemeType } from '@/types'
 
 const initialModelState: ModelState = {
   params: {},
@@ -17,6 +17,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   modelState: initialModelState,
   
   isDarkMode: false,
+  theme: 'light',
   isPlaying: false,
   isStepping: false,
   playbackSpeed: 1,
@@ -30,8 +31,15 @@ export const useAppStore = create<AppState>((set, get) => ({
   setKnowledge: (knowledgeId) => set({ currentKnowledgeId: knowledgeId }),
   
   setDarkMode: (isDark) => {
-    set({ isDarkMode: isDark })
-    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
+    const theme: ThemeType = isDark ? 'dark' : 'light'
+    set({ isDarkMode: isDark, theme })
+    document.documentElement.setAttribute('data-theme', theme)
+  },
+  
+  setTheme: (theme: ThemeType) => {
+    const isDarkMode = theme === 'dark'
+    set({ theme, isDarkMode })
+    document.documentElement.setAttribute('data-theme', theme)
   },
   
   setPlaying: (isPlaying) => set({ isPlaying }),

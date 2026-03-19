@@ -98,6 +98,19 @@
   --z-sticky: 200;
   --z-modal: 300;
   --z-tooltip: 400;
+  
+  /* === 别名（兼容旧变量名）=== */
+  --bg-primary: var(--color-bg-primary);
+  --bg-secondary: var(--color-bg-secondary);
+  --bg-card: var(--color-bg-card);
+  --primary: var(--color-primary);
+  --primary-dark: var(--color-primary-dark);
+  --primary-light: var(--color-primary-light);
+  --accent-gold: var(--color-accent);
+  --accent-brown: var(--color-accent-dark);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --border-color: var(--color-border);
 }
 
 /* 夜间模式变量 */
@@ -374,6 +387,215 @@ a:hover {
   background: rgba(255, 215, 0, 0.1);
   border-left-color: #FFD700;
 }
+
+/* ============================================
+   莫兰迪色系主题 - Morandi Theme
+   柔和、低饱和度、高级灰调
+   ============================================ */
+[data-theme="morandi"] {
+  --color-bg-primary: #E8E4DF;
+  --color-bg-secondary: #D9D4CD;
+  --color-bg-tertiary: #CCC5BC;
+  --color-bg-card: #F2EEE9;
+  --color-bg-card-hover: #F8F5F1;
+  
+  --color-primary: #7A7268;
+  --color-primary-light: #8E8578;
+  --color-primary-dark: #5C564E;
+  
+  --color-accent: #A89F94;
+  --color-accent-light: #BDB3A6;
+  --color-accent-dark: #8A8279;
+  --color-accent-glow: rgba(168, 159, 148, 0.3);
+  
+  --color-text-primary: #4A4640;
+  --color-text-secondary: #5E5A53;
+  --color-text-muted: #7A756D;
+  --color-text-light: #9A9590;
+  --color-text-formula: #6B6359;
+  
+  --color-border: #B5AEA4;
+  --color-border-light: #C9C2B8;
+  --color-border-dark: #9A9489;
+  
+  --shadow-sm: 0 1px 2px rgba(74, 70, 64, 0.08);
+  --shadow-md: 0 4px 6px rgba(74, 70, 64, 0.12);
+  --shadow-lg: 0 10px 15px rgba(74, 70, 64, 0.15);
+}
+
+[data-theme="morandi"] .parchment-bg {
+  background: linear-gradient(135deg, #E8E4DF 0%, #D9D4CD 50%, #CCC5BC 100%);
+}
+
+[data-theme="morandi"] .katex {
+  color: #5C564E !important;
+}
+
+[data-theme="morandi"] .katex-display {
+  background: rgba(168, 159, 148, 0.15);
+  border-left-color: #8A8279;
+}
+
+/* ============================================
+   赛博朋克主题 - Cyberpunk Theme
+   霓虹、暗色背景、高对比、科技感
+   ============================================ */
+[data-theme="cyberpunk"] {
+  --color-bg-primary: #0D0D1A;
+  --color-bg-secondary: #1A1A2E;
+  --color-bg-tertiary: #252542;
+  --color-bg-card: #16162A;
+  --color-bg-card-hover: #1F1F3A;
+  
+  --color-primary: #E94560;
+  --color-primary-light: #FF6B8A;
+  --color-primary-dark: #C73E54;
+  
+  --color-accent: #00D9FF;
+  --color-accent-light: #4DE8FF;
+  --color-accent-dark: #00B8D9;
+  --color-accent-glow: rgba(0, 217, 255, 0.4);
+  
+  --color-text-primary: #E0E0E0;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #808090;
+  --color-text-light: #606070;
+  --color-text-formula: #00FFD4;
+  
+  --color-border: #3A3A5A;
+  --color-border-light: #4A4A6A;
+  --color-border-dark: #2A2A4A;
+  
+  --color-success: #00FF88;
+  --color-warning: #FFD700;
+  --color-error: #FF3366;
+  --color-info: #00D9FF;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 217, 255, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 217, 255, 0.15), 0 0 10px rgba(0, 217, 255, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.15);
+  --shadow-glow: 0 0 30px rgba(0, 217, 255, 0.3), 0 0 60px rgba(233, 69, 96, 0.2);
+}
+
+[data-theme="cyberpunk"] .parchment-bg {
+  background: linear-gradient(135deg, #0D0D1A 0%, #1A1A2E 50%, #0D0D1A 100%);
+}
+
+[data-theme="cyberpunk"] .katex {
+  color: #00FFD4 !important;
+  text-shadow: 0 0 5px rgba(0, 255, 212, 0.3);
+}
+
+[data-theme="cyberpunk"] .katex-display {
+  background: rgba(0, 217, 255, 0.08);
+  border-left-color: #00D9FF;
+  box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.05);
+}
+
+[data-theme="cyberpunk"] .formula-card:hover,
+[data-theme="cyberpunk"] .category-item:hover {
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .category-item.active {
+  background: linear-gradient(135deg, #E94560, #00D9FF);
+  box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+}
+
+/* 赛博朋克霓虹动画 */
+@keyframes neonPulse {
+  0%, 100% { 
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+  50% { 
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
+  }
+}
+
+/* ============================================
+   黑板板书主题 - Blackboard Theme
+   墨绿色黑板、白色粉笔字、复古教学风
+   ============================================ */
+[data-theme="blackboard"] {
+  --color-bg-primary: #2A4A3A;
+  --color-bg-secondary: #1E3A2E;
+  --color-bg-tertiary: #163028;
+  --color-bg-card: #2D4D3D;
+  --color-bg-card-hover: #355545;
+  
+  --color-primary: #F5F5DC;
+  --color-primary-light: #FFFFF0;
+  --color-primary-dark: #E8E8C8;
+  
+  --color-accent: #FFD93D;
+  --color-accent-light: #FFE066;
+  --color-accent-dark: #E6C235;
+  --color-accent-glow: rgba(255, 217, 61, 0.3);
+  
+  --color-text-primary: #F8F8F0;
+  --color-text-secondary: #E8E8D8;
+  --color-text-muted: #C8C8B8;
+  --color-text-light: #A8A8A0;
+  --color-text-formula: #FFFFFF;
+  
+  --color-border: #3A5A4A;
+  --color-border-light: #4A6A5A;
+  --color-border-dark: #2A4A3A;
+  
+  --color-success: #7CFC00;
+  --color-warning: #FFD93D;
+  --color-error: #FF6B6B;
+  --color-info: #87CEEB;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 15px rgba(255, 217, 61, 0.2);
+}
+
+[data-theme="blackboard"] .parchment-bg {
+  background: linear-gradient(135deg, #2A4A3A 0%, #1E3A2E 50%, #163028 100%);
+}
+
+/* 黑板粉笔纹理 */
+[data-theme="blackboard"] .parchment-texture::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+}
+
+[data-theme="blackboard"] .katex {
+  color: #FFFFFF !important;
+  font-weight: 400;
+}
+
+[data-theme="blackboard"] .katex-display {
+  background: rgba(255, 255, 255, 0.05);
+  border-left-color: #FFD93D;
+}
+
+/* 粉笔字效果 */
+[data-theme="blackboard"] .formula-name,
+[data-theme="blackboard"] .category-name {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="blackboard"] .category-item.active {
+  background: #FFD93D;
+  color: #1E3A2E;
+}
+
+/* 黑板擦除效果边框 */
+[data-theme="blackboard"] .ornate-border {
+  border-color: #4A6A5A;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* 粉笔颜色变体 */
+[data-theme="blackboard"] .chalk-yellow { color: #FFD93D; }
+[data-theme="blackboard"] .chalk-white { color: #FFFFFF; }
+[data-theme="blackboard"] .chalk-blue { color: #87CEEB; }
+[data-theme="blackboard"] .chalk-pink { color: #FFB6C1; }
+[data-theme="blackboard"] .chalk-orange { color: #FFA500; }
 
 /* === 讲解文本样式 === */
 .explanation-content {

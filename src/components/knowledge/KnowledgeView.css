@@ -530,6 +530,130 @@
   font-weight: 600;
 }
 
+/* 标题样式 */
+.math-text .section-title,
+.math-text h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-primary);
+  margin: 16px 0 10px 0;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, rgba(212, 165, 116, 0.15) 0%, rgba(212, 165, 116, 0.05) 100%);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 4px;
+}
+
+/* 分隔线 */
+.math-text .divider,
+.math-text hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+  margin: 16px 0;
+}
+
+/* 表格样式 */
+.math-text .table-container {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.math-text .markdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: var(--color-bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.math-text .markdown-table th {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.math-text .markdown-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text-secondary);
+}
+
+.math-text .markdown-table tr:hover td {
+  background: rgba(212, 165, 116, 0.1);
+}
+
+.math-text .markdown-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* 列表样式 */
+.math-text .bullet-list,
+.math-text .numbered-list {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.math-text .list-item,
+.math-text .ordered-item {
+  margin: 6px 0;
+  padding-left: 8px;
+  color: var(--color-text-secondary);
+  position: relative;
+}
+
+.math-text .bullet-list .list-item::before {
+  content: '•';
+  color: var(--color-accent);
+  font-weight: bold;
+  position: absolute;
+  left: -12px;
+}
+
+.math-text .numbered-list {
+  counter-reset: item;
+  list-style: none;
+}
+
+.math-text .numbered-list .ordered-item {
+  counter-increment: item;
+}
+
+.math-text .numbered-list .ordered-item::before {
+  content: counter(item) '.';
+  color: var(--color-accent);
+  font-weight: bold;
+  position: absolute;
+  left: -20px;
+}
+
+.math-text .sub-list-item {
+  margin: 4px 0 4px 20px;
+  padding-left: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* 代码块样式 */
+.math-text .code-block {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+.math-text .code-block code {
+  color: var(--color-text-formula);
+}
+
 /* KaTeX 公式样式 */
 .math-text .formula-block,
 .katex-display {
@@ -541,6 +665,10 @@
   border-radius: 8px;
   overflow-x: auto;
   text-align: center;
+}
+
+.math-text .formula-inline {
+  display: inline;
 }
 
 .katex {

@@ -113,6 +113,157 @@ const Calculator: React.FC = () => {
   // 颜色列表
   const colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#e91e63', '#00bcd4'];
 
+  // 精确格式化数值结果
+  const formatExact = (value: any): string => {
+    // 如果是mathjs的类型
+    if (value && typeof value === 'object') {
+      // 分数类型
+      if (value.isFraction) {
+        return `${value.n}/${value.d}`;
+      }
+      // 复数
+      if (value.isComplex) {
+        const re = formatExact(value.re);
+        const im = formatExact(value.im);
+        if (value.im === 0) return re;
+        if (value.re === 0) return im === '1' ? 'i' : im === '-1' ? '-i' : `${im}i`;
+        return `${re} + ${im === '1' ? '' : im === '-1' ? '-' : im}i`;
+      }
+      // 表达式节点
+      if (value.isNode) {
+        return value.toString();
+      }
+      // BigNumber
+      if (value.isBigNumber) {
+        return formatExact(value.toNumber());
+      }
+    }
+    
+    // 数字类型
+    if (typeof value === 'number') {
+      // 检查特殊值
+      if (value === Math.PI) return 'π';
+      if (value === Math.E) return 'e';
+      if (value === Infinity) return '∞';
+      if (value === -Infinity) return '-∞';
+      if (Number.isNaN(value)) return 'NaN';
+      if (Number.isInteger(value)) return value.toString();
+      
+      // 检查是否为简单分数
+      const frac = toFraction(value);
+      if (frac) return frac;
+      
+      // 检查是否为根式的简单情况
+      const sqrt = toSqrt(value);
+      if (sqrt) return sqrt;
+      
+      // 检查是否为π或e的倍数
+      const piMultiple = value / Math.PI;
+      const eMultiple = value / Math.E;
+      
+      if (Math.abs(piMultiple - Math.round(piMultiple)) < 1e-10) {
+        const n = Math.round(piMultiple);
+        if (n === 1) return 'π';
+        if (n === -1) return '-π';
+        if (n === 0) return '0';
+        return `${n}π`;
+      }
+      
+      if (Math.abs(eMultiple - Math.round(eMultiple)) < 1e-10) {
+        const n = Math.round(eMultiple);
+        if (n === 1) return 'e';
+        if (n === -1) return '-e';
+        if (n === 0) return '0';
+        return `${n}e`;
+      }
+      
+      // 检查π/e组合
+      if (Math.abs(piMultiple - 1/2) < 1e-10) return 'π/2';
+      if (Math.abs(piMultiple - 1/3) < 1e-10) return 'π/3';
+      if (Math.abs(piMultiple - 1/4) < 1e-10) return 'π/4';
+      if (Math.abs(piMultiple - 1/6) < 1e-10) return 'π/6';
+      if (Math.abs(piMultiple - 2/3) < 1e-10) return '2π/3';
+      if (Math.abs(piMultiple - 3/4) < 1e-10) return '3π/4';
+      
+      // 有限小数（最多6位）
+      const str = value.toString();
+      if (str.includes('.') && str.split('.')[1].length <= 6) {
+        return str;
+      }
+      
+      // 否则显示为分数近似
+      const approx = approximateFraction(value);
+      return `${approx.n}/${approx.d} (≈${value.toFixed(4)})`;
+    }
+    
+    return String(value);
+  };
+  
+  // 转换为分数
+  const toFraction = (n: number): string | null => {
+    const tolerance = 1e-10;
+    const maxDenominator = 1000;
+    
+    for (let d = 1; d <= maxDenominator; d++) {
+      const num = n * d;
+      const roundedNum = Math.round(num);
+      if (Math.abs(num - roundedNum) < tolerance) {
+        const gcd = greatestCommonDivisor(Math.abs(roundedNum), d);
+        const numerator = roundedNum / gcd;
+        const denominator = d / gcd;
+        if (denominator === 1) return numerator.toString();
+        return `${numerator}/${denominator}`;
+      }
+    }
+    return null;
+  };
+  
+  // 检查是否为根式
+  const toSqrt = (n: number): string | null => {
+    // 检查常见平方根
+    const perfectSquares = [2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20];
+    for (const sq of perfectSquares) {
+      if (Math.abs(n * n - sq) < 1e-10) {
+        return `√${sq}`;
+      }
+      // 检查系数
+      for (let coef = 2; coef <= 10; coef++) {
+        if (Math.abs(n * n - coef * coef * sq) < 1e-10) {
+          return `${coef}√${sq}`;
+        }
+      }
+    }
+    return null;
+  };
+  
+  // 最大公约数
+  const greatestCommonDivisor = (a: number, b: number): number => {
+    return b === 0 ? a : greatestCommonDivisor(b, a % b);
+  };
+  
+  // 近似分数
+  const approximateFraction = (n: number): { n: number; d: number } => {
+    let a = Math.floor(n);
+    let h1 = 1, k1 = 0;
+    let h = a, k = 1;
+    let x = n - a;
+    
+    while (Math.abs(n - h / k) > 1e-6) {
+      x = 1 / x;
+      a = Math.floor(x);
+      x = x - a;
+      const h2 = h1;
+      const k2 = k1;
+      h1 = h;
+      k1 = k;
+      h = a * h + h2;
+      k = a * k + k2;
+      if (k > 100) break;
+    }
+    
+    return { n: h, d: k };
+  };
+
   // 插入符号到输入框
   const insertSymbol = (insert: string) => {
     const inputEl = inputRef.current;
@@ -277,7 +428,7 @@ const Calculator: React.FC = () => {
         ctx.fillStyle = func.color;
         ctx.font = 'bold 14px "Noto Serif SC", serif';
         ctx.textAlign = 'center';
-        ctx.fillText(`∫ = ${func.integral.value.toFixed(3)}`, (startX + endX) / 2, centerY + 40);
+        ctx.fillText(`∫ = ${formatExact(func.integral.value)}`, (startX + endX) / 2, centerY + 40);
         ctx.fillText(`[${a}, ${b}]`, (startX + endX) / 2, centerY + 58);
       }
       
@@ -495,7 +646,7 @@ const Calculator: React.FC = () => {
           const p1 = match[1].split(',').map(Number);
           const p2 = match[2].split(',').map(Number);
           const dist = Math.sqrt(Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2));
-          output = `距离 = √[((${p2[0]}-${p1[0]})² + (${p2[1]}-${p1[1]})²] = √${(p2[0]-p1[0])**2 + (p2[1]-p1[1])**2} = ${dist.toFixed(4)}`;
+          output = `距离 = √[((${p2[0]}-${p1[0]})² + (${p2[1]}-${p1[1]})²] = √${(p2[0]-p1[0])**2 + (p2[1]-p1[1])**2} = ${formatExact(dist)}`;
         } else {
           output = '距离计算格式错误';
         }
@@ -522,7 +673,7 @@ const Calculator: React.FC = () => {
           const p1 = match[1].split(',').map(Number);
           const p2 = match[2].split(',').map(Number);
           const k = (p2[1] - p1[1]) / (p2[0] - p1[0]);
-          output = `斜率 k = (${p2[1]}-${p1[1]})/(${p2[0]}-${p1[0]}) = ${p2[1]-p1[1]}/${p2[0]-p1[0]} = ${k.toFixed(4)}`;
+          output = `斜率 k = (${p2[1]}-${p1[1]})/(${p2[0]}-${p1[0]}) = ${p2[1]-p1[1]}/${p2[0]-p1[0]} = ${formatExact(k)}`;
         } else {
           output = '斜率计算格式错误';
         }
@@ -606,7 +757,7 @@ const Calculator: React.FC = () => {
               }
               const result = (h / 3) * sum;
               
-              output = `定积分计算:\n∫[${a},${b}] ${expr} dx\n≈ ${result.toFixed(6)}`;
+              output = `定积分计算:\n∫[${a},${b}] ${expr} dx\n= ${formatExact(result)}`;
             } catch (e) {
               output = `积分计算错误: ${e}`;
             }
@@ -654,7 +805,7 @@ const Calculator: React.FC = () => {
                 integral: { a, b, value: result }
               }]);
               
-              output = `积分图形已绘制:\ny = ${expr}\n∫[${a},${b}] = ${result.toFixed(6)}`;
+              output = `积分图形已绘制:\ny = ${expr}\n∫[${a},${b}] = ${formatExact(result)}`;
             } catch (e) {
               output = `积分图形错误: ${e}`;
             }
