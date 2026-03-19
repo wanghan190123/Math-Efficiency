@@ -81,7 +81,7 @@
 }
 
 .symbol-btn {
-  padding: 10px 4px;
+  padding: 6px 4px;
   font-size: 1rem;
   font-family: 'Times New Roman', serif;
   background: var(--bg-card);
@@ -90,14 +90,39 @@
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.15s;
-  min-height: 40px;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.symbol-display {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.symbol-hint {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: 'Noto Serif SC', serif;
+  line-height: 1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .symbol-btn:hover {
   background: var(--accent-gold);
   color: white;
   border-color: var(--accent-gold);
-  transform: scale(1.05);
+  transform: scale(1.02);
+}
+
+.symbol-btn:hover .symbol-hint {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .symbol-btn:active {

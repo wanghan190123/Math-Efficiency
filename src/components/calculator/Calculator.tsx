@@ -19,78 +19,77 @@ interface FunctionData {
   expression: string;
   color: string;
   type: string;
+  // 积分相关
+  integral?: {
+    a: number;
+    b: number;
+    value: number;
+  };
 }
 
-// 符号面板数据
+// 符号面板数据 - 带说明
 const SYMBOL_PANELS = {
   basic: {
-    label: '基础',
+    label: '基础运算',
     symbols: [
-      { display: '7', insert: '7' }, { display: '8', insert: '8' }, { display: '9', insert: '9' },
-      { display: '÷', insert: '/' }, { display: '(', insert: '(' }, { display: ')', insert: ')' },
-      { display: '4', insert: '4' }, { display: '5', insert: '5' }, { display: '6', insert: '6' },
-      { display: '×', insert: '*' }, { display: '[', insert: '[' }, { display: ']', insert: ']' },
-      { display: '1', insert: '1' }, { display: '2', insert: '2' }, { display: '3', insert: '3' },
-      { display: '-', insert: '-' }, { display: '{', insert: '{' }, { display: '}', insert: '}' },
-      { display: '0', insert: '0' }, { display: '.', insert: '.' }, { display: 'π', insert: 'pi' },
-      { display: '+', insert: '+' }, { display: ',', insert: ', ' }, { display: '=', insert: '=' },
+      { display: '7', insert: '7', hint: '数字7' }, { display: '8', insert: '8', hint: '数字8' }, { display: '9', insert: '9', hint: '数字9' },
+      { display: '÷', insert: '/', hint: '除法' }, { display: '(', insert: '(', hint: '左括号' }, { display: ')', insert: ')', hint: '右括号' },
+      { display: '4', insert: '4', hint: '数字4' }, { display: '5', insert: '5', hint: '数字5' }, { display: '6', insert: '6', hint: '数字6' },
+      { display: '×', insert: '*', hint: '乘法' }, { display: 'x', insert: 'x', hint: '变量x' }, { display: 'y', insert: 'y', hint: '变量y' },
+      { display: '1', insert: '1', hint: '数字1' }, { display: '2', insert: '2', hint: '数字2' }, { display: '3', insert: '3', hint: '数字3' },
+      { display: '-', insert: '-', hint: '减法' }, { display: 'a', insert: 'a', hint: '参数a' }, { display: 'b', insert: 'b', hint: '参数b' },
+      { display: '0', insert: '0', hint: '数字0' }, { display: '.', insert: '.', hint: '小数点' }, { display: 'π', insert: 'pi', hint: '圆周率≈3.14159' },
+      { display: '+', insert: '+', hint: '加法' }, { display: 'e', insert: 'e', hint: '自然常数≈2.718' }, { display: ',', insert: ', ', hint: '分隔符' },
     ]
   },
   functions: {
     label: '函数',
     symbols: [
-      { display: 'sin', insert: 'sin(' }, { display: 'cos', insert: 'cos(' }, { display: 'tan', insert: 'tan(' },
-      { display: 'asin', insert: 'asin(' }, { display: 'acos', insert: 'acos(' }, { display: 'atan', insert: 'atan(' },
-      { display: 'sinh', insert: 'sinh(' }, { display: 'cosh', insert: 'cosh(' }, { display: 'tanh', insert: 'tanh(' },
-      { display: 'ln', insert: 'log(' }, { display: 'log₁₀', insert: 'log10(' }, { display: 'log₂', insert: 'log2(' },
-      { display: 'eˣ', insert: 'exp(' }, { display: '√', insert: 'sqrt(' }, { display: '∛', insert: 'cbrt(' },
-      { display: '|x|', insert: 'abs(' }, { display: '⌊x⌋', insert: 'floor(' }, { display: '⌈x⌉', insert: 'ceil(' },
-      { display: 'x²', insert: '^2' }, { display: 'x³', insert: '^3' }, { display: 'xⁿ', insert: '^' },
-      { display: '¹/ₓ', insert: '1/' }, { display: '√ⁿ', insert: 'nthRoot(' }, { display: '!', insert: '!' },
+      { display: 'sin', insert: 'sin(', hint: '正弦函数' }, { display: 'cos', insert: 'cos(', hint: '余弦函数' }, { display: 'tan', insert: 'tan(', hint: '正切函数' },
+      { display: 'sin⁻¹', insert: 'asin(', hint: '反正弦' }, { display: 'cos⁻¹', insert: 'acos(', hint: '反余弦' }, { display: 'tan⁻¹', insert: 'atan(', hint: '反正切' },
+      { display: 'ln', insert: 'log(', hint: '自然对数' }, { display: 'log₁₀', insert: 'log10(', hint: '常用对数' }, { display: 'log₂', insert: 'log2(', hint: '以2为底对数' },
+      { display: 'eˣ', insert: 'exp(', hint: 'e的x次方' }, { display: '√x', insert: 'sqrt(', hint: '平方根' }, { display: '³√x', insert: 'cbrt(', hint: '立方根' },
+      { display: 'x²', insert: '^2', hint: '平方' }, { display: 'x³', insert: '^3', hint: '立方' }, { display: 'xⁿ', insert: '^', hint: '幂运算' },
+      { display: '|x|', insert: 'abs(', hint: '绝对值' }, { display: '⌊x⌋', insert: 'floor(', hint: '向下取整' }, { display: '⌈x⌉', insert: 'ceil(', hint: '向上取整' },
+      { display: '1/x', insert: '1/', hint: '倒数' }, { display: 'n!', insert: '!', hint: '阶乘' }, { display: '%', insert: '%', hint: '百分号' },
     ]
   },
   calculus: {
     label: '微积分',
     symbols: [
-      { display: "d/dx", insert: 'diff(' }, { display: '∫', insert: 'integrate(' }, { display: '∑', insert: 'sum(' },
-      { display: 'lim', insert: 'limit(' }, { display: '∞', insert: 'Infinity' }, { display: '∂', insert: 'derivative(' },
-      { display: 'simplify', insert: 'simplify(' }, { display: 'expand', insert: 'expand(' }, { display: 'factor', insert: 'factor(' },
-      { display: 'solve', insert: 'solve(' }, { display: 'roots', insert: 'roots(' }, { display: 'zeros', insert: 'zeros(' },
+      { display: "f'(x)", insert: 'diff(', hint: '求导 diff(x^2)' }, { display: '∫f(x)dx', insert: 'integral(', hint: '不定积分 integral(x^2)' }, { display: '∫ab', insert: 'definite(', hint: '定积分 definite(x^2,0,1)' },
+      { display: '∑', insert: 'sum(', hint: '求和' }, { display: '∏', insert: 'product(', hint: '求积' }, { display: 'lim', insert: 'limit(', hint: '极限' },
+      { display: '化简', insert: 'simplify(', hint: '化简表达式' }, { display: '展开', insert: 'expand(', hint: '展开多项式' }, { display: '因式', insert: 'factor(', hint: '因式分解' },
+      { display: '解方程', insert: 'solve(', hint: 'solve(x^2-4=0)' }, { display: '求根', insert: 'roots(', hint: '求方程根' }, { display: '零点', insert: 'zeros(', hint: '求零点' },
+    ]
+  },
+  geometry: {
+    label: '几何作图',
+    symbols: [
+      { display: '点A', insert: 'point(', hint: '点 point(1,2)' }, { display: '线段', insert: 'line(', hint: '线段 line((0,0),(1,1))' }, { display: '射线', insert: 'ray(', hint: '射线' },
+      { display: '圆', insert: 'circle(', hint: '圆 circle((0,0),2)' }, { display: '椭圆', insert: 'ellipse(', hint: '椭圆' }, { display: '弧', insert: 'arc(', hint: '弧' },
+      { display: '△', insert: 'triangle(', hint: '三角形 triangle((0,0),(1,0),(0.5,1))' }, { display: '矩形', insert: 'rectangle(', hint: '矩形' }, { display: '多边形', insert: 'polygon(', hint: '多边形' },
+      { display: '距离', insert: 'distance(', hint: '两点距离 distance((0,0),(3,4))' }, { display: '中点', insert: 'midpoint(', hint: '中点 midpoint((0,0),(2,2))' }, { display: '斜率', insert: 'slope(', hint: '斜率 slope((0,0),(1,2))' },
+      { display: '面积', insert: 'area(', hint: '计算面积' }, { display: '周长', insert: 'perimeter(', hint: '计算周长' }, { display: '角度', insert: 'angle(', hint: '计算角度' },
+    ]
+  },
+  graph: {
+    label: '绘图',
+    symbols: [
+      { display: 'y=f(x)', insert: 'y = ', hint: '绘制函数 y = x^2' }, { display: 'plot', insert: 'plot ', hint: '绘制 plot sin(x)' }, { display: '积分图', insert: 'intgraph(', hint: '积分图 intgraph(x^2,0,2)' },
+      { display: '切线', insert: 'tangent(', hint: '切线 tangent(x^2,1)' }, { display: '法线', insert: 'normal(', hint: '法线' }, { display: '渐近线', insert: 'asymptote(', hint: '渐近线' },
+      { display: '极坐标', insert: 'polar(', hint: '极坐标 polar(r)' }, { display: '参数', insert: 'parametric(', hint: '参数方程' }, { display: '向量场', insert: 'vectorfield(', hint: '向量场' },
+      { display: '填充', insert: 'fill(', hint: '填充区域' }, { display: '标注', insert: 'label(', hint: '添加标注' }, { display: '清除', insert: 'clear', hint: '清除所有图形' },
     ]
   },
   greek: {
     label: '希腊字母',
     symbols: [
-      { display: 'α', insert: 'alpha' }, { display: 'β', insert: 'beta' }, { display: 'γ', insert: 'gamma' },
-      { display: 'δ', insert: 'delta' }, { display: 'ε', insert: 'epsilon' }, { display: 'ζ', insert: 'zeta' },
-      { display: 'η', insert: 'eta' }, { display: 'θ', insert: 'theta' }, { display: 'ι', insert: 'iota' },
-      { display: 'κ', insert: 'kappa' }, { display: 'λ', insert: 'lambda' }, { display: 'μ', insert: 'mu' },
-      { display: 'ν', insert: 'nu' }, { display: 'ξ', insert: 'xi' }, { display: 'π', insert: 'pi' },
-      { display: 'ρ', insert: 'rho' }, { display: 'σ', insert: 'sigma' }, { display: 'τ', insert: 'tau' },
-      { display: 'φ', insert: 'phi' }, { display: 'χ', insert: 'chi' }, { display: 'ψ', insert: 'psi' },
-      { display: 'ω', insert: 'omega' }, { display: 'Δ', insert: 'Delta' }, { display: 'Σ', insert: 'Sigma' },
-    ]
-  },
-  geometry: {
-    label: '几何',
-    symbols: [
-      { display: '点', insert: 'point(' }, { display: '线', insert: 'line(' }, { display: '圆', insert: 'circle(' },
-      { display: '三角形', insert: 'triangle(' }, { display: '矩形', insert: 'rectangle(' }, { display: '多边形', insert: 'polygon(' },
-      { display: '距离', insert: 'distance(' }, { display: '中点', insert: 'midpoint(' }, { display: '斜率', insert: 'slope(' },
-      { display: '面积', insert: 'area(' }, { display: '周长', insert: 'perimeter(' }, { display: '角度', insert: 'angle(' },
-      { display: '平行', insert: 'parallel(' }, { display: '垂直', insert: 'perpendicular(' }, { display: '交点', insert: 'intersect(' },
-      { display: '向量', insert: 'vector(' }, { display: '平移', insert: 'translate(' }, { display: '旋转', insert: 'rotate(' },
-    ]
-  },
-  comparison: {
-    label: '比较',
-    symbols: [
-      { display: '=', insert: '=' }, { display: '≠', insert: '!=' }, { display: '<', insert: '<' },
-      { display: '>', insert: '>' }, { display: '≤', insert: '<=' }, { display: '≥', insert: '>=' },
-      { display: '≈', insert: '~~' }, { display: '≡', insert: '===' }, { display: '∈', insert: ' in ' },
-      { display: '∉', insert: ' not in ' }, { display: '⊂', insert: ' subset ' }, { display: '⊃', insert: ' superset ' },
-      { display: '∪', insert: ' union ' }, { display: '∩', insert: ' intersect ' }, { display: '∅', insert: 'empty' },
-      { display: '∀', insert: 'forall ' }, { display: '∃', insert: 'exists ' }, { display: '∄', insert: 'notexists ' },
+      { display: 'α', insert: 'alpha', hint: 'alpha' }, { display: 'β', insert: 'beta', hint: 'beta' }, { display: 'γ', insert: 'gamma', hint: 'gamma' },
+      { display: 'δ', insert: 'delta', hint: 'delta' }, { display: 'ε', insert: 'epsilon', hint: 'epsilon' }, { display: 'θ', insert: 'theta', hint: 'theta' },
+      { display: 'λ', insert: 'lambda', hint: 'lambda' }, { display: 'μ', insert: 'mu', hint: 'mu' }, { display: 'π', insert: 'pi', hint: 'pi' },
+      { display: 'σ', insert: 'sigma', hint: 'sigma' }, { display: 'φ', insert: 'phi', hint: 'phi' }, { display: 'ω', insert: 'omega', hint: 'omega' },
+      { display: 'Δ', insert: 'Delta', hint: 'Delta(大写)' }, { display: 'Σ', insert: 'Sigma', hint: 'Sigma(大写)' }, { display: 'Π', insert: 'Pi', hint: 'Pi(大写)' },
     ]
   }
 };
@@ -228,8 +227,61 @@ const Calculator: React.FC = () => {
     // 原点
     ctx.fillText('O', centerX - 8, centerY + 18);
 
-    // 绘制函数曲线
+    // 绘制函数曲线和积分区域
     functions.forEach((func, index) => {
+      // 如果有积分区域，先绘制填充
+      if (func.integral) {
+        const { a, b } = func.integral;
+        ctx.fillStyle = `${func.color}33`; // 半透明填充
+        ctx.beginPath();
+        
+        const startX = centerX + a * scale;
+        const endX = centerX + b * scale;
+        
+        // 从x轴开始
+        ctx.moveTo(startX, centerY);
+        
+        // 绘制曲线部分
+        for (let px = startX; px <= endX; px++) {
+          const x = (px - centerX) / scale;
+          try {
+            const expr = math.parse(func.expression);
+            const compiled = expr.compile();
+            const y = compiled.evaluate({ x });
+            
+            if (isFinite(y) && !isNaN(y)) {
+              const py = centerY - y * scale;
+              ctx.lineTo(px, py);
+            }
+          } catch (e) {}
+        }
+        
+        // 回到x轴
+        ctx.lineTo(endX, centerY);
+        ctx.closePath();
+        ctx.fill();
+        
+        // 绘制积分边界线
+        ctx.strokeStyle = func.color;
+        ctx.setLineDash([5, 5]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(startX, centerY);
+        ctx.lineTo(startX, centerY - (func.integral.value > 0 ? 50 : -50));
+        ctx.moveTo(endX, centerY);
+        ctx.lineTo(endX, centerY - (func.integral.value > 0 ? 50 : -50));
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // 显示积分值
+        ctx.fillStyle = func.color;
+        ctx.font = 'bold 14px "Noto Serif SC", serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`∫ = ${func.integral.value.toFixed(3)}`, (startX + endX) / 2, centerY + 40);
+        ctx.fillText(`[${a}, ${b}]`, (startX + endX) / 2, centerY + 58);
+      }
+      
+      // 绘制函数曲线
       ctx.strokeStyle = func.color;
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -524,40 +576,146 @@ const Calculator: React.FC = () => {
           }
         }
       }
-      // 12. 清除图形: clear
+      // 12. 定积分计算: definite(x^2,0,2)
+      else if (trimmedInput.match(/^definite\s*\(.+\)/i)) {
+        type = 'algebra';
+        const match = trimmedInput.match(/definite\s*\(\s*([^,]+)\s*,\s*([^,]+)\s*,\s*([^)]+)\s*\)/i);
+        if (match) {
+          const expr = match[1].trim();
+          const a = parseFloat(match[2]);
+          const b = parseFloat(match[3]);
+          
+          if (isFinite(a) && isFinite(b)) {
+            try {
+              // 数值积分（辛普森公式）
+              const n = 1000;
+              const h = (b - a) / n;
+              let sum = 0;
+              const compiled = math.compile(expr);
+              
+              for (let i = 0; i <= n; i++) {
+                const x = a + i * h;
+                const fx = compiled.evaluate({ x });
+                if (i === 0 || i === n) {
+                  sum += fx;
+                } else if (i % 2 === 0) {
+                  sum += 2 * fx;
+                } else {
+                  sum += 4 * fx;
+                }
+              }
+              const result = (h / 3) * sum;
+              
+              output = `定积分计算:\n∫[${a},${b}] ${expr} dx\n≈ ${result.toFixed(6)}`;
+            } catch (e) {
+              output = `积分计算错误: ${e}`;
+            }
+          } else {
+            output = '积分上下限格式错误';
+          }
+        }
+      }
+      // 13. 积分图形: intgraph(x^2,0,2) - 绘制函数并显示积分区域
+      else if (trimmedInput.match(/^intgraph\s*\(.+\)/i)) {
+        type = 'function';
+        const match = trimmedInput.match(/intgraph\s*\(\s*([^,]+)\s*,\s*([^,]+)\s*,\s*([^)]+)\s*\)/i);
+        if (match) {
+          const expr = match[1].trim();
+          const a = parseFloat(match[2]);
+          const b = parseFloat(match[3]);
+          
+          if (isFinite(a) && isFinite(b)) {
+            try {
+              // 计算积分值
+              const n = 1000;
+              const h = (b - a) / n;
+              let sum = 0;
+              const compiled = math.compile(expr);
+              
+              for (let i = 0; i <= n; i++) {
+                const x = a + i * h;
+                const fx = compiled.evaluate({ x });
+                if (i === 0 || i === n) {
+                  sum += fx;
+                } else if (i % 2 === 0) {
+                  sum += 2 * fx;
+                } else {
+                  sum += 4 * fx;
+                }
+              }
+              const result = (h / 3) * sum;
+              
+              // 添加带积分信息的函数
+              const color = colors[functions.length % colors.length];
+              setFunctions([...functions, { 
+                expression: expr, 
+                color, 
+                type: 'integral',
+                integral: { a, b, value: result }
+              }]);
+              
+              output = `积分图形已绘制:\ny = ${expr}\n∫[${a},${b}] = ${result.toFixed(6)}`;
+            } catch (e) {
+              output = `积分图形错误: ${e}`;
+            }
+          } else {
+            output = '积分上下限格式错误';
+          }
+        }
+      }
+      // 14. 不定积分: integral(x^2)
+      else if (trimmedInput.match(/^integral\s*\(.+\)/i)) {
+        type = 'algebra';
+        const match = trimmedInput.match(/^integral\s*\((.+)\)/i);
+        if (match) {
+          try {
+            const expr = match[1];
+            const integral = math.integrate(expr, 'x');
+            output = `∫${expr} dx = ${integral.toString()} + C`;
+          } catch (e) {
+            output = `不定积分计算错误: ${e}`;
+          }
+        }
+      }
+      // 15. 清除图形: clear
       else if (trimmedInput.toLowerCase() === 'clear') {
         setFunctions([]);
         setGeometryObjects([]);
         output = '已清除所有图形';
       }
-      // 13. 帮助: help
+      // 16. 帮助: help
       else if (trimmedInput.toLowerCase() === 'help') {
         output = `命令帮助:
 【函数绘制】
-  y = x^2          绘制函数
-  plot sin(x)      绘制sin函数
+  y = x^2              绘制函数
+  plot sin(x)          绘制sin函数
+
+【积分功能】
+  intgraph(x^2,0,2)    绘制积分图形(函数,下限,上限)
+  definite(x^2,0,2)    计算定积分值
+  integral(x^2)        求不定积分
 
 【几何作图】
-  point(1,2)       绘制点
-  A = (1,2)        绘制带标签的点
-  line((0,0),(1,1))  绘制直线
-  circle((0,0),2)  绘制圆
+  point(1,2)           绘制点
+  A = (1,2)            绘制带标签的点
+  line((0,0),(1,1))    绘制直线
+  circle((0,0),2)      绘制圆
   triangle((0,0),(1,0),(0,1))  绘制三角形
 
 【坐标运算】
-  distance((0,0),(3,4))  计算距离
+  distance((0,0),(3,4))  计算两点距离
   midpoint((0,0),(2,2))  计算中点
   slope((0,0),(1,2))     计算斜率
 
 【代数计算】
-  diff(x^2)        求导
-  simplify(...)    化简
-  solve(x^2-4=0)   解方程
-  直接输入算式进行计算
+  diff(x^2)            求导
+  simplify(...)        化简
+  solve(x^2-4=0)       解方程
+  直接输入算式计算
 
 【其他】
-  clear            清除图形
-  help             显示帮助`;
+  clear                清除图形
+  help                 显示帮助`;
       }
       // 14. 默认：尝试数学计算
       else {
@@ -613,9 +771,10 @@ const Calculator: React.FC = () => {
                     key={i}
                     className="symbol-btn"
                     onClick={() => insertSymbol(sym.insert)}
-                    title={sym.insert}
+                    title={sym.hint || sym.insert}
                   >
-                    {sym.display}
+                    <span className="symbol-display">{sym.display}</span>
+                    {sym.hint && <span className="symbol-hint">{sym.hint}</span>}
                   </button>
                 ))}
               </div>
