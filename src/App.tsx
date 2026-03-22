@@ -6,11 +6,11 @@ import Sidebar from './components/layout/Sidebar'
 import MainContent from './components/layout/MainContent'
 import StatusBar from './components/layout/StatusBar'
 import MainMenu from './components/menu/MainMenu'
-import Calculator from './components/calculator/Calculator'
 import FormulaBook from './components/formulas/FormulaBook'
+import FormulaDerivation from './components/derivation/FormulaDerivation'
 import './styles/components.css'
 
-export type ViewType = 'menu' | 'knowledge' | 'graph' | 'formulas' | 'calculator'
+export type ViewType = 'menu' | 'knowledge' | 'graph' | 'formulas' | 'derivation'
 
 const App: React.FC = () => {
   const { theme, currentModuleId, setModule } = useAppStore()
@@ -27,10 +27,10 @@ const App: React.FC = () => {
       if (!currentModuleId) {
         setModule(knowledgeModules[0].id)
       }
-    } else if (view === 'calculator') {
-      setCurrentView('calculator')
     } else if (view === 'formulas') {
       setCurrentView('formulas')
+    } else if (view === 'derivation') {
+      setCurrentView('derivation')
     } else if (view === 'graph') {
       alert('知识图谱功能开发中，敬请期待！')
     }
@@ -57,22 +57,6 @@ const App: React.FC = () => {
     )
   }
 
-  // 计算器页面
-  if (currentView === 'calculator') {
-    return (
-      <div className="app-container" style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-        background: 'var(--color-bg-primary)',
-      }}>
-        <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
-        <Calculator />
-        <StatusBar />
-      </div>
-    )
-  }
-
   // 公式手册页面
   if (currentView === 'formulas') {
     return (
@@ -84,6 +68,22 @@ const App: React.FC = () => {
       }}>
         <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
         <FormulaBook />
+        <StatusBar />
+      </div>
+    )
+  }
+
+  // 公式推导页面
+  if (currentView === 'derivation') {
+    return (
+      <div className="app-container" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        background: 'var(--color-bg-primary)',
+      }}>
+        <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
+        <FormulaDerivation />
         <StatusBar />
       </div>
     )

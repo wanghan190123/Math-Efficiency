@@ -3062,6 +3062,1146 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText('间断点收敛于中点', 350, height - 30)
   }, [])
 
+  // 向量及其运算可视化
+  const drawVectorOperations = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2
+    const scale = Math.min(width, height) / 5
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 绘制3D坐标轴（等轴测投影）
+    const angleX = -0.5
+    const angleY = 0.5
+
+    const project3D = (x: number, y: number, z: number) => {
+      const px = centerX + (x * Math.cos(angleY) - y * Math.sin(angleY)) * scale
+      const py = centerY - (z + (x * Math.sin(angleY) + y * Math.cos(angleY)) * Math.sin(angleX)) * scale
+      return { px, py }
+    }
+
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    
+    // X轴
+    ctx.beginPath()
+    const xStart = project3D(-3, 0, 0)
+    const xEnd = project3D(3, 0, 0)
+    ctx.moveTo(xStart.px, xStart.py)
+    ctx.lineTo(xEnd.px, xEnd.py)
+    ctx.stroke()
+    ctx.fillStyle = '#C62828'
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillText('x', xEnd.px + 5, xEnd.py)
+
+    // Y轴
+    ctx.beginPath()
+    const yStart = project3D(0, -3, 0)
+    const yEnd = project3D(0, 3, 0)
+    ctx.moveTo(yStart.px, yStart.py)
+    ctx.lineTo(yEnd.px, yEnd.py)
+    ctx.stroke()
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('y', yEnd.px + 5, yEnd.py)
+
+    // Z轴
+    ctx.beginPath()
+    const zStart = project3D(0, 0, -3)
+    const zEnd = project3D(0, 0, 3)
+    ctx.moveTo(zStart.px, zStart.py)
+    ctx.lineTo(zEnd.px, zEnd.py)
+    ctx.stroke()
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('z', zEnd.px + 5, zEnd.py - 5)
+
+    // 向量 a = (2, 1, 1)
+    const aEnd = project3D(2, 1, 1)
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY)
+    ctx.lineTo(aEnd.px, aEnd.py)
+    ctx.stroke()
+    
+    // 向量 a 箭头
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(aEnd.px, aEnd.py, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('a⃗', aEnd.px + 8, aEnd.py - 5)
+
+    // 向量 b = (1, 2, 1)
+    const bEnd = project3D(1, 2, 1)
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY)
+    ctx.lineTo(bEnd.px, bEnd.py)
+    ctx.stroke()
+    
+    ctx.fillStyle = '#2E7D32'
+    ctx.beginPath()
+    ctx.arc(bEnd.px, bEnd.py, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('b⃗', bEnd.px + 8, bEnd.py - 5)
+
+    // 绘制叉积 a × b
+    const crossEnd = project3D(-1, 1, 3)
+    ctx.strokeStyle = '#6A1B9A'
+    ctx.lineWidth = 3
+    ctx.setLineDash([5, 3])
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY)
+    ctx.lineTo(crossEnd.px, crossEnd.py)
+    ctx.stroke()
+    ctx.setLineDash([])
+    
+    ctx.fillStyle = '#6A1B9A'
+    ctx.beginPath()
+    ctx.arc(crossEnd.px, crossEnd.py, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('a⃗×b⃗', crossEnd.px + 8, crossEnd.py - 5)
+
+    // 绘制平行四边形（点积可视化）
+    ctx.strokeStyle = '#FF8F00'
+    ctx.lineWidth = 2
+    ctx.setLineDash([3, 3])
+    ctx.beginPath()
+    ctx.moveTo(aEnd.px, aEnd.py)
+    const abEnd = project3D(3, 3, 2)
+    ctx.lineTo(abEnd.px, abEnd.py)
+    ctx.lineTo(bEnd.px, bEnd.py)
+    ctx.stroke()
+    ctx.setLineDash([])
+
+    // 图例
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('a⃗ = (2, 1, 1)', 50, height - 70)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('b⃗ = (1, 2, 1)', 50, height - 50)
+    ctx.fillStyle = '#6A1B9A'
+    ctx.fillText('a⃗×b⃗ = (-1, 1, 3)', 50, height - 30)
+    
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('点积: a⃗·b⃗ = 2+2+1 = 5', 220, height - 70)
+    ctx.fillText('夹角: cosθ = 5/(√6·√6) = 5/6', 220, height - 50)
+    ctx.fillText('|a⃗×b⃗| = √11 (平行四边形面积)', 220, height - 30)
+  }, [])
+
+  // 平面与直线可视化
+  const drawPlaneAndLine = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2
+    const scale = Math.min(width, height) / 5
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 3D投影函数
+    const angleX = -0.5
+    const angleY = 0.5
+
+    const project3D = (x: number, y: number, z: number) => {
+      const px = centerX + (x * Math.cos(angleY) - y * Math.sin(angleY)) * scale
+      const py = centerY - (z + (x * Math.sin(angleY) + y * Math.cos(angleY)) * Math.sin(angleX)) * scale
+      return { px, py }
+    }
+
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    
+    // X轴
+    ctx.beginPath()
+    const xStart = project3D(-3, 0, 0)
+    const xEnd = project3D(3, 0, 0)
+    ctx.moveTo(xStart.px, xStart.py)
+    ctx.lineTo(xEnd.px, xEnd.py)
+    ctx.stroke()
+    ctx.fillStyle = '#C62828'
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillText('x', xEnd.px + 5, xEnd.py)
+
+    // Y轴
+    ctx.beginPath()
+    const yStart = project3D(0, -3, 0)
+    const yEnd = project3D(0, 3, 0)
+    ctx.moveTo(yStart.px, yStart.py)
+    ctx.lineTo(yEnd.px, yEnd.py)
+    ctx.stroke()
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('y', yEnd.px + 5, yEnd.py)
+
+    // Z轴
+    ctx.beginPath()
+    const zStart = project3D(0, 0, -3)
+    const zEnd = project3D(0, 0, 3)
+    ctx.moveTo(zStart.px, zStart.py)
+    ctx.lineTo(zEnd.px, zEnd.py)
+    ctx.stroke()
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('z', zEnd.px + 5, zEnd.py - 5)
+
+    // 绘制平面 x + y + z = 2
+    // 平面上的点：(2,0,0), (0,2,0), (0,0,2), (1,1,0), (1,0,1), (0,1,1)
+    ctx.fillStyle = 'rgba(21, 101, 192, 0.2)'
+    ctx.strokeStyle = '#1565C0'
+    ctx.lineWidth = 2
+    
+    const p1 = project3D(2, 0, 0)
+    const p2 = project3D(0, 2, 0)
+    const p3 = project3D(0, 0, 2)
+    const p4 = project3D(2, 0, 0)
+    
+    ctx.beginPath()
+    ctx.moveTo(p1.px, p1.py)
+    ctx.lineTo(p2.px, p2.py)
+    ctx.lineTo(p3.px, p3.py)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+
+    // 法向量 n = (1, 1, 1)
+    const nEnd = project3D(1.5, 1.5, 1.5)
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY)
+    ctx.lineTo(nEnd.px, nEnd.py)
+    ctx.stroke()
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(nEnd.px, nEnd.py, 4, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('n⃗', nEnd.px + 8, nEnd.py - 5)
+
+    // 绘制直线 (x-1)/1 = (y-1)/-1 = (z-1)/1
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    const l1 = project3D(0, 2, 0)
+    const l2 = project3D(2, 0, 2)
+    ctx.moveTo(l1.px, l1.py)
+    ctx.lineTo(l2.px, l2.py)
+    ctx.stroke()
+
+    // 直线上的点
+    const pointOnLine = project3D(1, 1, 1)
+    ctx.fillStyle = '#2E7D32'
+    ctx.beginPath()
+    ctx.arc(pointOnLine.px, pointOnLine.py, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('P(1,1,1)', pointOnLine.px + 8, pointOnLine.py - 8)
+
+    // 图例
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('平面: x + y + z = 2', 50, height - 70)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('法向量: n⃗ = (1, 1, 1)', 50, height - 50)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('直线: (x-1)/1 = (y-1)/-1 = (z-1)/1', 50, height - 30)
+    
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('点P到平面距离: |1+1+1-2|/√3 = 1/√3', 280, height - 50)
+  }, [])
+
+  // 空间曲面可视化
+  const drawSurfaces = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2 + 20
+    const scale = Math.min(width, height) / 6
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 3D投影函数
+    const angleX = -0.5
+    const angleY = 0.5
+
+    const project3D = (x: number, y: number, z: number) => {
+      const px = centerX + (x * Math.cos(angleY) - y * Math.sin(angleY)) * scale
+      const py = centerY - (z + (x * Math.sin(angleY) + y * Math.cos(angleY)) * Math.sin(angleX)) * scale
+      return { px, py }
+    }
+
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    ctx.font = 'bold 12px "Noto Serif SC", serif'
+    
+    // X轴
+    ctx.beginPath()
+    ctx.moveTo(project3D(-2.5, 0, 0).px, project3D(-2.5, 0, 0).py)
+    ctx.lineTo(project3D(2.5, 0, 0).px, project3D(2.5, 0, 0).py)
+    ctx.stroke()
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('x', project3D(2.6, 0, 0).px, project3D(2.6, 0, 0).py)
+
+    // Y轴
+    ctx.beginPath()
+    ctx.moveTo(project3D(0, -2.5, 0).px, project3D(0, -2.5, 0).py)
+    ctx.lineTo(project3D(0, 2.5, 0).px, project3D(0, 2.5, 0).py)
+    ctx.stroke()
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('y', project3D(0, 2.7, 0).px, project3D(0, 2.7, 0).py)
+
+    // Z轴
+    ctx.beginPath()
+    ctx.moveTo(project3D(0, 0, -2).px, project3D(0, 0, -2).py)
+    ctx.lineTo(project3D(0, 0, 2.5).px, project3D(0, 0, 2.5).py)
+    ctx.stroke()
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('z', project3D(0, 0, 2.7).px, project3D(0, 0, 2.7).py)
+
+    // 获取滑块参数
+    const surfaceType = Math.floor(getParam('surfaceType', 0))
+    const a = getParam('a', 2)
+    const b = getParam('b', 1.5)
+    const c = getParam('c', 1)
+
+    // 曲面名称和颜色
+    const surfaceNames = [
+      '椭球面',
+      '单叶双曲面',
+      '双叶双曲面',
+      '椭圆抛物面',
+      '双曲抛物面(马鞍面)',
+      '圆锥面',
+      '圆柱面'
+    ]
+    const surfaceColors = [
+      'rgba(21, 101, 192, 0.4)',
+      'rgba(46, 125, 50, 0.4)',
+      'rgba(198, 40, 40, 0.4)',
+      'rgba(123, 31, 162, 0.4)',
+      'rgba(255, 152, 0, 0.4)',
+      'rgba(0, 151, 167, 0.4)',
+      'rgba(233, 30, 99, 0.4)'
+    ]
+    const strokeColors = [
+      '#1565C0',
+      '#2E7D32',
+      '#C62828',
+      '#7B1FA2',
+      '#FF9800',
+      '#0097A7',
+      '#E91E63'
+    ]
+
+    const points: { px: number; py: number; z: number; color: string }[] = []
+
+    // 根据曲面类型生成点
+    if (surfaceType === 0) {
+      // 椭球面: x²/a² + y²/b² + z²/c² = 1
+      for (let theta = 0; theta < Math.PI; theta += 0.12) {
+        for (let phi = 0; phi < 2 * Math.PI; phi += 0.12) {
+          const x = a * Math.sin(theta) * Math.cos(phi)
+          const y = b * Math.sin(theta) * Math.sin(phi)
+          const z = c * Math.cos(theta)
+          const proj = project3D(x, y, z)
+          points.push({ px: proj.px, py: proj.py, z, color: surfaceColors[0] })
+        }
+      }
+    } else if (surfaceType === 1) {
+      // 单叶双曲面: x²/a² + y²/b² - z²/c² = 1
+      for (let v = -1.5; v <= 1.5; v += 0.1) {
+        for (let u = 0; u < 2 * Math.PI; u += 0.15) {
+          const x = a * Math.cosh(v) * Math.cos(u)
+          const y = b * Math.cosh(v) * Math.sin(u)
+          const z = c * Math.sinh(v)
+          const proj = project3D(x, y, z)
+          points.push({ px: proj.px, py: proj.py, z, color: surfaceColors[1] })
+        }
+      }
+    } else if (surfaceType === 2) {
+      // 双叶双曲面: x²/a² + y²/b² - z²/c² = -1
+      for (let v = 0.3; v <= 1.5; v += 0.1) {
+        for (let u = 0; u < 2 * Math.PI; u += 0.15) {
+          // 上叶
+          const x1 = a * Math.sinh(v) * Math.cos(u)
+          const y1 = b * Math.sinh(v) * Math.sin(u)
+          const z1 = c * Math.cosh(v)
+          const proj1 = project3D(x1, y1, z1)
+          points.push({ px: proj1.px, py: proj1.py, z: z1, color: surfaceColors[2] })
+          // 下叶
+          const z2 = -c * Math.cosh(v)
+          const proj2 = project3D(x1, y1, z2)
+          points.push({ px: proj2.px, py: proj2.py, z: z2, color: surfaceColors[2] })
+        }
+      }
+    } else if (surfaceType === 3) {
+      // 椭圆抛物面: x²/a² + y²/b² = z
+      for (let u = 0; u < 2 * Math.PI; u += 0.15) {
+        for (let r = 0; r <= 1.5; r += 0.1) {
+          const x = r * a * Math.cos(u)
+          const y = r * b * Math.sin(u)
+          const z = r * r
+          const proj = project3D(x, y, z)
+          points.push({ px: proj.px, py: proj.py, z, color: surfaceColors[3] })
+        }
+      }
+    } else if (surfaceType === 4) {
+      // 双曲抛物面(马鞍面): x²/a² - y²/b² = z
+      for (let u = -1.2; u <= 1.2; u += 0.08) {
+        for (let v = -1.2; v <= 1.2; v += 0.08) {
+          const x = u
+          const y = v
+          const z = (u * u) / (a * a) - (v * v) / (b * b)
+          if (z > -2 && z < 2) {
+            const proj = project3D(x, y, z)
+            points.push({ px: proj.px, py: proj.py, z, color: surfaceColors[4] })
+          }
+        }
+      }
+    } else if (surfaceType === 5) {
+      // 圆锥面: z² = x² + y²
+      for (let v = -1.5; v <= 1.5; v += 0.1) {
+        for (let u = 0; u < 2 * Math.PI; u += 0.15) {
+          const r = Math.abs(v)
+          const x = r * Math.cos(u)
+          const y = r * Math.sin(u)
+          const z = v
+          const proj = project3D(x, y, z)
+          points.push({ px: proj.px, py: proj.py, z, color: surfaceColors[5] })
+        }
+      }
+    } else if (surfaceType === 6) {
+      // 圆柱面: x² + y² = R²
+      const R = a * 0.7
+      for (let z = -1.5; z <= 1.5; z += 0.15) {
+        for (let u = 0; u < 2 * Math.PI; u += 0.1) {
+          const x = R * Math.cos(u)
+          const y = R * Math.sin(u)
+          const proj = project3D(x, y, z)
+          points.push({ px: proj.px, py: proj.py, z, color: surfaceColors[6] })
+        }
+      }
+    }
+
+    // 按深度排序（画家算法）
+    points.sort((p1, p2) => p1.z - p2.z)
+
+    // 绘制曲面点
+    points.forEach(p => {
+      ctx.fillStyle = p.color
+      ctx.beginPath()
+      ctx.arc(p.px, p.py, 2.5, 0, Math.PI * 2)
+      ctx.fill()
+    })
+
+    // 绘制特征截线
+    ctx.lineWidth = 2
+    ctx.strokeStyle = strokeColors[surfaceType]
+    
+    if (surfaceType === 0) {
+      // 椭球面 - XY平面截线
+      ctx.beginPath()
+      for (let phi = 0; phi <= 2 * Math.PI; phi += 0.1) {
+        const x = a * Math.cos(phi)
+        const y = b * Math.sin(phi)
+        const proj = project3D(x, y, 0)
+        if (phi === 0) ctx.moveTo(proj.px, proj.py)
+        else ctx.lineTo(proj.px, proj.py)
+      }
+      ctx.closePath()
+      ctx.stroke()
+    } else if (surfaceType === 1 || surfaceType === 2) {
+      // 双曲面 - 腰部椭圆
+      ctx.beginPath()
+      for (let u = 0; u <= 2 * Math.PI; u += 0.1) {
+        const x = a * Math.cos(u)
+        const y = b * Math.sin(u)
+        const proj = project3D(x, y, 0)
+        if (u === 0) ctx.moveTo(proj.px, proj.py)
+        else ctx.lineTo(proj.px, proj.py)
+      }
+      ctx.closePath()
+      ctx.stroke()
+    } else if (surfaceType === 3) {
+      // 椭圆抛物面 - 顶点
+      ctx.beginPath()
+      ctx.arc(project3D(0, 0, 0).px, project3D(0, 0, 0).py, 4, 0, Math.PI * 2)
+      ctx.fillStyle = strokeColors[surfaceType]
+      ctx.fill()
+    } else if (surfaceType === 4) {
+      // 马鞍面 - 两直线（z=0截痕）
+      ctx.beginPath()
+      ctx.moveTo(project3D(-1.5, -1.5 * b / a, 0).px, project3D(-1.5, -1.5 * b / a, 0).py)
+      ctx.lineTo(project3D(1.5, 1.5 * b / a, 0).px, project3D(1.5, 1.5 * b / a, 0).py)
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(project3D(-1.5, 1.5 * b / a, 0).px, project3D(-1.5, 1.5 * b / a, 0).py)
+      ctx.lineTo(project3D(1.5, -1.5 * b / a, 0).px, project3D(1.5, -1.5 * b / a, 0).py)
+      ctx.stroke()
+    } else if (surfaceType === 5) {
+      // 圆锥面 - 顶点
+      ctx.beginPath()
+      ctx.arc(project3D(0, 0, 0).px, project3D(0, 0, 0).py, 4, 0, Math.PI * 2)
+      ctx.fillStyle = strokeColors[surfaceType]
+      ctx.fill()
+    }
+
+    // 图例和说明
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = strokeColors[surfaceType]
+    ctx.fillText(surfaceNames[surfaceType], 20, height - 90)
+    
+    ctx.font = '12px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    
+    // 曲面方程和说明
+    const equations = [
+      `方程: x²/${(a*a).toFixed(1)} + y²/${(b*b).toFixed(1)} + z²/${(c*c).toFixed(1)} = 1`,
+      `方程: x²/${(a*a).toFixed(1)} + y²/${(b*b).toFixed(1)} - z²/${(c*c).toFixed(1)} = 1`,
+      `方程: x²/${(a*a).toFixed(1)} + y²/${(b*b).toFixed(1)} - z²/${(c*c).toFixed(1)} = -1`,
+      `方程: x²/${(a*a).toFixed(1)} + y²/${(b*b).toFixed(1)} = z`,
+      `方程: x²/${(a*a).toFixed(1)} - y²/${(b*b).toFixed(1)} = z`,
+      `方程: z² = x² + y²`,
+      `方程: x² + y² = ${(a*a*0.49).toFixed(1)}`
+    ]
+    const descriptions = [
+      '特征: 有界封闭曲面，三坐标面截得椭圆',
+      '特征: 中间细、两头粗，像一个"沙漏"',
+      '特征: 分上下两叶，中间有空隙',
+      '特征: 像一个碗，开口向上，顶点在原点',
+      '特征: 形如马鞍，z=0时截得两相交直线',
+      '特征: 上下对称，过z轴的平面截得两直线',
+      '特征: 母线平行z轴，无限延伸的圆筒'
+    ]
+    
+    ctx.fillText(equations[surfaceType], 20, height - 70)
+    ctx.fillText(descriptions[surfaceType], 20, height - 50)
+    ctx.fillText(`参数: a=${a.toFixed(2)}, b=${b.toFixed(2)}, c=${c.toFixed(2)}`, 20, height - 30)
+    
+    // 截痕分析提示
+    ctx.fillStyle = '#666'
+    ctx.font = '11px "Noto Serif SC", serif'
+    ctx.fillText('提示: 调节曲面类型滑块切换不同曲面', 280, height - 30)
+  }, [modelState.params])
+
+  // 多元函数基本概念可视化
+  const drawMultivariableBasic = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2 + 20
+    const scale = Math.min(width, height) / 5
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 3D投影函数
+    const angleX = -0.5
+    const angleY = 0.5
+
+    const project3D = (x: number, y: number, z: number) => {
+      const px = centerX + (x * Math.cos(angleY) - y * Math.sin(angleY)) * scale
+      const py = centerY - (z + (x * Math.sin(angleY) + y * Math.cos(angleY)) * Math.sin(angleX)) * scale
+      return { px, py }
+    }
+
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    
+    // x轴
+    const xStart = project3D(-2.5, 0, 0)
+    const xEnd = project3D(2.5, 0, 0)
+    ctx.beginPath()
+    ctx.moveTo(xStart.px, xStart.py)
+    ctx.lineTo(xEnd.px, xEnd.py)
+    ctx.stroke()
+    
+    // y轴
+    const yStart = project3D(0, -2.5, 0)
+    const yEnd = project3D(0, 2.5, 0)
+    ctx.beginPath()
+    ctx.moveTo(yStart.px, yStart.py)
+    ctx.lineTo(yEnd.px, yEnd.py)
+    ctx.stroke()
+    
+    // z轴
+    const zStart = project3D(0, 0, -0.5)
+    const zEnd = project3D(0, 0, 2.5)
+    ctx.beginPath()
+    ctx.moveTo(zStart.px, zStart.py)
+    ctx.lineTo(zEnd.px, zEnd.py)
+    ctx.stroke()
+
+    // 绘制函数曲面 z = x² + y²（抛物面）
+    ctx.strokeStyle = '#1565C0'
+    ctx.lineWidth = 1
+    
+    // 绘制等高线（圆形）
+    for (let r = 0.5; r <= 2; r += 0.5) {
+      ctx.beginPath()
+      for (let angle = 0; angle <= Math.PI * 2; angle += 0.1) {
+        const x = r * Math.cos(angle)
+        const y = r * Math.sin(angle)
+        const z = r * r
+        const p = project3D(x, y, z)
+        if (angle === 0) {
+          ctx.moveTo(p.px, p.py)
+        } else {
+          ctx.lineTo(p.px, p.py)
+        }
+      }
+      ctx.stroke()
+    }
+
+    // 绘制径向线
+    ctx.strokeStyle = '#42A5F5'
+    for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 6) {
+      ctx.beginPath()
+      for (let r = 0; r <= 2; r += 0.1) {
+        const x = r * Math.cos(angle)
+        const y = r * Math.sin(angle)
+        const z = r * r
+        const p = project3D(x, y, z)
+        if (r === 0) {
+          ctx.moveTo(p.px, p.py)
+        } else {
+          ctx.lineTo(p.px, p.py)
+        }
+      }
+      ctx.stroke()
+    }
+
+    // 绘制趋近路径演示
+    ctx.strokeStyle = '#E53935'
+    ctx.lineWidth = 3
+    ctx.setLineDash([5, 5])
+    
+    // 路径1：沿y=kx趋近
+    ctx.beginPath()
+    for (let t = 2; t >= 0; t -= 0.1) {
+      const x = t
+      const y = t // k=1
+      const z = x*x + y*y
+      const p = project3D(x, y, z)
+      if (t === 2) {
+        ctx.moveTo(p.px, p.py)
+      } else {
+        ctx.lineTo(p.px, p.py)
+      }
+    }
+    ctx.stroke()
+
+    // 路径2：沿y轴趋近
+    ctx.strokeStyle = '#4CAF50'
+    ctx.beginPath()
+    for (let t = 2; t >= 0; t -= 0.1) {
+      const x = 0
+      const y = t
+      const z = x*x + y*y
+      const p = project3D(x, y, z)
+      if (t === 2) {
+        ctx.moveTo(p.px, p.py)
+      } else {
+        ctx.lineTo(p.px, p.py)
+      }
+    }
+    ctx.stroke()
+    
+    ctx.setLineDash([])
+
+    // 标记极限点
+    const limitPoint = project3D(0, 0, 0)
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(limitPoint.px, limitPoint.py, 8, 0, Math.PI * 2)
+    ctx.fill()
+    
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 12px Arial'
+    ctx.textAlign = 'center'
+    ctx.fillText('L', limitPoint.px, limitPoint.py + 4)
+
+    // 标题和说明
+    ctx.fillStyle = '#3E2723'
+    ctx.font = 'bold 18px "Noto Serif SC", serif'
+    ctx.textAlign = 'center'
+    ctx.fillText('多元函数极限的路径问题', width / 2, 35)
+
+    ctx.font = '14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.textAlign = 'left'
+    
+    // 图例
+    ctx.fillStyle = '#E53935'
+    ctx.fillText('● 路径 y = x', 20, height - 60)
+    ctx.fillStyle = '#4CAF50'
+    ctx.fillText('● 路径 x = 0', 20, height - 40)
+    
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('曲面 z = x² + y²', 150, height - 50)
+    
+    ctx.fillStyle = '#C62828'
+    ctx.textAlign = 'center'
+    ctx.fillText('极限点：所有路径趋近同一点', width / 2, height - 20)
+  }, [])
+
+  // 偏导数与全微分可视化
+  const drawPartialDerivative = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2 + 20
+    const scale = Math.min(width, height) / 6
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 3D投影函数
+    const angleX = -0.5
+    const angleY = 0.5
+
+    const project3D = (x: number, y: number, z: number) => {
+      const px = centerX + (x * Math.cos(angleY) - y * Math.sin(angleY)) * scale
+      const py = centerY - (z + (x * Math.sin(angleY) + y * Math.cos(angleY)) * Math.sin(angleX)) * scale
+      return { px, py }
+    }
+
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    ctx.font = 'bold 12px "Noto Serif SC", serif'
+    
+    // X轴
+    ctx.beginPath()
+    ctx.moveTo(project3D(-2, 0, 0).px, project3D(-2, 0, 0).py)
+    ctx.lineTo(project3D(2.5, 0, 0).px, project3D(2.5, 0, 0).py)
+    ctx.stroke()
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('x', project3D(2.6, 0, 0).px, project3D(2.6, 0, 0).py)
+
+    // Y轴
+    ctx.beginPath()
+    ctx.moveTo(project3D(0, -2, 0).px, project3D(0, -2, 0).py)
+    ctx.lineTo(project3D(0, 2.5, 0).px, project3D(0, 2.5, 0).py)
+    ctx.stroke()
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('y', project3D(0, 2.7, 0).px, project3D(0, 2.7, 0).py)
+
+    // Z轴
+    ctx.beginPath()
+    ctx.moveTo(project3D(0, 0, -0.5).px, project3D(0, 0, -0.5).py)
+    ctx.lineTo(project3D(0, 0, 2.5).px, project3D(0, 0, 2.5).py)
+    ctx.stroke()
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('z', project3D(0, 0, 2.7).px, project3D(0, 0, 2.7).py)
+
+    // 绘制曲面 z = x² + y²（抛物面）
+    ctx.strokeStyle = '#1565C0'
+    ctx.lineWidth = 1.5
+    
+    for (let x = -1.5; x <= 1.5; x += 0.3) {
+      ctx.beginPath()
+      for (let y = -1.5; y <= 1.5; y += 0.1) {
+        const z = x * x + y * y
+        const proj = project3D(x, y, z * 0.3)
+        if (y === -1.5) ctx.moveTo(proj.px, proj.py)
+        else ctx.lineTo(proj.px, proj.py)
+      }
+      ctx.stroke()
+    }
+    
+    for (let y = -1.5; y <= 1.5; y += 0.3) {
+      ctx.beginPath()
+      for (let x = -1.5; x <= 1.5; x += 0.1) {
+        const z = x * x + y * y
+        const proj = project3D(x, y, z * 0.3)
+        if (x === -1.5) ctx.moveTo(proj.px, proj.py)
+        else ctx.lineTo(proj.px, proj.py)
+      }
+      ctx.stroke()
+    }
+
+    // 绘制点 (1, 1, 2)
+    const pointP = project3D(1, 1, 0.6)
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(pointP.px, pointP.py, 6, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('P(1,1,2)', pointP.px + 10, pointP.py - 5)
+
+    // 绘制偏导数对应的切线
+    // ∂z/∂x 方向：固定 y=1，z = x² + 1
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    const t1 = project3D(0.5, 1, 0.35)
+    const t2 = project3D(1.5, 1, 0.85)
+    ctx.moveTo(t1.px, t1.py)
+    ctx.lineTo(t2.px, t2.py)
+    ctx.stroke()
+
+    // ∂z/∂y 方向：固定 x=1，z = 1 + y²
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    const t3 = project3D(1, 0.5, 0.35)
+    const t4 = project3D(1, 1.5, 0.85)
+    ctx.moveTo(t3.px, t3.py)
+    ctx.lineTo(t4.px, t4.py)
+    ctx.stroke()
+
+    // 绘制切平面
+    ctx.fillStyle = 'rgba(255, 152, 0, 0.3)'
+    ctx.strokeStyle = '#FF8F00'
+    ctx.lineWidth = 2
+    
+    // 切平面方程：z - 2 = 2(x-1) + 2(y-1)，即 z = 2x + 2y - 2
+    const tp1 = project3D(0.5, 0.5, 0.15)
+    const tp2 = project3D(1.5, 0.5, 0.45)
+    const tp3 = project3D(1.5, 1.5, 0.75)
+    const tp4 = project3D(0.5, 1.5, 0.45)
+    
+    ctx.beginPath()
+    ctx.moveTo(tp1.px, tp1.py)
+    ctx.lineTo(tp2.px, tp2.py)
+    ctx.lineTo(tp3.px, tp3.py)
+    ctx.lineTo(tp4.px, tp4.py)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+
+    // 图例
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('曲面: z = x² + y²', 50, height - 70)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('∂z/∂x = 2x (在P点为2)', 50, height - 50)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('∂z/∂y = 2y (在P点为2)', 50, height - 30)
+    
+    ctx.fillStyle = '#FF8F00'
+    ctx.fillText('切平面: z = 2x + 2y - 2', 280, height - 50)
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('dz = 2dx + 2dy', 280, height - 30)
+  }, [])
+
+  // 复合函数与隐函数求导可视化
+  const drawCompositeImplicit = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 绘制变量关系图
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    
+    // 绘制节点
+    const nodes = [
+      { name: 'z', x: centerX, y: 60, color: '#1565C0' },
+      { name: 'u', x: centerX - 80, y: 140, color: '#C62828' },
+      { name: 'v', x: centerX + 80, y: 140, color: '#C62828' },
+      { name: 'x', x: centerX - 120, y: 220, color: '#2E7D32' },
+      { name: 'y', x: centerX + 120, y: 220, color: '#2E7D32' },
+    ]
+
+    nodes.forEach(node => {
+      ctx.fillStyle = node.color
+      ctx.beginPath()
+      ctx.arc(node.x, node.y, 20, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.fillStyle = '#fff'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(node.name, node.x, node.y)
+    })
+
+    // 绘制连线
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    ctx.setLineDash([5, 3])
+    
+    // z -> u
+    ctx.beginPath()
+    ctx.moveTo(nodes[0].x, nodes[0].y + 20)
+    ctx.lineTo(nodes[1].x, nodes[1].y - 20)
+    ctx.stroke()
+    
+    // z -> v
+    ctx.beginPath()
+    ctx.moveTo(nodes[0].x, nodes[0].y + 20)
+    ctx.lineTo(nodes[2].x, nodes[2].y - 20)
+    ctx.stroke()
+    
+    // u -> x
+    ctx.beginPath()
+    ctx.moveTo(nodes[1].x, nodes[1].y + 20)
+    ctx.lineTo(nodes[3].x, nodes[3].y - 20)
+    ctx.stroke()
+    
+    // u -> y
+    ctx.beginPath()
+    ctx.moveTo(nodes[1].x, nodes[1].y + 20)
+    ctx.lineTo(nodes[4].x, nodes[4].y - 20)
+    ctx.stroke()
+    
+    // v -> x
+    ctx.beginPath()
+    ctx.moveTo(nodes[2].x, nodes[2].y + 20)
+    ctx.lineTo(nodes[3].x, nodes[3].y - 20)
+    ctx.stroke()
+    
+    // v -> y
+    ctx.beginPath()
+    ctx.moveTo(nodes[2].x, nodes[2].y + 20)
+    ctx.lineTo(nodes[4].x, nodes[4].y - 20)
+    ctx.stroke()
+    
+    ctx.setLineDash([])
+
+    // 标注偏导数
+    ctx.font = '12px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('∂z/∂u', (nodes[0].x + nodes[1].x) / 2 - 15, (nodes[0].y + nodes[1].y) / 2)
+    ctx.fillText('∂z/∂v', (nodes[0].x + nodes[2].x) / 2 + 15, (nodes[0].y + nodes[2].y) / 2)
+    ctx.fillText('∂u/∂x', (nodes[1].x + nodes[3].x) / 2 - 15, (nodes[1].y + nodes[3].y) / 2)
+    ctx.fillText('∂u/∂y', (nodes[1].x + nodes[4].x) / 2 + 5, (nodes[1].y + nodes[4].y) / 2)
+    ctx.fillText('∂v/∂x', (nodes[2].x + nodes[3].x) / 2 - 15, (nodes[2].y + nodes[3].y) / 2)
+    ctx.fillText('∂v/∂y', (nodes[2].x + nodes[4].x) / 2 + 5, (nodes[2].y + nodes[4].y) / 2)
+
+    // 绘制公式
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#1565C0'
+    ctx.textAlign = 'left'
+    ctx.fillText('链式法则:', 50, height - 100)
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('∂z/∂x = (∂z/∂u)(∂u/∂x) + (∂z/∂v)(∂v/∂x)', 50, height - 75)
+    ctx.fillText('∂z/∂y = (∂z/∂u)(∂u/∂y) + (∂z/∂v)(∂v/∂y)', 50, height - 50)
+    
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('隐函数求导: F(x,y,z)=0 → ∂z/∂x = -Fx/Fz', 50, height - 25)
+  }, [])
+
+  // 方向导数与梯度可视化
+  const drawDirectionalGradient = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2
+    const scale = Math.min(width, height) / 5
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 绘制等高线（同心圆表示 f = x² + y²）
+    ctx.strokeStyle = '#1565C0'
+    ctx.lineWidth = 1.5
+    
+    for (let r = 0.5; r <= 2.5; r += 0.5) {
+      ctx.beginPath()
+      ctx.arc(centerX, centerY, r * scale, 0, Math.PI * 2)
+      ctx.stroke()
+      
+      // 标注等值
+      ctx.fillStyle = '#1565C0'
+      ctx.font = '11px "Noto Serif SC", serif'
+      ctx.fillText(`${r * r}`, centerX + r * scale + 5, centerY)
+    }
+
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(centerX - 200, centerY)
+    ctx.lineTo(centerX + 200, centerY)
+    ctx.moveTo(centerX, centerY - 150)
+    ctx.lineTo(centerX, centerY + 150)
+    ctx.stroke()
+
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('x', centerX + 205, centerY - 5)
+    ctx.fillText('y', centerX + 5, centerY - 155)
+
+    // 绘制点 P(1, 1)
+    const px = centerX + 1 * scale
+    const py = centerY - 1 * scale
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(px, py, 6, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('P(1,1)', px + 10, py - 5)
+
+    // 绘制梯度 ∇f = (2x, 2y) = (2, 2) 在 P 点
+    const gradX = 2
+    const gradY = 2
+    const gradLen = Math.sqrt(gradX * gradX + gradY * gradY)
+    
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(px, py)
+    ctx.lineTo(px + gradX * scale * 0.4, py - gradY * scale * 0.4)
+    ctx.stroke()
+
+    // 梯度箭头
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(px + gradX * scale * 0.4, py - gradY * scale * 0.4, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('∇f = (2,2)', px + gradX * scale * 0.4 + 10, py - gradY * scale * 0.4)
+
+    // 绘制另一个方向 l
+    const lAngle = Math.PI / 3
+    const lx = Math.cos(lAngle)
+    const ly = Math.sin(lAngle)
+    
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 3
+    ctx.setLineDash([5, 3])
+    ctx.beginPath()
+    ctx.moveTo(px, py)
+    ctx.lineTo(px + lx * scale * 1.5, py - ly * scale * 1.5)
+    ctx.stroke()
+    ctx.setLineDash([])
+    
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('l', px + lx * scale * 1.5 + 5, py - ly * scale * 1.5)
+
+    // 图例
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('梯度 ∇f 指向增大最快方向', 50, height - 70)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('方向导数 ∂f/∂l = ∇f · l⁰', 50, height - 50)
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('等值线 f = c（梯度垂直于等值线）', 50, height - 30)
+    
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('|∇f| = √8 ≈ 2.83（最大方向导数）', 300, height - 50)
+    ctx.fillText('∂f/∂l = √8·cosθ（θ为梯度与l夹角）', 300, height - 30)
+  }, [])
+
+  // 多元函数极值可视化
+  const drawMultivariableExtremum = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2 + 20
+    const scale = Math.min(width, height) / 6
+
+    // 清除画布
+    ctx.fillStyle = '#FDF5E6'
+    ctx.fillRect(0, 0, width, height)
+
+    // 3D投影函数
+    const angleX = -0.5
+    const angleY = 0.5
+
+    const project3D = (x: number, y: number, z: number) => {
+      const px = centerX + (x * Math.cos(angleY) - y * Math.sin(angleY)) * scale
+      const py = centerY - (z + (x * Math.sin(angleY) + y * Math.cos(angleY)) * Math.sin(angleX)) * scale
+      return { px, py }
+    }
+
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    ctx.font = 'bold 12px "Noto Serif SC", serif'
+    
+    ctx.beginPath()
+    ctx.moveTo(project3D(-2, 0, 0).px, project3D(-2, 0, 0).py)
+    ctx.lineTo(project3D(2.5, 0, 0).px, project3D(2.5, 0, 0).py)
+    ctx.stroke()
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('x', project3D(2.6, 0, 0).px, project3D(2.6, 0, 0).py)
+
+    ctx.beginPath()
+    ctx.moveTo(project3D(0, -2, 0).px, project3D(0, -2, 0).py)
+    ctx.lineTo(project3D(0, 2.5, 0).px, project3D(0, 2.5, 0).py)
+    ctx.stroke()
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('y', project3D(0, 2.7, 0).px, project3D(0, 2.7, 0).py)
+
+    ctx.beginPath()
+    ctx.moveTo(project3D(0, 0, -0.5).px, project3D(0, 0, -0.5).py)
+    ctx.lineTo(project3D(0, 0, 2.5).px, project3D(0, 0, 2.5).py)
+    ctx.stroke()
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('z', project3D(0, 0, 2.7).px, project3D(0, 0, 2.7).py)
+
+    // 绘制马鞍面 z = x² - y²
+    ctx.strokeStyle = '#6A1B9A'
+    ctx.lineWidth = 1.5
+    
+    for (let x = -1.5; x <= 1.5; x += 0.3) {
+      ctx.beginPath()
+      for (let y = -1.5; y <= 1.5; y += 0.1) {
+        const z = x * x - y * y
+        const proj = project3D(x, y, z * 0.3)
+        if (y === -1.5) ctx.moveTo(proj.px, proj.py)
+        else ctx.lineTo(proj.px, proj.py)
+      }
+      ctx.stroke()
+    }
+    
+    for (let y = -1.5; y <= 1.5; y += 0.3) {
+      ctx.beginPath()
+      for (let x = -1.5; x <= 1.5; x += 0.1) {
+        const z = x * x - y * y
+        const proj = project3D(x, y, z * 0.3)
+        if (x === -1.5) ctx.moveTo(proj.px, proj.py)
+        else ctx.lineTo(proj.px, proj.py)
+      }
+      ctx.stroke()
+    }
+
+    // 绘制鞍点 (0, 0, 0)
+    const saddle = project3D(0, 0, 0)
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(saddle.px, saddle.py, 6, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.font = 'bold 12px "Noto Serif SC", serif'
+    ctx.fillText('鞍点(0,0,0)', saddle.px + 10, saddle.py - 5)
+
+    // 绘制抛物面 z = x² + y²（极小值）
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 1.5
+    
+    for (let x = -1; x <= 1; x += 0.25) {
+      ctx.beginPath()
+      for (let y = -1; y <= 1; y += 0.1) {
+        const z = x * x + y * y
+        const proj = project3D(x + 2.5, y, z * 0.3 + 1)
+        if (y === -1) ctx.moveTo(proj.px, proj.py)
+        else ctx.lineTo(proj.px, proj.py)
+      }
+      ctx.stroke()
+    }
+
+    // 极小值点
+    const minPoint = project3D(2.5, 0, 1)
+    ctx.fillStyle = '#2E7D32'
+    ctx.beginPath()
+    ctx.arc(minPoint.px, minPoint.py, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('极小值', minPoint.px + 8, minPoint.py - 5)
+
+    // 图例
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#6A1B9A'
+    ctx.fillText('马鞍面 z = x² - y²', 50, height - 70)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('抛物面 z = x² + y²', 50, height - 50)
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('驻点: ∇f = 0 的点', 50, height - 30)
+    
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('判别: Δ = AC - B²', 280, height - 70)
+    ctx.fillText('Δ > 0, A > 0 → 极小值', 280, height - 50)
+    ctx.fillText('Δ < 0 → 鞍点', 280, height - 30)
+  }, [])
+
   // 主绘制函数
   const draw = useCallback(() => {
     const canvas = canvasRef.current
@@ -3120,8 +4260,24 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawPowerSeries(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'fourier-series') {
       drawFourierSeries(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'vector-operations') {
+      drawVectorOperations(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'plane-and-line') {
+      drawPlaneAndLine(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'surfaces') {
+      drawSurfaces(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'multivariable-basic') {
+      drawMultivariableBasic(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'partial-derivative') {
+      drawPartialDerivative(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'composite-implicit') {
+      drawCompositeImplicit(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'directional-gradient') {
+      drawDirectionalGradient(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'multivariable-extremum') {
+      drawMultivariableExtremum(ctx, rect.width, rect.height)
     }
-  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries])
+  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries, drawVectorOperations, drawPlaneAndLine, drawSurfaces, drawMultivariableBasic, drawPartialDerivative, drawCompositeImplicit, drawDirectionalGradient, drawMultivariableExtremum])
 
   // 对比画布绘制
   const drawCompare = useCallback(() => {
@@ -3181,8 +4337,24 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawPowerSeries(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'fourier-series') {
       drawFourierSeries(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'vector-operations') {
+      drawVectorOperations(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'plane-and-line') {
+      drawPlaneAndLine(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'surfaces') {
+      drawSurfaces(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'multivariable-basic') {
+      drawMultivariableBasic(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'partial-derivative') {
+      drawPartialDerivative(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'composite-implicit') {
+      drawCompositeImplicit(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'directional-gradient') {
+      drawDirectionalGradient(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'multivariable-extremum') {
+      drawMultivariableExtremum(ctx, rect.width, rect.height)
     }
-  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries, compareType])
+  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries, drawVectorOperations, drawPlaneAndLine, drawSurfaces, drawMultivariableBasic, drawPartialDerivative, drawCompositeImplicit, drawDirectionalGradient, drawMultivariableExtremum, compareType])
 
   // 动画播放
   useEffect(() => {

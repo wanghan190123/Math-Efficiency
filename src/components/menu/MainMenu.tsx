@@ -1,15 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MainMenu.css';
 
+interface ResourceLink {
+  id: string;
+  name: string;
+  url: string;
+  description: string;
+}
+
+const RESOURCE_LINKS: ResourceLink[] = [
+  {
+    id: 'songhao',
+    name: '宋浩老师主页',
+    url: 'https://space.bilibili.com/66607740?spm_id_from=333.337.0.0',
+    description: 'B站高等数学教学视频'
+  },
+  {
+    id: 'geogebra',
+    name: 'GeoGebra网页版',
+    url: 'https://www.geogebra.org/calculator',
+    description: '在线数学图形计算器'
+  }
+];
+
 interface MainMenuProps {
-  onNavigate: (view: 'knowledge' | 'graph' | 'formulas' | 'calculator') => void;
+  onNavigate: (view: 'knowledge' | 'graph' | 'formulas' | 'derivation') => void;
 }
 
 const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
+  const [showResources, setShowResources] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const copyToClipboard = async (text: string, id: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error('复制失败:', err);
+    }
+  };
+
   return (
     <div className="main-menu">
       {/* 装饰性背景 */}
       <div className="menu-bg-pattern"></div>
+      
+      {/* 资源链接按钮 */}
+      <div className="resource-link-btn" onClick={() => setShowResources(!showResources)}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+        </svg>
+        <span>资源链接</span>
+      </div>
+
+      {/* 资源链接弹窗 */}
+      {showResources && (
+        <div className="resource-popup">
+          <div className="resource-popup-header">
+            <h3>资源链接</h3>
+            <button className="close-popup" onClick={() => setShowResources(false)}>✕</button>
+          </div>
+          <div className="resource-list">
+            {RESOURCE_LINKS.map(resource => (
+              <div key={resource.id} className="resource-item">
+                <div className="resource-info">
+                  <span className="resource-name">{resource.name}</span>
+                  <span className="resource-desc">{resource.description}</span>
+                </div>
+                <button 
+                  className={`copy-btn ${copiedId === resource.id ? 'copied' : ''}`}
+                  onClick={() => copyToClipboard(resource.url, resource.id)}
+                >
+                  {copiedId === resource.id ? '已复制' : '复制链接'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       
       {/* 标题区域 */}
       <div className="menu-header">
@@ -84,18 +153,18 @@ const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* 计算器 */}
-        <div className="menu-card calculator-card" onClick={() => onNavigate('calculator')}>
+        {/* 公式推导 */}
+        <div className="menu-card derivation-card" onClick={() => onNavigate('derivation')}>
           <div className="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="4" y="2" width="16" height="20" rx="2" />
-              <path d="M8 6h8M8 10h2M14 10h2M8 14h2M14 14h2M8 18h8" />
+              <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" />
+              <path d="M17 14v6M14 17h6" />
             </svg>
           </div>
           <div className="card-content">
-            <h3>数学计算器</h3>
-            <p>求导积分，可视化计算</p>
-            <span className="card-tag available">已上线</span>
+            <h3>公式推导</h3>
+            <p>公式由来，推导过程</p>
+            <span className="card-tag developing">开发中</span>
           </div>
           <div className="card-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

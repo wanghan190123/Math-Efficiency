@@ -460,6 +460,372 @@ const FORMULAS: Formula[] = [
     example: '掷骰子方差：E(X²)-E(X)² = 91/6 - (7/2)² = 35/12'
   },
   
+  // ===== 多元函数微分法 =====
+  {
+    id: 'md-1',
+    name: '偏导数定义',
+    latex: '\\frac{\\partial f}{\\partial x} = \\lim_{\\Delta x \\to 0} \\frac{f(x+\\Delta x, y) - f(x,y)}{\\Delta x}',
+    description: '固定其他变量，对一个变量求导',
+    category: 'multivariable-diff',
+    tags: ['偏导数', '基础'],
+    example: 'f(x,y)=x²y → ∂f/∂x=2xy'
+  },
+  {
+    id: 'md-2',
+    name: '全微分',
+    latex: 'dz = \\frac{\\partial z}{\\partial x}dx + \\frac{\\partial z}{\\partial y}dy',
+    description: '函数增量的线性主部',
+    category: 'multivariable-diff',
+    tags: ['全微分', '基础'],
+    example: 'z=x²y → dz=2xydx+x²dy'
+  },
+  {
+    id: 'md-3',
+    name: '链式法则（全导数）',
+    latex: '\\frac{dz}{dt} = \\frac{\\partial z}{\\partial x}\\frac{dx}{dt} + \\frac{\\partial z}{\\partial y}\\frac{dy}{dt}',
+    description: 'z=f(x,y), x=x(t), y=y(t) 的情况',
+    category: 'multivariable-diff',
+    tags: ['链式法则', '复合函数'],
+    example: 'z=x²+y², x=t, y=t² → dz/dt=2t+2t³'
+  },
+  {
+    id: 'md-4',
+    name: '链式法则（偏导数）',
+    latex: '\\frac{\\partial z}{\\partial x} = \\frac{\\partial z}{\\partial u}\\frac{\\partial u}{\\partial x} + \\frac{\\partial z}{\\partial v}\\frac{\\partial v}{\\partial x}',
+    description: 'z=f(u,v), u=u(x,y), v=v(x,y) 的情况',
+    category: 'multivariable-diff',
+    tags: ['链式法则', '复合函数'],
+    example: '沿每个路径求导再相加'
+  },
+  {
+    id: 'md-5',
+    name: '隐函数求导公式',
+    latex: '\\frac{\\partial z}{\\partial x} = -\\frac{F_x}{F_z}, \\quad \\frac{\\partial z}{\\partial y} = -\\frac{F_y}{F_z}',
+    description: 'F(x,y,z)=0 确定的隐函数 z=z(x,y)',
+    category: 'multivariable-diff',
+    tags: ['隐函数', '求导'],
+    example: 'x²+y²+z²=1 → ∂z/∂x=-x/z'
+  },
+  {
+    id: 'md-6',
+    name: '方向导数',
+    latex: '\\frac{\\partial f}{\\partial l} = \\frac{\\partial f}{\\partial x}\\cos\\alpha + \\frac{\\partial f}{\\partial y}\\cos\\beta',
+    description: '函数沿方向 l 的变化率，l⁰=(cosα,cosβ)',
+    category: 'multivariable-diff',
+    tags: ['方向导数', '梯度'],
+    example: 'f=x²+y², 沿(1,0)方向在(1,1): ∂f/∂l=2'
+  },
+  {
+    id: 'md-7',
+    name: '梯度',
+    latex: '\\nabla f = \\text{grad} f = \\left( \\frac{\\partial f}{\\partial x}, \\frac{\\partial f}{\\partial y}, \\frac{\\partial f}{\\partial z} \\right)',
+    description: '梯度方向是函数增长最快的方向，模长等于最大方向导数',
+    category: 'multivariable-diff',
+    tags: ['梯度', '核心'],
+    example: 'f=x²+y² → ∇f=(2x,2y)'
+  },
+  {
+    id: 'md-8',
+    name: '方向导数与梯度',
+    latex: '\\frac{\\partial f}{\\partial l} = \\nabla f \\cdot \\vec{l^0} = |\\nabla f|\\cos\\theta',
+    description: '方向导数是梯度在该方向的投影',
+    category: 'multivariable-diff',
+    tags: ['方向导数', '梯度'],
+    example: 'θ=0时最大，θ=π/2时为零'
+  },
+  {
+    id: 'md-9',
+    name: '极值必要条件',
+    latex: '\\nabla f = 0 \\quad \\text{即} \\quad \\frac{\\partial f}{\\partial x} = \\frac{\\partial f}{\\partial y} = 0',
+    description: '极值点必是驻点（梯度为零的点）',
+    category: 'multivariable-diff',
+    tags: ['极值', '驻点'],
+    example: 'f=x²+y² → 驻点(0,0)是极小值点'
+  },
+  {
+    id: 'md-10',
+    name: '极值充分条件',
+    latex: '\\Delta = AC - B^2, \\quad A = f_{xx}, B = f_{xy}, C = f_{yy}',
+    description: 'Δ>0且A>0极小，Δ>0且A<0极大，Δ<0鞍点',
+    category: 'multivariable-diff',
+    tags: ['极值', '判别'],
+    example: 'f=x²-y²: A=2,C=-2,B=0 → Δ=-4<0鞍点'
+  },
+  {
+    id: 'md-11',
+    name: '拉格朗日乘数法',
+    latex: 'L(x,y,\\lambda) = f(x,y) + \\lambda \\varphi(x,y)',
+    description: '求条件极值：目标函数f，约束条件φ=0',
+    category: 'multivariable-diff',
+    tags: ['条件极值', '优化'],
+    example: '求xy在x+y=1下的极值'
+  },
+  {
+    id: 'md-12',
+    name: '切平面方程',
+    latex: 'z - z_0 = \\frac{\\partial f}{\\partial x}(x-x_0) + \\frac{\\partial f}{\\partial y}(y-y_0)',
+    description: '曲面z=f(x,y)在点(x₀,y₀,z₀)处的切平面',
+    category: 'multivariable-diff',
+    tags: ['切平面', '几何'],
+    example: 'f=x²+y²在(0,0,0): z=0'
+  },
+  {
+    id: 'md-13',
+    name: '法线方程',
+    latex: '\\frac{x-x_0}{f_x} = \\frac{y-y_0}{f_y} = \\frac{z-z_0}{-1}',
+    description: '曲面z=f(x,y)在点(x₀,y₀,z₀)处的法线',
+    category: 'multivariable-diff',
+    tags: ['法线', '几何'],
+    example: '梯度方向即为法线方向'
+  },
+  {
+    id: 'md-14',
+    name: '二阶混合偏导相等条件',
+    latex: '\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x} \\text{（连续时成立）}',
+    description: '若混合偏导数连续，则它们相等',
+    category: 'multivariable-diff',
+    tags: ['混合偏导', '重要'],
+    example: '常见函数都满足此条件'
+  },
+  {
+    id: 'md-15',
+    name: '梯度下降算法',
+    latex: '\\vec{x}_{new} = \\vec{x}_{old} - \\eta \\nabla f(\\vec{x}_{old})',
+    description: '机器学习中的优化算法，η为学习率',
+    category: 'multivariable-diff',
+    tags: ['优化', '机器学习'],
+    example: '沿负梯度方向迭代寻找最小值'
+  },
+  
+  // ===== 向量代数 =====
+  {
+    id: 'vec-1',
+    name: '向量模长',
+    latex: '|\\vec{a}| = \\sqrt{a_x^2 + a_y^2 + a_z^2}',
+    description: '向量在三维空间中的长度',
+    category: 'vector',
+    tags: ['基础', '模长'],
+    example: 'a=(1,2,2) → |a|=√(1+4+4)=3'
+  },
+  {
+    id: 'vec-2',
+    name: '向量点积（数量积）',
+    latex: '\\vec{a} \\cdot \\vec{b} = |\\vec{a}||\\vec{b}|\\cos\\theta = a_x b_x + a_y b_y + a_z b_z',
+    description: '两向量点积等于对应分量乘积之和，或等于模长乘积乘夹角余弦',
+    category: 'vector',
+    tags: ['点积', '基础'],
+    example: 'a=(1,0), b=(0,1) → a·b=0（垂直）'
+  },
+  {
+    id: 'vec-3',
+    name: '向量叉积（向量积）',
+    latex: '\\vec{a} \\times \\vec{b} = \\begin{vmatrix} \\vec{i} & \\vec{j} & \\vec{k} \\\\ a_x & a_y & a_z \\\\ b_x & b_y & b_z \\end{vmatrix}',
+    description: '叉积结果是一个向量，垂直于两向量所在平面，模长等于平行四边形面积',
+    category: 'vector',
+    tags: ['叉积', '高级'],
+    example: 'a=(1,0,0), b=(0,1,0) → a×b=(0,0,1)'
+  },
+  {
+    id: 'vec-4',
+    name: '叉积模长',
+    latex: '|\\vec{a} \\times \\vec{b}| = |\\vec{a}||\\vec{b}|\\sin\\theta',
+    description: '叉积模长等于两向量张成的平行四边形面积',
+    category: 'vector',
+    tags: ['叉积', '面积'],
+    example: '|a×b|=1×1×sin90°=1'
+  },
+  {
+    id: 'vec-5',
+    name: '向量夹角',
+    latex: '\\cos\\theta = \\frac{\\vec{a} \\cdot \\vec{b}}{|\\vec{a}||\\vec{b}|}',
+    description: '通过点积计算两向量的夹角',
+    category: 'vector',
+    tags: ['夹角', '点积'],
+    example: 'a=(1,1), b=(1,0) → cosθ=1/√2, θ=45°'
+  },
+  {
+    id: 'vec-6',
+    name: '向量垂直条件',
+    latex: '\\vec{a} \\perp \\vec{b} \\Leftrightarrow \\vec{a} \\cdot \\vec{b} = 0',
+    description: '两向量点积为零则垂直',
+    category: 'vector',
+    tags: ['垂直', '判定'],
+    example: 'a=(1,0,0), b=(0,1,0) → a·b=0（垂直）'
+  },
+  {
+    id: 'vec-7',
+    name: '向量平行条件',
+    latex: '\\vec{a} \\parallel \\vec{b} \\Leftrightarrow \\vec{a} \\times \\vec{b} = \\vec{0}',
+    description: '两向量叉积为零向量则平行',
+    category: 'vector',
+    tags: ['平行', '判定'],
+    example: 'a=(1,2,3), b=(2,4,6) → a×b=0（平行）'
+  },
+  {
+    id: 'vec-8',
+    name: '混合积',
+    latex: '[\\vec{a},\\vec{b},\\vec{c}] = (\\vec{a} \\times \\vec{b}) \\cdot \\vec{c} = \\begin{vmatrix} a_x & a_y & a_z \\\\ b_x & b_y & b_z \\\\ c_x & c_y & c_z \\end{vmatrix}',
+    description: '三向量混合积的绝对值等于平行六面体体积',
+    category: 'vector',
+    tags: ['混合积', '体积'],
+    example: 'a=(1,0,0), b=(0,1,0), c=(0,0,1) → [a,b,c]=1'
+  },
+  {
+    id: 'vec-9',
+    name: '向量投影',
+    latex: '\\text{proj}_{\\vec{b}}\\vec{a} = \\frac{\\vec{a} \\cdot \\vec{b}}{|\\vec{b}|^2}\\vec{b}',
+    description: '向量a在向量b方向上的投影向量',
+    category: 'vector',
+    tags: ['投影', '应用'],
+    example: 'a=(3,4), b=(1,0) → proj_b a = (3,0)'
+  },
+  {
+    id: 'vec-10',
+    name: '单位向量',
+    latex: '\\vec{e}_a = \\frac{\\vec{a}}{|\\vec{a}|}',
+    description: '与原向量同方向的单位向量（模长为1）',
+    category: 'vector',
+    tags: ['单位向量', '基础'],
+    example: 'a=(3,4) → e_a=(3/5, 4/5)'
+  },
+  
+  // ===== 空间解析几何 =====
+  {
+    id: 'ag-1',
+    name: '平面一般方程',
+    latex: 'Ax + By + Cz + D = 0',
+    description: '平面的标准方程，法向量为n=(A,B,C)',
+    category: 'analytic-geometry',
+    tags: ['平面', '基础'],
+    example: 'x+y+z-1=0 是过点(1,0,0),(0,1,0),(0,0,1)的平面'
+  },
+  {
+    id: 'ag-2',
+    name: '平面的点法式方程',
+    latex: 'A(x-x_0) + B(y-y_0) + C(z-z_0) = 0',
+    description: '过点P₀(x₀,y₀,z₀)，法向量n=(A,B,C)的平面',
+    category: 'analytic-geometry',
+    tags: ['平面', '点法式'],
+    example: '过点(1,2,3)，法向量(1,1,1)的平面：x+y+z=6'
+  },
+  {
+    id: 'ag-3',
+    name: '直线对称式方程',
+    latex: '\\frac{x-x_0}{m} = \\frac{y-y_0}{n} = \\frac{z-z_0}{p}',
+    description: '过点P₀(x₀,y₀,z₀)，方向向量s=(m,n,p)的直线',
+    category: 'analytic-geometry',
+    tags: ['直线', '对称式'],
+    example: '过原点沿x轴：(x-0)/1=(y-0)/0=(z-0)/0'
+  },
+  {
+    id: 'ag-4',
+    name: '直线参数方程',
+    latex: '\\begin{cases} x = x_0 + mt \\\\ y = y_0 + nt \\\\ z = z_0 + pt \\end{cases}',
+    description: '直线参数形式，t为参数',
+    category: 'analytic-geometry',
+    tags: ['直线', '参数式'],
+    example: '过(1,2,3)，方向(1,1,1)：x=1+t, y=2+t, z=3+t'
+  },
+  {
+    id: 'ag-5',
+    name: '点到平面距离',
+    latex: 'd = \\frac{|Ax_0 + By_0 + Cz_0 + D|}{\\sqrt{A^2 + B^2 + C^2}}',
+    description: '点P(x₀,y₀,z₀)到平面Ax+By+Cz+D=0的距离',
+    category: 'analytic-geometry',
+    tags: ['距离', '平面'],
+    example: '原点到x+y+z=1的距离：|0+0+0-1|/√3=1/√3'
+  },
+  {
+    id: 'ag-6',
+    name: '点到直线距离',
+    latex: 'd = \\frac{|\\vec{P_0P_1} \\times \\vec{s}|}{|\\vec{s}|}',
+    description: '点P₁到过P₀方向为s的直线的距离',
+    category: 'analytic-geometry',
+    tags: ['距离', '直线'],
+    example: '点(0,0,0)到直线过(1,0,0)方向(0,1,0)：d=1'
+  },
+  {
+    id: 'ag-7',
+    name: '两平面夹角',
+    latex: '\\cos\\theta = \\frac{|A_1A_2 + B_1B_2 + C_1C_2|}{\\sqrt{A_1^2+B_1^2+C_1^2}\\sqrt{A_2^2+B_2^2+C_2^2}}',
+    description: '两平面夹角等于其法向量夹角',
+    category: 'analytic-geometry',
+    tags: ['夹角', '平面'],
+    example: 'x+y=0与x+z=0夹角：cosθ=1/2，θ=60°'
+  },
+  {
+    id: 'ag-8',
+    name: '两直线夹角',
+    latex: '\\cos\\theta = \\frac{|m_1m_2 + n_1n_2 + p_1p_2|}{\\sqrt{m_1^2+n_1^2+p_1^2}\\sqrt{m_2^2+n_2^2+p_2^2}}',
+    description: '两直线夹角等于其方向向量夹角',
+    category: 'analytic-geometry',
+    tags: ['夹角', '直线'],
+    example: '方向(1,0,0)与(0,1,0)垂直，夹角90°'
+  },
+  {
+    id: 'ag-9',
+    name: '椭球面方程',
+    latex: '\\frac{x^2}{a^2} + \\frac{y^2}{b^2} + \\frac{z^2}{c^2} = 1',
+    description: '椭球面，三个半轴分别为a, b, c',
+    category: 'analytic-geometry',
+    tags: ['曲面', '椭球面'],
+    example: 'a=b=c=R时为球面'
+  },
+  {
+    id: 'ag-10',
+    name: '椭圆抛物面',
+    latex: '\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = z',
+    description: '开口向上的碗形曲面，z≥0',
+    category: 'analytic-geometry',
+    tags: ['曲面', '抛物面'],
+    example: 'a=b=1时：z=x²+y²（旋转抛物面）'
+  },
+  {
+    id: 'ag-11',
+    name: '双曲抛物面（马鞍面）',
+    latex: '\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = z',
+    description: '马鞍形曲面，沿不同方向凹凸相反',
+    category: 'analytic-geometry',
+    tags: ['曲面', '双曲面'],
+    example: 'z=x²-y²是典型马鞍面'
+  },
+  {
+    id: 'ag-12',
+    name: '单叶双曲面',
+    latex: '\\frac{x^2}{a^2} + \\frac{y^2}{b^2} - \\frac{z^2}{c^2} = 1',
+    description: '单叶双曲面，连通曲面',
+    category: 'analytic-geometry',
+    tags: ['曲面', '双曲面'],
+    example: '冷却塔的形状'
+  },
+  {
+    id: 'ag-13',
+    name: '双叶双曲面',
+    latex: '\\frac{x^2}{a^2} + \\frac{y^2}{b^2} - \\frac{z^2}{c^2} = -1',
+    description: '双叶双曲面，分为上下两叶',
+    category: 'analytic-geometry',
+    tags: ['曲面', '双曲面'],
+    example: '上下两部分不相通'
+  },
+  {
+    id: 'ag-14',
+    name: '旋转曲面',
+    latex: '绕z轴: 将 f(y,z)=0 中 y 换成 \\pm\\sqrt{x^2+y^2}',
+    description: '平面曲线绕坐标轴旋转生成的曲面',
+    category: 'analytic-geometry',
+    tags: ['曲面', '旋转'],
+    example: 'z=y² 绕z轴旋转：z=x²+y²'
+  },
+  {
+    id: 'ag-15',
+    name: '圆柱面',
+    latex: 'x^2 + y^2 = R^2',
+    description: '以z轴为中心轴的圆柱面',
+    category: 'analytic-geometry',
+    tags: ['曲面', '柱面'],
+    example: '方程缺z变量，表示母线平行于z轴的柱面'
+  },
+  
   // ===== 导数表 =====
   // 基本初等函数导数
   {
@@ -2370,7 +2736,10 @@ const CATEGORIES: Category[] = [
   { id: 'line-integral', name: '曲线积分', icon: '〰' },
   { id: 'surface-integral', name: '曲面积分', icon: '🌐' },
   { id: 'differential-equations', name: '微分方程', icon: '📐' },
-  { id: 'probability', name: '概率统计', icon: '🎲' }
+  { id: 'probability', name: '概率统计', icon: '🎲' },
+  { id: 'vector', name: '向量代数', icon: '→' },
+  { id: 'analytic-geometry', name: '空间解析几何', icon: '📐' },
+  { id: 'multivariable-diff', name: '多元微分', icon: '∂²' }
 ];
 
 const FormulaBook: React.FC = () => {
