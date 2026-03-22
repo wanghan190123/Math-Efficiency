@@ -1202,7 +1202,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText('乘积求导法则演示', 20, canvasHeight + 30)
     ctx.fillStyle = '#558B2F'
     ctx.fillText(`h'(x) = 2x·e^x + x²·e^x = e^x(x² + 2x)`, 200, canvasHeight + 30)
-  }, [])
+  }, [modelState.params])
 
   // 绘制隐函数与参数方程求导
   const drawImplicitParametric = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
@@ -1456,6 +1456,199 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText(`增量 Δy = ${delta_y.toFixed(4)}`, 380, canvasHeight + 30)
     ctx.fillStyle = '#558B2F'
     ctx.fillText(`误差 = ${(Math.abs(delta_y - dy)).toFixed(6)}`, 550, canvasHeight + 30)
+  }, [modelState.params])
+
+  // 绘制定积分定义（黎曼和逼近）
+  const drawDefiniteIntegral = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // 获取动态参数
+    const n = Math.floor(getParam('n', 4))  // 分割数
+    const a = getParam('a', 0)  // 积分下限
+    const b = getParam('b', 2)  // 积分上限
+    
+    // 清空画布
+    ctx.fillStyle = '#F4E4BC'
+    ctx.fillRect(0, 0, width, height)
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
+    const padding = 50
+    const graphWidth = width - padding * 2
+    const graphHeight = canvasHeight - padding * 2
+    
+    // 坐标系原点（考虑积分下限a）
+    const originX = padding - a * (graphWidth / (b - a + 1))
+    const originY = canvasHeight - padding
+    const scaleX = graphWidth / (b - a + 1)
+    const scaleY = graphHeight / 6
+    
+    // 函数 f(x) = x²
+    const f = (x: number) => x * x
+    
+    // 绘制网格
+    ctx.strokeStyle = 'rgba(196, 167, 125, 0.3)'
+    ctx.lineWidth = 1
+    for (let i = 0; i <= 10; i++) {
+      const x = padding + (graphWidth / 10) * i
+      ctx.beginPath()
+      ctx.moveTo(x, padding)
+      ctx.lineTo(x, canvasHeight - padding)
+      ctx.stroke()
+    }
+    for (let i = 0; i <= 6; i++) {
+      const y = originY - scaleY * i
+      ctx.beginPath()
+      ctx.moveTo(padding, y)
+      ctx.lineTo(width - padding, y)
+      ctx.stroke()
+    }
+    
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(padding, originY)
+    ctx.lineTo(width - padding, originY)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(originX, padding)
+    ctx.lineTo(originX, canvasHeight - padding)
+    ctx.stroke()
+    
+    // 箭头
+    ctx.beginPath()
+    ctx.moveTo(width - padding, originY)
+    ctx.lineTo(width - padding - 10, originY - 5)
+    ctx.lineTo(width - padding - 10, originY + 5)
+    ctx.closePath()
+    ctx.fillStyle = '#5D4037'
+    ctx.fill()
+    ctx.beginPath()
+    ctx.moveTo(originX, padding)
+    ctx.lineTo(originX - 5, padding + 10)
+    ctx.lineTo(originX + 5, padding + 10)
+    ctx.closePath()
+    ctx.fill()
+    
+    // 绘制刻度
+    ctx.font = '12px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.textAlign = 'center'
+    for (let x = Math.ceil(a); x <= Math.floor(b) + 1; x++) {
+      const px = originX + x * scaleX
+      if (px >= padding && px <= width - padding) {
+        ctx.fillText(`${x}`, px, originY + 20)
+      }
+    }
+    ctx.fillText('x', width - padding - 5, originY - 15)
+    ctx.fillText('y', originX + 15, padding + 5)
+    
+    // 绘制函数曲线 y = x²
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    let firstPoint = true
+    for (let px = padding; px <= width - padding; px++) {
+      const x = (px - originX) / scaleX
+      if (x >= a - 0.5 && x <= b + 0.5) {
+        const y = f(x)
+        const py = originY - y * scaleY
+        if (py > padding - 20 && py < canvasHeight - padding + 20) {
+          if (firstPoint) {
+            ctx.moveTo(px, py)
+            firstPoint = false
+          } else {
+            ctx.lineTo(px, py)
+          }
+        }
+      }
+    }
+    ctx.stroke()
+    
+    // 计算黎曼和（使用中点法）
+    const dx = (b - a) / n
+    let riemannSum = 0
+    
+    // 绘制黎曼和矩形（填充）
+    for (let i = 0; i < n; i++) {
+      const xLeft = a + i * dx
+      const xRight = xLeft + dx
+      const xMid = (xLeft + xRight) / 2  // 中点法
+      const yMid = f(xMid)
+      riemannSum += yMid * dx
+      
+      // 矩形位置
+      const pxLeft = originX + xLeft * scaleX
+      const pxRight = originX + xRight * scaleX
+      const pyTop = originY - yMid * scaleY
+      
+      // 填充矩形
+      ctx.fillStyle = 'rgba(33, 150, 243, 0.4)'
+      ctx.fillRect(pxLeft, pyTop, pxRight - pxLeft, originY - pyTop)
+      
+      // 矩形边框
+      ctx.strokeStyle = '#1976D2'
+      ctx.lineWidth = 1.5
+      ctx.strokeRect(pxLeft, pyTop, pxRight - pxLeft, originY - pyTop)
+    }
+    
+    // 绘制积分区域边界线
+    ctx.strokeStyle = '#FF9800'
+    ctx.lineWidth = 2
+    ctx.setLineDash([5, 5])
+    const paX = originX + a * scaleX
+    const pbX = originX + b * scaleX
+    ctx.beginPath()
+    ctx.moveTo(paX, originY)
+    ctx.lineTo(paX, originY - f(a) * scaleY)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(pbX, originY)
+    ctx.lineTo(pbX, originY - f(b) * scaleY)
+    ctx.stroke()
+    ctx.setLineDash([])
+    
+    // 计算精确积分值
+    const exactValue = (b * b * b - a * a * a) / 3  // ∫x²dx = x³/3
+    
+    // 显示信息
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.textAlign = 'left'
+    ctx.fillText('定积分的黎曼和逼近', 20, 35)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#1976D2'
+    ctx.fillText(`分割数 n = ${n}`, 20, 60)
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText(`区间 [${a.toFixed(1)}, ${b.toFixed(1)}]`, 20, 85)
+    
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`黎曼和 S = ${riemannSum.toFixed(4)}`, 200, 60)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText(`精确值 ∫ = ${exactValue.toFixed(4)}`, 200, 85)
+    ctx.fillStyle = '#FF9800'
+    ctx.fillText(`误差 = ${Math.abs(riemannSum - exactValue).toFixed(6)}`, 380, 60)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('∫ₐᵇ f(x)dx = lim Σ f(ξᵢ)Δx', 20, canvasHeight + 30)
+    ctx.fillStyle = '#1976D2'
+    ctx.fillText(`Δx = ${dx.toFixed(4)}`, 250, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('f(x) = x²', 380, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('n→∞时黎曼和→精确值', 480, canvasHeight + 30)
   }, [modelState.params])
 
   // 绘制不定积分
@@ -1809,7 +2002,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText('分部积分: 把难积的转化为易积的', 20, canvasHeight + 30)
     ctx.fillStyle = '#558B2F'
     ctx.fillText('"反对幂三指" 选择u', 320, canvasHeight + 30)
-  }, [])
+  }, [modelState.params])
 
   // 二重积分可视化
   // 3D投影辅助函数
@@ -2382,7 +2575,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText('第二型曲线积分: 力沿曲线做功', 20, canvasHeight + 30)
     ctx.fillStyle = '#1565C0'
     ctx.fillText('∮ F·dr = 2πR² (格林公式)', 320, canvasHeight + 30)
-  }, [])
+  }, [modelState.params])
 
   // 第一型曲面积分立体可视化
   const drawSurfaceIntegralType1 = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
@@ -2557,7 +2750,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText('M = ∬_Σ ρ dS', 250, canvasHeight + 30)
     ctx.fillStyle = '#1565C0'
     ctx.fillText('球面积 = 4πR²', 420, canvasHeight + 30)
-  }, [])
+  }, [modelState.params])
 
   // 第二型曲面积分立体可视化
   const drawSurfaceIntegralType2 = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
@@ -2756,13 +2949,17 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText('div F = 3', 200, canvasHeight + 30)
     ctx.fillStyle = '#1565C0'
     ctx.fillText('∯F·dS = 3 × (4πR³/3) = 4π', 300, canvasHeight + 30)
-  }, [])
+  }, [modelState.params])
 
   // 级数审敛法可视化
   const drawSeriesConvergence = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
     const centerX = width / 2
     const centerY = height / 2
     const scale = Math.min(width, height) / 3
+
+    // 获取动态参数
+    const maxN = Math.floor(getParam('n', 20))
+    const r = getParam('r', 0.5)
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -2788,17 +2985,22 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText('n', width - 25, centerY - 10)
     ctx.fillText('Sₙ', centerX + 10, 35)
 
-    // 绘制几何级数部分和（r=0.5收敛）
-    const r = 0.5
+    // 动态计算点间距
+    const pointSpacing = Math.min(40, (width - 80) / (maxN + 2))
+
+    // 绘制几何级数部分和
+    const isConvergent = Math.abs(r) < 1
+    const limit = isConvergent ? 1 / (1 - r) : null
+    
     ctx.strokeStyle = '#C62828'
     ctx.lineWidth = 3
     ctx.beginPath()
     
     let sum = 0
-    for (let n = 0; n <= 15; n++) {
+    for (let n = 0; n <= maxN; n++) {
       sum += Math.pow(r, n)
-      const x = centerX + n * 40
-      const y = centerY - sum * scale * 1.2
+      const x = centerX + n * pointSpacing
+      const y = centerY - sum * scale * 0.8
       
       if (n === 0) {
         ctx.moveTo(x, y)
@@ -2806,39 +3008,42 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
         ctx.lineTo(x, y)
       }
       
-      // 绘制点
-      ctx.fillStyle = '#C62828'
+      // 绘制点，当前点更大
+      ctx.fillStyle = n === maxN ? '#FF5722' : '#C62828'
       ctx.beginPath()
-      ctx.arc(x, y, 5, 0, Math.PI * 2)
+      ctx.arc(x, y, n === maxN ? 8 : 5, 0, Math.PI * 2)
       ctx.fill()
     }
     ctx.stroke()
 
-    // 绘制收敛线 S = 1/(1-r) = 2
-    ctx.strokeStyle = '#1565C0'
-    ctx.lineWidth = 2
-    ctx.setLineDash([8, 4])
-    const limitY = centerY - 2 * scale * 1.2
-    ctx.beginPath()
-    ctx.moveTo(40, limitY)
-    ctx.lineTo(width - 20, limitY)
-    ctx.stroke()
-    ctx.setLineDash([])
+    // 绘制收敛/发散线
+    if (isConvergent && limit !== null) {
+      ctx.strokeStyle = '#1565C0'
+      ctx.lineWidth = 2
+      ctx.setLineDash([8, 4])
+      const limitY = centerY - limit * scale * 0.8
+      ctx.beginPath()
+      ctx.moveTo(40, limitY)
+      ctx.lineTo(width - 20, limitY)
+      ctx.stroke()
+      ctx.setLineDash([])
 
-    ctx.fillStyle = '#1565C0'
-    ctx.font = 'bold 14px "Noto Serif SC", serif'
-    ctx.fillText('S = 2 (极限)', width - 120, limitY - 10)
+      ctx.fillStyle = '#1565C0'
+      ctx.font = 'bold 14px "Noto Serif SC", serif'
+      ctx.fillText(`S = ${limit.toFixed(2)} (极限)`, width - 140, limitY - 10)
+    }
 
-    // 绘制调和级数部分和（发散）
+    // 绘制调和级数对比（发散）
     ctx.strokeStyle = '#2E7D32'
     ctx.lineWidth = 2
     ctx.beginPath()
     
     let harmonicSum = 0
-    for (let n = 1; n <= 10; n++) {
+    const harmonicN = Math.min(maxN, 20)
+    for (let n = 1; n <= harmonicN; n++) {
       harmonicSum += 1 / n
-      const x = centerX + n * 40
-      const y = centerY - harmonicSum * scale * 0.6
+      const x = centerX + n * pointSpacing
+      const y = centerY - harmonicSum * scale * 0.4
       
       if (n === 1) {
         ctx.moveTo(x, y)
@@ -2853,23 +3058,41 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     }
     ctx.stroke()
 
+    // 动态信息显示
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`当前项数: n = ${maxN}`, 60, 50)
+    ctx.fillText(`公比: r = ${r.toFixed(1)}`, 60, 75)
+    ctx.fillText(`部分和: Sₙ = ${sum.toFixed(3)}`, 60, 100)
+
     // 图例
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#C62828'
-    ctx.fillText('● 几何级数 Σ(0.5)ⁿ 收敛', 60, height - 50)
+    ctx.fillText(`● 几何级数 Σ(${r.toFixed(1)})ⁿ ${isConvergent ? '收敛' : '发散'}`, 60, height - 50)
     ctx.fillStyle = '#2E7D32'
     ctx.fillText('● 调和级数 Σ1/n 发散', 60, height - 30)
     
     ctx.fillStyle = '#5D4037'
     ctx.fillText('比值审敛法: lim|uₙ₊₁/uₙ| = ρ', 280, height - 50)
-    ctx.fillText('ρ < 1 收敛, ρ > 1 发散', 280, height - 30)
-  }, [])
+    ctx.fillText(`ρ = |r| = ${Math.abs(r).toFixed(1)} ${isConvergent ? '< 1 收敛' : '≥ 1 发散'}`, 280, height - 30)
+  }, [modelState.params])
 
   // 幂级数可视化
   const drawPowerSeries = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
     const centerX = width / 2
     const centerY = height / 2
     const scale = Math.min(width, height) / 5
+
+    // 获取动态参数
+    const currentOrder = Math.floor(getParam('n', 5))
+
+    // 辅助函数：阶乘
+    const factorial = (n: number): number => {
+      if (n <= 1) return 1
+      let result = 1
+      for (let i = 2; i <= n; i++) result *= i
+      return result
+    }
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -2892,7 +3115,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
 
     // 绘制真实函数 e^x
     ctx.strokeStyle = '#5D4037'
-    ctx.lineWidth = 2
+    ctx.lineWidth = 3
     ctx.beginPath()
     for (let px = 30; px < width - 20; px++) {
       const x = (px - centerX) / scale
@@ -2907,18 +3130,16 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     }
     ctx.stroke()
 
-    // 绘制不同阶数的幂级数逼近
-    const colors = ['#E91E63', '#9C27B0', '#3F51B5', '#009688']
-    const orders = [1, 3, 5, 7]
-    
-    orders.forEach((order, idx) => {
-      ctx.strokeStyle = colors[idx]
-      ctx.lineWidth = 2
+    // 绘制历史逼近（低阶，淡色）
+    const historyColors = ['#FFCDD2', '#E1BEE7', '#C5CAE9', '#B2DFDB']
+    for (let order = 1; order < currentOrder; order += 2) {
+      const colorIdx = Math.floor(order / 2) % historyColors.length
+      ctx.strokeStyle = historyColors[colorIdx]
+      ctx.lineWidth = 1
       ctx.beginPath()
       
       for (let px = 30; px < width - 20; px++) {
         const x = (px - centerX) / scale
-        // e^x 的泰勒展开: 1 + x + x²/2! + x³/3! + ...
         let y = 0
         for (let n = 0; n <= order; n++) {
           y += Math.pow(x, n) / factorial(n)
@@ -2932,38 +3153,71 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
         }
       }
       ctx.stroke()
-    })
-
-    // 辅助函数：阶乘
-    function factorial(n: number): number {
-      if (n <= 1) return 1
-      return n * factorial(n - 1)
     }
+
+    // 绘制当前阶数的幂级数逼近（高亮）
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    
+    for (let px = 30; px < width - 20; px++) {
+      const x = (px - centerX) / scale
+      let y = 0
+      for (let n = 0; n <= currentOrder; n++) {
+        y += Math.pow(x, n) / factorial(n)
+      }
+      const py = centerY - y * scale * 0.3
+      
+      if (px === 30) {
+        ctx.moveTo(px, Math.max(30, Math.min(height - 30, py)))
+      } else {
+        ctx.lineTo(px, Math.max(30, Math.min(height - 30, py)))
+      }
+    }
+    ctx.stroke()
+
+    // 动态信息显示
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText(`eˣ 的泰勒展开`, 60, 50)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`当前阶数: n = ${currentOrder}`, 60, 75)
+    
+    // 显示泰勒展开式
+    ctx.font = '14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    let expansion = 'eˣ ≈ '
+    for (let n = 0; n <= Math.min(currentOrder, 4); n++) {
+      expansion += n === 0 ? '1' : (n === 1 ? ' + x' : ` + x${n < 10 ? '⁰¹²³⁴⁵⁶⁷⁸⁹'[n] : `^${n}`}/${factorial(n)}`)
+    }
+    if (currentOrder > 4) expansion += ' + ...'
+    ctx.fillText(expansion, 60, 100)
 
     // 图例
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('eˣ = Σ xⁿ/n!', 60, height - 70)
-    
-    ctx.fillStyle = colors[0]
-    ctx.fillText('● n=1 线性', 60, height - 50)
-    ctx.fillStyle = colors[1]
-    ctx.fillText('● n=3 三阶', 60, height - 30)
-    ctx.fillStyle = colors[2]
-    ctx.fillText('● n=5 五阶', 200, height - 50)
-    ctx.fillStyle = colors[3]
-    ctx.fillText('● n=7 七阶', 200, height - 30)
+    ctx.fillText('—— eˣ 真实曲线', 60, height - 70)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`—— ${currentOrder}阶泰勒逼近`, 60, height - 50)
+    ctx.fillStyle = '#888'
+    ctx.fillText('---- 历史逼近（低阶）', 60, height - 30)
     
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('收敛半径 R = ∞', 350, height - 50)
-    ctx.fillText('在所有 x 处收敛', 350, height - 30)
-  }, [])
+    ctx.fillText('收敛半径 R = ∞', 300, height - 50)
+    ctx.fillText('项数越多，逼近越精确', 300, height - 30)
+  }, [modelState.params])
 
   // 傅里叶级数可视化
   const drawFourierSeries = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // 获取动态参数
+    const currentN = Math.floor(getParam('n', 3))
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2
-    const scale = Math.min(width, height) / 5
+    const centerY = canvasHeight / 2
+    const scale = Math.min(width, canvasHeight) / 5
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -2975,8 +3229,8 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.beginPath()
     ctx.moveTo(30, centerY)
     ctx.lineTo(width - 20, centerY)
-    ctx.moveTo(centerX, height - 30)
-    ctx.lineTo(centerX, 30)
+    ctx.moveTo(centerX, 30)
+    ctx.lineTo(centerX, canvasHeight - 10)
     ctx.stroke()
 
     ctx.font = '12px "Noto Serif SC", serif'
@@ -2988,7 +3242,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
 
     // 绘制方波（真实函数）
     ctx.strokeStyle = '#5D4037'
-    ctx.lineWidth = 2
+    ctx.lineWidth = 3
     ctx.beginPath()
     const period = 2 * Math.PI
     
@@ -3013,18 +3267,14 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     }
     ctx.stroke()
 
-    // 绘制傅里叶级数逼近
-    const colors = ['#E91E63', '#9C27B0', '#3F51B5', '#009688']
-    const nTerms = [1, 3, 5, 7]
-    
-    nTerms.forEach((n, idx) => {
-      ctx.strokeStyle = colors[idx]
-      ctx.lineWidth = 2
+    // 绘制历史逼近（淡色）
+    for (let n = 1; n < currentN; n += 2) {
+      ctx.strokeStyle = `rgba(229, 57, 53, ${0.1 + (n / currentN) * 0.3})`
+      ctx.lineWidth = 1
       ctx.beginPath()
       
       for (let px = 30; px < width - 20; px++) {
         const x = (px - centerX) / scale
-        // 方波傅里叶级数: 4/π * (sin x + sin 3x/3 + sin 5x/5 + ...)
         let y = 0
         for (let k = 0; k < n; k++) {
           const term = 2 * k + 1
@@ -3041,32 +3291,94 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
         }
       }
       ctx.stroke()
-    })
+    }
 
-    // 图例
+    // 绘制当前傅里叶级数逼近（高亮）
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    
+    for (let px = 30; px < width - 20; px++) {
+      const x = (px - centerX) / scale
+      // 方波傅里叶级数: 4/π * (sin x + sin 3x/3 + sin 5x/5 + ...)
+      let y = 0
+      for (let k = 0; k < currentN; k++) {
+        const term = 2 * k + 1
+        y += Math.sin(term * x) / term
+      }
+      y *= 4 / Math.PI
+      
+      const py = centerY - y * scale * 0.8
+      
+      if (px === 30) {
+        ctx.moveTo(px, py)
+      } else {
+        ctx.lineTo(px, py)
+      }
+    }
+    ctx.stroke()
+
+    // 动态信息显示
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('方波的傅里叶级数逼近', 60, 50)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`当前谐波数: ${currentN} 项`, 60, 75)
+    
+    // 显示展开式
+    ctx.font = '14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    let expansion = 'f(x) = 4/π ('
+    for (let k = 0; k < Math.min(currentN, 3); k++) {
+      const term = 2 * k + 1
+      expansion += k === 0 ? `sin ${term}x/${term}` : ` + sin ${term}x/${term}`
+    }
+    if (currentN > 3) expansion += ' + ...'
+    expansion += ')'
+    ctx.fillText(expansion, 60, 100)
+
+    // 吉布斯现象说明
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('方波 = 4/π (sin x + sin 3x/3 + sin 5x/5 + ...)', 60, height - 70)
+    ctx.fillText('—— 方波（原函数）', 60, canvasHeight - 90)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`—— ${currentN}项傅里叶逼近`, 60, canvasHeight - 70)
+    ctx.fillStyle = '#888'
+    ctx.fillText('---- 历史逼近（少项）', 60, canvasHeight - 50)
     
-    ctx.fillStyle = colors[0]
-    ctx.fillText('● n=1 基波', 60, height - 50)
-    ctx.fillStyle = colors[1]
-    ctx.fillText('● n=3', 60, height - 30)
-    ctx.fillStyle = colors[2]
-    ctx.fillText('● n=5', 200, height - 50)
-    ctx.fillStyle = colors[3]
-    ctx.fillText('● n=7', 200, height - 30)
-    
+    ctx.fillStyle = '#FF9800'
+    ctx.fillText('⚠️ 吉布斯现象：间断点约9%过冲', 280, canvasHeight - 70)
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('狄利克雷定理保证收敛', 350, height - 50)
-    ctx.fillText('间断点收敛于中点', 350, height - 30)
-  }, [])
+    ctx.fillText('狄利克雷定理保证收敛', 280, canvasHeight - 50)
+    ctx.fillText('间断点收敛于左右极限中点', 280, canvasHeight - 30)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('谐波数越多，逼近越精确', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('项数越多，计算越复杂', 250, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('实际应用中取适当项数即可', 450, canvasHeight + 30)
+  }, [modelState.params])
 
   // 向量及其运算可视化
   const drawVectorOperations = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2
-    const scale = Math.min(width, height) / 5
+    const centerY = canvasHeight / 2
+    const scale = Math.min(width, canvasHeight) / 5
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -3180,23 +3492,44 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     // 图例
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#C62828'
-    ctx.fillText('a⃗ = (2, 1, 1)', 50, height - 70)
+    ctx.fillText('a⃗ = (2, 1, 1)', 50, canvasHeight - 70)
     ctx.fillStyle = '#2E7D32'
-    ctx.fillText('b⃗ = (1, 2, 1)', 50, height - 50)
+    ctx.fillText('b⃗ = (1, 2, 1)', 50, canvasHeight - 50)
     ctx.fillStyle = '#6A1B9A'
-    ctx.fillText('a⃗×b⃗ = (-1, 1, 3)', 50, height - 30)
+    ctx.fillText('a⃗×b⃗ = (-1, 1, 3)', 50, canvasHeight - 30)
     
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('点积: a⃗·b⃗ = 2+2+1 = 5', 220, height - 70)
-    ctx.fillText('夹角: cosθ = 5/(√6·√6) = 5/6', 220, height - 50)
-    ctx.fillText('|a⃗×b⃗| = √11 (平行四边形面积)', 220, height - 30)
-  }, [])
+    ctx.fillText('点积: a⃗·b⃗ = 2+2+1 = 5', 220, canvasHeight - 70)
+    ctx.fillText('夹角: cosθ = 5/(√6·√6) = 5/6', 220, canvasHeight - 50)
+    ctx.fillText('|a⃗×b⃗| = √11 (平行四边形面积)', 220, canvasHeight - 30)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('向量运算: 点积·叉积×', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('点积结果为标量', 220, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('叉积结果为向量', 380, canvasHeight + 30)
+  }, [modelState.params])
 
   // 平面与直线可视化
   const drawPlaneAndLine = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2
-    const scale = Math.min(width, height) / 5
+    const centerY = canvasHeight / 2
+    const scale = Math.min(width, canvasHeight) / 5
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -3301,15 +3634,33 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     // 图例
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#1565C0'
-    ctx.fillText('平面: x + y + z = 2', 50, height - 70)
+    ctx.fillText('平面: x + y + z = 2', 50, canvasHeight - 70)
     ctx.fillStyle = '#C62828'
-    ctx.fillText('法向量: n⃗ = (1, 1, 1)', 50, height - 50)
+    ctx.fillText('法向量: n⃗ = (1, 1, 1)', 50, canvasHeight - 50)
     ctx.fillStyle = '#2E7D32'
-    ctx.fillText('直线: (x-1)/1 = (y-1)/-1 = (z-1)/1', 50, height - 30)
+    ctx.fillText('直线: (x-1)/1 = (y-1)/-1 = (z-1)/1', 50, canvasHeight - 30)
     
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('点P到平面距离: |1+1+1-2|/√3 = 1/√3', 280, height - 50)
-  }, [])
+    ctx.fillText('点P到平面距离: |1+1+1-2|/√3 = 1/√3', 280, canvasHeight - 50)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('空间解析几何: 平面与直线', 20, canvasHeight + 30)
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('平面法向量垂直于平面', 220, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('直线方向向量平行于直线', 420, canvasHeight + 30)
+  }, [modelState.params])
 
   // 空间曲面可视化
   const drawSurfaces = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
@@ -3588,9 +3939,16 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
 
   // 多元函数基本概念可视化
   const drawMultivariableBasic = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2 + 20
-    const scale = Math.min(width, height) / 5
+    const centerY = canvasHeight / 2 + 20
+    const scale = Math.min(width, canvasHeight) / 5
+
+    // 获取动态参数
+    const epsilon = getParam('epsilon', 0.5)
+    const delta = getParam('delta', 0.3)
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -3673,6 +4031,38 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       ctx.stroke()
     }
 
+    // 绘制δ邻域（在xy平面上的圆）
+    ctx.strokeStyle = '#FF9800'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    for (let angle = 0; angle <= Math.PI * 2; angle += 0.1) {
+      const x = delta * Math.cos(angle)
+      const y = delta * Math.sin(angle)
+      const p = project3D(x, y, 0)
+      if (angle === 0) {
+        ctx.moveTo(p.px, p.py)
+      } else {
+        ctx.lineTo(p.px, p.py)
+      }
+    }
+    ctx.stroke()
+    
+    // 填充δ邻域
+    ctx.fillStyle = 'rgba(255, 152, 0, 0.2)'
+    ctx.beginPath()
+    for (let angle = 0; angle <= Math.PI * 2; angle += 0.1) {
+      const x = delta * Math.cos(angle)
+      const y = delta * Math.sin(angle)
+      const p = project3D(x, y, 0)
+      if (angle === 0) {
+        ctx.moveTo(p.px, p.py)
+      } else {
+        ctx.lineTo(p.px, p.py)
+      }
+    }
+    ctx.closePath()
+    ctx.fill()
+
     // 绘制趋近路径演示
     ctx.strokeStyle = '#E53935'
     ctx.lineWidth = 3
@@ -3680,12 +4070,12 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     
     // 路径1：沿y=kx趋近
     ctx.beginPath()
-    for (let t = 2; t >= 0; t -= 0.1) {
+    for (let t = delta; t >= 0; t -= 0.05) {
       const x = t
       const y = t // k=1
       const z = x*x + y*y
       const p = project3D(x, y, z)
-      if (t === 2) {
+      if (t === delta) {
         ctx.moveTo(p.px, p.py)
       } else {
         ctx.lineTo(p.px, p.py)
@@ -3696,12 +4086,29 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     // 路径2：沿y轴趋近
     ctx.strokeStyle = '#4CAF50'
     ctx.beginPath()
-    for (let t = 2; t >= 0; t -= 0.1) {
+    for (let t = delta; t >= 0; t -= 0.05) {
       const x = 0
       const y = t
       const z = x*x + y*y
       const p = project3D(x, y, z)
-      if (t === 2) {
+      if (t === delta) {
+        ctx.moveTo(p.px, p.py)
+      } else {
+        ctx.lineTo(p.px, p.py)
+      }
+    }
+    ctx.stroke()
+    
+    // 路径3：螺旋趋近
+    ctx.strokeStyle = '#9C27B0'
+    ctx.beginPath()
+    for (let angle = 0; angle <= Math.PI * 4; angle += 0.2) {
+      const r = delta * (1 - angle / (Math.PI * 4))
+      const x = r * Math.cos(angle)
+      const y = r * Math.sin(angle)
+      const z = x*x + y*y
+      const p = project3D(x, y, z)
+      if (angle === 0) {
         ctx.moveTo(p.px, p.py)
       } else {
         ctx.lineTo(p.px, p.py)
@@ -3729,29 +4136,65 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.textAlign = 'center'
     ctx.fillText('多元函数极限的路径问题', width / 2, 35)
 
-    ctx.font = '14px "Noto Serif SC", serif'
-    ctx.fillStyle = '#5D4037'
+    // 动态信息显示
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
     ctx.textAlign = 'left'
+    ctx.fillStyle = '#FF9800'
+    ctx.fillText(`δ邻域半径: ${delta.toFixed(2)}`, 20, 60)
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText(`ε精度要求: ${epsilon.toFixed(2)}`, 20, 85)
     
     // 图例
+    ctx.font = '14px "Noto Serif SC", serif'
     ctx.fillStyle = '#E53935'
-    ctx.fillText('● 路径 y = x', 20, height - 60)
+    ctx.fillText('● 路径 y = x', 20, canvasHeight - 80)
     ctx.fillStyle = '#4CAF50'
-    ctx.fillText('● 路径 x = 0', 20, height - 40)
+    ctx.fillText('● 路径 x = 0', 20, canvasHeight - 60)
+    ctx.fillStyle = '#9C27B0'
+    ctx.fillText('● 螺旋路径', 20, canvasHeight - 40)
+    ctx.fillStyle = '#FF9800'
+    ctx.fillText('● δ邻域范围', 140, canvasHeight - 80)
     
     ctx.fillStyle = '#1565C0'
-    ctx.fillText('曲面 z = x² + y²', 150, height - 50)
+    ctx.fillText('曲面 z = x² + y²', 140, canvasHeight - 60)
     
     ctx.fillStyle = '#C62828'
     ctx.textAlign = 'center'
-    ctx.fillText('极限点：所有路径趋近同一点', width / 2, height - 20)
-  }, [])
+    ctx.fillText(`极限存在：所有路径趋近同一点 L=0`, width / 2, canvasHeight - 20)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('多元函数极限: 所有路径趋于同一点', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('δ-ε定义验证极限', 280, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('连续性条件', 450, canvasHeight + 30)
+  }, [modelState.params])
 
   // 偏导数与全微分可视化
   const drawPartialDerivative = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2 + 20
-    const scale = Math.min(width, height) / 6
+    const centerY = canvasHeight / 2 + 20
+    const scale = Math.min(width, canvasHeight) / 6
+
+    // 获取动态参数
+    const x0 = getParam('x0', 1)
+    const y0 = getParam('y0', 1)
+    const z0 = x0 * x0 + y0 * y0 // z = x² + y²
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -3822,45 +4265,57 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       ctx.stroke()
     }
 
-    // 绘制点 (1, 1, 2)
-    const pointP = project3D(1, 1, 0.6)
+    // 绘制当前点 (x0, y0, z0)
+    const pointP = project3D(x0, y0, z0 * 0.3)
     ctx.fillStyle = '#C62828'
     ctx.beginPath()
-    ctx.arc(pointP.px, pointP.py, 6, 0, Math.PI * 2)
+    ctx.arc(pointP.px, pointP.py, 8, 0, Math.PI * 2)
     ctx.fill()
-    ctx.fillText('P(1,1,2)', pointP.px + 10, pointP.py - 5)
+    ctx.fillStyle = '#C62828'
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillText(`P(${x0.toFixed(1)}, ${y0.toFixed(1)}, ${z0.toFixed(1)})`, pointP.px + 10, pointP.py - 5)
+
+    // 计算偏导数 ∂z/∂x = 2x, ∂z/∂y = 2y
+    const dzdx = 2 * x0
+    const dzdy = 2 * y0
 
     // 绘制偏导数对应的切线
-    // ∂z/∂x 方向：固定 y=1，z = x² + 1
+    // ∂z/∂x 方向：固定 y=y0，z = x² + y0²
     ctx.strokeStyle = '#C62828'
-    ctx.lineWidth = 3
+    ctx.lineWidth = 4
     ctx.beginPath()
-    const t1 = project3D(0.5, 1, 0.35)
-    const t2 = project3D(1.5, 1, 0.85)
-    ctx.moveTo(t1.px, t1.py)
-    ctx.lineTo(t2.px, t2.py)
+    const tx1 = project3D(x0 - 0.5, y0, (z0 - dzdx * 0.5) * 0.3)
+    const tx2 = project3D(x0 + 0.5, y0, (z0 + dzdx * 0.5) * 0.3)
+    ctx.moveTo(tx1.px, tx1.py)
+    ctx.lineTo(tx2.px, tx2.py)
     ctx.stroke()
 
-    // ∂z/∂y 方向：固定 x=1，z = 1 + y²
+    // ∂z/∂y 方向：固定 x=x0，z = x0² + y²
     ctx.strokeStyle = '#2E7D32'
-    ctx.lineWidth = 3
+    ctx.lineWidth = 4
     ctx.beginPath()
-    const t3 = project3D(1, 0.5, 0.35)
-    const t4 = project3D(1, 1.5, 0.85)
-    ctx.moveTo(t3.px, t3.py)
-    ctx.lineTo(t4.px, t4.py)
+    const ty1 = project3D(x0, y0 - 0.5, (z0 - dzdy * 0.5) * 0.3)
+    const ty2 = project3D(x0, y0 + 0.5, (z0 + dzdy * 0.5) * 0.3)
+    ctx.moveTo(ty1.px, ty1.py)
+    ctx.lineTo(ty2.px, ty2.py)
     ctx.stroke()
 
     // 绘制切平面
+    // 切平面方程：z - z0 = 2x0(x-x0) + 2y0(y-y0)
     ctx.fillStyle = 'rgba(255, 152, 0, 0.3)'
     ctx.strokeStyle = '#FF8F00'
     ctx.lineWidth = 2
     
-    // 切平面方程：z - 2 = 2(x-1) + 2(y-1)，即 z = 2x + 2y - 2
-    const tp1 = project3D(0.5, 0.5, 0.15)
-    const tp2 = project3D(1.5, 0.5, 0.45)
-    const tp3 = project3D(1.5, 1.5, 0.75)
-    const tp4 = project3D(0.5, 1.5, 0.45)
+    const planeSize = 0.5
+    const z00 = z0 - dzdx * planeSize - dzdy * planeSize
+    const z10 = z0 + dzdx * planeSize - dzdy * planeSize
+    const z11 = z0 + dzdx * planeSize + dzdy * planeSize
+    const z01 = z0 - dzdx * planeSize + dzdy * planeSize
+    
+    const tp1 = project3D(x0 - planeSize, y0 - planeSize, z00 * 0.3)
+    const tp2 = project3D(x0 + planeSize, y0 - planeSize, z10 * 0.3)
+    const tp3 = project3D(x0 + planeSize, y0 + planeSize, z11 * 0.3)
+    const tp4 = project3D(x0 - planeSize, y0 + planeSize, z01 * 0.3)
     
     ctx.beginPath()
     ctx.moveTo(tp1.px, tp1.py)
@@ -3871,25 +4326,60 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fill()
     ctx.stroke()
 
+    // 动态信息显示
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.textAlign = 'left'
+    ctx.fillText('偏导数与切平面', 20, 50)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`∂z/∂x = 2x₀ = ${dzdx.toFixed(2)}`, 20, 80)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText(`∂z/∂y = 2y₀ = ${dzdy.toFixed(2)}`, 20, 105)
+
     // 图例
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('曲面: z = x² + y²', 50, height - 70)
+    ctx.fillText('曲面: z = x² + y²', 50, canvasHeight - 90)
     ctx.fillStyle = '#C62828'
-    ctx.fillText('∂z/∂x = 2x (在P点为2)', 50, height - 50)
+    ctx.fillText(`∂z/∂x = 2x = ${dzdx.toFixed(2)}`, 50, canvasHeight - 70)
     ctx.fillStyle = '#2E7D32'
-    ctx.fillText('∂z/∂y = 2y (在P点为2)', 50, height - 30)
+    ctx.fillText(`∂z/∂y = 2y = ${dzdy.toFixed(2)}`, 50, canvasHeight - 50)
     
     ctx.fillStyle = '#FF8F00'
-    ctx.fillText('切平面: z = 2x + 2y - 2', 280, height - 50)
+    const tangentPlaneEq = `切平面: z = ${z0.toFixed(1)} + ${dzdx.toFixed(1)}(x-${x0.toFixed(1)}) + ${dzdy.toFixed(1)}(y-${y0.toFixed(1)})`
+    ctx.fillText(tangentPlaneEq.length > 35 ? '切平面方程（见上方）' : tangentPlaneEq, 280, canvasHeight - 70)
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('dz = 2dx + 2dy', 280, height - 30)
-  }, [])
+    ctx.fillText(`dz = ${dzdx.toFixed(1)}dx + ${dzdy.toFixed(1)}dy`, 280, canvasHeight - 50)
+    ctx.fillText('全微分 = 线性主部', 280, canvasHeight - 30)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('偏导数: 固定其他变量对某一变量求导', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('切平面: 曲面的线性逼近', 300, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('全微分: dz = ∂z/∂x dx + ∂z/∂y dy', 500, canvasHeight + 30)
+  }, [modelState.params])
 
   // 复合函数与隐函数求导可视化
   const drawCompositeImplicit = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2
+    const centerY = canvasHeight / 2
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -3975,20 +4465,44 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.font = 'bold 14px "Noto Serif SC", serif'
     ctx.fillStyle = '#1565C0'
     ctx.textAlign = 'left'
-    ctx.fillText('链式法则:', 50, height - 100)
+    ctx.fillText('链式法则:', 50, canvasHeight - 100)
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('∂z/∂x = (∂z/∂u)(∂u/∂x) + (∂z/∂v)(∂v/∂x)', 50, height - 75)
-    ctx.fillText('∂z/∂y = (∂z/∂u)(∂u/∂y) + (∂z/∂v)(∂v/∂y)', 50, height - 50)
+    ctx.fillText('∂z/∂x = (∂z/∂u)(∂u/∂x) + (∂z/∂v)(∂v/∂x)', 50, canvasHeight - 75)
+    ctx.fillText('∂z/∂y = (∂z/∂u)(∂u/∂y) + (∂z/∂v)(∂v/∂y)', 50, canvasHeight - 50)
     
     ctx.fillStyle = '#C62828'
-    ctx.fillText('隐函数求导: F(x,y,z)=0 → ∂z/∂x = -Fx/Fz', 50, height - 25)
-  }, [])
+    ctx.fillText('隐函数求导: F(x,y,z)=0 → ∂z/∂x = -Fx/Fz', 50, canvasHeight - 25)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('复合函数链式法则: 分段相乘、分线相加', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('隐函数: 由方程确定的函数', 320, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('多元隐函数同理', 520, canvasHeight + 30)
+  }, [modelState.params])
 
   // 方向导数与梯度可视化
   const drawDirectionalGradient = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2
-    const scale = Math.min(width, height) / 5
+    const centerY = canvasHeight / 2
+    const scale = Math.min(width, canvasHeight) / 5
+
+    // 获取动态参数 - 方向角
+    const angle = getParam('angle', 0)
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -4052,8 +4566,10 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fill()
     ctx.fillText('∇f = (2,2)', px + gradX * scale * 0.4 + 10, py - gradY * scale * 0.4)
 
-    // 绘制另一个方向 l
-    const lAngle = Math.PI / 3
+    // 绘制方向 l（使用动态角度）
+    // 梯度方向是45度（π/4），所以angle是相对于梯度方向的偏移
+    const gradientAngle = Math.PI / 4 // 梯度方向（45度）
+    const lAngle = gradientAngle + angle // 实际方向角
     const lx = Math.cos(lAngle)
     const ly = Math.sin(lAngle)
     
@@ -4069,25 +4585,786 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillStyle = '#2E7D32'
     ctx.fillText('l', px + lx * scale * 1.5 + 5, py - ly * scale * 1.5)
 
+    // 计算方向导数
+    // ∂f/∂l = ∇f · l⁰ = (2,2)·(cos lAngle, sin lAngle) = 2*cos lAngle + 2*sin lAngle
+    const directionalDerivative = 2 * lx + 2 * ly
+    const cosTheta = (gradX * lx + gradY * ly) / gradLen // cos(θ)，θ为梯度与l夹角
+
+    // 动态信息显示
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText('方向导数与梯度', 20, 50)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText(`方向角 θ = ${(angle * 180 / Math.PI).toFixed(1)}°`, 20, 80)
+    ctx.fillStyle = '#FF9800'
+    ctx.fillText(`方向导数 ∂f/∂l = ${directionalDerivative.toFixed(3)}`, 20, 105)
+
     // 图例
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#C62828'
-    ctx.fillText('梯度 ∇f 指向增大最快方向', 50, height - 70)
+    ctx.fillText('梯度 ∇f 指向增大最快方向', 50, canvasHeight - 90)
     ctx.fillStyle = '#2E7D32'
-    ctx.fillText('方向导数 ∂f/∂l = ∇f · l⁰', 50, height - 50)
+    ctx.fillText('方向导数 ∂f/∂l = ∇f · l⁰', 50, canvasHeight - 70)
     ctx.fillStyle = '#1565C0'
-    ctx.fillText('等值线 f = c（梯度垂直于等值线）', 50, height - 30)
+    ctx.fillText('等值线 f = c（梯度垂直于等值线）', 50, canvasHeight - 50)
     
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('|∇f| = √8 ≈ 2.83（最大方向导数）', 300, height - 50)
-    ctx.fillText('∂f/∂l = √8·cosθ（θ为梯度与l夹角）', 300, height - 30)
-  }, [])
+    ctx.fillText(`|∇f| = √8 ≈ 2.83（最大方向导数）`, 300, canvasHeight - 90)
+    ctx.fillText(`cos θ = ${cosTheta.toFixed(3)}（θ为梯度与l夹角）`, 300, canvasHeight - 70)
+    ctx.fillText(`∂f/∂l = |∇f|·cos θ = ${(gradLen * cosTheta).toFixed(3)}`, 300, canvasHeight - 50)
+    
+    // 说明当前状态
+    ctx.fillStyle = '#FF9800'
+    if (Math.abs(directionalDerivative - gradLen) < 0.1) {
+      ctx.fillText('▶ 方向与梯度同向，方向导数最大', 300, canvasHeight - 30)
+    } else if (Math.abs(directionalDerivative) < 0.1) {
+      ctx.fillText('▶ 方向与梯度垂直，方向导数为零', 300, canvasHeight - 30)
+    } else if (directionalDerivative < 0) {
+      ctx.fillText('▶ 方向与梯度反向，方向导数最小（负）', 300, canvasHeight - 30)
+    } else {
+      ctx.fillText(`▶ 方向导数为正，但不是最大值`, 300, canvasHeight - 30)
+    }
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('方向导数: 函数沿某方向的变化率', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('梯度: 方向导数最大值的方向', 280, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('|∇f|: 最大变化率', 500, canvasHeight + 30)
+  }, [modelState.params])
+
+  // 行列式定义与性质可视化
+  const drawDeterminantDefinition = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // 获取动态参数
+    const a11 = getParam('a11', 2)
+    const a12 = getParam('a12', 1)
+    const a21 = getParam('a21', 1)
+    const a22 = getParam('a22', 2)
+    
+    // 清空画布
+    ctx.fillStyle = '#F4E4BC'
+    ctx.fillRect(0, 0, width, height)
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
+    const centerX = width / 2
+    const centerY = canvasHeight / 2 + 30
+    const scale = 60
+    
+    // 绘制网格
+    ctx.strokeStyle = 'rgba(196, 167, 125, 0.3)'
+    ctx.lineWidth = 1
+    for (let i = -5; i <= 5; i++) {
+      ctx.beginPath()
+      ctx.moveTo(centerX + i * scale, 30)
+      ctx.lineTo(centerX + i * scale, canvasHeight - 10)
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(30, centerY + i * scale)
+      ctx.lineTo(width - 30, centerY + i * scale)
+      ctx.stroke()
+    }
+    
+    // 绘制坐标轴
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(30, centerY)
+    ctx.lineTo(width - 30, centerY)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(centerX, 30)
+    ctx.lineTo(centerX, canvasHeight - 10)
+    ctx.stroke()
+    
+    // 箭头
+    ctx.beginPath()
+    ctx.moveTo(width - 30, centerY)
+    ctx.lineTo(width - 40, centerY - 5)
+    ctx.lineTo(width - 40, centerY + 5)
+    ctx.closePath()
+    ctx.fillStyle = '#5D4037'
+    ctx.fill()
+    ctx.beginPath()
+    ctx.moveTo(centerX, 30)
+    ctx.lineTo(centerX - 5, 40)
+    ctx.lineTo(centerX + 5, 40)
+    ctx.closePath()
+    ctx.fill()
+    
+    // 刻度
+    ctx.font = '12px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.textAlign = 'center'
+    for (let i = -4; i <= 4; i++) {
+      if (i !== 0) {
+        ctx.fillText(`${i}`, centerX + i * scale, centerY + 20)
+      }
+    }
+    ctx.fillText('x', width - 35, centerY - 15)
+    ctx.fillText('y', centerX + 15, 35)
+    
+    // 原点O
+    ctx.fillStyle = '#C62828'
+    ctx.beginPath()
+    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillText('O', centerX - 15, centerY + 15)
+    
+    // 绘制列向量 v1 = (a11, a21)
+    ctx.strokeStyle = '#C62828'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY)
+    ctx.lineTo(centerX + a11 * scale, centerY - a21 * scale)
+    ctx.stroke()
+    
+    // 向量箭头
+    const v1Len = Math.sqrt(a11 * a11 + a21 * a21)
+    const v1Angle = Math.atan2(-a21, a11)
+    if (v1Len > 0.1) {
+      ctx.fillStyle = '#C62828'
+      ctx.beginPath()
+      ctx.moveTo(centerX + a11 * scale, centerY - a21 * scale)
+      ctx.lineTo(centerX + a11 * scale - 12 * Math.cos(v1Angle - 0.3), centerY - a21 * scale - 12 * Math.sin(v1Angle - 0.3))
+      ctx.lineTo(centerX + a11 * scale - 12 * Math.cos(v1Angle + 0.3), centerY - a21 * scale - 12 * Math.sin(v1Angle + 0.3))
+      ctx.closePath()
+      ctx.fill()
+    }
+    
+    // 绘制列向量 v2 = (a12, a22)
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY)
+    ctx.lineTo(centerX + a12 * scale, centerY - a22 * scale)
+    ctx.stroke()
+    
+    const v2Len = Math.sqrt(a12 * a12 + a22 * a22)
+    const v2Angle = Math.atan2(-a22, a12)
+    if (v2Len > 0.1) {
+      ctx.fillStyle = '#2E7D32'
+      ctx.beginPath()
+      ctx.moveTo(centerX + a12 * scale, centerY - a22 * scale)
+      ctx.lineTo(centerX + a12 * scale - 12 * Math.cos(v2Angle - 0.3), centerY - a22 * scale - 12 * Math.sin(v2Angle - 0.3))
+      ctx.lineTo(centerX + a12 * scale - 12 * Math.cos(v2Angle + 0.3), centerY - a22 * scale - 12 * Math.sin(v2Angle + 0.3))
+      ctx.closePath()
+      ctx.fill()
+    }
+    
+    // 绘制平行四边形（填充）
+    const det = a11 * a22 - a12 * a21
+    ctx.fillStyle = det >= 0 ? 'rgba(33, 150, 243, 0.3)' : 'rgba(255, 152, 0, 0.3)'
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY)
+    ctx.lineTo(centerX + a11 * scale, centerY - a21 * scale)
+    ctx.lineTo(centerX + a11 * scale + a12 * scale, centerY - a21 * scale - a22 * scale)
+    ctx.lineTo(centerX + a12 * scale, centerY - a22 * scale)
+    ctx.closePath()
+    ctx.fill()
+    
+    ctx.strokeStyle = '#1976D2'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(centerX + a11 * scale, centerY - a21 * scale)
+    ctx.lineTo(centerX + a11 * scale + a12 * scale, centerY - a21 * scale - a22 * scale)
+    ctx.lineTo(centerX + a12 * scale, centerY - a22 * scale)
+    ctx.stroke()
+    
+    // 向量标签
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`v₁(${a11}, ${a21})`, centerX + a11 * scale + 15, centerY - a21 * scale - 10)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText(`v₂(${a12}, ${a22})`, centerX + a12 * scale + 15, centerY - a22 * scale + 5)
+    
+    // 显示信息
+    ctx.font = 'bold 16px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.textAlign = 'left'
+    ctx.fillText('行列式的几何意义：平行四边形面积', 20, 35)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText(`|A| = a₁₁a₂₂ - a₁₂a₂₁ = ${a11}×${a22} - ${a12}×${a21}`, 20, 60)
+    ctx.fillStyle = det >= 0 ? '#1976D2' : '#FF9800'
+    ctx.fillText(`|A| = ${det.toFixed(2)}`, 20, 85)
+    
+    // 状态说明
+    ctx.fillStyle = '#C62828'
+    if (Math.abs(det) < 0.01) {
+      ctx.fillText('⚠ 行列式≈0：两向量共线，平行四边形退化为线段！', 250, 60)
+    } else if (det > 0) {
+      ctx.fillText('✓ |A| > 0：平行四边形面积为正，方向不变', 250, 60)
+    } else {
+      ctx.fillText('✓ |A| < 0：平行四边形面积为正，但方向翻转', 250, 60)
+    }
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('面积 = |行列式| = ' + Math.abs(det).toFixed(2), 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`v₁ = (${a11}, ${a21})`, 220, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText(`v₂ = (${a12}, ${a22})`, 350, canvasHeight + 30)
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('调节滑块观察面积变化', 480, canvasHeight + 30)
+  }, [modelState.params])
+
+  // 行列式展开可视化
+  const drawDeterminantExpansion = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // 获取动态参数
+    const a11 = getParam('a11', 1)
+    const a12 = getParam('a12', 2)
+    const a13 = getParam('a13', 3)
+    const a21 = getParam('a21', 4)
+    const a22 = getParam('a22', 5)
+    const a23 = getParam('a23', 6)
+    const a31 = getParam('a31', 7)
+    const a32 = getParam('a32', 8)
+    const a33 = getParam('a33', 9)
+    
+    // 清空画布
+    ctx.fillStyle = '#F4E4BC'
+    ctx.fillRect(0, 0, width, height)
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
+    // 绘制三阶行列式矩阵
+    const matrixX = 60
+    const matrixY = 80
+    const cellW = 70
+    const cellH = 50
+    
+    // 绘制竖线
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(matrixX, matrixY)
+    ctx.lineTo(matrixX, matrixY + 3 * cellH)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(matrixX + 3 * cellW, matrixY)
+    ctx.lineTo(matrixX + 3 * cellW, matrixY + 3 * cellH)
+    ctx.stroke()
+    
+    // 绘制矩阵元素
+    ctx.font = 'bold 20px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    
+    const elements = [
+      [a11, a12, a13],
+      [a21, a22, a23],
+      [a31, a32, a33]
+    ]
+    
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        ctx.fillText(`${elements[i][j]}`, matrixX + j * cellW + cellW / 2, matrixY + i * cellH + cellH / 2)
+      }
+    }
+    
+    // 计算行列式值
+    const det = a11*a22*a33 + a12*a23*a31 + a13*a21*a32 - a13*a22*a31 - a12*a21*a33 - a11*a23*a32
+    
+    // 显示展开式
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('正项（主对角线方向）：', 320, 100)
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText(`+a₁₁a₂₂a₃₃ = ${a11}×${a22}×${a33} = ${a11*a22*a33}`, 320, 125)
+    ctx.fillText(`+a₁₂a₂₃a₃₁ = ${a12}×${a23}×${a31} = ${a12*a23*a31}`, 320, 150)
+    ctx.fillText(`+a₁₃a₂₁a₃₂ = ${a13}×${a21}×${a32} = ${a13*a21*a32}`, 320, 175)
+    
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('负项（副对角线方向）：', 320, 210)
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText(`-a₁₃a₂₂a₃₁ = -${a13}×${a22}×${a31} = ${-a13*a22*a31}`, 320, 235)
+    ctx.fillText(`-a₁₂a₂₁a₃₃ = -${a12}×${a21}×${a33} = ${-a12*a21*a33}`, 320, 260)
+    ctx.fillText(`-a₁₁a₂₃a₃₂ = -${a11}×${a23}×${a32} = ${-a11*a23*a32}`, 320, 285)
+    
+    // 显示结果
+    ctx.font = 'bold 18px "Noto Serif SC", serif'
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText(`|A| = ${det}`, matrixX + 3 * cellW + 30, matrixY + 1.5 * cellH)
+    
+    // 绘制沙路法则示意图
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.textAlign = 'left'
+    ctx.fillText('沙路法则：将前两列复制到右侧', 60, 280)
+    
+    // 复制的两列
+    const sandX = 60
+    const sandY = 300
+    const sandCellW = 35
+    const sandCellH = 30
+    
+    // 绘制5列
+    ctx.strokeStyle = '#888'
+    ctx.lineWidth = 1
+    for (let i = 0; i <= 5; i++) {
+      ctx.beginPath()
+      ctx.moveTo(sandX + i * sandCellW, sandY)
+      ctx.lineTo(sandX + i * sandCellW, sandY + 3 * sandCellH)
+      ctx.stroke()
+    }
+    for (let i = 0; i <= 3; i++) {
+      ctx.beginPath()
+      ctx.moveTo(sandX, sandY + i * sandCellH)
+      ctx.lineTo(sandX + 5 * sandCellW, sandY + i * sandCellH)
+      ctx.stroke()
+    }
+    
+    // 填充元素（前3列+复制的后2列）
+    ctx.font = '14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.textAlign = 'center'
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 5; j++) {
+        const val = elements[i][j % 3]
+        ctx.fillText(`${val}`, sandX + j * sandCellW + sandCellW / 2, sandY + i * sandCellH + sandCellH / 2)
+      }
+    }
+    
+    // 绘制主对角线方向的线（绿色）
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 2
+    for (let start = 0; start < 3; start++) {
+      ctx.beginPath()
+      ctx.moveTo(sandX + start * sandCellW + sandCellW / 2, sandY + sandCellH / 2)
+      ctx.lineTo(sandX + (start + 2) * sandCellW + sandCellW / 2, sandY + 2.5 * sandCellH)
+      ctx.stroke()
+    }
+    
+    // 绘制副对角线方向的线（红色）
+    ctx.strokeStyle = '#C62828'
+    for (let start = 0; start < 3; start++) {
+      ctx.beginPath()
+      ctx.moveTo(sandX + start * sandCellW + sandCellW / 2, sandY + 2.5 * sandCellH)
+      ctx.lineTo(sandX + (start + 2) * sandCellW + sandCellW / 2, sandY + sandCellH / 2)
+      ctx.stroke()
+    }
+    
+    // 图例
+    ctx.font = 'bold 12px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    ctx.strokeStyle = '#2E7D32'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(300, sandY + 15)
+    ctx.lineTo(330, sandY + 15)
+    ctx.stroke()
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('正项（主对角线方向）', 340, sandY + 20)
+    
+    ctx.strokeStyle = '#C62828'
+    ctx.beginPath()
+    ctx.moveTo(300, sandY + 40)
+    ctx.lineTo(330, sandY + 40)
+    ctx.stroke()
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('负项（副对角线方向）', 340, sandY + 45)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('三阶行列式：6个项的代数和', 20, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('正项：从左上到右下', 250, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('负项：从左下到右上', 420, canvasHeight + 30)
+  }, [modelState.params])
+
+  // 矩阵定义与运算可视化
+  const drawMatrixDefinition = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // 获取动态参数
+    const a11 = getParam('a11', 1)
+    const a12 = getParam('a12', 2)
+    const a21 = getParam('a21', 3)
+    const a22 = getParam('a22', 4)
+    const b11 = getParam('b11', 1)
+    const b12 = getParam('b12', 0)
+    const b21 = getParam('b21', 0)
+    const b22 = getParam('b22', 1)
+    
+    // 清空画布
+    ctx.fillStyle = '#F4E4BC'
+    ctx.fillRect(0, 0, width, height)
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
+    // 计算矩阵乘积
+    const c11 = a11 * b11 + a12 * b21
+    const c12 = a11 * b12 + a12 * b22
+    const c21 = a21 * b11 + a22 * b21
+    const c22 = a21 * b12 + a22 * b22
+    
+    // 绘制矩阵A
+    const matrixAX = 40
+    const matrixAY = 80
+    const cellW = 50
+    const cellH = 40
+    
+    // 矩阵A括号
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(matrixAX + 5, matrixAY)
+    ctx.lineTo(matrixAX, matrixAY)
+    ctx.lineTo(matrixAX, matrixAY + 2 * cellH)
+    ctx.lineTo(matrixAX + 5, matrixAY + 2 * cellH)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(matrixAX + 2 * cellW - 5, matrixAY)
+    ctx.lineTo(matrixAX + 2 * cellW, matrixAY)
+    ctx.lineTo(matrixAX + 2 * cellW, matrixAY + 2 * cellH)
+    ctx.lineTo(matrixAX + 2 * cellW - 5, matrixAY + 2 * cellH)
+    ctx.stroke()
+    
+    // 矩阵A元素
+    ctx.font = 'bold 18px "Noto Serif SC", serif'
+    ctx.fillStyle = '#C62828'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(`${a11}`, matrixAX + cellW / 2, matrixAY + cellH / 2)
+    ctx.fillText(`${a12}`, matrixAX + cellW + cellW / 2, matrixAY + cellH / 2)
+    ctx.fillText(`${a21}`, matrixAX + cellW / 2, matrixAY + cellH + cellH / 2)
+    ctx.fillText(`${a22}`, matrixAX + cellW + cellW / 2, matrixAY + cellH + cellH / 2)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('A', matrixAX + cellW, matrixAY - 20)
+    
+    // 乘号
+    ctx.font = 'bold 24px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText('×', matrixAX + 2 * cellW + 25, matrixAY + cellH)
+    
+    // 绘制矩阵B
+    const matrixBX = matrixAX + 2 * cellW + 60
+    
+    // 矩阵B括号
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(matrixBX + 5, matrixAY)
+    ctx.lineTo(matrixBX, matrixAY)
+    ctx.lineTo(matrixBX, matrixAY + 2 * cellH)
+    ctx.lineTo(matrixBX + 5, matrixAY + 2 * cellH)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(matrixBX + 2 * cellW - 5, matrixAY)
+    ctx.lineTo(matrixBX + 2 * cellW, matrixAY)
+    ctx.lineTo(matrixBX + 2 * cellW, matrixAY + 2 * cellH)
+    ctx.lineTo(matrixBX + 2 * cellW - 5, matrixAY + 2 * cellH)
+    ctx.stroke()
+    
+    // 矩阵B元素
+    ctx.font = 'bold 18px "Noto Serif SC", serif'
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText(`${b11}`, matrixBX + cellW / 2, matrixAY + cellH / 2)
+    ctx.fillText(`${b12}`, matrixBX + cellW + cellW / 2, matrixAY + cellH / 2)
+    ctx.fillText(`${b21}`, matrixBX + cellW / 2, matrixAY + cellH + cellH / 2)
+    ctx.fillText(`${b22}`, matrixBX + cellW + cellW / 2, matrixAY + cellH + cellH / 2)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('B', matrixBX + cellW, matrixAY - 20)
+    
+    // 等号
+    ctx.font = 'bold 24px "Noto Serif SC", serif'
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText('=', matrixBX + 2 * cellW + 25, matrixAY + cellH)
+    
+    // 绘制结果矩阵AB
+    const matrixCX = matrixBX + 2 * cellW + 60
+    
+    // 矩阵AB括号
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(matrixCX + 5, matrixAY)
+    ctx.lineTo(matrixCX, matrixAY)
+    ctx.lineTo(matrixCX, matrixAY + 2 * cellH)
+    ctx.lineTo(matrixCX + 5, matrixAY + 2 * cellH)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(matrixCX + 2 * cellW - 5, matrixAY)
+    ctx.lineTo(matrixCX + 2 * cellW, matrixAY)
+    ctx.lineTo(matrixCX + 2 * cellW, matrixAY + 2 * cellH)
+    ctx.lineTo(matrixCX + 2 * cellW - 5, matrixAY + 2 * cellH)
+    ctx.stroke()
+    
+    // 矩阵AB元素
+    ctx.font = 'bold 18px "Noto Serif SC", serif'
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText(`${c11}`, matrixCX + cellW / 2, matrixAY + cellH / 2)
+    ctx.fillText(`${c12}`, matrixCX + cellW + cellW / 2, matrixAY + cellH / 2)
+    ctx.fillText(`${c21}`, matrixCX + cellW / 2, matrixAY + cellH + cellH / 2)
+    ctx.fillText(`${c22}`, matrixCX + cellW + cellW / 2, matrixAY + cellH + cellH / 2)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('AB', matrixCX + cellW, matrixAY - 20)
+    
+    // 显示计算过程
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText('矩阵乘法公式：(AB)ᵢⱼ = Σ aᵢₖbₖⱼ', 40, 200)
+    
+    ctx.fillStyle = '#C62828'
+    ctx.fillText(`AB的第(1,1)元素 = A第1行·B第1列 = ${a11}×${b11} + ${a12}×${b21} = ${c11}`, 40, 230)
+    ctx.fillText(`AB的第(1,2)元素 = A第1行·B第2列 = ${a11}×${b12} + ${a12}×${b22} = ${c12}`, 40, 255)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText(`AB的第(2,1)元素 = A第2行·B第1列 = ${a21}×${b11} + ${a22}×${b21} = ${c21}`, 40, 280)
+    ctx.fillText(`AB的第(2,2)元素 = A第2行·B第2列 = ${a21}×${b12} + ${a22}×${b22} = ${c22}`, 40, 305)
+    
+    // 重要提示
+    ctx.fillStyle = '#C62828'
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillText('⚠ 注意：AB ≠ BA（矩阵乘法不满足交换律）', 40, 340)
+    
+    // 单位矩阵提示
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('💡 单位矩阵 I：当B=I时，AB=A（乘了等于没乘）', 40, 370)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('口诀：左行右列点乘', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('A的第i行', 180, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('B的第j列', 270, canvasHeight + 30)
+    ctx.fillStyle = '#1565C0'
+    ctx.fillText('→ AB的第(i,j)元素', 360, canvasHeight + 30)
+  }, [modelState.params])
+
+  // 逆矩阵可视化
+  const drawMatrixInverse = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // 获取动态参数
+    const a = getParam('a', 3)
+    const b = getParam('b', 1)
+    const c = getParam('c', 2)
+    const d = getParam('d', 1)
+    
+    // 清空画布
+    ctx.fillStyle = '#F4E4BC'
+    ctx.fillRect(0, 0, width, height)
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
+    // 计算行列式
+    const det = a * d - b * c
+    
+    // 绘制矩阵A
+    const matrixX = 50
+    const matrixY = 60
+    const cellW = 50
+    const cellH = 40
+    
+    // 矩阵A
+    ctx.strokeStyle = '#5D4037'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(matrixX + 5, matrixY)
+    ctx.lineTo(matrixX, matrixY)
+    ctx.lineTo(matrixX, matrixY + 2 * cellH)
+    ctx.lineTo(matrixX + 5, matrixY + 2 * cellH)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(matrixX + 2 * cellW - 5, matrixY)
+    ctx.lineTo(matrixX + 2 * cellW, matrixY)
+    ctx.lineTo(matrixX + 2 * cellW, matrixY + 2 * cellH)
+    ctx.lineTo(matrixX + 2 * cellW - 5, matrixY + 2 * cellH)
+    ctx.stroke()
+    
+    ctx.font = 'bold 18px "Noto Serif SC", serif'
+    ctx.fillStyle = '#C62828'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(`${a}`, matrixX + cellW / 2, matrixY + cellH / 2)
+    ctx.fillText(`${b}`, matrixX + cellW + cellW / 2, matrixY + cellH / 2)
+    ctx.fillText(`${c}`, matrixX + cellW / 2, matrixY + cellH + cellH / 2)
+    ctx.fillText(`${d}`, matrixX + cellW + cellW / 2, matrixY + cellH + cellH / 2)
+    
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('A', matrixX + cellW, matrixY - 15)
+    
+    // 计算过程
+    ctx.font = 'bold 14px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    
+    // 步骤1：求行列式
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText('Step 1: 计算行列式', matrixX, matrixY + 2 * cellH + 40)
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText(`|A| = ad - bc = ${a}×${d} - ${b}×${c} = ${det}`, matrixX + 20, matrixY + 2 * cellH + 65)
+    
+    // 步骤2：判断可逆性
+    ctx.fillStyle = '#3E2723'
+    ctx.fillText('Step 2: 判断可逆性', matrixX, matrixY + 2 * cellH + 100)
+    
+    if (Math.abs(det) < 0.001) {
+      ctx.fillStyle = '#C62828'
+      ctx.fillText(`|A| = 0，矩阵A不可逆！`, matrixX + 20, matrixY + 2 * cellH + 125)
+    } else {
+      ctx.fillStyle = '#2E7D32'
+      ctx.fillText(`|A| = ${det} ≠ 0，矩阵A可逆`, matrixX + 20, matrixY + 2 * cellH + 125)
+      
+      // 步骤3：求伴随矩阵
+      ctx.fillStyle = '#3E2723'
+      ctx.fillText('Step 3: 求伴随矩阵 A*（主对角线交换，副对角线变号）', matrixX, matrixY + 2 * cellH + 160)
+      
+      const adj11 = d
+      const adj12 = -b
+      const adj21 = -c
+      const adj22 = a
+      
+      ctx.fillStyle = '#5D4037'
+      ctx.fillText(`A* = `, matrixX + 20, matrixY + 2 * cellH + 185)
+      
+      // 绘制伴随矩阵
+      const adjX = matrixX + 60
+      const adjY = matrixY + 2 * cellH + 165
+      ctx.strokeStyle = '#5D4037'
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      ctx.moveTo(adjX + 3, adjY)
+      ctx.lineTo(adjX, adjY)
+      ctx.lineTo(adjX, adjY + 40)
+      ctx.lineTo(adjX + 3, adjY + 40)
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(adjX + 70, adjY)
+      ctx.lineTo(adjX + 73, adjY)
+      ctx.lineTo(adjX + 73, adjY + 40)
+      ctx.lineTo(adjX + 70, adjY + 40)
+      ctx.stroke()
+      
+      ctx.font = 'bold 14px "Noto Serif SC", serif'
+      ctx.fillStyle = '#1565C0'
+      ctx.fillText(`${adj11}`, adjX + 17, adjY + 20)
+      ctx.fillText(`${adj12}`, adjX + 52, adjY + 20)
+      ctx.fillText(`${adj21}`, adjX + 17, adjY + 35)
+      ctx.fillText(`${adj22}`, adjX + 52, adjY + 35)
+      
+      // 步骤4：求逆矩阵
+      ctx.fillStyle = '#3E2723'
+      ctx.font = 'bold 14px "Noto Serif SC", serif'
+      ctx.fillText('Step 4: A⁻¹ = A* / |A|', matrixX, matrixY + 2 * cellH + 230)
+      
+      const inv11 = d / det
+      const inv12 = -b / det
+      const inv21 = -c / det
+      const inv22 = a / det
+      
+      ctx.fillStyle = '#5D4037'
+      ctx.fillText(`A⁻¹ = `, matrixX + 20, matrixY + 2 * cellH + 255)
+      
+      // 绘制逆矩阵
+      const invX = matrixX + 70
+      const invY = matrixY + 2 * cellH + 235
+      ctx.strokeStyle = '#1565C0'
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      ctx.moveTo(invX + 3, invY)
+      ctx.lineTo(invX, invY)
+      ctx.lineTo(invX, invY + 40)
+      ctx.lineTo(invX + 3, invY + 40)
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(invX + 80, invY)
+      ctx.lineTo(invX + 83, invY)
+      ctx.lineTo(invX + 83, invY + 40)
+      ctx.lineTo(invX + 80, invY + 40)
+      ctx.stroke()
+      
+      ctx.font = 'bold 14px "Noto Serif SC", serif'
+      ctx.fillStyle = '#1565C0'
+      ctx.fillText(`${inv11.toFixed(2)}`, invX + 20, invY + 20)
+      ctx.fillText(`${inv12.toFixed(2)}`, invX + 55, invY + 20)
+      ctx.fillText(`${inv21.toFixed(2)}`, invX + 20, invY + 35)
+      ctx.fillText(`${inv22.toFixed(2)}`, invX + 55, invY + 35)
+    }
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.textAlign = 'left'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('二阶矩阵求逆口诀：主对角交换，副对角变号，除以行列式', 20, canvasHeight + 30)
+  }, [modelState.params])
 
   // 多元函数极值可视化
   const drawMultivariableExtremum = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    
     const centerX = width / 2
-    const centerY = height / 2 + 20
-    const scale = Math.min(width, height) / 6
+    const centerY = canvasHeight / 2 + 20
+    const scale = Math.min(width, canvasHeight) / 6
 
     // 清除画布
     ctx.fillStyle = '#FDF5E6'
@@ -4190,17 +5467,35 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     // 图例
     ctx.font = 'bold 13px "Noto Serif SC", serif'
     ctx.fillStyle = '#6A1B9A'
-    ctx.fillText('马鞍面 z = x² - y²', 50, height - 70)
+    ctx.fillText('马鞍面 z = x² - y²', 50, canvasHeight - 70)
     ctx.fillStyle = '#2E7D32'
-    ctx.fillText('抛物面 z = x² + y²', 50, height - 50)
+    ctx.fillText('抛物面 z = x² + y²', 50, canvasHeight - 50)
     ctx.fillStyle = '#5D4037'
-    ctx.fillText('驻点: ∇f = 0 的点', 50, height - 30)
+    ctx.fillText('驻点: ∇f = 0 的点', 50, canvasHeight - 30)
     
     ctx.fillStyle = '#C62828'
-    ctx.fillText('判别: Δ = AC - B²', 280, height - 70)
-    ctx.fillText('Δ > 0, A > 0 → 极小值', 280, height - 50)
-    ctx.fillText('Δ < 0 → 鞍点', 280, height - 30)
-  }, [])
+    ctx.fillText('判别: Δ = AC - B²', 280, canvasHeight - 70)
+    ctx.fillText('Δ > 0, A > 0 → 极小值', 280, canvasHeight - 50)
+    ctx.fillText('Δ < 0 → 鞍点', 280, canvasHeight - 30)
+    
+    // 底部信息栏
+    ctx.fillStyle = 'rgba(250, 240, 215, 0.98)'
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.strokeStyle = '#C4A77D'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(0, canvasHeight)
+    ctx.lineTo(width, canvasHeight)
+    ctx.stroke()
+    
+    ctx.font = 'bold 13px "Noto Serif SC", serif'
+    ctx.fillStyle = '#5D4037'
+    ctx.fillText('极值问题: 求函数的最大最小值', 20, canvasHeight + 30)
+    ctx.fillStyle = '#C62828'
+    ctx.fillText('驻点条件: ∇f = 0', 280, canvasHeight + 30)
+    ctx.fillStyle = '#2E7D32'
+    ctx.fillText('判别法: Δ = AC - B²', 450, canvasHeight + 30)
+  }, [modelState.params])
 
   // 主绘制函数
   const draw = useCallback(() => {
@@ -4236,6 +5531,8 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawImplicitParametric(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'differential') {
       drawDifferential(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'definite-integral') {
+      drawDefiniteIntegral(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'indefinite-integral') {
       drawIndefiniteIntegral(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'substitution') {
@@ -4266,6 +5563,14 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawPlaneAndLine(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'surfaces') {
       drawSurfaces(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'determinant-definition') {
+      drawDeterminantDefinition(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'determinant-expansion') {
+      drawDeterminantExpansion(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'matrix-definition') {
+      drawMatrixDefinition(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'matrix-inverse') {
+      drawMatrixInverse(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'multivariable-basic') {
       drawMultivariableBasic(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'partial-derivative') {
@@ -4277,7 +5582,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     } else if (knowledge.id === 'multivariable-extremum') {
       drawMultivariableExtremum(ctx, rect.width, rect.height)
     }
-  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries, drawVectorOperations, drawPlaneAndLine, drawSurfaces, drawMultivariableBasic, drawPartialDerivative, drawCompositeImplicit, drawDirectionalGradient, drawMultivariableExtremum])
+  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawDefiniteIntegral, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries, drawVectorOperations, drawPlaneAndLine, drawSurfaces, drawDeterminantDefinition, drawDeterminantExpansion, drawMatrixDefinition, drawMatrixInverse, drawMultivariableBasic, drawPartialDerivative, drawCompositeImplicit, drawDirectionalGradient, drawMultivariableExtremum])
 
   // 对比画布绘制
   const drawCompare = useCallback(() => {
@@ -4313,6 +5618,8 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawImplicitParametric(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'differential') {
       drawDifferential(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'definite-integral') {
+      drawDefiniteIntegral(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'indefinite-integral') {
       drawIndefiniteIntegral(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'substitution') {
@@ -4343,6 +5650,14 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawPlaneAndLine(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'surfaces') {
       drawSurfaces(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'determinant-definition') {
+      drawDeterminantDefinition(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'determinant-expansion') {
+      drawDeterminantExpansion(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'matrix-definition') {
+      drawMatrixDefinition(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'matrix-inverse') {
+      drawMatrixInverse(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'multivariable-basic') {
       drawMultivariableBasic(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'partial-derivative') {
@@ -4354,7 +5669,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     } else if (knowledge.id === 'multivariable-extremum') {
       drawMultivariableExtremum(ctx, rect.width, rect.height)
     }
-  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries, drawVectorOperations, drawPlaneAndLine, drawSurfaces, drawMultivariableBasic, drawPartialDerivative, drawCompositeImplicit, drawDirectionalGradient, drawMultivariableExtremum, compareType])
+  }, [knowledge.id, drawSequenceLimit, drawDerivative, drawFunctionLimit, drawInfinitesimal, drawContinuity, drawFirstOrderODE, drawSecondOrderODE, drawDerivativeRules, drawImplicitParametric, drawDifferential, drawDefiniteIntegral, drawIndefiniteIntegral, drawSubstitution, drawIntegrationByParts, drawDoubleIntegral, drawTripleIntegral, drawLineIntegralType1, drawLineIntegralType2, drawSurfaceIntegralType1, drawSurfaceIntegralType2, drawSeriesConvergence, drawPowerSeries, drawFourierSeries, drawVectorOperations, drawPlaneAndLine, drawSurfaces, drawDeterminantDefinition, drawDeterminantExpansion, drawMatrixDefinition, drawMatrixInverse, drawMultivariableBasic, drawPartialDerivative, drawCompositeImplicit, drawDirectionalGradient, drawMultivariableExtremum, compareType])
 
   // 动画播放
   useEffect(() => {
@@ -4558,45 +5873,67 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
           )}
           
           {/* 延伸内容 */}
-          {activeTab === 'extension' && (
+          {activeTab === 'extension' && knowledge.dimensions.extension && (
             <div className="extension-content">
               <div className="extension-section">
                 <h3>🔍 核心内涵</h3>
-                <MathText text={knowledge.dimensions.extension.essence} />
+                <MathText text={knowledge.dimensions.extension.essence || ''} />
               </div>
-              <div className="extension-section">
-                <h3>📚 拓广延伸</h3>
-                <MathText text={knowledge.dimensions.extension.extension} />
-              </div>
+              {knowledge.dimensions.extension.extension && (
+                <div className="extension-section">
+                  <h3>📚 拓广延伸</h3>
+                  <MathText text={knowledge.dimensions.extension.extension} />
+                </div>
+              )}
+              {knowledge.dimensions.extension.further && knowledge.dimensions.extension.further.length > 0 && (
+                <div className="extension-section">
+                  <h3>📖 深入探究</h3>
+                  {knowledge.dimensions.extension.further.map((item) => (
+                    <div key={item.id} className="further-item">
+                      <h4 className="further-item__title">{item.title}</h4>
+                      <MathText text={item.content} className="further-item__content" />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
           
           {/* 应用实例 */}
-          {activeTab === 'application' && (
+          {activeTab === 'application' && knowledge.dimensions.applications && (
             <div className="application-content">
-              {knowledge.dimensions.applications.map((app, index) => (
-                <div key={app.id} className="application-card">
-                  <div className="application-card__header">
-                    <span className={`app-type-badge ${app.type}`}>
-                      {app.type === 'real' ? '🏠 现实应用' : '🔬 研究应用'}
-                    </span>
-                    <span className="app-number">#{index + 1}</span>
-                  </div>
-                  <h4 className="application-card__title">{app.title}</h4>
-                  <MathText text={app.description} className="application-card__content" />
-                  {app.scenario && (
-                    <div className="application-card__scenario">
-                      <span>💡 场景演示：</span>
-                      <p>{app.scenario}</p>
+              {(() => {
+                try {
+                  const apps = Array.isArray(knowledge.dimensions.applications) 
+                    ? knowledge.dimensions.applications 
+                    : ('items' in knowledge.dimensions.applications ? knowledge.dimensions.applications.items : []);
+                  return apps.map((app, index) => (
+                    <div key={app.id} className="application-card">
+                      <div className="application-card__header">
+                        <span className={`app-type-badge ${app.type || 'research'}`}>
+                          {app.type === 'real' ? '🏠 现实应用' : app.type === 'example' ? '📝 示例练习' : '🔬 研究应用'}
+                        </span>
+                        <span className="app-number">#{index + 1}</span>
+                      </div>
+                      <h4 className="application-card__title">{app.title}</h4>
+                      <MathText text={app.description} className="application-card__content" />
+                      {app.scenario && (
+                        <div className="application-card__scenario">
+                          <span>💡 场景演示：</span>
+                          <p>{app.scenario}</p>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+                  ));
+                } catch (e) {
+                  return <div className="error-message">加载应用实例时出错</div>;
+                }
+              })()}
             </div>
           )}
           
           {/* 做题方法 */}
-          {activeTab === 'method' && (
+          {activeTab === 'method' && knowledge.dimensions.method && knowledge.dimensions.method.length > 0 && (
             <div className="method-content">
               <div className="method-card-enhanced">
                 <div className="method-header">

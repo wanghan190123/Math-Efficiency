@@ -35,10 +35,11 @@ export interface KnowledgePoint {
     // 3. 内涵延伸
     extension: {
       essence: string
-      extension: string
+      extension?: string
+      further?: FurtherItem[]
     }
     // 4. 应用实例
-    applications: Application[]
+    applications: Application[] | ApplicationsContainer
     // 5. 做题方法
     method: MethodStep[]
   }
@@ -65,6 +66,7 @@ export interface PointConfig {
   id: string
   x: number | string // 可以是数值或变量名
   y: number | string
+  z?: number | string // 3D点的z坐标
   draggable?: boolean
   color?: string
   label?: string
@@ -109,14 +111,26 @@ export interface TextHighlight {
   type: 'formula' | 'emphasis' | 'definition'
 }
 
+// 进一步延伸项
+export interface FurtherItem {
+  id: string
+  title: string
+  content: string
+}
+
 // 应用实例
 export interface Application {
   id: string
-  type: 'real' | 'research'
+  type: 'real' | 'research' | 'example'
   title: string
   description: string
   scenario?: string
   modelConfig?: Partial<ModelConfig>
+}
+
+// 应用实例容器（支持两种格式）
+export interface ApplicationsContainer {
+  items: Application[]
 }
 
 // 做题方法步骤

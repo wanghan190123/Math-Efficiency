@@ -597,6 +597,278 @@ const FORMULAS: Formula[] = [
     example: '沿负梯度方向迭代寻找最小值'
   },
   
+  // ===== 多元微分扩展公式 =====
+  {
+    id: 'md-16',
+    name: '全微分形式不变性',
+    latex: 'dz = \\frac{\\partial z}{\\partial u}du + \\frac{\\partial z}{\\partial v}dv = \\frac{\\partial z}{\\partial x}dx + \\frac{\\partial z}{\\partial y}dy',
+    description: '无论u,v是自变量还是中间变量，全微分形式相同',
+    category: 'multivariable-diff',
+    tags: ['全微分', '重要'],
+    example: '便于计算复杂函数的全微分'
+  },
+  {
+    id: 'md-17',
+    name: '复合函数二阶偏导',
+    latex: '\\frac{\\partial^2 z}{\\partial x^2} = \\frac{\\partial}{\\partial x}\\left(\\frac{\\partial z}{\\partial u}\\frac{\\partial u}{\\partial x} + \\frac{\\partial z}{\\partial v}\\frac{\\partial v}{\\partial x}\\right)',
+    description: '注意：∂z/∂u和∂z/∂v仍是u,v的函数，需继续用链式法则',
+    category: 'multivariable-diff',
+    tags: ['链式法则', '二阶偏导', '考研重点'],
+    example: '树形图：z→u,v→x,y，每条路径都要追踪'
+  },
+  {
+    id: 'md-18',
+    name: '隐函数存在定理（二元）',
+    latex: 'F(x,y)=0 \\Rightarrow \\frac{dy}{dx} = -\\frac{F_x}{F_y} \\quad (F_y \\neq 0)',
+    description: '若F_y≠0，则方程F(x,y)=0在局部确定y为x的函数',
+    category: 'multivariable-diff',
+    tags: ['隐函数', '存在定理'],
+    example: 'x²+y²=1 → dy/dx=-x/y'
+  },
+  {
+    id: 'md-19',
+    name: '隐函数存在定理（三元）',
+    latex: 'F(x,y,z)=0 \\Rightarrow \\frac{\\partial z}{\\partial x} = -\\frac{F_x}{F_z}, \\frac{\\partial z}{\\partial y} = -\\frac{F_y}{F_z}',
+    description: '若F_z≠0，则方程确定z为x,y的函数',
+    category: 'multivariable-diff',
+    tags: ['隐函数', '存在定理'],
+    example: '隐函数求导的核心公式'
+  },
+  {
+    id: 'md-20',
+    name: '隐函数组求导',
+    latex: '\\begin{cases} F(x,y,u,v)=0 \\\\ G(x,y,u,v)=0 \\end{cases} \\Rightarrow J \\cdot \\begin{pmatrix} \\frac{\\partial u}{\\partial x} & \\frac{\\partial u}{\\partial y} \\\\ \\frac{\\partial v}{\\partial x} & \\frac{\\partial v}{\\partial y} \\end{pmatrix} = -\\begin{pmatrix} F_x & F_y \\\\ G_x & G_y \\end{pmatrix}',
+    description: 'J为雅可比行列式J=∂(F,G)/∂(u,v)',
+    category: 'multivariable-diff',
+    tags: ['隐函数组', '雅可比', '考研重点'],
+    example: '解方程组求偏导'
+  },
+  {
+    id: 'md-21',
+    name: '雅可比行列式',
+    latex: 'J = \\frac{\\partial(u,v)}{\\partial(x,y)} = \\begin{vmatrix} u_x & u_y \\\\ v_x & v_y \\end{vmatrix} = u_x v_y - u_y v_x',
+    description: '坐标变换的"伸缩因子"，变换前后面积之比',
+    category: 'multivariable-diff',
+    tags: ['雅可比', '坐标变换', '核心'],
+    example: '极坐标：∂(x,y)/∂(r,θ)=r'
+  },
+  {
+    id: 'md-22',
+    name: '多元泰勒公式（二元）',
+    latex: 'f(x,y) = f(x_0,y_0) + \\nabla f \\cdot h + \\frac{1}{2}h^T H h + o(|h|^2)',
+    description: 'h=(x-x₀,y-y₀)，H为Hessian矩阵',
+    category: 'multivariable-diff',
+    tags: ['泰勒公式', '重要'],
+    example: '用于近似计算和极值判别'
+  },
+  {
+    id: 'md-23',
+    name: '二元泰勒公式展开',
+    latex: 'f(x,y) = f(x_0,y_0) + (f_x \\Delta x + f_y \\Delta y) + \\frac{1}{2}(f_{xx}\\Delta x^2 + 2f_{xy}\\Delta x\\Delta y + f_{yy}\\Delta y^2) + o(\\rho^2)',
+    description: 'ρ²=Δx²+Δy²，在(x₀,y₀)处展开',
+    category: 'multivariable-diff',
+    tags: ['泰勒公式', '展开'],
+    example: '一阶近似：f≈f₀+∇f·h'
+  },
+  {
+    id: 'md-24',
+    name: 'Hessian矩阵',
+    latex: 'H = \\begin{pmatrix} f_{xx} & f_{xy} \\\\ f_{yx} & f_{yy} \\end{pmatrix}',
+    description: '二阶偏导数矩阵，对称矩阵（混合偏导连续时）',
+    category: 'multivariable-diff',
+    tags: ['Hessian', '极值', '重要'],
+    example: 'H正定→极小值，H负定→极大值'
+  },
+  {
+    id: 'md-25',
+    name: '极值判别（Hessian法）',
+    latex: 'H正定\\Leftrightarrow极小值, \\quad H负定\\Leftrightarrow极大值, \\quad |H|<0\\Leftrightarrow鞍点',
+    description: '利用Hessian矩阵的定性判断极值类型',
+    category: 'multivariable-diff',
+    tags: ['极值', 'Hessian', '考研重点'],
+    example: 'H正定⟺所有特征值>0⟺顺序主子式全正'
+  },
+  {
+    id: 'md-26',
+    name: '空间曲线切线方程',
+    latex: '\\frac{x-x_0}{x\'(t_0)} = \\frac{y-y_0}{y\'(t_0)} = \\frac{z-z_0}{z\'(t_0)}',
+    description: '曲线x=x(t), y=y(t), z=z(t)在t₀处的切线',
+    category: 'multivariable-diff',
+    tags: ['空间曲线', '切线', '几何'],
+    example: '切向量T=(x\',y\',z\')'
+  },
+  {
+    id: 'md-27',
+    name: '空间曲线法平面方程',
+    latex: 'x\'(t_0)(x-x_0) + y\'(t_0)(y-y_0) + z\'(t_0)(z-z_0) = 0',
+    description: '过切点且与切向量垂直的平面',
+    category: 'multivariable-diff',
+    tags: ['空间曲线', '法平面', '几何'],
+    example: '法平面法向量即为切向量'
+  },
+  {
+    id: 'md-28',
+    name: '曲面切平面（一般式）',
+    latex: 'F_x(x-x_0) + F_y(y-y_0) + F_z(z-z_0) = 0',
+    description: '曲面F(x,y,z)=0在(x₀,y₀,z₀)处的切平面',
+    category: 'multivariable-diff',
+    tags: ['曲面', '切平面', '几何'],
+    example: '法向量n=(Fx,Fy,Fz)=∇F'
+  },
+  {
+    id: 'md-29',
+    name: '曲面法线（一般式）',
+    latex: '\\frac{x-x_0}{F_x} = \\frac{y-y_0}{F_y} = \\frac{z-z_0}{F_z}',
+    description: '曲面F(x,y,z)=0在(x₀,y₀,z₀)处的法线',
+    category: 'multivariable-diff',
+    tags: ['曲面', '法线', '几何'],
+    example: '法线沿梯度方向'
+  },
+  {
+    id: 'md-30',
+    name: '曲线交线切线',
+    latex: '\\vec{T} = \\nabla F \\times \\nabla G',
+    description: '两曲面F=0和G=0交线的切向量',
+    category: 'multivariable-diff',
+    tags: ['交线', '切线', '几何'],
+    example: '切向量同时垂直于两个曲面的法向量'
+  },
+  {
+    id: 'md-31',
+    name: '条件极值（多个约束）',
+    latex: 'L = f + \\lambda_1 \\varphi_1 + \\lambda_2 \\varphi_2 + \\cdots',
+    description: '多个约束条件时，每个约束对应一个乘数',
+    category: 'multivariable-diff',
+    tags: ['条件极值', '拉格朗日'],
+    example: '三元函数两个约束：∇f+λ₁∇φ₁+λ₂∇φ₂=0'
+  },
+  {
+    id: 'md-32',
+    name: '拉格朗日乘数法求解步骤',
+    latex: '\\nabla L = 0 \\Leftrightarrow \\begin{cases} \\frac{\\partial L}{\\partial x} = 0 \\\\ \\frac{\\partial L}{\\partial y} = 0 \\\\ \\varphi(x,y) = 0 \\end{cases}',
+    description: '解方程组得驻点，再判断是否为极值',
+    category: 'multivariable-diff',
+    tags: ['条件极值', '步骤'],
+    example: '实际问题中极值存在时，驻点即为极值点'
+  },
+  {
+    id: 'md-33',
+    name: '方向导数（三维）',
+    latex: '\\frac{\\partial f}{\\partial l} = \\nabla f \\cdot \\vec{l^0} = f_x\\cos\\alpha + f_y\\cos\\beta + f_z\\cos\\gamma',
+    description: 'l⁰=(cosα,cosβ,cosγ)是单位方向向量',
+    category: 'multivariable-diff',
+    tags: ['方向导数', '三维'],
+    example: '沿梯度方向方向导数最大'
+  },
+  {
+    id: 'md-34',
+    name: '梯度模与最大方向导数',
+    latex: '\\max_l \\frac{\\partial f}{\\partial l} = |\\nabla f| = \\sqrt{f_x^2 + f_y^2 + f_z^2}',
+    description: '最大方向导数等于梯度模，方向沿梯度',
+    category: 'multivariable-diff',
+    tags: ['梯度', '方向导数'],
+    example: '梯度方向：函数增长最快方向'
+  },
+  {
+    id: 'md-35',
+    name: '参数方程偏导（二元）',
+    latex: 'x=x(u,v), y=y(u,v), z=z(u,v) \\Rightarrow \\frac{\\partial z}{\\partial x} = -\\frac{\\partial(z,y)}{\\partial(u,v)}/\\frac{\\partial(x,y)}{\\partial(u,v)}',
+    description: '用雅可比行列式表示',
+    category: 'multivariable-diff',
+    tags: ['参数方程', '雅可比', '技巧'],
+    example: '便于参数曲面求偏导'
+  },
+  {
+    id: 'md-36',
+    name: '多元中值定理',
+    latex: 'f(x+h,y+k) - f(x,y) = f_x(\\xi,\\eta)h + f_y(\\xi,\\eta)k',
+    description: '(ξ,η)在(x,y)和(x+h,y+k)连线上',
+    category: 'multivariable-diff',
+    tags: ['中值定理', '理论'],
+    example: '证明偏导数恒为零则函数为常数'
+  },
+  {
+    id: 'md-37',
+    name: '函数可微的条件',
+    latex: 'f可微 \\Leftrightarrow \\Delta z = A\\Delta x + B\\Delta y + o(\\rho)',
+    description: '可微必连续、可微必偏导存在，反之不然',
+    category: 'multivariable-diff',
+    tags: ['可微', '条件', '重要'],
+    example: '偏导连续→可微'
+  },
+  {
+    id: 'md-38',
+    name: '可微的充分条件',
+    latex: 'f_x, f_y \\text{连续} \\Rightarrow f\\text{可微}',
+    description: '偏导数连续是可微的充分条件（非必要）',
+    category: 'multivariable-diff',
+    tags: ['可微', '充分条件'],
+    example: '判断函数是否可微的重要方法'
+  },
+  {
+    id: 'md-39',
+    name: '等值面法向量',
+    latex: '\\nabla F \\perp \\text{等值面} F=c',
+    description: '梯度垂直于等值面，指向函数增长方向',
+    category: 'multivariable-diff',
+    tags: ['等值面', '梯度', '几何'],
+    example: '等高线垂直于梯度方向'
+  },
+  {
+    id: 'md-40',
+    name: '距离问题转化',
+    latex: 'd = \\sqrt{(x-x_0)^2 + (y-y_0)^2 + (z-z_0)^2} \\Rightarrow d^2\\text{极值等价}',
+    description: '求距离极值时，用距离平方简化计算',
+    category: 'multivariable-diff',
+    tags: ['距离', '技巧', '常用'],
+    example: '避免根号，计算更简单'
+  },
+  {
+    id: 'md-41',
+    name: '向量函数导数',
+    latex: '\\vec{r}(t) = (x(t), y(t), z(t)) \\Rightarrow \\vec{r}\'(t) = (x\'(t), y\'(t), z\'(t))',
+    description: '向量函数的导数是对各分量求导',
+    category: 'multivariable-diff',
+    tags: ['向量函数', '导数'],
+    example: '切向量、速度向量'
+  },
+  {
+    id: 'md-42',
+    name: '弧长公式',
+    latex: 's = \\int_{t_1}^{t_2} |\\vec{r}\'(t)| dt = \\int_{t_1}^{t_2} \\sqrt{x\'^2 + y\'^2 + z\'^2} dt',
+    description: '曲线x=x(t), y=y(t), z=z(t)的弧长',
+    category: 'multivariable-diff',
+    tags: ['弧长', '积分'],
+    example: '二维：s=∫√(x\'²+y\'²)dt'
+  },
+  {
+    id: 'md-43',
+    name: '曲率公式',
+    latex: '\\kappa = \\frac{|\\vec{r}\'\\times\\vec{r}\'\'}|{|\\vec{r}\'|^3}',
+    description: '曲线弯曲程度的度量',
+    category: 'multivariable-diff',
+    tags: ['曲率', '几何'],
+    example: 'κ=1/R，R为曲率半径'
+  },
+  {
+    id: 'md-44',
+    name: '平面曲线曲率',
+    latex: '\\kappa = \\frac{|y\'\'}|{(1+y\'^2)^{3/2}}',
+    description: '平面曲线y=f(x)的曲率公式',
+    category: 'multivariable-diff',
+    tags: ['曲率', '平面曲线'],
+    example: '直线曲率=0，圆曲率=1/R'
+  },
+  {
+    id: 'md-45',
+    name: '多元函数极限计算技巧',
+    latex: '\\lim_{(x,y)\\to(x_0,y_0)} f(x,y)：夹逼准则、极坐标变换、路径法',
+    description: '路径法：沿不同路径极限不同则极限不存在',
+    category: 'multivariable-diff',
+    tags: ['极限', '技巧'],
+    example: '沿y=kx趋近，若极限与k有关则不存在'
+  },
+  
   // ===== 向量代数 =====
   {
     id: 'vec-1',
@@ -2459,6 +2731,78 @@ const FORMULAS: Formula[] = [
     tags: ['应用', '电路', '物理'],
     example: '与阻尼振动方程数学形式相同'
   },
+  {
+    id: 'ode-25',
+    name: '欧拉方程',
+    latex: 'x^n y^{(n)} + a_1 x^{n-1} y^{(n-1)} + \\cdots + a_{n-1} xy\' + a_n y = f(x)',
+    description: '变系数线性微分方程，通过变量代换化为常系数方程',
+    category: 'differential-equations',
+    tags: ['高阶', '变系数', '欧拉方程'],
+    example: 'xy\' + y = x² 是一阶欧拉方程'
+  },
+  {
+    id: 'ode-26',
+    name: '欧拉方程变量代换',
+    latex: 'x = e^t, \\quad x\\frac{dy}{dx} = \\frac{dy}{dt}, \\quad x^2\\frac{d^2y}{dx^2} = \\frac{d^2y}{dt^2} - \\frac{dy}{dt}',
+    description: '令 x=e^t（或 t=lnx），可将欧拉方程化为常系数线性方程',
+    category: 'differential-equations',
+    tags: ['高阶', '变量代换', '欧拉方程'],
+    example: 'x²y\'\'+xy\'-y=0 → d²y/dt²-y=0'
+  },
+  {
+    id: 'ode-27',
+    name: '欧拉方程特征方程',
+    latex: 'r(r-1)(r-2)\\cdots(r-n+1) + a_1 r(r-1)\\cdots(r-n+2) + \\cdots + a_{n-1}r + a_n = 0',
+    description: '欧拉方程的特征方程形式，r为特征根',
+    category: 'differential-equations',
+    tags: ['高阶', '特征方程', '欧拉方程'],
+    example: 'x²y\'\'+xy\'-y=0 特征方程：r(r-1)+r-1=r²-1=0'
+  },
+  {
+    id: 'ode-28',
+    name: '伯努利方程',
+    latex: '\\frac{dy}{dx} + P(x)y = Q(x)y^n \\quad (n \\neq 0,1)',
+    description: '非线性一阶微分方程，可通过变量代换化为线性方程',
+    category: 'differential-equations',
+    tags: ['一阶', '非线性', '伯努利'],
+    example: 'y\' + y = xy²（n=2）'
+  },
+  {
+    id: 'ode-29',
+    name: '伯努利方程求解方法',
+    latex: 'z = y^{1-n}, \\quad \\frac{dz}{dx} + (1-n)P(x)z = (1-n)Q(x)',
+    description: '令 z=y^(1-n)，将伯努利方程化为一阶线性方程求解',
+    category: 'differential-equations',
+    tags: ['一阶', '变量代换', '伯努利'],
+    example: 'y\'+y=xy²，令 z=y^(-1)，得 z\'-z=-x'
+  },
+  {
+    id: 'ode-30',
+    name: '齐次微分方程',
+    latex: '\\frac{dy}{dx} = f\\left(\\frac{y}{x}\\right) \\quad \\text{或} \\quad \\frac{dy}{dx} = \\varphi(x,y), \\varphi(\\lambda x,\\lambda y)=\\varphi(x,y)',
+    description: '右端可表示为 y/x 的函数，或满足齐次函数性质',
+    category: 'differential-equations',
+    tags: ['一阶', '齐次', '变量代换'],
+    example: 'y\' = (x+y)/(x-y) 是齐次方程'
+  },
+  {
+    id: 'ode-31',
+    name: '齐次方程变量代换',
+    latex: 'u = \\frac{y}{x}, \\quad y = xu, \\quad \\frac{dy}{dx} = u + x\\frac{du}{dx}',
+    description: '令 u=y/x，将齐次方程化为可分离变量方程',
+    category: 'differential-equations',
+    tags: ['一阶', '变量代换', '齐次'],
+    example: 'y\'=y/x → u+xu\'=u → xu\'=0 → u=C, y=Cx'
+  },
+  {
+    id: 'ode-32',
+    name: '可化为齐次的方程',
+    latex: '\\frac{dy}{dx} = \\frac{ax+by+c}{a\'x+b\'y+c\'} \\xrightarrow{\\text{平移}} \\frac{dy}{dx} = \\frac{ax+by}{a\'x+b\'y}',
+    description: '当 Δ=ab\'-a\'b≠0 时，通过平移变换化为齐次方程',
+    category: 'differential-equations',
+    tags: ['一阶', '齐次', '变换'],
+    example: '令 x=X+h, y=Y+k，求出 h,k 使常数项为零'
+  },
 
   // ===== 极限与连续 =====
   // 数列极限
@@ -2714,6 +3058,1771 @@ const FORMULAS: Formula[] = [
     category: 'limits',
     tags: ['计算方法', '有理化', '技巧'],
     example: 'lim(x→0)(√(1+x)-1)/x = lim(x→0)1/(√(1+x)+1) = 1/2'
+  },
+
+  // ===== 行列式 =====
+  {
+    id: 'det-1',
+    name: '二阶行列式',
+    latex: '\\begin{vmatrix} a & b \\\\ c & d \\end{vmatrix} = ad - bc',
+    description: '二阶行列式等于主对角线乘积减去副对角线乘积',
+    category: 'determinant',
+    tags: ['行列式', '二阶', '基础'],
+    example: '|3 2; 1 4| = 3×4 - 2×1 = 10'
+  },
+  {
+    id: 'det-2',
+    name: '三阶行列式（沙路法则）',
+    latex: '\\begin{vmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\\\ a_{31} & a_{32} & a_{33} \\end{vmatrix} = a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32} - a_{13}a_{22}a_{31} - a_{12}a_{21}a_{33} - a_{11}a_{23}a_{32}',
+    description: '主对角线方向乘积之和减去副对角线方向乘积之和',
+    category: 'determinant',
+    tags: ['行列式', '三阶', '沙路法则'],
+    example: '对角线法：主对角线三条相加，副对角线三条相减'
+  },
+  {
+    id: 'det-3',
+    name: '行列式按行（列）展开',
+    latex: 'D = \\sum_{j=1}^{n} a_{ij} A_{ij} = a_{i1}A_{i1} + a_{i2}A_{i2} + \\cdots + a_{in}A_{in}',
+    description: '行列式等于某一行（列）各元素与其代数余子式乘积之和',
+    category: 'determinant',
+    tags: ['行列式', '展开', '代数余子式'],
+    example: '按第一行展开：D = a₁₁A₁₁ + a₁₂A₁₂ + a₁₃A₁₃'
+  },
+  {
+    id: 'det-4',
+    name: '代数余子式',
+    latex: 'A_{ij} = (-1)^{i+j} M_{ij}',
+    description: 'M_{ij}是余子式，即去掉第i行第j列后的n-1阶行列式',
+    category: 'determinant',
+    tags: ['行列式', '代数余子式', '余子式'],
+    example: 'A₂₃ = (-1)^(2+3) × M₂₃ = -M₂₃'
+  },
+  {
+    id: 'det-5',
+    name: '行列式转置',
+    latex: '|A^T| = |A|',
+    description: '行列式与它的转置行列式相等',
+    category: 'determinant',
+    tags: ['行列式', '转置', '性质'],
+    example: '转置不改变行列式的值'
+  },
+  {
+    id: 'det-6',
+    name: '行列式换行（列）',
+    latex: '\\text{交换两行（列）} \\Rightarrow |B| = -|A|',
+    description: '交换行列式的两行（或两列），行列式变号',
+    category: 'determinant',
+    tags: ['行列式', '性质', '变换'],
+    example: '交换第1行和第2行，行列式变号'
+  },
+  {
+    id: 'det-7',
+    name: '行列式倍乘',
+    latex: 'k \\cdot |A| = |kA| \\text{（一行的倍数）}',
+    description: '行列式某一行（列）乘以k，等于行列式乘以k',
+    category: 'determinant',
+    tags: ['行列式', '性质', '倍乘'],
+    example: '第2行乘以3，行列式也乘以3'
+  },
+  {
+    id: 'det-8',
+    name: '行列式倍加',
+    latex: 'r_i + k \\cdot r_j \\rightarrow |A| \\text{不变}',
+    description: '把一行（列）的k倍加到另一行（列），行列式值不变',
+    category: 'determinant',
+    tags: ['行列式', '性质', '化简'],
+    example: '第3行 + 2×第1行，行列式值不变（化简技巧）'
+  },
+  {
+    id: 'det-9',
+    name: '行列式两行相同为零',
+    latex: 'r_i = r_j \\Rightarrow |A| = 0',
+    description: '行列式有两行（列）相同，则行列式为零',
+    category: 'determinant',
+    tags: ['行列式', '性质', '判定'],
+    example: '第1行=第3行，则行列式=0'
+  },
+  {
+    id: 'det-10',
+    name: '行列式两行成比例为零',
+    latex: 'r_i = k \\cdot r_j \\Rightarrow |A| = 0',
+    description: '行列式有两行（列）成比例，则行列式为零',
+    category: 'determinant',
+    tags: ['行列式', '性质', '判定'],
+    example: '第2行=3×第4行，则行列式=0'
+  },
+  {
+    id: 'det-11',
+    name: '上（下）三角行列式',
+    latex: '\\begin{vmatrix} a_{11} & a_{12} & \\cdots & a_{1n} \\\\ 0 & a_{22} & \\cdots & a_{2n} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ 0 & 0 & \\cdots & a_{nn} \\end{vmatrix} = a_{11}a_{22}\\cdots a_{nn}',
+    description: '上（下）三角行列式等于主对角线元素之积',
+    category: 'determinant',
+    tags: ['行列式', '三角', '计算'],
+    example: '上三角：|2 3 5; 0 4 6; 0 0 7| = 2×4×7 = 56'
+  },
+  {
+    id: 'det-12',
+    name: '对角行列式',
+    latex: '\\begin{vmatrix} \\lambda_1 & & & \\\\ & \\lambda_2 & & \\\\ & & \\ddots & \\\\ & & & \\lambda_n \\end{vmatrix} = \\lambda_1 \\lambda_2 \\cdots \\lambda_n',
+    description: '对角行列式等于对角线元素之积',
+    category: 'determinant',
+    tags: ['行列式', '对角', '计算'],
+    example: '|3 0 0; 0 5 0; 0 0 2| = 3×5×2 = 30'
+  },
+  {
+    id: 'det-13',
+    name: '行列式乘法公式',
+    latex: '|AB| = |A| \\cdot |B|',
+    description: '两个矩阵乘积的行列式等于各自行列式的乘积',
+    category: 'determinant',
+    tags: ['行列式', '矩阵', '乘法'],
+    example: '|A||B| = |AB|，常用于计算乘积的行列式'
+  },
+  {
+    id: 'det-14',
+    name: '伴随矩阵行列式',
+    latex: '|A^*| = |A|^{n-1}',
+    description: 'n阶矩阵A的伴随矩阵的行列式等于|A|的n-1次方',
+    category: 'determinant',
+    tags: ['行列式', '伴随矩阵', '公式'],
+    example: '若A是3阶矩阵且|A|=2，则|A*|=2²=4'
+  },
+  {
+    id: 'det-15',
+    name: '逆矩阵行列式',
+    latex: '|A^{-1}| = \\frac{1}{|A|}',
+    description: '逆矩阵的行列式等于原矩阵行列式的倒数',
+    category: 'determinant',
+    tags: ['行列式', '逆矩阵', '公式'],
+    example: '若|A|=3，则|A⁻¹|=1/3'
+  },
+  {
+    id: 'det-16',
+    name: '范德蒙德行列式',
+    latex: '\\begin{vmatrix} 1 & 1 & \\cdots & 1 \\\\ x_1 & x_2 & \\cdots & x_n \\\\ x_1^2 & x_2^2 & \\cdots & x_n^2 \\\\ \\vdots & \\vdots & & \\vdots \\\\ x_1^{n-1} & x_2^{n-1} & \\cdots & x_n^{n-1} \\end{vmatrix} = \\prod_{1 \\leq i < j \\leq n}(x_j - x_i)',
+    description: '范德蒙德行列式等于所有(x_j - x_i)的乘积（i<j）',
+    category: 'determinant',
+    tags: ['行列式', '范德蒙德', '特殊形式'],
+    example: 'n=3时：(x₂-x₁)(x₃-x₁)(x₃-x₂)'
+  },
+  {
+    id: 'det-17',
+    name: '克拉默法则',
+    latex: 'x_i = \\frac{D_i}{D} \\text{，其中} D_i \\text{是用常数项替换第} i \\text{列得到的行列式}',
+    description: 'n元线性方程组的解可用行列式表示，前提是系数行列式D≠0',
+    category: 'determinant',
+    tags: ['行列式', '方程组', '克拉默法则'],
+    example: '若方程组系数行列式D≠0，则方程组有唯一解'
+  },
+  {
+    id: 'det-18',
+    name: '分块矩阵行列式',
+    latex: '\\begin{vmatrix} A & O \\\\ O & B \\end{vmatrix} = |A||B|, \\quad \\begin{vmatrix} A & C \\\\ O & B \\end{vmatrix} = |A||B|',
+    description: '分块对角矩阵的行列式等于各块行列式的乘积',
+    category: 'determinant',
+    tags: ['行列式', '分块矩阵', '计算'],
+    example: '|A 0; 0 B| = |A||B|'
+  },
+  {
+    id: 'det-19',
+    name: '行列式某行元素可拆分',
+    latex: '\\begin{vmatrix} a_1 & a_2 \\\\ b_1+c_1 & b_2+c_2 \\end{vmatrix} = \\begin{vmatrix} a_1 & a_2 \\\\ b_1 & b_2 \\end{vmatrix} + \\begin{vmatrix} a_1 & a_2 \\\\ c_1 & c_2 \\end{vmatrix}',
+    description: '行列式某行（列）元素可拆成两数之和时，行列式可拆成两个行列式之和',
+    category: 'determinant',
+    tags: ['行列式', '性质', '拆分'],
+    example: '单行可拆性，其他行保持不变'
+  },
+  {
+    id: 'det-20',
+    name: '矩阵行列式与特征值',
+    latex: '|A| = \\lambda_1 \\lambda_2 \\cdots \\lambda_n',
+    description: '矩阵的行列式等于所有特征值的乘积',
+    category: 'determinant',
+    tags: ['行列式', '特征值', '关系'],
+    example: '若特征值为1,2,3，则|A|=6'
+  },
+
+  // ===== 矩阵 =====
+  // 基本运算
+  {
+    id: 'mat-1',
+    name: '矩阵加法',
+    latex: '(A + B)_{ij} = a_{ij} + b_{ij}',
+    description: '同型矩阵对应元素相加',
+    category: 'matrix',
+    tags: ['矩阵', '加法', '基础'],
+    example: 'A+B = B+A（交换律）'
+  },
+  {
+    id: 'mat-2',
+    name: '矩阵数乘',
+    latex: '(kA)_{ij} = k \\cdot a_{ij}',
+    description: '数乘矩阵等于每个元素都乘以该数',
+    category: 'matrix',
+    tags: ['矩阵', '数乘', '基础'],
+    example: '2A表示A的每个元素乘2'
+  },
+  {
+    id: 'mat-3',
+    name: '矩阵乘法',
+    latex: '(AB)_{ij} = \\sum_{k=1}^{n} a_{ik}b_{kj}',
+    description: '左行右列，对应相乘再相加。要求A的列数=B的行数',
+    category: 'matrix',
+    tags: ['矩阵', '乘法', '基础'],
+    example: 'AB ≠ BA（一般不满足交换律）'
+  },
+  {
+    id: 'mat-4',
+    name: '矩阵转置',
+    latex: '(A^T)_{ij} = a_{ji}',
+    description: '行变成列，列变成行',
+    category: 'matrix',
+    tags: ['矩阵', '转置', '基础'],
+    example: '(A^T)^T = A'
+  },
+  {
+    id: 'mat-5',
+    name: '转置的运算律',
+    latex: '(A+B)^T = A^T + B^T, \\quad (kA)^T = kA^T, \\quad (AB)^T = B^T A^T',
+    description: '乘积的转置等于转置的反序乘积',
+    category: 'matrix',
+    tags: ['矩阵', '转置', '性质'],
+    example: '(ABC)^T = C^T B^T A^T'
+  },
+  
+  // 特殊矩阵
+  {
+    id: 'mat-6',
+    name: '单位矩阵',
+    latex: 'I_n = \\begin{pmatrix} 1 & 0 & \\cdots & 0 \\\\ 0 & 1 & \\cdots & 0 \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ 0 & 0 & \\cdots & 1 \\end{pmatrix}',
+    description: '主对角线为1，其余为0。AI = IA = A',
+    category: 'matrix',
+    tags: ['矩阵', '单位矩阵', '特殊矩阵'],
+    example: 'I₃是3阶单位矩阵'
+  },
+  {
+    id: 'mat-7',
+    name: '对角矩阵',
+    latex: 'D = \\text{diag}(d_1, d_2, \\cdots, d_n) = \\begin{pmatrix} d_1 & & \\\\ & \\ddots & \\\\ & & d_n \\end{pmatrix}',
+    description: '除主对角线外全为零的方阵',
+    category: 'matrix',
+    tags: ['矩阵', '对角矩阵', '特殊矩阵'],
+    example: '对角矩阵相乘等于对应元素相乘'
+  },
+  {
+    id: 'mat-8',
+    name: '对称矩阵',
+    latex: 'A^T = A \\quad (a_{ij} = a_{ji})',
+    description: '关于主对角线对称的方阵',
+    category: 'matrix',
+    tags: ['矩阵', '对称矩阵', '特殊矩阵'],
+    example: 'A+A^T 必对称，AA^T 必对称'
+  },
+  {
+    id: 'mat-9',
+    name: '反对称矩阵',
+    latex: 'A^T = -A \\quad (a_{ij} = -a_{ji}, a_{ii} = 0)',
+    description: '关于主对角线反对称，对角元全为零',
+    category: 'matrix',
+    tags: ['矩阵', '反对称矩阵', '特殊矩阵'],
+    example: 'A-A^T 必反对称'
+  },
+  {
+    id: 'mat-10',
+    name: '正交矩阵',
+    latex: 'A^T A = AA^T = I \\quad (A^T = A^{-1})',
+    description: '列向量（行向量）两两正交且为单位向量',
+    category: 'matrix',
+    tags: ['矩阵', '正交矩阵', '特殊矩阵'],
+    example: '旋转矩阵、反射矩阵都是正交矩阵'
+  },
+  {
+    id: 'mat-11',
+    name: '正交矩阵的性质',
+    latex: '|A| = \\pm 1, \\quad A^{-1} = A^T, \\quad (AB)^T(AB) = I',
+    description: '正交矩阵的行列式为±1，逆等于转置，乘积仍正交',
+    category: 'matrix',
+    tags: ['矩阵', '正交矩阵', '性质'],
+    example: '正交变换保持向量长度和夹角不变'
+  },
+  
+  // 逆矩阵
+  {
+    id: 'mat-12',
+    name: '逆矩阵定义',
+    latex: 'AA^{-1} = A^{-1}A = I',
+    description: '若存在矩阵B使AB=BA=I，则B称为A的逆矩阵',
+    category: 'matrix',
+    tags: ['矩阵', '逆矩阵', '定义'],
+    example: 'A可逆 ⟺ |A|≠0'
+  },
+  {
+    id: 'mat-13',
+    name: '伴随矩阵求逆',
+    latex: 'A^{-1} = \\frac{1}{|A|}A^* = \\frac{1}{|A|}\\begin{pmatrix} A_{11} & A_{21} & \\cdots & A_{n1} \\\\ A_{12} & A_{22} & \\cdots & A_{n2} \\\\ \\vdots & \\vdots & & \\vdots \\\\ A_{1n} & A_{2n} & \\cdots & A_{nn} \\end{pmatrix}',
+    description: '逆矩阵等于伴随矩阵除以行列式。注意伴随矩阵是代数余子式的转置',
+    category: 'matrix',
+    tags: ['矩阵', '逆矩阵', '伴随矩阵'],
+    example: '二阶矩阵：A⁻¹ = (1/|A|) × [d -b; -c a]'
+  },
+  {
+    id: 'mat-14',
+    name: '逆矩阵的运算性质',
+    latex: '(A^{-1})^{-1} = A, \\quad (A^T)^{-1} = (A^{-1})^T, \\quad (AB)^{-1} = B^{-1}A^{-1}',
+    description: '逆的逆是原矩阵，转置的逆是逆的转置，乘积的逆是逆的反序乘积',
+    category: 'matrix',
+    tags: ['矩阵', '逆矩阵', '性质'],
+    example: '(ABC)^{-1} = C^{-1}B^{-1}A^{-1}'
+  },
+  {
+    id: 'mat-15',
+    name: '数乘矩阵的逆',
+    latex: '(kA)^{-1} = \\frac{1}{k}A^{-1} \\quad (k \\neq 0)',
+    description: '非零常数乘矩阵的逆，等于逆矩阵除以该常数',
+    category: 'matrix',
+    tags: ['矩阵', '逆矩阵', '性质'],
+    example: '(2A)^{-1} = (1/2)A^{-1}'
+  },
+  
+  // 伴随矩阵性质（考研重点）
+  {
+    id: 'mat-16',
+    name: '伴随矩阵基本关系',
+    latex: 'AA^* = A^*A = |A|I',
+    description: '这是伴随矩阵最核心的公式，任何涉及A*的问题都从这个公式出发',
+    category: 'matrix',
+    tags: ['矩阵', '伴随矩阵', '考研重点'],
+    example: 'A* = |A|A^{-1}（当A可逆时）'
+  },
+  {
+    id: 'mat-17',
+    name: '伴随矩阵的行列式',
+    latex: '|A^*| = |A|^{n-1}',
+    description: 'n阶矩阵A的伴随矩阵的行列式等于|A|的n-1次方',
+    category: 'matrix',
+    tags: ['矩阵', '伴随矩阵', '考研重点'],
+    example: '若|A|=2，A是4阶，则|A*|=2³=8'
+  },
+  {
+    id: 'mat-18',
+    name: '伴随矩阵的伴随',
+    latex: '(A^*)^* = |A|^{n-2}A',
+    description: '伴随的伴随等于|A|^(n-2)乘以原矩阵（n≥2）',
+    category: 'matrix',
+    tags: ['矩阵', '伴随矩阵', '考研重点'],
+    example: '若A是3阶，则(A*)* = |A|A'
+  },
+  {
+    id: 'mat-19',
+    name: '伴随矩阵的逆',
+    latex: '(A^*)^{-1} = \\frac{A}{|A|} = (A^{-1})^*',
+    description: '伴随矩阵的逆等于原矩阵除以行列式',
+    category: 'matrix',
+    tags: ['矩阵', '伴随矩阵', '考研重点'],
+    example: '已知A*求A：A = |A|(A*)^{-1}'
+  },
+  {
+    id: 'mat-20',
+    name: '伴随矩阵的转置',
+    latex: '(A^T)^* = (A^*)^T',
+    description: '转置的伴随等于伴随的转置',
+    category: 'matrix',
+    tags: ['矩阵', '伴随矩阵', '性质'],
+    example: '转置和伴随运算可交换'
+  },
+  {
+    id: 'mat-21',
+    name: '数乘的伴随',
+    latex: '(kA)^* = k^{n-1}A^*',
+    description: '数乘矩阵的伴随等于k^(n-1)乘以原伴随矩阵',
+    category: 'matrix',
+    tags: ['矩阵', '伴随矩阵', '考研重点'],
+    example: '(2A)* = 2^(n-1)A*'
+  },
+  {
+    id: 'mat-22',
+    name: '乘积的伴随',
+    latex: '(AB)^* = B^*A^*',
+    description: '乘积的伴随等于伴随的反序乘积',
+    category: 'matrix',
+    tags: ['矩阵', '伴随矩阵', '考研重点'],
+    example: '(ABC)* = C*B*A*'
+  },
+  
+  // 矩阵的秩
+  {
+    id: 'mat-23',
+    name: '矩阵的秩定义',
+    latex: 'r(A) = \\text{最高阶非零子式的阶数}',
+    description: '秩是矩阵中线性无关的行（列）向量的最大个数',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '定义'],
+    example: 'r(A) ≤ min(m, n)'
+  },
+  {
+    id: 'mat-24',
+    name: '秩的基本不等式',
+    latex: 'r(A) + r(B) - n \\leq r(AB) \\leq \\min(r(A), r(B))',
+    description: '乘积的秩介于两个矩阵秩之和减n与两者最小值之间',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '不等式'],
+    example: 'r(AB) ≤ r(A)，r(AB) ≤ r(B)'
+  },
+  {
+    id: 'mat-25',
+    name: '秩的和不等式',
+    latex: 'r(A+B) \\leq r(A) + r(B)',
+    description: '和的秩不超过秩的和',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '不等式'],
+    example: 'r(A+B)可能小于r(A)+r(B)'
+  },
+  {
+    id: 'mat-26',
+    name: '秩的乘积下界（考研重点）',
+    latex: 'r(A) + r(B) - n \\leq r(AB)',
+    description: '西尔维斯特不等式，常用于估计乘积秩的下界',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '考研重点'],
+    example: '若r(A)=r(B)=n，则r(AB)≥n'
+  },
+  {
+    id: 'mat-27',
+    name: '满秩矩阵的秩',
+    latex: 'r(A) = n \\quad (\\text{满秩}) \\Rightarrow r(AB) = r(B), r(BA) = r(B)',
+    description: '满秩矩阵左乘或右乘不改变秩',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '考研重点'],
+    example: '可逆矩阵乘任何矩阵，秩不变'
+  },
+  {
+    id: 'mat-28',
+    name: '转置的秩',
+    latex: 'r(A^T) = r(A)',
+    description: '转置不改变矩阵的秩',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '性质'],
+    example: '行秩=列秩'
+  },
+  {
+    id: 'mat-29',
+    name: '秩与方程组解的关系',
+    latex: 'r(A) = n \\Leftrightarrow |A| \\neq 0 \\Leftrightarrow Ax=0\\text{只有零解}',
+    description: '满秩等价于行列式非零，等价于齐次方程只有零解',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '方程组'],
+    example: 'r(A)<n ⟺ Ax=0有非零解'
+  },
+  {
+    id: 'mat-30',
+    name: 'A^TA的秩',
+    latex: 'r(A^TA) = r(A)',
+    description: 'A的转置乘以A的秩等于A的秩',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '考研重点'],
+    example: 'A^TA必对称，且秩与A相同'
+  },
+  
+  // 矩阵方程
+  {
+    id: 'mat-31',
+    name: '矩阵方程AX=B',
+    latex: 'X = A^{-1}B \\quad (\\text{若A可逆})',
+    description: '当A可逆时，左乘A的逆得到X',
+    category: 'matrix',
+    tags: ['矩阵', '矩阵方程', '求解'],
+    example: '初等行变换 [A|B] → [I|X]'
+  },
+  {
+    id: 'mat-32',
+    name: '矩阵方程XA=B',
+    latex: 'X = BA^{-1} \\quad (\\text{若A可逆})',
+    description: '当A可逆时，右乘A的逆得到X',
+    category: 'matrix',
+    tags: ['矩阵', '矩阵方程', '求解'],
+    example: '对[A|B]ᵀ用初等行变换'
+  },
+  {
+    id: 'mat-33',
+    name: '矩阵方程AXB=C',
+    latex: 'X = A^{-1}CB^{-1} \\quad (\\text{若A,B均可逆})',
+    description: '两边乘以逆矩阵求解',
+    category: 'matrix',
+    tags: ['矩阵', '矩阵方程', '求解'],
+    example: '同时左乘A⁻¹，右乘B⁻¹'
+  },
+  
+  // 矩阵的幂
+  {
+    id: 'mat-34',
+    name: '矩阵幂运算',
+    latex: 'A^k = \\underbrace{A \\cdot A \\cdot \\cdots \\cdot A}_{k个}',
+    description: '矩阵自乘k次。注意只有方阵才能进行幂运算',
+    category: 'matrix',
+    tags: ['矩阵', '幂运算', '基础'],
+    example: 'A⁰ = I'
+  },
+  {
+    id: 'mat-35',
+    name: '对角矩阵的幂',
+    latex: 'D^k = \\text{diag}(d_1^k, d_2^k, \\cdots, d_n^k)',
+    description: '对角矩阵的幂等于对角元素的幂',
+    category: 'matrix',
+    tags: ['矩阵', '幂运算', '技巧'],
+    example: '若P⁻¹AP=D，则A^k=PD^kP⁻¹'
+  },
+  {
+    id: 'mat-36',
+    name: '幂运算与逆',
+    latex: '(A^k)^{-1} = (A^{-1})^k',
+    description: '幂的逆等于逆的幂',
+    category: 'matrix',
+    tags: ['矩阵', '幂运算', '性质'],
+    example: '(A²)⁻¹ = (A⁻¹)²'
+  },
+  
+  // 矩阵多项式
+  {
+    id: 'mat-37',
+    name: '矩阵多项式',
+    latex: 'f(A) = a_nA^n + a_{n-1}A^{n-1} + \\cdots + a_1A + a_0I',
+    description: '将标量多项式中的变量替换为矩阵，常数项乘以单位矩阵',
+    category: 'matrix',
+    tags: ['矩阵', '多项式', '考研重点'],
+    example: '若f(x)=x²+2x+1，则f(A)=A²+2A+I'
+  },
+  {
+    id: 'mat-38',
+    name: '特征值与矩阵多项式',
+    latex: '\\text{若}\\lambda\\text{是}A\\text{的特征值，则}f(\\lambda)\\text{是}f(A)\\text{的特征值}',
+    description: '矩阵多项式f(A)的特征值是f(λ)',
+    category: 'matrix',
+    tags: ['矩阵', '多项式', '特征值'],
+    example: 'A²的特征值是λ²，A+kI的特征值是λ+k'
+  },
+  
+  // 分块矩阵
+  {
+    id: 'mat-39',
+    name: '分块矩阵加法',
+    latex: '\\begin{pmatrix} A & B \\\\ C & D \\end{pmatrix} + \\begin{pmatrix} P & Q \\\\ R & S \\end{pmatrix} = \\begin{pmatrix} A+P & B+Q \\\\ C+R & D+S \\end{pmatrix}',
+    description: '对应子块相加，要求子块同型',
+    category: 'matrix',
+    tags: ['矩阵', '分块矩阵', '运算'],
+    example: '分块加法与普通加法规则一致'
+  },
+  {
+    id: 'mat-40',
+    name: '分块矩阵乘法',
+    latex: '\\begin{pmatrix} A & B \\\\ C & D \\end{pmatrix} \\begin{pmatrix} P & Q \\\\ R & S \\end{pmatrix} = \\begin{pmatrix} AP+BR & AQ+BS \\\\ CP+DR & CQ+DS \\end{pmatrix}',
+    description: '分块乘法规则与普通乘法相同，注意子块要可乘',
+    category: 'matrix',
+    tags: ['矩阵', '分块矩阵', '运算'],
+    example: '左矩阵列数=右矩阵行数（子块级别）'
+  },
+  {
+    id: 'mat-41',
+    name: '分块对角矩阵的逆',
+    latex: '\\begin{pmatrix} A & 0 \\\\ 0 & B \\end{pmatrix}^{-1} = \\begin{pmatrix} A^{-1} & 0 \\\\ 0 & B^{-1} \\end{pmatrix}',
+    description: '分块对角矩阵的逆是对角块的逆',
+    category: 'matrix',
+    tags: ['矩阵', '分块矩阵', '逆矩阵'],
+    example: '对角分块求逆只需对各块分别求逆'
+  },
+  {
+    id: 'mat-42',
+    name: '分块三角矩阵的逆',
+    latex: '\\begin{pmatrix} A & C \\\\ 0 & B \\end{pmatrix}^{-1} = \\begin{pmatrix} A^{-1} & -A^{-1}CB^{-1} \\\\ 0 & B^{-1} \\end{pmatrix}',
+    description: '上三角分块矩阵求逆公式',
+    category: 'matrix',
+    tags: ['矩阵', '分块矩阵', '逆矩阵'],
+    example: '下三角分块矩阵有类似公式'
+  },
+  {
+    id: 'mat-43',
+    name: '分块矩阵的行列式',
+    latex: '\\begin{vmatrix} A & B \\\\ 0 & D \\end{vmatrix} = |A||D|, \\quad \\begin{vmatrix} A & 0 \\\\ C & D \\end{vmatrix} = |A||D|',
+    description: '分块三角矩阵的行列式等于对角块行列式的乘积',
+    category: 'matrix',
+    tags: ['矩阵', '分块矩阵', '行列式'],
+    example: '与上/下三角行列式类似'
+  },
+  
+  // 初等变换与等价
+  {
+    id: 'mat-44',
+    name: '初等行变换',
+    latex: 'r_i \\leftrightarrow r_j, \\quad kr_i, \\quad r_i + kr_j',
+    description: '三种初等行变换：换行、倍乘、倍加',
+    category: 'matrix',
+    tags: ['矩阵', '初等变换', '基础'],
+    example: '初等变换不改变矩阵的秩'
+  },
+  {
+    id: 'mat-45',
+    name: '初等矩阵',
+    latex: 'E(i,j), \\quad E(i(k)), \\quad E(i,j(k))',
+    description: '对单位矩阵进行一次初等变换得到的矩阵。左乘初等矩阵相当于做初等行变换',
+    category: 'matrix',
+    tags: ['矩阵', '初等矩阵', '基础'],
+    example: '初等矩阵都是可逆的'
+  },
+  {
+    id: 'mat-46',
+    name: '初等矩阵的逆',
+    latex: 'E(i,j)^{-1} = E(i,j), \\quad E(i(k))^{-1} = E(i(1/k)), \\quad E(i,j(k))^{-1} = E(i,j(-k))',
+    description: '换行矩阵的逆是自身，倍乘矩阵的逆是倒数倍乘，倍加矩阵的逆是减去',
+    category: 'matrix',
+    tags: ['矩阵', '初等矩阵', '逆矩阵'],
+    example: '初等矩阵的逆仍是同类型初等矩阵'
+  },
+  {
+    id: 'mat-47',
+    name: '矩阵等价',
+    latex: 'A \\cong B \\Leftrightarrow r(A) = r(B)',
+    description: '两个矩阵等价当且仅当它们的秩相等（同型矩阵）',
+    category: 'matrix',
+    tags: ['矩阵', '等价', '考研重点'],
+    example: 'A可经初等变换化为B ⟺ r(A)=r(B)'
+  },
+  {
+    id: 'mat-48',
+    name: '等价标准形',
+    latex: 'A \\cong \\begin{pmatrix} I_r & 0 \\\\ 0 & 0 \\end{pmatrix}, \\quad r = r(A)',
+    description: '任何矩阵都可经初等变换化为等价标准形',
+    category: 'matrix',
+    tags: ['矩阵', '等价', '标准形'],
+    example: 'r(A)=r的标准形是[Iᵣ 0; 0 0]'
+  },
+  
+  // 矩阵的迹
+  {
+    id: 'mat-49',
+    name: '矩阵的迹',
+    latex: '\\text{tr}(A) = \\sum_{i=1}^{n} a_{ii} = \\sum_{i=1}^{n} \\lambda_i',
+    description: '迹是主对角线元素之和，也等于所有特征值之和',
+    category: 'matrix',
+    tags: ['矩阵', '迹', '定义'],
+    example: 'tr(I_n) = n'
+  },
+  {
+    id: 'mat-50',
+    name: '迹的性质',
+    latex: '\\text{tr}(A+B) = \\text{tr}(A) + \\text{tr}(B), \\quad \\text{tr}(AB) = \\text{tr}(BA)',
+    description: '迹满足线性性，乘积的迹与顺序无关',
+    category: 'matrix',
+    tags: ['矩阵', '迹', '性质'],
+    example: 'tr(ABC) = tr(BCA) = tr(CAB)'
+  },
+  
+  // 正定矩阵（考研重点）
+  {
+    id: 'mat-51',
+    name: '正定矩阵定义',
+    latex: 'A\\text{正定} \\Leftrightarrow x^TAx > 0, \\forall x \\neq 0',
+    description: '对任意非零向量x，二次型x^TAx恒大于零',
+    category: 'matrix',
+    tags: ['矩阵', '正定', '考研重点'],
+    example: '正定矩阵必是对称矩阵'
+  },
+  {
+    id: 'mat-52',
+    name: '正定矩阵的判定',
+    latex: 'A\\text{正定} \\Leftrightarrow \\text{所有特征值} > 0 \\Leftrightarrow \\text{所有顺序主子式} > 0',
+    description: '正定的充要条件：所有特征值为正，或所有顺序主子式为正',
+    category: 'matrix',
+    tags: ['矩阵', '正定', '判定'],
+    example: 'A正定 ⟺ |A|>0 且各阶顺序主子式>0'
+  },
+  {
+    id: 'mat-53',
+    name: '半正定矩阵',
+    latex: 'A\\text{半正定} \\Leftrightarrow x^TAx \\geq 0, \\forall x',
+    description: '对任意向量x，二次型x^TAx非负',
+    category: 'matrix',
+    tags: ['矩阵', '正定', '定义'],
+    example: '半正定 ⟺ 所有特征值≥0'
+  },
+  
+  // 相似与合同（考研重点）
+  {
+    id: 'mat-54',
+    name: '矩阵相似',
+    latex: 'A \\sim B \\Leftrightarrow \\exists P, P^{-1}AP = B',
+    description: '存在可逆矩阵P使得P⁻¹AP=B',
+    category: 'matrix',
+    tags: ['矩阵', '相似', '考研重点'],
+    example: '相似矩阵有相同的特征值、行列式、迹、秩'
+  },
+  {
+    id: 'mat-55',
+    name: '相似矩阵的性质',
+    latex: 'A \\sim B \\Rightarrow |A|=|B|, \\text{tr}(A)=\\text{tr}(B), r(A)=r(B), |\\lambda I-A|=|\\lambda I-B|',
+    description: '相似矩阵的行列式、迹、秩、特征多项式都相同',
+    category: 'matrix',
+    tags: ['矩阵', '相似', '性质'],
+    example: '相似是等价关系，有自反、对称、传递性'
+  },
+  {
+    id: 'mat-56',
+    name: '矩阵合同',
+    latex: 'A \\simeq B \\Leftrightarrow \\exists P, P^TAP = B',
+    description: '存在可逆矩阵P使得P^TAP=B。合同保持正定性',
+    category: 'matrix',
+    tags: ['矩阵', '合同', '考研重点'],
+    example: '实对称矩阵可合同对角化'
+  },
+  {
+    id: 'mat-57',
+    name: '等价、相似、合同的关系',
+    latex: '\\text{相似} \\Rightarrow \\text{等价}, \\quad \\text{合同} \\Rightarrow \\text{等价}',
+    description: '相似或合同都推出等价，但相似与合同互不包含',
+    category: 'matrix',
+    tags: ['矩阵', '等价', '考研重点'],
+    example: '若P是正交矩阵，则相似与合同等价'
+  },
+  {
+    id: 'mat-58',
+    name: '可对角化条件',
+    latex: 'A\\text{可对角化} \\Leftrightarrow A\\text{有}n\\text{个线性无关的特征向量}',
+    description: '矩阵可对角化当且仅当有完备的特征向量系',
+    category: 'matrix',
+    tags: ['矩阵', '对角化', '特征值'],
+    example: '实对称矩阵一定可对角化'
+  },
+  {
+    id: 'mat-59',
+    name: '实对称矩阵对角化',
+    latex: 'A\\text{实对称} \\Rightarrow \\exists Q\\text{正交}, Q^TAQ = Q^{-1}AQ = \\Lambda',
+    description: '实对称矩阵可被正交矩阵对角化',
+    category: 'matrix',
+    tags: ['矩阵', '对角化', '对称矩阵'],
+    example: '实对称矩阵的特征值都是实数'
+  },
+  
+  // 考研常用技巧公式
+  {
+    id: 'mat-60',
+    name: '求逆常用公式',
+    latex: '(A^T)^{-1} = (A^{-1})^T, \\quad (AB)^{-1} = B^{-1}A^{-1}, \\quad |A^{-1}| = |A|^{-1}',
+    description: '转置、乘积的逆公式，以及逆的行列式',
+    category: 'matrix',
+    tags: ['矩阵', '逆矩阵', '考研技巧'],
+    example: '求(A^T)^{-1}先求A⁻¹再转置'
+  },
+  {
+    id: 'mat-61',
+    name: '秩1矩阵的性质',
+    latex: 'r(A) = 1 \\Rightarrow A = \\alpha\\beta^T, \\quad A^n = (\\beta^T\\alpha)^{n-1}A',
+    description: '秩1矩阵可分解为列向量乘行向量，其幂有简单公式',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '考研技巧'],
+    example: '若r(A)=1，则A²=(β^Tα)A'
+  },
+  {
+    id: 'mat-62',
+    name: '幂等矩阵',
+    latex: 'A^2 = A \\Rightarrow r(A) + r(I-A) = n',
+    description: '幂等矩阵（投影矩阵）的秩满足重要等式',
+    category: 'matrix',
+    tags: ['矩阵', '幂等矩阵', '考研技巧'],
+    example: '若A²=A，则A的特征值只能是0或1'
+  },
+  {
+    id: 'mat-63',
+    name: '对合矩阵',
+    latex: 'A^2 = I \\Rightarrow A^{-1} = A',
+    description: '对合矩阵的逆等于自身',
+    category: 'matrix',
+    tags: ['矩阵', '对合矩阵', '考研技巧'],
+    example: '对合矩阵的特征值只能是±1'
+  },
+  {
+    id: 'mat-64',
+    name: '幂零矩阵',
+    latex: 'A^k = 0 \\Rightarrow |A| = 0, \\quad \\text{特征值全为}0',
+    description: '幂零矩阵的行列式为零，特征值全为零',
+    category: 'matrix',
+    tags: ['矩阵', '幂零矩阵', '考研技巧'],
+    example: '若A²=0，则A不可逆，特征值全为0'
+  },
+  {
+    id: 'mat-65',
+    name: 'AB=O的秩关系',
+    latex: 'AB = O \\Rightarrow r(A) + r(B) \\leq n',
+    description: '两个非零矩阵乘积为零矩阵时，秩的和不超过阶数',
+    category: 'matrix',
+    tags: ['矩阵', '秩', '考研技巧'],
+    example: 'AB=O意味着B的列向量是Ax=0的解'
+  },
+  {
+    id: 'mat-66',
+    name: 'A²=A与特征值',
+    latex: 'A^2 = A \\Rightarrow \\lambda = 0 \\text{或} 1',
+    description: '幂等矩阵的特征值只能是0或1',
+    category: 'matrix',
+    tags: ['矩阵', '特征值', '考研技巧'],
+    example: '投影矩阵是幂等矩阵'
+  },
+  {
+    id: 'mat-67',
+    name: 'A²+I=O的条件',
+    latex: 'A^2 + I = O \\Rightarrow n\\text{必须是偶数}',
+    description: '不存在奇数阶矩阵满足A²=-I',
+    category: 'matrix',
+    tags: ['矩阵', '特殊矩阵', '考研技巧'],
+    example: 'A²=-I意味着特征值为±i，必须成对出现'
+  },
+  {
+    id: 'mat-68',
+    name: '矩阵求逆的伴随法',
+    latex: 'A^{-1} = \\frac{A^*}{|A|}, \\quad A^* = |A|A^{-1}',
+    description: '已知A*求A：A = |A|(A*)^{-1}，其中|A|由|A*|=|A|^{n-1}确定',
+    category: 'matrix',
+    tags: ['矩阵', '逆矩阵', '考研技巧'],
+    example: '已知A*，先求|A*|，再得|A|，最后求A'
+  },
+
+  // ===== 线性方程组 =====
+  // 解的存在性与结构
+  {
+    id: 'ls-1',
+    name: '解的存在性定理',
+    latex: 'Ax = b\\text{有解} \\Leftrightarrow r(A) = r(A|b)',
+    description: '方程组有解当且仅当系数矩阵的秩等于增广矩阵的秩',
+    category: 'linear-systems',
+    tags: ['线性方程组', '存在性', '考研重点'],
+    example: 'r(A)≠r(A|b)时，方程组无解'
+  },
+  {
+    id: 'ls-2',
+    name: '解的唯一性定理',
+    latex: 'Ax = b\\text{有唯一解} \\Leftrightarrow r(A) = r(A|b) = n',
+    description: '有唯一解当且仅当系数矩阵的秩等于增广矩阵的秩等于未知数个数',
+    category: 'linear-systems',
+    tags: ['线性方程组', '唯一性', '考研重点'],
+    example: 'r(A)=r(A|b)=n ⟺ |A|≠0 ⟺ A可逆'
+  },
+  {
+    id: 'ls-3',
+    name: '解的结构（无穷多解）',
+    latex: 'r(A) = r(A|b) < n \\Rightarrow x = x^* + k_1\\xi_1 + \\cdots + k_{n-r}\\xi_{n-r}',
+    description: '当秩小于n时，通解=特解+基础解系的线性组合',
+    category: 'linear-systems',
+    tags: ['线性方程组', '解的结构', '考研重点'],
+    example: 'n-r个自由变量，基础解系有n-r个解向量'
+  },
+  {
+    id: 'ls-4',
+    name: '解的个数判定汇总',
+    latex: '\\begin{cases} r(A) \\neq r(A|b) & \\text{无解} \\\\ r(A) = r(A|b) = n & \\text{唯一解} \\\\ r(A) = r(A|b) < n & \\text{无穷多解} \\end{cases}',
+    description: '通过秩的关系判定解的情况',
+    category: 'linear-systems',
+    tags: ['线性方程组', '判定', '总结'],
+    example: '这是判定方程组解的核心方法'
+  },
+  
+  // 齐次方程组
+  {
+    id: 'ls-5',
+    name: '齐次方程组Ax=0',
+    latex: 'Ax = 0\\text{只有零解} \\Leftrightarrow r(A) = n \\Leftrightarrow |A| \\neq 0',
+    description: '齐次方程组只有零解等价于系数矩阵满秩等价于行列式非零',
+    category: 'linear-systems',
+    tags: ['线性方程组', '齐次方程', '考研重点'],
+    example: 'Ax=0总有零解，是否有非零解看r(A)是否小于n'
+  },
+  {
+    id: 'ls-6',
+    name: '齐次方程组有非零解',
+    latex: 'Ax = 0\\text{有非零解} \\Leftrightarrow r(A) < n \\Leftrightarrow |A| = 0',
+    description: '有非零解当且仅当系数矩阵的秩小于未知数个数',
+    category: 'linear-systems',
+    tags: ['线性方程组', '齐次方程', '考研重点'],
+    example: '方程个数<m未知数个数时，必有非零解'
+  },
+  {
+    id: 'ls-7',
+    name: '基础解系',
+    latex: '\\xi_1, \\xi_2, \\cdots, \\xi_{n-r}\\text{是}Ax=0\\text{的基础解系} \\Leftrightarrow \\text{线性无关且解空间的一组基}',
+    description: '基础解系是解空间的一组基，包含n-r个线性无关的解向量',
+    category: 'linear-systems',
+    tags: ['线性方程组', '基础解系', '概念'],
+    example: '基础解系的向量个数为n-r(A)'
+  },
+  {
+    id: 'ls-8',
+    name: '基础解系求法',
+    latex: '\\text{自由变量个数为}n-r，\\text{分别取标准单位向量得到基础解系}',
+    description: '将自由变量依次取(1,0,...,0),(0,1,...,0)等，解出主变量',
+    category: 'linear-systems',
+    tags: ['线性方程组', '基础解系', '计算'],
+    example: '若有两个自由变量x₃,x₄，取(1,0)和(0,1)'
+  },
+  {
+    id: 'ls-9',
+    name: '解空间的维数',
+    latex: '\\dim N(A) = n - r(A)',
+    description: '解空间（零空间）的维数等于未知数个数减去系数矩阵的秩',
+    category: 'linear-systems',
+    tags: ['线性方程组', '解空间', '维数'],
+    example: 'n-r(A)也是自由变量的个数'
+  },
+  
+  // 非齐次方程组
+  {
+    id: 'ls-10',
+    name: '非齐次方程组通解',
+    latex: 'x = x^* + c_1\\xi_1 + c_2\\xi_2 + \\cdots + c_{n-r}\\xi_{n-r}',
+    description: '非齐次方程组的通解=特解+对应齐次方程组通解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '非齐次', '通解'],
+    example: '特解x*是满足Ax*=b的任意一个解'
+  },
+  {
+    id: 'ls-11',
+    name: '特解的求法',
+    latex: '\\text{令自由变量全为}0\\text{，解出主变量得到一个特解}',
+    description: '最简单的特解：将所有自由变量取值为0',
+    category: 'linear-systems',
+    tags: ['线性方程组', '特解', '计算'],
+    example: '自由变量x₃=x₄=0，代入方程解x₁,x₂'
+  },
+  {
+    id: 'ls-12',
+    name: '解的性质1',
+    latex: '\\eta_1, \\eta_2\\text{是}Ax=b\\text{的解} \\Rightarrow \\eta_1 - \\eta_2\\text{是}Ax=0\\text{的解}',
+    description: '两个非齐次解之差是对应齐次方程组的解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '解的性质', '考研重点'],
+    example: '非齐次解的差满足齐次方程'
+  },
+  {
+    id: 'ls-13',
+    name: '解的性质2',
+    latex: '\\eta\\text{是}Ax=b\\text{的解}, \\xi\\text{是}Ax=0\\text{的解} \\Rightarrow \\eta + \\xi\\text{是}Ax=b\\text{的解}',
+    description: '非齐次解加齐次解仍是非齐次解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '解的性质', '考研重点'],
+    example: '这就是通解结构的基础'
+  },
+  {
+    id: 'ls-14',
+    name: '解的性质3',
+    latex: '\\eta_1, \\eta_2\\text{是}Ax=b\\text{的解} \\Rightarrow k_1\\eta_1 + k_2\\eta_2\\text{是}Ax=(k_1+k_2)b\\text{的解}',
+    description: '解的线性组合与右边项的线性组合对应',
+    category: 'linear-systems',
+    tags: ['线性方程组', '解的性质', '考研重点'],
+    example: 'k₁=1,k₂=1：两解之和是Ax=2b的解'
+  },
+  
+  // 与矩阵的关系
+  {
+    id: 'ls-15',
+    name: 'AB与列向量',
+    latex: 'AB = (Ab_1, Ab_2, \\cdots, Ab_n), \\quad Ax = b\\text{解存在} \\Leftrightarrow b\\text{可由}A\\text{的列向量线性表示}',
+    description: '矩阵乘法的列观点：AB的列是A乘B的各列',
+    category: 'linear-systems',
+    tags: ['线性方程组', '矩阵', '向量'],
+    example: 'Ax=b有解 ⟺ b在A的列空间中'
+  },
+  {
+    id: 'ls-16',
+    name: '方程组与秩的关系',
+    latex: 'r(A) = r(A|b) \\Leftrightarrow b \\in \\text{列空间}(A)',
+    description: '方程组有解等价于b在A的列空间中',
+    category: 'linear-systems',
+    tags: ['线性方程组', '秩', '列空间'],
+    example: 'r(A|b)=r(A)表示b不增加A的秩'
+  },
+  {
+    id: 'ls-17',
+    name: '矩阵乘法与方程组',
+    latex: 'AB = O \\Leftrightarrow B\\text{的每一列都是}Ax=0\\text{的解}',
+    description: 'AB=O意味着B的列向量都是Ax=0的解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '矩阵', '考研重点'],
+    example: 'B的列向量属于A的零空间'
+  },
+  {
+    id: 'ls-18',
+    name: '秩与解空间的关系',
+    latex: 'r(AB) \\leq r(A), \\quad r(AB) = r(B) - \\dim(N(A) \\cap \\text{列空间}(B))',
+    description: '乘积的秩与解空间的关系',
+    category: 'linear-systems',
+    tags: ['线性方程组', '秩', '考研重点'],
+    example: 'A满秩时，r(AB)=r(B)'
+  },
+  
+  // 公共解问题
+  {
+    id: 'ls-19',
+    name: '两方程组的公共解',
+    latex: '\\text{公共解} = \\text{两个解空间的交集}',
+    description: '求公共解就是求两个齐次方程组解空间的交集',
+    category: 'linear-systems',
+    tags: ['线性方程组', '公共解', '考研重点'],
+    example: '联立两个方程组求解'
+  },
+  {
+    id: 'ls-20',
+    name: '公共解求法',
+    latex: '\\begin{cases} Ax = 0 \\\\ Bx = 0 \\end{cases}\\text{联立求解}',
+    description: '将两个方程组联立，求新的齐次方程组的解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '公共解', '计算'],
+    example: '公共解空间维数≥n-r(A)-r(B)'
+  },
+  {
+    id: 'ls-21',
+    name: '同解方程组',
+    latex: 'Ax=0\\text{与}Bx=0\\text{同解} \\Leftrightarrow r(A) = r(B) = r\\begin{pmatrix} A \\\\ B \\end{pmatrix}',
+    description: '两个方程组同解等价于秩相等且联立后秩不变',
+    category: 'linear-systems',
+    tags: ['线性方程组', '同解', '考研重点'],
+    example: '同解 ⟺ 解空间相同'
+  },
+  
+  // 矩阵方程的解
+  {
+    id: 'ls-22',
+    name: '矩阵方程AX=B',
+    latex: 'X\\text{有解} \\Leftrightarrow r(A) = r(A|B), \\quad X\\text{的列是}Ax=b_i\\text{的解}',
+    description: '矩阵方程有解等价于B的每列都可由A的列向量表示',
+    category: 'linear-systems',
+    tags: ['线性方程组', '矩阵方程', '考研重点'],
+    example: 'X的每一列是Ax=B对应列的解'
+  },
+  {
+    id: 'ls-23',
+    name: '矩阵方程解的结构',
+    latex: 'X = X^* + C, \\quad C\\text{满足}AC = O',
+    description: '矩阵方程通解=特解+齐次方程的解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '矩阵方程', '解的结构'],
+    example: 'C的列向量都是Ax=0的解'
+  },
+  {
+    id: 'ls-24',
+    name: '矩阵方程AX=O',
+    latex: 'AX = O \\Rightarrow X\\text{的列向量都是}Ax=0\\text{的解}',
+    description: '矩阵方程AX=O的解的列向量属于A的零空间',
+    category: 'linear-systems',
+    tags: ['线性方程组', '矩阵方程', '齐次'],
+    example: 'X的秩≤n-r(A)'
+  },
+  
+  // 四个基本子空间
+  {
+    id: 'ls-25',
+    name: '列空间（值域）',
+    latex: 'R(A) = \\{Ax : x \\in \\mathbb{R}^n\\} = \\text{span}(a_1, a_2, \\cdots, a_n)',
+    description: '列空间是A的列向量张成的空间，维数等于r(A)',
+    category: 'linear-systems',
+    tags: ['线性方程组', '子空间', '考研重点'],
+    example: 'Ax=b有解 ⟺ b∈R(A)'
+  },
+  {
+    id: 'ls-26',
+    name: '零空间（核）',
+    latex: 'N(A) = \\{x : Ax = 0\\}',
+    description: '零空间是Ax=0的所有解向量构成的空间，维数为n-r(A)',
+    category: 'linear-systems',
+    tags: ['线性方程组', '子空间', '考研重点'],
+    example: 'dim N(A) = n - r(A)'
+  },
+  {
+    id: 'ls-27',
+    name: '秩-零度定理',
+    latex: '\\dim R(A) + \\dim N(A) = n, \\quad r(A) + \\dim N(A) = n',
+    description: '列空间维数加零空间维数等于矩阵列数',
+    category: 'linear-systems',
+    tags: ['线性方程组', '子空间', '定理'],
+    example: '这是线性代数的基本定理之一'
+  },
+  {
+    id: 'ls-28',
+    name: '行空间与左零空间',
+    latex: 'R(A^T) = \\text{行空间}, \\quad N(A^T) = \\text{左零空间}',
+    description: '行空间是A的行向量张成的空间，左零空间是y^TA=0的解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '子空间', '概念'],
+    example: 'dim R(A^T) = r(A), dim N(A^T) = m - r(A)'
+  },
+  
+  // 解法的矩阵观点
+  {
+    id: 'ls-29',
+    name: '高斯消元的矩阵表示',
+    latex: 'E_k \\cdots E_2 E_1 A = U, \\quad E = E_k \\cdots E_1',
+    description: '消元过程相当于左乘一系列初等矩阵',
+    category: 'linear-systems',
+    tags: ['线性方程组', '消元', '矩阵'],
+    example: 'E是所有初等变换的累积效果'
+  },
+  {
+    id: 'ls-30',
+    name: 'LU分解',
+    latex: 'A = LU, \\quad L\\text{下三角}, U\\text{上三角}',
+    description: '将A分解为下三角乘上三角，用于高效求解方程组',
+    category: 'linear-systems',
+    tags: ['线性方程组', '分解', 'LU'],
+    example: 'Ax=b → LUx=b → 先解Ly=b，再解Ux=y'
+  },
+  {
+    id: 'ls-31',
+    name: '解方程组的复杂度',
+    latex: '\\text{高斯消元}: O(n^3), \\quad \\text{回代求解}: O(n^2)',
+    description: '消元过程复杂度O(n³)，回代过程O(n²)',
+    category: 'linear-systems',
+    tags: ['线性方程组', '复杂度', '算法'],
+    example: '多次求解同一A可用LU分解'
+  },
+  
+  // 特殊情况
+  {
+    id: 'ls-32',
+    name: '方程个数等于未知数个数',
+    latex: 'm = n \\Rightarrow |A| \\neq 0 \\Leftrightarrow \\text{有唯一解}',
+    description: '方阵情况下，行列式非零等价于有唯一解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '方阵', '特殊情况'],
+    example: '此时可用克拉默法则或求逆法'
+  },
+  {
+    id: 'ls-33',
+    name: '方程个数小于未知数个数',
+    latex: 'm < n \\Rightarrow \\text{若有解则必有无穷多解}',
+    description: '方程少未知数多时，若有解则一定有无穷多解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '欠定', '特殊情况'],
+    example: '齐次情况m<n必有无穷多非零解'
+  },
+  {
+    id: 'ls-34',
+    name: '方程个数大于未知数个数',
+    latex: 'm > n \\Rightarrow \\text{可能无解}',
+    description: '超定方程组可能无解，需用最小二乘法',
+    category: 'linear-systems',
+    tags: ['线性方程组', '超定', '特殊情况'],
+    example: '最小二乘解：x=(A^TA)^{-1}A^Tb'
+  },
+  
+  // 最小二乘解
+  {
+    id: 'ls-35',
+    name: '最小二乘解',
+    latex: 'x^* = (A^TA)^{-1}A^Tb, \\quad \\text{最小化}\\|Ax - b\\|^2',
+    description: '当方程组无解时，求使残差最小的解',
+    category: 'linear-systems',
+    tags: ['线性方程组', '最小二乘', '应用'],
+    example: 'A^TA必须可逆'
+  },
+  {
+    id: 'ls-36',
+    name: '正规方程',
+    latex: 'A^TAx = A^Tb',
+    description: '最小二乘解满足的方程，称为正规方程',
+    category: 'linear-systems',
+    tags: ['线性方程组', '最小二乘', '正规方程'],
+    example: '解正规方程得到最小二乘解'
+  },
+  
+  // ===== 二次型 =====
+  {
+    id: 'qt-1',
+    name: '二次型的定义',
+    latex: 'f(x_1, x_2, \\cdots, x_n) = \\sum_{i,j=1}^{n} a_{ij}x_ix_j = x^TAx',
+    description: '二次型是关于变量的二次齐次多项式，可用矩阵表示',
+    category: 'quadratic-form',
+    tags: ['二次型', '定义', '基础'],
+    example: 'f(x,y)=x²+2xy+y² → A=[[1,1],[1,1]]'
+  },
+  {
+    id: 'qt-2',
+    name: '二次型的矩阵表示',
+    latex: 'f = x^TAx, \\quad A = A^T',
+    description: '二次型的矩阵A必须是对称矩阵',
+    category: 'quadratic-form',
+    tags: ['二次型', '矩阵表示'],
+    example: '系数a_{ij}和a_{ji}各取一半放到对称位置'
+  },
+  {
+    id: 'qt-3',
+    name: '二次型的秩',
+    latex: 'r(f) = r(A)',
+    description: '二次型的秩等于其矩阵A的秩',
+    category: 'quadratic-form',
+    tags: ['二次型', '秩'],
+    example: '秩=非零特征值个数'
+  },
+  {
+    id: 'qt-4',
+    name: '线性变换与二次型',
+    latex: 'x = Cy \\Rightarrow f = x^TAx = y^T(C^TAC)y',
+    description: '线性变换后，新二次型的矩阵为C^TAC',
+    category: 'quadratic-form',
+    tags: ['二次型', '线性变换'],
+    example: '这是化标准形的基础'
+  },
+  {
+    id: 'qt-5',
+    name: '合同矩阵',
+    latex: 'B = C^TAC \\Leftrightarrow A \\simeq B',
+    description: 'A与B合同，当且仅当存在可逆矩阵C使B=C^TAC',
+    category: 'quadratic-form',
+    tags: ['合同', '二次型', '重要'],
+    example: '合同关系是等价关系：自反、对称、传递'
+  },
+  {
+    id: 'qt-6',
+    name: '合同的性质',
+    latex: 'A \\simeq B \\Rightarrow r(A) = r(B)',
+    description: '合同矩阵有相同的秩',
+    category: 'quadratic-form',
+    tags: ['合同', '性质'],
+    example: '但秩相等不一定合同'
+  },
+  {
+    id: 'qt-7',
+    name: '二次型的标准形',
+    latex: 'f = d_1y_1^2 + d_2y_2^2 + \\cdots + d_ny_n^2',
+    description: '标准形：只有平方项，没有交叉项',
+    category: 'quadratic-form',
+    tags: ['标准形', '核心'],
+    example: '通过坐标变换可化为标准形'
+  },
+  {
+    id: 'qt-8',
+    name: '惯性定理',
+    latex: 'p + q = r(f), \\quad p = \\text{正惯性指数}, q = \\text{负惯性指数}',
+    description: '标准形中正、负系数的个数是唯一确定的',
+    category: 'quadratic-form',
+    tags: ['惯性定理', '核心', '考研重点'],
+    example: '合同变换不改变惯性指数'
+  },
+  {
+    id: 'qt-9',
+    name: '惯性指数与特征值',
+    latex: 'p = \\text{正特征值个数}, \\quad q = \\text{负特征值个数}',
+    description: '正惯性指数等于正特征值个数，负惯性指数等于负特征值个数',
+    category: 'quadratic-form',
+    tags: ['惯性指数', '特征值'],
+    example: '零特征值个数 = n - r(A)'
+  },
+  {
+    id: 'qt-10',
+    name: '规范形',
+    latex: 'f = y_1^2 + \\cdots + y_p^2 - y_{p+1}^2 - \\cdots - y_r^2',
+    description: '系数化为±1的标准形，由惯性指数唯一确定',
+    category: 'quadratic-form',
+    tags: ['规范形', '标准形'],
+    example: '规范形唯一，标准形不唯一'
+  },
+  {
+    id: 'qt-11',
+    name: '配方法步骤',
+    latex: 'f = a_{11}\\left(x_1 + \\frac{a_{12}}{a_{11}}x_2 + \\cdots\\right)^2 + g(x_2,\\cdots,x_n)',
+    description: '逐个配方：先配x₁，再配x₂，依此类推',
+    category: 'quadratic-form',
+    tags: ['配方法', '技巧'],
+    example: 'a₁₁=0时先交换变量'
+  },
+  {
+    id: 'qt-12',
+    name: '正交变换化标准形',
+    latex: 'f = \\lambda_1y_1^2 + \\lambda_2y_2^2 + \\cdots + \\lambda_ny_n^2',
+    description: 'λᵢ是A的特征值，用正交矩阵Q使Q^TAQ=Λ',
+    category: 'quadratic-form',
+    tags: ['正交变换', '特征值', '核心'],
+    example: '正交变换保持长度不变'
+  },
+  {
+    id: 'qt-13',
+    name: '正定二次型定义',
+    latex: 'f = x^TAx > 0, \\quad \\forall x \\neq 0',
+    description: '对任意非零向量x，二次型值恒为正',
+    category: 'quadratic-form',
+    tags: ['正定', '定义'],
+    example: '正定⟺A正定'
+  },
+  {
+    id: 'qt-14',
+    name: '正定矩阵的等价条件',
+    latex: 'A\\text{正定} \\Leftrightarrow \\lambda_i > 0 \\Leftrightarrow \\Delta_k > 0 \\Leftrightarrow A = P^TP',
+    description: '特征值全正、顺序主子式全正、可分解为P^TP',
+    category: 'quadratic-form',
+    tags: ['正定', '判定', '考研重点'],
+    example: 'Δ_k是k阶顺序主子式'
+  },
+  {
+    id: 'qt-15',
+    name: '顺序主子式',
+    latex: '\\Delta_k = \\begin{vmatrix} a_{11} & \\cdots & a_{1k} \\\\ \\vdots & \\ddots & \\vdots \\\\ a_{k1} & \\cdots & a_{kk} \\end{vmatrix}',
+    description: '取矩阵左上角的k阶子式',
+    category: 'quadratic-form',
+    tags: ['顺序主子式', '正定'],
+    example: '正定⟺所有Δ_k>0'
+  },
+  {
+    id: 'qt-16',
+    name: '负定矩阵判定',
+    latex: 'A\\text{负定} \\Leftrightarrow -A\\text{正定} \\Leftrightarrow (-1)^k\\Delta_k > 0',
+    description: '负定等价于-A正定，或奇数阶主子式<0，偶数阶>0',
+    category: 'quadratic-form',
+    tags: ['负定', '判定'],
+    example: '判定方法与正定类似'
+  },
+  {
+    id: 'qt-17',
+    name: '半正定判定',
+    latex: 'A\\text{半正定} \\Leftrightarrow \\lambda_i \\geq 0 \\Leftrightarrow f \\geq 0',
+    description: '特征值非负，或二次型值非负',
+    category: 'quadratic-form',
+    tags: ['半正定', '判定'],
+    example: '半正定但非正定⟺至少一个特征值为0'
+  },
+  {
+    id: 'qt-18',
+    name: '不定二次型',
+    latex: 'A\\text{不定} \\Leftrightarrow \\lambda_i\\text{有正有负}',
+    description: '特征值有正有负，惯性指数p,q都非零',
+    category: 'quadratic-form',
+    tags: ['不定', '判定'],
+    example: '不定⟺存在x使f>0，存在y使f<0'
+  },
+  {
+    id: 'qt-19',
+    name: '正定矩阵的性质',
+    latex: 'A,B\\text{正定} \\Rightarrow A+B\\text{正定}, \\quad A^{-1}\\text{正定}',
+    category: 'quadratic-form',
+    tags: ['正定', '性质'],
+    example: '正定矩阵的逆、和仍是正定'
+  },
+  {
+    id: 'qt-20',
+    name: '合同对角化',
+    latex: '\\exists C, \\quad C^TAC = \\text{diag}(d_1, \\cdots, d_n)',
+    description: '任何对称矩阵都可合同对角化',
+    category: 'quadratic-form',
+    tags: ['合同', '对角化'],
+    example: '配方法或初等变换法'
+  },
+  {
+    id: 'qt-21',
+    name: '初等变换法化标准形',
+    latex: '[A \\mid I] \\xrightarrow{\\text{行变换}} [D \\mid C^T]',
+    description: '对A做初等行变换的同时对单位阵做相应的列变换',
+    category: 'quadratic-form',
+    tags: ['初等变换', '技巧'],
+    example: 'D为对角阵，C为变换矩阵'
+  },
+  {
+    id: 'qt-22',
+    name: '二次型与特征值',
+    latex: 'x^TAx = \\sum_{i=1}^{n} \\lambda_i y_i^2, \\quad x = Qy',
+    description: '正交变换后的系数就是特征值',
+    category: 'quadratic-form',
+    tags: ['特征值', '正交变换'],
+    example: '这是正交变换化标准形的本质'
+  },
+  {
+    id: 'qt-23',
+    name: '合同与相似的对比',
+    latex: '相似: B = P^{-1}AP \\quad 合同: B = C^TAC',
+    description: '相似保持特征值，合同保持惯性指数',
+    category: 'quadratic-form',
+    tags: ['合同', '相似', '对比'],
+    example: '实对称矩阵：正交相似=正交合同'
+  },
+  {
+    id: 'qt-24',
+    name: '二次型的正定性判定方法汇总',
+    latex: '\\begin{cases} \\text{特征值法} & \\lambda_i \\text{全正}\\Rightarrow\\text{正定} \\\\ \\text{顺序主子式法} & \\Delta_k\\text{全正}\\Rightarrow\\text{正定} \\\\ \\text{配方法} & \\text{系数全正}\\Rightarrow\\text{正定} \\end{cases}',
+    description: '三种方法等价，选择最方便的',
+    category: 'quadratic-form',
+    tags: ['正定', '判定', '总结'],
+    example: '低阶用顺序主子式，高阶用特征值'
+  },
+  {
+    id: 'qt-25',
+    name: '二次型在优化中的应用',
+    latex: 'f(x) = x^TAx \\text{正定} \\Rightarrow f\\text{在原点取最小值}',
+    description: '正定二次型的极值性质',
+    category: 'quadratic-form',
+    tags: ['优化', '应用'],
+    example: 'Hessian矩阵正定→局部极小'
+  },
+  {
+    id: 'qt-26',
+    name: '二次型的几何意义',
+    latex: 'x^TAx = 1: \\quad \\text{椭圆/双曲线}',
+    description: '正定：椭球面；不定：双曲面；半正定：柱面',
+    category: 'quadratic-form',
+    tags: ['几何意义', '应用'],
+    example: '惯性指数决定曲面类型'
+  },
+  {
+    id: 'qt-27',
+    name: '惯性指数与曲面类型',
+    latex: 'p=n: \\text{椭球面}, \\quad p,q\\neq 0: \\text{双曲面}',
+    description: '正惯性指数p=n是椭球面，p和q都非零是双曲面',
+    category: 'quadratic-form',
+    tags: ['惯性指数', '曲面'],
+    example: 'p个正项，q个负项，r-p-q个零项'
+  },
+  {
+    id: 'qt-28',
+    name: '正定矩阵的Cholesky分解',
+    latex: 'A = LL^T, \\quad L\\text{为下三角矩阵}',
+    description: '正定矩阵可分解为下三角矩阵与其转置的乘积',
+    category: 'quadratic-form',
+    tags: ['正定', '分解'],
+    example: '用于求解线性方程组'
+  },
+  {
+    id: 'qt-29',
+    name: '合同标准形的应用',
+    latex: 'A \\simeq \\text{diag}(\\underbrace{1,\\cdots,1}_{p}, \\underbrace{-1,\\cdots,-1}_{q}, 0,\\cdots,0)',
+    description: '合同标准形（规范形）由惯性指数唯一确定',
+    category: 'quadratic-form',
+    tags: ['合同', '规范形'],
+    example: '判断两矩阵是否合同：看惯性指数是否相同'
+  },
+  {
+    id: 'qt-30',
+    name: '实对称矩阵的谱分解',
+    latex: 'A = \\sum_{i=1}^{n} \\lambda_i v_i v_i^T',
+    description: '实对称矩阵可表示为特征值与特征向量外积之和',
+    category: 'quadratic-form',
+    tags: ['谱分解', '特征值', '重要'],
+    example: 'v_i是单位特征向量'
+  },
+  
+  // ===== 线性空间 =====
+  {
+    id: 'lspace-1',
+    name: '线性空间的定义',
+    latex: 'V + V \\subseteq V, \\quad \\mathbb{F} \\cdot V \\subseteq V',
+    description: '对加法和数乘封闭的非空集合，满足8条运算律',
+    category: 'linear-space',
+    tags: ['线性空间', '定义', '基础'],
+    example: 'ℝⁿ、多项式空间、函数空间都是线性空间'
+  },
+  {
+    id: 'lspace-2',
+    name: '线性空间的八条公理',
+    latex: '\\begin{cases} \\alpha+\\beta=\\beta+\\alpha \\\\ (\\alpha+\\beta)+\\gamma=\\alpha+(\\beta+\\gamma) \\\\ \\exists 0, \\alpha+0=\\alpha \\\\ \\exists (-\\alpha), \\alpha+(-\\alpha)=0 \\\\ 1\\cdot\\alpha=\\alpha \\\\ k(l\\alpha)=(kl)\\alpha \\\\ (k+l)\\alpha=k\\alpha+l\\alpha \\\\ k(\\alpha+\\beta)=k\\alpha+k\\beta \\end{cases}',
+    description: '加法交换律、结合律、零元素、负元素、数乘结合律、分配律',
+    category: 'linear-space',
+    tags: ['线性空间', '公理'],
+    example: '验证线性空间必须验证这8条'
+  },
+  {
+    id: 'lspace-3',
+    name: '子空间判定',
+    latex: 'W \\subseteq V \\text{是子空间} \\Leftrightarrow \\begin{cases} \\alpha,\\beta \\in W \\Rightarrow \\alpha+\\beta \\in W \\\\ \\alpha \\in W, k \\in \\mathbb{F} \\Rightarrow k\\alpha \\in W \\end{cases}',
+    description: '子空间对加法和数乘封闭',
+    category: 'linear-space',
+    tags: ['子空间', '判定'],
+    example: '含零向量的非空子集，验证封闭性即可'
+  },
+  {
+    id: 'lspace-4',
+    name: '生成子空间',
+    latex: '\\text{span}\\{\\alpha_1, \\cdots, \\alpha_m\\} = \\left\\{ \\sum_{i=1}^{m} k_i\\alpha_i \\right\\}',
+    description: '由向量组张成的子空间，包含所有线性组合',
+    category: 'linear-space',
+    tags: ['生成子空间', '张成'],
+    example: 'span{e₁,e₂}是ℝ²中过原点的平面'
+  },
+  {
+    id: 'lspace-5',
+    name: '线性相关与线性无关',
+    latex: '\\sum_{i=1}^{m} k_i\\alpha_i = 0 \\Rightarrow k_1 = k_2 = \\cdots = k_m = 0',
+    description: '线性无关：只有零组合为零向量',
+    category: 'linear-space',
+    tags: ['线性相关', '线性无关', '核心'],
+    example: '线性相关⟺存在向量可被其余向量线性表示'
+  },
+  {
+    id: 'lspace-6',
+    name: '基的定义',
+    latex: '\\{\\alpha_1, \\cdots, \\alpha_n\\} \\text{是基} \\Leftrightarrow \\begin{cases} \\text{线性无关} \\\\ \\text{张成}V \\end{cases}',
+    description: '基是线性无关的生成元',
+    category: 'linear-space',
+    tags: ['基', '定义', '核心'],
+    example: 'ℝ³的标准基：e₁=(1,0,0), e₂=(0,1,0), e₃=(0,0,1)'
+  },
+  {
+    id: 'lspace-7',
+    name: '维数',
+    latex: '\\dim V = n, \\quad \\text{基中向量个数}',
+    description: '线性空间的维数等于基中向量的个数',
+    category: 'linear-space',
+    tags: ['维数', '基'],
+    example: 'dimℝⁿ=n, dim P_n = n+1（n次多项式空间）'
+  },
+  {
+    id: 'lspace-8',
+    name: '坐标',
+    latex: '\\alpha = x_1\\alpha_1 + \\cdots + x_n\\alpha_n, \\quad [\\alpha]_B = (x_1, \\cdots, x_n)^T',
+    description: '向量在基B下的坐标表示',
+    category: 'linear-space',
+    tags: ['坐标', '基'],
+    example: '同一向量在不同基下有不同坐标'
+  },
+  {
+    id: 'lspace-9',
+    name: '过渡矩阵',
+    latex: '[\\beta_1, \\cdots, \\beta_n] = [\\alpha_1, \\cdots, \\alpha_n] P',
+    description: '从基α到基β的过渡矩阵P，列向量是β在α下的坐标',
+    category: 'linear-space',
+    tags: ['过渡矩阵', '基变换', '重要'],
+    example: 'P可逆，P的列是新基在旧基下的坐标'
+  },
+  {
+    id: 'lspace-10',
+    name: '坐标变换公式',
+    latex: '[\\alpha]_\\beta = P^{-1}[\\alpha]_\\alpha',
+    description: '向量在新基下的坐标 = 过渡矩阵的逆 × 旧基坐标',
+    category: 'linear-space',
+    tags: ['坐标变换', '过渡矩阵', '考研重点'],
+    example: '先求过渡矩阵，再求逆，最后左乘'
+  },
+  {
+    id: 'lspace-11',
+    name: '基扩充定理',
+    latex: '\\text{线性无关组} \\subseteq \\text{基}',
+    description: '线性无关组可扩充为基',
+    category: 'linear-space',
+    tags: ['基扩充', '定理'],
+    example: '从无关组出发，添加向量直到张成整个空间'
+  },
+  {
+    id: 'lspace-12',
+    name: '维数公式',
+    latex: '\\dim(V_1 + V_2) = \\dim V_1 + \\dim V_2 - \\dim(V_1 \\cap V_2)',
+    description: '两子空间之和的维数',
+    category: 'linear-space',
+    tags: ['维数公式', '子空间', '重要'],
+    example: '类比集合的容斥原理'
+  },
+  {
+    id: 'lspace-13',
+    name: '直和',
+    latex: 'V = V_1 \\oplus V_2 \\Leftrightarrow V = V_1 + V_2 \\text{且} V_1 \\cap V_2 = \\{0\\}',
+    description: '直和：和空间中每个向量表示唯一',
+    category: 'linear-space',
+    tags: ['直和', '子空间', '重要'],
+    example: '直和分解：每个向量可唯一分解'
+  },
+  {
+    id: 'lspace-14',
+    name: '直和的等价条件',
+    latex: 'V_1 \\oplus V_2 \\Leftrightarrow \\dim(V_1+V_2) = \\dim V_1 + \\dim V_2',
+    description: '直和等价于维数相加',
+    category: 'linear-space',
+    tags: ['直和', '判定'],
+    example: '直和⟺交为零空间⟺维数相加'
+  },
+  {
+    id: 'lspace-15',
+    name: '线性变换的定义',
+    latex: 'T: V \\to W, \\quad T(\\alpha+\\beta) = T(\\alpha)+T(\\beta), \\quad T(k\\alpha) = kT(\\alpha)',
+    description: '保持加法和数乘运算的映射',
+    category: 'linear-space',
+    tags: ['线性变换', '定义', '基础'],
+    example: '矩阵乘法、微分、积分都是线性变换'
+  },
+  {
+    id: 'lspace-16',
+    name: '线性变换的矩阵表示',
+    latex: 'T[\\alpha_1, \\cdots, \\alpha_n] = [\\alpha_1, \\cdots, \\alpha_n]A',
+    description: '线性变换在基下的矩阵A，列向量是T(αᵢ)的坐标',
+    category: 'linear-space',
+    tags: ['线性变换', '矩阵', '核心'],
+    example: '同一变换在不同基下有不同矩阵'
+  },
+  {
+    id: 'lspace-17',
+    name: '相似矩阵',
+    latex: 'B = P^{-1}AP',
+    description: '同一线性变换在不同基下的矩阵相似',
+    category: 'linear-space',
+    tags: ['相似', '线性变换'],
+    example: '相似矩阵有相同的特征值、迹、行列式'
+  },
+  {
+    id: 'lspace-18',
+    name: '线性变换的核',
+    latex: '\\ker T = \\{\\alpha \\in V : T(\\alpha) = 0\\}',
+    description: '核是被映射到零向量的所有向量',
+    category: 'linear-space',
+    tags: ['核', '线性变换'],
+    example: '核是定义域的子空间'
+  },
+  {
+    id: 'lspace-19',
+    name: '线性变换的像',
+    latex: '\\text{Im } T = \\{T(\\alpha) : \\alpha \\in V\\}',
+    description: '像是所有像向量的集合',
+    category: 'linear-space',
+    tags: ['像', '线性变换'],
+    example: '像是值域的子空间'
+  },
+  {
+    id: 'lspace-20',
+    name: '秩-零度定理',
+    latex: '\\dim(\\ker T) + \\dim(\\text{Im } T) = \\dim V',
+    description: '核的维数（零度）+ 像的维数（秩）= 定义域维数',
+    category: 'linear-space',
+    tags: ['秩零度', '定理', '考研重点'],
+    example: '类比矩阵的秩和零空间维数'
+  },
+  {
+    id: 'lspace-21',
+    name: '特征值与特征向量',
+    latex: 'T(\\alpha) = \\lambda\\alpha',
+    description: '线性变换的特征向量：变换后只伸缩不改变方向',
+    category: 'linear-space',
+    tags: ['特征值', '特征向量', '核心'],
+    example: '特征向量构成不变子空间'
+  },
+  {
+    id: 'lspace-22',
+    name: '特征子空间',
+    latex: 'V_\\lambda = \\{\\alpha : T(\\alpha) = \\lambda\\alpha\\}',
+    description: '属于同一特征值的所有特征向量和零向量',
+    category: 'linear-space',
+    tags: ['特征子空间', '特征值'],
+    example: '特征子空间的维数≤特征值的代数重数'
+  },
+  {
+    id: 'lspace-23',
+    name: '不变子空间',
+    latex: 'T(W) \\subseteq W',
+    description: '线性变换将子空间映射到自身',
+    category: 'linear-space',
+    tags: ['不变子空间', '线性变换'],
+    example: '特征子空间是一维不变子空间'
+  },
+  {
+    id: 'lspace-24',
+    name: '线性变换可对角化条件',
+    latex: 'T\\text{可对角化} \\Leftrightarrow V = V_{\\lambda_1} \\oplus \\cdots \\oplus V_{\\lambda_k}',
+    description: '线性空间可分解为特征子空间的直和',
+    category: 'linear-space',
+    tags: ['对角化', '线性变换', '重要'],
+    example: '等价于：几何重数=代数重数'
+  },
+  {
+    id: 'lspace-25',
+    name: '欧氏空间定义',
+    latex: '\\langle \\alpha, \\beta \\rangle: V \\times V \\to \\mathbb{R}',
+    description: '定义了内积的实线性空间，内积满足正定性、对称性、线性性',
+    category: 'linear-space',
+    tags: ['欧氏空间', '内积', '基础'],
+    example: 'ℝⁿ的标准内积：⟨α,β⟩=α·β'
+  },
+  {
+    id: 'lspace-26',
+    name: '向量的长度',
+    latex: '|\\alpha| = \\sqrt{\\langle \\alpha, \\alpha \\rangle}',
+    description: '向量与自身内积的平方根',
+    category: 'linear-space',
+    tags: ['长度', '欧氏空间'],
+    example: '单位向量：|α|=1'
+  },
+  {
+    id: 'lspace-27',
+    name: '正交与正交补',
+    latex: '\\alpha \\perp \\beta \\Leftrightarrow \\langle\\alpha,\\beta\\rangle = 0',
+    description: '内积为零的两向量正交',
+    category: 'linear-space',
+    tags: ['正交', '欧氏空间'],
+    example: '正交向量组线性无关'
+  },
+  {
+    id: 'lspace-28',
+    name: '正交补',
+    latex: 'W^\\perp = \\{\\alpha \\in V : \\langle\\alpha,\\beta\\rangle = 0, \\forall \\beta \\in W\\}',
+    description: '与子空间W中所有向量都正交的向量集合',
+    category: 'linear-space',
+    tags: ['正交补', '子空间'],
+    example: 'V = W ⊕ W^⊥（正交直和分解）'
+  },
+  {
+    id: 'lspace-29',
+    name: 'Schmidt正交化',
+    latex: '\\beta_1 = \\alpha_1, \\quad \\beta_k = \\alpha_k - \\sum_{i=1}^{k-1}\\frac{\\langle\\alpha_k,\\beta_i\\rangle}{\\langle\\beta_i,\\beta_i\\rangle}\\beta_i',
+    description: '将线性无关组化为正交组的方法',
+    category: 'linear-space',
+    tags: ['Schmidt', '正交化', '重要'],
+    example: '再单位化得到标准正交基'
+  },
+  {
+    id: 'lspace-30',
+    name: '标准正交基',
+    latex: '\\langle\\alpha_i, \\alpha_j\\rangle = \\delta_{ij}',
+    description: '两两正交且长度为1的基',
+    category: 'linear-space',
+    tags: ['标准正交基', '基'],
+    example: '坐标=内积：[α]_B=(⟨α,α₁⟩,...,⟨α,αₙ⟩)'
+  },
+  {
+    id: 'lspace-31',
+    name: '正交变换',
+    latex: '\\langle T(\\alpha), T(\\beta) \\rangle = \\langle\\alpha, \\beta\\rangle',
+    description: '保持内积不变的线性变换',
+    category: 'linear-space',
+    tags: ['正交变换', '欧氏空间'],
+    example: '正交变换保持长度和夹角'
+  },
+  {
+    id: 'lspace-32',
+    name: '正交变换的矩阵',
+    latex: 'A^TA = I, \\quad A^{-1} = A^T',
+    description: '正交变换在标准正交基下的矩阵是正交矩阵',
+    category: 'linear-space',
+    tags: ['正交变换', '矩阵'],
+    example: '正交矩阵的行列式=±1'
+  },
+  {
+    id: 'lspace-33',
+    name: '对称变换',
+    latex: '\\langle T(\\alpha), \\beta \\rangle = \\langle\\alpha, T(\\beta)\\rangle',
+    description: '对称变换满足自伴性',
+    category: 'linear-space',
+    tags: ['对称变换', '欧氏空间'],
+    example: '对称变换在标准正交基下是对称矩阵'
+  },
+  {
+    id: 'lspace-34',
+    name: '实对称矩阵的正交对角化',
+    latex: '\\exists Q\\text{正交}, \\quad Q^TAQ = \\Lambda',
+    description: '实对称矩阵可用正交矩阵对角化',
+    category: 'linear-space',
+    tags: ['正交对角化', '实对称', '考研重点'],
+    example: '谱定理：A=∑λᵢvᵢvᵢᵀ'
+  },
+  {
+    id: 'lspace-35',
+    name: '最小二乘解',
+    latex: 'A^TAx = A^Tb',
+    description: '无解方程组的最优逼近解',
+    category: 'linear-space',
+    tags: ['最小二乘', '应用'],
+    example: '投影到列空间得到的解'
+  },
+  {
+    id: 'lspace-36',
+    name: '正交投影',
+    latex: 'P_W = \\sum_{i=1}^{r} \\frac{v_i v_i^T}{v_i^T v_i}',
+    description: '向子空间W的正交投影',
+    category: 'linear-space',
+    tags: ['正交投影', '投影'],
+    example: '投影矩阵满足P²=P，P=Pᵀ'
   }
 ];
 
@@ -2739,12 +4848,20 @@ const CATEGORIES: Category[] = [
   { id: 'probability', name: '概率统计', icon: '🎲' },
   { id: 'vector', name: '向量代数', icon: '→' },
   { id: 'analytic-geometry', name: '空间解析几何', icon: '📐' },
-  { id: 'multivariable-diff', name: '多元微分', icon: '∂²' }
+  { id: 'multivariable-diff', name: '多元微分', icon: '∂²' },
+  { id: 'determinant', name: '行列式', icon: '⊞' },
+  { id: 'matrix', name: '矩阵', icon: '▦' },
+  { id: 'linear-systems', name: '线性方程组', icon: '≝' },
+  { id: 'quadratic-form', name: '二次型', icon: '◈' },
+  { id: 'linear-space', name: '线性空间', icon: '∅' }
 ];
 
 const FormulaBook: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [testMode, setTestMode] = useState(false);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [revealedFormulas, setRevealedFormulas] = useState<Set<string>>(new Set());
   const [favorites, setFavorites] = useState<Set<string>>(() => {
     // 从localStorage加载收藏
     try {
@@ -2768,6 +4885,19 @@ const FormulaBook: React.FC = () => {
     }
   }, [favorites]);
 
+  // 切换测试模式时清空已显示的公式
+  React.useEffect(() => {
+    setRevealedFormulas(new Set());
+  }, [testMode]);
+
+  // 切换分类时，如果不是收藏分类，保持只看收藏状态；如果切换到收藏分类，关闭只看收藏
+  const handleCategoryChange = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    if (categoryId === 'favorites') {
+      setShowFavoritesOnly(false);
+    }
+  };
+
   // 过滤公式
   const filteredFormulas = useMemo(() => {
     return FORMULAS.filter(formula => {
@@ -2775,14 +4905,33 @@ const FormulaBook: React.FC = () => {
       if (activeCategory === 'favorites') {
         return favorites.has(formula.id);
       }
+      
+      // 分类筛选
       const matchCategory = activeCategory === 'all' || formula.category === activeCategory;
+      
+      // 只看收藏筛选（在当前分类下）
+      const matchFavorite = !showFavoritesOnly || favorites.has(formula.id);
+      
+      // 搜索筛选
       const matchSearch = !searchQuery || 
         formula.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         formula.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
         formula.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchCategory && matchSearch;
+      
+      return matchCategory && matchFavorite && matchSearch;
     });
-  }, [activeCategory, searchQuery, favorites]);
+  }, [activeCategory, searchQuery, favorites, showFavoritesOnly]);
+  
+  // 当前分类下收藏的公式数量
+  const favoritesInCurrentCategory = useMemo(() => {
+    if (activeCategory === 'all') {
+      return favorites.size;
+    }
+    if (activeCategory === 'favorites') {
+      return favorites.size;
+    }
+    return FORMULAS.filter(f => f.category === activeCategory && favorites.has(f.id)).length;
+  }, [activeCategory, favorites]);
 
   // 切换收藏
   const toggleFavorite = (id: string) => {
@@ -2807,7 +4956,7 @@ const FormulaBook: React.FC = () => {
             <button
               key={cat.id}
               className={`category-item ${activeCategory === cat.id ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat.id)}
+              onClick={() => handleCategoryChange(cat.id)}
             >
               <span className="category-icon">{cat.icon}</span>
               <span className="category-name">{cat.name}</span>
@@ -2832,6 +4981,23 @@ const FormulaBook: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input"
           />
+          {activeCategory !== 'favorites' && (
+            <button
+              className={`favorites-filter-btn ${showFavoritesOnly ? 'active' : ''}`}
+              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+              title={showFavoritesOnly ? '显示全部公式' : '只看收藏的公式'}
+              disabled={favoritesInCurrentCategory === 0}
+            >
+              {showFavoritesOnly ? '📚 显示全部' : `⭐ 只看收藏 (${favoritesInCurrentCategory})`}
+            </button>
+          )}
+          <button
+            className={`test-mode-btn ${testMode ? 'active' : ''}`}
+            onClick={() => setTestMode(!testMode)}
+            title={testMode ? '退出自测模式' : '进入自测模式'}
+          >
+            {testMode ? '📖 退出自测' : '🧪 公式自测'}
+          </button>
           <span className="search-count">{filteredFormulas.length} 个公式</span>
         </div>
 
@@ -2857,7 +5023,30 @@ const FormulaBook: React.FC = () => {
                   {favorites.has(formula.id) ? '★' : '☆'}
                 </button>
               </div>
-              <div className="formula-latex"><MathFormula latex={formula.latex} /></div>
+              <div 
+                className={`formula-latex ${testMode ? 'test-mode' : ''} ${revealedFormulas.has(formula.id) ? 'revealed' : ''}`}
+                onClick={(e) => {
+                  if (testMode) {
+                    e.stopPropagation();
+                    const newRevealed = new Set(revealedFormulas);
+                    if (newRevealed.has(formula.id)) {
+                      newRevealed.delete(formula.id);
+                    } else {
+                      newRevealed.add(formula.id);
+                    }
+                    setRevealedFormulas(newRevealed);
+                  }
+                }}
+              >
+                {testMode && !revealedFormulas.has(formula.id) ? (
+                  <div className="formula-placeholder">
+                    <span className="placeholder-text">点击显示公式</span>
+                    <span className="placeholder-hint">{formula.name}</span>
+                  </div>
+                ) : (
+                  <MathFormula latex={formula.latex} />
+                )}
+              </div>
             </div>
           ))}
         </div>

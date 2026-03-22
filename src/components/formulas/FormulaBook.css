@@ -207,6 +207,102 @@
   white-space: nowrap;
 }
 
+/* 公式自测按钮 */
+.test-mode-btn {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.test-mode-btn:hover {
+  background: var(--bg-card);
+  border-color: var(--accent-gold);
+}
+
+.test-mode-btn.active {
+  background: var(--accent-gold);
+  color: white;
+  border-color: var(--accent-gold);
+}
+
+/* 只看收藏按钮 */
+.favorites-filter-btn {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.favorites-filter-btn:hover:not(:disabled) {
+  background: var(--bg-card);
+  border-color: var(--accent-gold);
+}
+
+.favorites-filter-btn.active {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #333;
+  border-color: #FFD700;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.favorites-filter-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 公式自测模式样式 */
+.formula-latex.test-mode {
+  cursor: pointer;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formula-latex.test-mode.revealed {
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 4px;
+}
+
+.formula-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+}
+
+.placeholder-text {
+  font-size: 0.9rem;
+  color: var(--accent-gold);
+  font-weight: 500;
+}
+
+.placeholder-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.formula-latex.test-mode:hover .placeholder-text {
+  color: var(--text-primary);
+}
+
 /* 公式网格 - 两列布局，顶部对齐 */
 .formula-grid {
   flex: 1;

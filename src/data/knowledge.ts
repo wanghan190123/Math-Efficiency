@@ -7454,6 +7454,2039 @@ $\\frac{\\partial f}{\\partial K} = \\lambda p_K$，$\\frac{\\partial f}{\\parti
   },
 }
 
+// ============================================
+// 行列式知识点
+// ============================================
+
+// 行列式定义与性质知识点
+const determinantDefinitionPoint: KnowledgePoint = {
+  id: 'determinant-definition',
+  moduleId: 'determinant',
+  name: '行列式的定义与性质',
+  formula: '|A| = \\sum_{\\sigma \\in S_n} \\text{sgn}(\\sigma) \\prod_{i=1}^{n} a_{i,\\sigma(i)}',
+  coreSentence: '行列式是将方阵映射到标量的函数，反映了矩阵的"体积缩放因子"和可逆性。',
+  
+  dimensions: {
+    model: {
+      type: '2d',
+      config: {
+        functions: [],
+        points: [
+          { x: 0, y: 0, label: 'O' },
+          { x: 2, y: 1, label: 'a₁' },
+          { x: 1, y: 2, label: 'a₂' },
+          { x: 3, y: 3, label: 'a₁+a₂' },
+        ],
+        sliders: [
+          { id: 'a11', name: 'a₁₁', min: -3, max: 3, step: 0.5, defaultValue: 2, label: 'a₁₁' },
+          { id: 'a21', name: 'a₂₁', min: -3, max: 3, step: 0.5, defaultValue: 1, label: 'a₂₁' },
+          { id: 'a12', name: 'a₁₂', min: -3, max: 3, step: 0.5, defaultValue: 1, label: 'a₁₂' },
+          { id: 'a22', name: 'a₂₂', min: -3, max: 3, step: 0.5, defaultValue: 2, label: 'a₂₂' },
+        ],
+      },
+      animations: [
+        {
+          id: 'area-change',
+          name: '行列式几何意义：面积变化',
+          type: 'auto',
+          duration: 8000,
+          steps: [
+            { id: 's1', description: '初始矩阵：|A|=3，平行四边形面积为3', changes: { a11: 2, a12: 1, a21: 1, a22: 2 } },
+            { id: 's2', description: '压缩变换：|A|=1.5，面积缩小', changes: { a11: 1.5, a12: 1, a21: 1, a22: 2 } },
+            { id: 's3', description: '继续压缩：|A|=0.5，面积更小', changes: { a11: 1, a12: 1, a21: 0.5, a22: 2 } },
+            { id: 's4', description: '临界状态：|A|=0，两向量共线，面积为0！', changes: { a11: 1, a12: 1, a21: 1, a22: 1 } },
+            { id: 's5', description: '反向拉伸：|A|=-1，面积为1但方向相反', changes: { a11: -1, a12: 1, a21: 1, a22: 0 } },
+            { id: 's6', description: '放大变换：|A|=4，面积放大', changes: { a11: 2, a12: 0, a21: 0, a22: 2 } },
+          ],
+        },
+        {
+          id: 'row-swap',
+          name: '换行变号演示',
+          type: 'auto',
+          duration: 5000,
+          steps: [
+            { id: 's1', description: '原矩阵：两列向量形成的平行四边形', changes: { a11: 2, a12: 1, a21: 1, a22: 2 } },
+            { id: 's2', description: '交换两行：向量位置互换，平行四边形翻转', changes: { a11: 1, a12: 2, a21: 2, a22: 1 } },
+            { id: 's3', description: '行列式变号：|A|从3变为-3', changes: { a11: 1, a12: 2, a21: 2, a22: 1 } },
+          ],
+        },
+      ],
+    },
+    
+    explanation: {
+      mainText: `**🎯 引子：二元一次方程组**
+
+考虑二元一次方程组：
+$$\\begin{cases} a_{11}x_1 + a_{12}x_2 = b_1 \\\\ a_{21}x_1 + a_{22}x_2 = b_2 \\end{cases}$$
+
+用消元法求解，会发现解的分母都是 $a_{11}a_{22} - a_{12}a_{21}$。
+
+这个"神奇"的表达式就是**二阶行列式**！
+
+---
+
+**📐 行列式的定义**
+
+**二阶行列式**：
+$$\\begin{vmatrix} a & b \\\\ c & d \\end{vmatrix} = ad - bc$$
+
+主对角线乘积减去副对角线乘积。
+
+**三阶行列式（沙路法则）**：
+$$\\begin{vmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\\\ a_{31} & a_{32} & a_{33} \\end{vmatrix}$$
+
+= $a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32}$
+- $a_{13}a_{22}a_{31} - a_{12}a_{21}a_{33} - a_{11}a_{23}a_{32}$
+
+**n阶行列式**（排列定义）：
+$$|A| = \\sum_{\\sigma \\in S_n} \\text{sgn}(\\sigma) \\prod_{i=1}^{n} a_{i,\\sigma(i)}$$
+
+其中 $S_n$ 是所有n元排列的集合，$\\text{sgn}(\\sigma)$ 是排列的符号。
+
+---
+
+**🔑 行列式的核心性质**
+
+| 性质 | 内容 | 记忆技巧 |
+|------|------|----------|
+| 转置不变 | $|A^T| = |A|$ | 行列"地位平等" |
+| 换行变号 | 交换两行，行列式变号 | 奇排列变偶排列 |
+| 倍乘 | 一行乘k，行列式乘k | 提公因子 |
+| 倍加不变 | 行倍加到另一行，值不变 | **化简利器** |
+| 两行相同为零 | 两行相同或成比例 | 推论性质 |
+
+---
+
+**💡 直观理解**
+
+行列式的几何意义：
+- 二阶：$|A|$ = 两列向量张成的**平行四边形面积**
+- 三阶：$|A|$ = 三列向量张成的**平行六面体体积**
+- n阶：n维超平行体的"有向体积"
+
+$|A| = 0$ 意味着什么？
+- 几何上：向量"退化"了，张成的体积为0
+- 代数上：矩阵**不可逆**，方程组有非唯一解`,
+      highlights: ['行列式是判断矩阵可逆性的关键工具', '倍加不变是化简行列式的核心技巧'],
+    },
+    
+    extension: {
+      essence: `**行列式的本质**
+
+行列式是线性代数的"定海神针"——它连接了矩阵的代数性质和几何意义。
+
+**为什么叫"行列式"？**
+因为它决定了线性方程组是否有唯一解！$|A| \\neq 0$ 时方程组有唯一解。
+
+**排列定义的直观理解**：
+- n个元素的全排列有 $n!$ 种
+- 每种排列对应行列式展开中的一项
+- 奇排列取负号，偶排列取正号
+- 这就是为什么交换两行会变号！
+
+**逆序数**：排列中前面的数比后面的数大的对数。
+- 排列 231 的逆序数：2>1, 3>1，共2个，偶排列
+- 排列 321 的逆序数：3>2, 3>1, 2>1，共3个，奇排列`,
+      further: [
+        {
+          id: 'ext1',
+          title: '行列式的线性性质',
+          content: '行列式对单行（列）是线性的：某行可拆成两行之和时，行列式也拆成两个之和。',
+        },
+        {
+          id: 'ext2',
+          title: '乘积定理',
+          content: '$|AB| = |A||B|$，矩阵乘积的行列式等于各自行列式的乘积。',
+        },
+      ],
+    },
+    
+    applications: {
+      items: [
+        {
+          id: 'app1',
+          type: 'example',
+          title: '计算三阶行列式',
+          description: `计算 $\\begin{vmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{vmatrix}$
+
+**观察**：第2行 = 第1行 + 第3行 - 第1行的2倍 + 第1行...
+
+实际上更简单：第3行 - 第2行 = (7,8,9)-(4,5,6) = (3,3,3)
+第2行 - 第1行 = (4,5,6)-(1,2,3) = (3,3,3)
+
+两行成比例！行列式 = **0**`,
+          scenario: '利用性质化简。',
+        },
+        {
+          id: 'app2',
+          type: 'real',
+          title: '计算机图形学：判断点的位置',
+          description: `**问题**：判断点P在三角形ABC的哪一侧？
+
+**方法**：计算行列式
+$$D = \\begin{vmatrix} x_A & y_A & 1 \\\\ x_B & y_B & 1 \\\\ x_P & y_P & 1 \\end{vmatrix}$$
+
+- $D > 0$：P在AB的左侧
+- $D < 0$：P在AB的右侧  
+- $D = 0$：P在AB连线上
+
+**应用**：多边形填充、碰撞检测、光线追踪`,
+          scenario: '游戏开发和计算机图形学。',
+        },
+        {
+          id: 'app3',
+          type: 'real',
+          title: '结构力学：判断稳定性',
+          description: `**问题**：桁架结构是否稳定？
+
+**方法**：建立平衡方程组，计算系数矩阵的行列式
+
+- $|K| \\neq 0$：结构稳定，可求解
+- $|K| = 0$：结构不稳定（机构），需要加固
+
+**工程意义**：行列式为零意味着结构存在"自由度"，可能发生刚体位移。`,
+          scenario: '土木工程和机械设计。',
+        },
+        {
+          id: 'app4',
+          type: 'real',
+          title: '电路分析：网孔电流法',
+          description: `**问题**：分析复杂电路的电流分布
+
+**方法**：建立网孔方程组
+$$\\begin{pmatrix} R_{11} & R_{12} & R_{13} \\\\ R_{21} & R_{22} & R_{23} \\\\ R_{31} & R_{32} & R_{33} \\end{pmatrix} \\begin{pmatrix} I_1 \\\\ I_2 \\\\ I_3 \\end{pmatrix} = \\begin{pmatrix} V_1 \\\\ V_2 \\\\ V_3 \\end{pmatrix}$$
+
+用克拉默法则或求行列式判断解的存在性。
+
+**应用**：集成电路设计、电力系统分析。`,
+          scenario: '电子工程。',
+        },
+        {
+          id: 'app5',
+          type: 'research',
+          title: '经济学：一般均衡分析',
+          description: `**问题**：多个市场同时达到均衡的条件？
+
+**方法**：建立超额需求方程组，雅可比行列式判断均衡的稳定性
+
+$$J = \\begin{vmatrix} \\frac{\\partial E_1}{\\partial p_1} & \\frac{\\partial E_1}{\\partial p_2} \\\\ \\frac{\\partial E_2}{\\partial p_1} & \\frac{\\partial E_2}{\\partial p_2} \\end{vmatrix}$$
+
+- $|J| > 0$：均衡稳定
+- $|J| < 0$：均衡不稳定
+
+**意义**：行列式的符号决定了市场的动态行为。`,
+          scenario: '宏观经济学建模。',
+        },
+        {
+          id: 'app6',
+          type: 'real',
+          title: '机器学习：特征值问题',
+          description: `**问题**：PCA降维时如何选择主成分？
+
+**方法**：计算协方差矩阵的特征值
+$$|\\Sigma - \\lambda I| = 0$$
+
+行列式展开得到特征多项式，特征值的大小决定主成分的重要性。
+
+**应用**：人脸识别、数据压缩、噪声过滤。`,
+          scenario: '数据科学和人工智能。',
+        },
+      ],
+    },
+    
+    method: [
+      { 
+        number: 1, 
+        title: '计算行列式的策略', 
+        description: `**步骤**：
+1. 观察是否有特殊结构（对角、三角、范德蒙德）
+2. 尝试用倍加变换化成三角行列式
+3. 对高阶行列式，按含零多的行展开
+4. 利用性质简化计算
+
+**常见错误**：
+- 忘记换行变号
+- 提公因子时漏提
+- 展开时代数余子式符号搞错`
+      },
+    ],
+  },
+}
+
+// 行列式展开与计算知识点
+const determinantExpansionPoint: KnowledgePoint = {
+  id: 'determinant-expansion',
+  moduleId: 'determinant',
+  name: '行列式展开与计算',
+  formula: 'D = \\sum_{j=1}^{n} a_{ij} A_{ij} = a_{i1}A_{i1} + a_{i2}A_{i2} + \\cdots + a_{in}A_{in}',
+  coreSentence: '行列式展开是将高阶行列式降为低阶行列式的核心方法，结合性质可高效计算。',
+  
+  dimensions: {
+    model: {
+      type: '2d',
+      config: {
+        functions: [],
+        points: [],
+        sliders: [
+          { id: 'a11', name: 'a₁₁', min: -5, max: 5, step: 1, defaultValue: 1, label: 'a₁₁' },
+          { id: 'a12', name: 'a₁₂', min: -5, max: 5, step: 1, defaultValue: 2, label: 'a₁₂' },
+          { id: 'a13', name: 'a₁₃', min: -5, max: 5, step: 1, defaultValue: 3, label: 'a₁₃' },
+          { id: 'a21', name: 'a₂₁', min: -5, max: 5, step: 1, defaultValue: 4, label: 'a₂₁' },
+          { id: 'a22', name: 'a₂₂', min: -5, max: 5, step: 1, defaultValue: 5, label: 'a₂₂' },
+          { id: 'a23', name: 'a₂₃', min: -5, max: 5, step: 1, defaultValue: 6, label: 'a₂₃' },
+          { id: 'a31', name: 'a₃₁', min: -5, max: 5, step: 1, defaultValue: 7, label: 'a₃₁' },
+          { id: 'a32', name: 'a₃₂', min: -5, max: 5, step: 1, defaultValue: 8, label: 'a₃₂' },
+          { id: 'a33', name: 'a₃₃', min: -5, max: 5, step: 1, defaultValue: 9, label: 'a₃₃' },
+        ],
+      },
+      animations: [
+        {
+          id: 'expansion-process',
+          name: '三阶行列式展开过程',
+          type: 'auto',
+          duration: 10000,
+          steps: [
+            { id: 's1', description: '三阶行列式：按第1行展开，观察代数余子式符号', changes: {} },
+            { id: 's2', description: 'a₁₁×(-1)^(1+1)×M₁₁：符号为正，去掉第1行第1列', changes: {} },
+            { id: 's3', description: 'a₁₂×(-1)^(1+2)×M₁₂：符号为负，去掉第1行第2列', changes: {} },
+            { id: 's4', description: 'a₁₃×(-1)^(1+3)×M₁₃：符号为正，去掉第1行第3列', changes: {} },
+            { id: 's5', description: '按第2行展开：观察符号变化规律', changes: {} },
+            { id: 's6', description: '按第3行展开：棋盘格符号规律 (+ - + / - + - / + - +)', changes: {} },
+          ],
+        },
+        {
+          id: 'zero-advantage',
+          name: '零元素的威力',
+          type: 'auto',
+          duration: 6000,
+          steps: [
+            { id: 's1', description: '普通三阶行列式：展开需计算3个二阶子式', changes: { rowIndex: 1 } },
+            { id: 's2', description: '若第1行有2个零元素：只需计算1个子式！', changes: { rowIndex: 1 } },
+            { id: 's3', description: '技巧：用倍加变换制造零元素，再展开', changes: { rowIndex: 1 } },
+          ],
+        },
+      ],
+    },
+    
+    explanation: {
+      mainText: `**🎯 核心问题**
+
+四阶以上的行列式怎么算？沙路法则只适用于二阶、三阶！
+
+答案：**展开定理**——把高阶行列式"展开"成低阶行列式的组合。
+
+---
+
+**📐 余子式与代数余子式**
+
+**余子式** $M_{ij}$：
+去掉第 $i$ 行第 $j$ 列后剩下的 $n-1$ 阶行列式。
+
+**代数余子式** $A_{ij}$：
+$$A_{ij} = (-1)^{i+j} M_{ij}$$
+
+符号由位置决定：棋盘格规律，$(1,1)$ 为正。
+
+---
+
+**🔑 展开定理**
+
+**按第 $i$ 行展开**：
+$$|A| = a_{i1}A_{i1} + a_{i2}A_{i2} + \\cdots + a_{in}A_{in}$$
+
+**按第 $j$ 列展开**：
+$$|A| = a_{1j}A_{1j} + a_{2j}A_{2j} + \\cdots + a_{nj}A_{nj}$$
+
+**展开策略**：选择零元素最多的行或列展开！
+
+---
+
+**💡 展开的本质理解**
+
+展开定理说的是：行列式的值等于某一行（列）各元素"贡献"的总和。
+
+每个元素的"贡献" = 元素值 × 它在全局中的"权重"
+- 权重 = 代数余子式 = $(-1)^{i+j} ×$ 去掉该行该列后的行列式
+
+**为什么可以这样？**
+因为行列式的每一项恰好包含每行每列各一个元素，固定第 $i$ 行取第 $j$ 列元素后，剩下的元素必须从其他行其他列取。
+
+---
+
+**📝 零元素的妙用**
+
+如果某行有多个零元素：
+- 按该行展开时，零元素的项直接消失！
+- 只需计算非零元素的代数余子式
+
+**技巧**：先用倍加变换制造零元素，再展开！`,
+      highlights: ['选择零元素最多的行/列展开', '展开前先用倍加变换制造零元素'],
+    },
+    
+    extension: {
+      essence: `**展开定理的深层意义**
+
+展开定理体现了行列式的**递归结构**：
+- n阶行列式可以表示为n个n-1阶行列式的线性组合
+- 递归下去，最终变成二阶行列式的计算
+
+**为什么代数余子式有符号？**
+
+考虑三阶行列式：
+$$\\begin{vmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\\\ a_{31} & a_{32} & a_{33} \\end{vmatrix}$$
+
+按第一行展开：
+- $a_{11}$ 的位置是 (1,1)，逆序数基础，正号
+- $a_{12}$ 的位置是 (1,2)，固定后剩下元素的排列有奇数次"跨行"
+- 符号 $(-1)^{i+j}$ 正好补偿这个"跨行"带来的符号变化`,
+      further: [
+        {
+          id: 'ext1',
+          title: '异乘为零定理',
+          content: '某行元素与另一行对应代数余子式乘积之和为零：$\\sum_{j=1}^{n} a_{ij}A_{kj} = 0$（当 $i \\neq k$）',
+        },
+        {
+          id: 'ext2',
+          title: '伴随矩阵',
+          content: '伴随矩阵 $A^*$ 是代数余子式的转置矩阵：$(A^*)_{ij} = A_{ji}$',
+        },
+      ],
+    },
+    
+    applications: {
+      items: [
+        {
+          id: 'app1',
+          type: 'example',
+          title: '四阶行列式计算',
+          description: `计算 $D = \\begin{vmatrix} 1 & 2 & 0 & 1 \\\\ 2 & 3 & 0 & 2 \\\\ 3 & 1 & 2 & 0 \\\\ 4 & 5 & 0 & 3 \\end{vmatrix}$
+
+**观察**：第3列只有一个非零元素！
+
+按第3列展开：$D = 2 \\times (-1)^{3+3} \\times M_{33}$
+
+$M_{33} = \\begin{vmatrix} 1 & 2 & 1 \\\\ 2 & 3 & 2 \\\\ 4 & 5 & 3 \\end{vmatrix}$
+
+第1行减第2行：$\\begin{vmatrix} -1 & -1 & -1 \\\\ 2 & 3 & 2 \\\\ 4 & 5 & 3 \\end{vmatrix}$
+
+提出-1：$(-1) \\times \\begin{vmatrix} 1 & 1 & 1 \\\\ 2 & 3 & 2 \\\\ 4 & 5 & 3 \\end{vmatrix}$
+
+第2列减第1列，第3列减第1列：$(-1) \\times \\begin{vmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 4 & 1 & -1 \\end{vmatrix}$
+
+按第1行展开：$(-1) \\times 1 \\times \\begin{vmatrix} 1 & 0 \\\\ 1 & -1 \\end{vmatrix} = (-1) \\times (-1) = 1$
+
+所以 $D = 2 \\times 1 \\times 1 = 2$`,
+          scenario: '利用零元素多的列展开。',
+        },
+        {
+          id: 'app2',
+          type: 'real',
+          title: '范德蒙德行列式与多项式插值',
+          description: `**范德蒙德行列式**：
+$$V_n = \\begin{vmatrix} 1 & 1 & \\cdots & 1 \\\\ x_1 & x_2 & \\cdots & x_n \\\\ x_1^2 & x_2^2 & \\cdots & x_n^2 \\\\ \\vdots & \\vdots & & \\vdots \\\\ x_1^{n-1} & x_2^{n-1} & \\cdots & x_n^{n-1} \\end{vmatrix}$$
+
+**结论**：$V_n = \\prod_{1 \\leq i < j \\leq n}(x_j - x_i)$
+
+**应用**：拉格朗日插值存在唯一性
+- 给定n个点$(x_i, y_i)$，存在唯一的n-1次多项式通过这些点
+- 唯一性由范德蒙德行列式非零保证`,
+          scenario: '数值计算和信号处理。',
+        },
+        {
+          id: 'app3',
+          type: 'real',
+          title: '控制工程：特征多项式',
+          description: `**问题**：分析线性系统的稳定性
+
+**方法**：计算系统矩阵的特征多项式
+$$|sI - A| = s^n + a_{n-1}s^{n-1} + \\cdots + a_1s + a_0$$
+
+这是行列式展开的直接应用！
+
+**劳斯判据**：根据特征多项式系数判断系统稳定性，无需解特征方程。
+
+**应用**：自动驾驶稳定性分析、机器人控制、电力系统调节。`,
+          scenario: '自动化控制。',
+        },
+        {
+          id: 'app4',
+          type: 'real',
+          title: '量子力学：电子轨道',
+          description: `**问题**：多电子体系的波函数
+
+**方法**：斯莱特行列式
+$$\\Psi(1,2,\\cdots,n) = \\frac{1}{\\sqrt{n!}} \\begin{vmatrix} \\phi_1(1) & \\phi_2(1) & \\cdots & \\phi_n(1) \\\\ \\phi_1(2) & \\phi_2(2) & \\cdots & \\phi_n(2) \\\\ \\vdots & \\vdots & & \\vdots \\\\ \\phi_1(n) & \\phi_2(n) & \\cdots & \\phi_n(n) \\end{vmatrix}$$
+
+**物理意义**：行列式的反对称性保证泡利不相容原理——交换两个电子，波函数变号。
+
+**应用**：原子结构计算、分子轨道理论、量子化学。`,
+          scenario: '量子物理和化学。',
+        },
+        {
+          id: 'app5',
+          type: 'real',
+          title: '流体力学：涡度计算',
+          description: `**问题**：计算流场的涡度（旋转程度）
+
+**方法**：速度场的旋度涉及行列式
+$$\\vec{\\omega} = \\nabla \\times \\vec{v} = \\begin{vmatrix} \\vec{i} & \\vec{j} & \\vec{k} \\\\ \\frac{\\partial}{\\partial x} & \\frac{\\partial}{\\partial y} & \\frac{\\partial}{\\partial z} \\\\ v_x & v_y & v_z \\end{vmatrix}$$
+
+**应用**：气象预报（气旋分析）、航空航天（机翼涡流）、海洋学。`,
+          scenario: '流体动力学。',
+        },
+      ],
+    },
+    
+    method: [
+      { 
+        number: 1, 
+        title: '行列式计算流程', 
+        description: `**策略选择**：
+1. **特殊形式** → 直接套公式（对角、三角、范德蒙德）
+2. **一般形式** → 倍加化三角 或 按零多的行展开
+3. **含参数** → 保留参数，用展开定理
+
+**化三角法步骤**：
+1. 用倍加变换把主对角线下方元素全变成0
+2. 行列式 = 主对角线元素乘积
+3. 注意记录换行次数（每次变号）`
+      },
+    ],
+  },
+}
+
+// 克拉默法则知识点
+const cramerRulePoint: KnowledgePoint = {
+  id: 'cramer-rule',
+  moduleId: 'determinant',
+  name: '克拉默法则',
+  formula: 'x_i = \\frac{D_i}{D} \\quad (D \\neq 0)',
+  coreSentence: '克拉默法则用行列式给出线性方程组的显式解，是行列式应用的核心。',
+  
+  dimensions: {
+    model: {
+      type: '2d',
+      config: {
+        functions: [],
+        points: [],
+        sliders: [
+          { id: 'a11', name: 'a₁₁', min: -5, max: 5, step: 1, defaultValue: 2, label: 'a₁₁' },
+          { id: 'a12', name: 'a₁₂', min: -5, max: 5, step: 1, defaultValue: 3, label: 'a₁₂' },
+          { id: 'a21', name: 'a₂₁', min: -5, max: 5, step: 1, defaultValue: 1, label: 'a₂₁' },
+          { id: 'a22', name: 'a₂₂', min: -5, max: 5, step: 1, defaultValue: 2, label: 'a₂₂' },
+          { id: 'b1', name: 'b₁', min: -10, max: 10, step: 1, defaultValue: 8, label: 'b₁' },
+          { id: 'b2', name: 'b₂', min: -10, max: 10, step: 1, defaultValue: 5, label: 'b₂' },
+        ],
+      },
+      animations: [
+        {
+          id: 'cramer-solve',
+          name: '克拉默法则求解过程',
+          type: 'auto',
+          duration: 10000,
+          steps: [
+            { id: 's1', description: '方程组：2x+3y=8, x+2y=5，写出系数行列式D', changes: { a11: 2, a12: 3, a21: 1, a22: 2, b1: 8, b2: 5 } },
+            { id: 's2', description: 'D = |2 3; 1 2| = 4-3 = 1 ≠ 0，有唯一解', changes: { a11: 2, a12: 3, a21: 1, a22: 2 } },
+            { id: 's3', description: 'D₁ = 用b替换第1列 = |8 3; 5 2| = 16-15 = 1', changes: { a11: 2, a12: 3, a21: 1, a22: 2, b1: 8, b2: 5 } },
+            { id: 's4', description: 'D₂ = 用b替换第2列 = |2 8; 1 5| = 10-8 = 2', changes: { a11: 2, a12: 3, a21: 1, a22: 2, b1: 8, b2: 5 } },
+            { id: 's5', description: 'x = D₁/D = 1/1 = 1', changes: {} },
+            { id: 's6', description: 'y = D₂/D = 2/1 = 2，解为(1,2)', changes: {} },
+          ],
+        },
+        {
+          id: 'no-solution',
+          name: '无解情况演示',
+          type: 'auto',
+          duration: 6000,
+          steps: [
+            { id: 's1', description: '若系数行列式D=0会怎样？', changes: { a11: 1, a12: 2, a21: 2, a22: 4, b1: 3, b2: 6 } },
+            { id: 's2', description: 'D = |1 2; 2 4| = 4-4 = 0，不能用克拉默法则！', changes: { a11: 1, a12: 2, a21: 2, a22: 4 } },
+            { id: 's3', description: '此时需用秩判断：r(A)和r(A|b)的关系', changes: {} },
+          ],
+        },
+      ],
+    },
+    
+    explanation: {
+      mainText: `**🎯 问题引入**
+
+对于线性方程组：
+$$\\begin{cases} a_{11}x_1 + a_{12}x_2 = b_1 \\\\ a_{21}x_1 + a_{22}x_2 = b_2 \\end{cases}$$
+
+消元法告诉我们解是：
+$$x_1 = \\frac{b_1 a_{22} - b_2 a_{12}}{a_{11}a_{22} - a_{12}a_{21}}, \\quad x_2 = \\frac{a_{11}b_2 - a_{21}b_1}{a_{11}a_{22} - a_{12}a_{21}}$$
+
+这些分母和分子，不都是行列式吗！
+
+---
+
+**📐 克拉默法则**
+
+对于 $n$ 元线性方程组 $Ax = b$，若系数行列式 $D = |A| \\neq 0$，则：
+
+$$x_i = \\frac{D_i}{D}$$
+
+其中 $D_i$ 是将 $D$ 的第 $i$ 列换成常数项 $b$ 得到的行列式。
+
+---
+
+**💡 直观理解**
+
+**$D$**：系数行列式，衡量方程组"解的唯一性"
+- $D \\neq 0$：唯一解
+- $D = 0$：无解或无穷多解
+
+**$D_i$**：把常数项"放进"第 $i$ 列
+- 分子分母"格式统一"
+- 解就是"替换后的行列式"与"原行列式"的比值
+
+---
+
+**📝 二元方程组的例子**
+
+$$\\begin{cases} 2x + 3y = 8 \\\\ x + 2y = 5 \\end{cases}$$
+
+$D = \\begin{vmatrix} 2 & 3 \\\\ 1 & 2 \\end{vmatrix} = 1$
+
+$D_x = \\begin{vmatrix} 8 & 3 \\\\ 5 & 2 \\end{vmatrix} = 1$
+
+$D_y = \\begin{vmatrix} 2 & 8 \\\\ 1 & 5 \\end{vmatrix} = 2$
+
+所以 $x = \\frac{D_x}{D} = 1$，$y = \\frac{D_y}{D} = 2$
+
+---
+
+**⚠️ 克拉默法则的局限**
+
+| 优点 | 缺点 |
+|------|------|
+| 解的形式简洁美观 | 计算量大（n阶需要算n+1个行列式）|
+| 理论意义重要 | 只适用于方阵、D≠0的情况 |
+| 便于公式推导 | 实际计算不如高斯消元法高效 |`,
+      highlights: ['克拉默法则主要用于理论推导，实际计算用高斯消元法'],
+    },
+    
+    extension: {
+      essence: `**克拉默法则的深层意义**
+
+克拉默法则揭示了线性代数的核心结构：
+- **代数上**：矩阵的逆可以用行列式表示
+- **几何上**：解是"有向体积比"
+
+**与矩阵逆的关系**：
+
+$x = A^{-1}b$
+
+而 $A^{-1} = \\frac{1}{|A|}A^*$（伴随矩阵除以行列式）
+
+所以 $x_i = \\frac{1}{|A|}\\sum_{j=1}^{n} A_{ji}b_j$
+
+这正是克拉默法则！$D_i$ 就是把第 $i$ 列换成 $b$ 后按第 $i$ 列展开的结果。`,
+      further: [
+        {
+          id: 'ext1',
+          title: '齐次方程组',
+          content: '若 $b = 0$（齐次方程组），则 $D \\neq 0$ 时只有零解；$D = 0$ 时有非零解。',
+        },
+        {
+          id: 'ext2',
+          title: '判断解的存在性',
+          content: '$D \\neq 0$ $\\Leftrightarrow$ 有唯一解 $\\Leftrightarrow$ $A$ 可逆 $\\Leftrightarrow$ $r(A) = n$',
+        },
+      ],
+    },
+    
+    applications: {
+      items: [
+        {
+          id: 'app1',
+          type: 'example',
+          title: '解三元方程组',
+          description: `解方程组：
+$$\\begin{cases} x + y + z = 6 \\\\ 2x + 3y - z = 5 \\\\ x - y + 2z = 5 \\end{cases}$$
+
+$D = \\begin{vmatrix} 1 & 1 & 1 \\\\ 2 & 3 & -1 \\\\ 1 & -1 & 2 \\end{vmatrix} = 6 + 1 - 2 - 3 + 1 - 4 = -1 \\neq 0$
+
+$D_x = \\begin{vmatrix} 6 & 1 & 1 \\\\ 5 & 3 & -1 \\\\ 5 & -1 & 2 \\end{vmatrix} = -5$
+
+$D_y = \\begin{vmatrix} 1 & 6 & 1 \\\\ 2 & 5 & -1 \\\\ 1 & 5 & 2 \\end{vmatrix} = -4$
+
+$D_z = \\begin{vmatrix} 1 & 1 & 6 \\\\ 2 & 3 & 5 \\\\ 1 & -1 & 5 \\end{vmatrix} = -3$
+
+解：$x = 5$，$y = 4$，$z = -3$... 需要验证计算`,
+          scenario: '克拉默法则求解。',
+        },
+        {
+          id: 'app2',
+          type: 'real',
+          title: '经济投入产出模型',
+          description: `**问题**：分析国民经济各部门之间的投入产出关系
+
+**模型**：里昂惕夫投入产出模型
+$$(I - A)x = d$$
+
+其中：
+- $A$ 是技术系数矩阵（各行业间的投入比例）
+- $d$ 是最终需求向量（消费、投资、出口）
+- $x$ 是总产出向量
+
+**求解**：$x = (I - A)^{-1}d$
+
+**应用**：产业政策制定、经济预测、区域发展规划。`,
+          scenario: '宏观经济分析。',
+        },
+        {
+          id: 'app3',
+          type: 'real',
+          title: '有限元分析：节点位移',
+          description: `**问题**：计算结构在载荷作用下的位移
+
+**方法**：建立刚度方程
+$$[K]\\{u\\} = \\{F\\}$$
+
+- $[K]$：整体刚度矩阵（材料特性决定）
+- $\\{u\\}$：节点位移向量（待求）
+- $\\{F\\}$：节点力向量（已知载荷）
+
+**数值求解**：对大型稀疏矩阵，用迭代法代替直接求逆。
+
+**应用**：桥梁设计、汽车碰撞模拟、建筑抗震分析。`,
+          scenario: '工程力学仿真。',
+        },
+        {
+          id: 'app4',
+          type: 'real',
+          title: '电力系统潮流计算',
+          description: `**问题**：计算电网中各节点的电压和功率分布
+
+**模型**：节点功率平衡方程组
+$$P_i = V_i \\sum_{j=1}^{n} V_j(G_{ij}\\cos\\theta_{ij} + B_{ij}\\sin\\theta_{ij})$$
+
+线性化后得到修正方程：
+$$\\begin{pmatrix} H & N \\\\ M & L \\end{pmatrix} \\begin{pmatrix} \\Delta\\theta \\\\ \\Delta V \\end{pmatrix} = \\begin{pmatrix} \\Delta P \\\\ \\Delta Q \\end{pmatrix}$$
+
+**应用**：电网规划、故障分析、电力市场竞价。`,
+          scenario: '电力系统运行。',
+        },
+        {
+          id: 'app5',
+          type: 'real',
+          title: '化学反应平衡',
+          description: `**问题**：确定化学反应平衡时各组分的浓度
+
+**方法**：建立质量守恒和平衡方程组
+
+例如，多元酸解离平衡：
+$$\\begin{cases} [H^+][A^-] = K_a[HA] \\\\ [H^+][OH^-] = K_w \\\\ [HA] + [A^-] = C \\end{cases}$$
+
+线性化后求解，得到各组分浓度。
+
+**应用**：水质分析、制药配方优化、工业反应器设计。`,
+          scenario: '化学工程。',
+        },
+      ],
+    },
+    
+    method: [
+      { 
+        number: 1, 
+        title: '使用克拉默法则的步骤', 
+        description: `**步骤**：
+1. 写出系数行列式 $D$，检验是否为0
+2. 若 $D = 0$：不能用克拉默法则，需讨论解的情况
+3. 若 $D \\neq 0$：依次计算 $D_1, D_2, \\cdots, D_n$
+4. 解为 $x_i = D_i / D$
+
+**注意**：
+- 只适用于方程个数=未知数个数的情形
+- 计算量大，实际做题优先用消元法`
+      },
+    ],
+  },
+}
+
+// ==================== 矩阵章节 ====================
+
+// 矩阵的定义与运算知识点
+const matrixDefinitionPoint: KnowledgePoint = {
+  id: 'matrix-definition',
+  moduleId: 'matrix',
+  name: '矩阵的定义与运算',
+  formula: '(AB)_{ij} = \\sum_{k=1}^{n} a_{ik}b_{kj}',
+  coreSentence: '矩阵是"数字表格"，矩阵乘法是"行×列"的奇妙组合，是线性代数的核心语言。',
+  
+  dimensions: {
+    model: {
+      type: '2d',
+      config: {
+        functions: [],
+        points: [
+          { x: 1, y: 1, label: 'A' },
+          { x: 3, y: 1, label: 'B' },
+          { x: 5, y: 1, label: 'AB' },
+        ],
+        sliders: [
+          { id: 'a11', name: 'a₁₁', min: -3, max: 3, step: 1, defaultValue: 1, label: 'a₁₁' },
+          { id: 'a12', name: 'a₁₂', min: -3, max: 3, step: 1, defaultValue: 2, label: 'a₁₂' },
+          { id: 'a21', name: 'a₂₁', min: -3, max: 3, step: 1, defaultValue: 3, label: 'a₂₁' },
+          { id: 'a22', name: 'a₂₂', min: -3, max: 3, step: 1, defaultValue: 4, label: 'a₂₂' },
+          { id: 'b11', name: 'b₁₁', min: -3, max: 3, step: 1, defaultValue: 1, label: 'b₁₁' },
+          { id: 'b12', name: 'b₁₂', min: -3, max: 3, step: 1, defaultValue: 0, label: 'b₁₂' },
+          { id: 'b21', name: 'b₂₁', min: -3, max: 3, step: 1, defaultValue: 0, label: 'b₂₁' },
+          { id: 'b22', name: 'b₂₂', min: -3, max: 3, step: 1, defaultValue: 1, label: 'b₂₂' },
+        ],
+      },
+      animations: [
+        {
+          id: 'multiply-step',
+          name: '矩阵乘法分步演示',
+          type: 'auto',
+          duration: 12000,
+          steps: [
+            { id: 's1', description: '左矩阵A的第1行：[1, 2]，右矩阵B的第1列：[1, 0]', changes: { a11: 1, a12: 2, b11: 1, b21: 0 } },
+            { id: 's2', description: '点乘：1×1 + 2×0 = 1 → AB的第(1,1)位置', changes: {} },
+            { id: 's3', description: 'A的第1行 × B的第2列：1×0 + 2×1 = 2 → AB的第(1,2)位置', changes: {} },
+            { id: 's4', description: 'A的第2行 × B的第1列：3×1 + 4×0 = 3 → AB的第(2,1)位置', changes: {} },
+            { id: 's5', description: 'A的第2行 × B的第2列：3×0 + 4×1 = 4 → AB的第(2,2)位置', changes: {} },
+            { id: 's6', description: '结果：AB = [[1,2], [3,4]]，口诀：左行右列！', changes: {} },
+          ],
+        },
+        {
+          id: 'non-commutative',
+          name: '矩阵乘法不满足交换律',
+          type: 'auto',
+          duration: 8000,
+          steps: [
+            { id: 's1', description: '设A=[[1,2],[0,0]]，B=[[0,0],[3,4]]', changes: { a11: 1, a12: 2, a21: 0, a22: 0, b11: 0, b12: 0, b21: 3, b22: 4 } },
+            { id: 's2', description: 'AB = [[6,8],[0,0]]，计算：第1行×第1列=1×0+2×3=6', changes: {} },
+            { id: 's3', description: 'BA = [[0,0],[3,4]]，完全不同！', changes: {} },
+            { id: 's4', description: '结论：AB ≠ BA，矩阵乘法不满足交换律！', changes: {} },
+          ],
+        },
+        {
+          id: 'identity-effect',
+          name: '单位矩阵的作用',
+          type: 'auto',
+          duration: 5000,
+          steps: [
+            { id: 's1', description: '单位矩阵I = [[1,0],[0,1]]', changes: { b11: 1, b12: 0, b21: 0, b22: 1 } },
+            { id: 's2', description: 'AI = IA = A，乘了等于没乘！', changes: {} },
+            { id: 's3', description: '单位矩阵就像数字1在乘法中的作用', changes: {} },
+          ],
+        },
+      ],
+    },
+    
+    explanation: {
+      mainText: `**🎯 从方程组说起**
+
+考虑线性方程组：
+$$\\begin{cases} 2x + 3y = 5 \\\\ 4x + y = 6 \\end{cases}$$
+
+我们可以把系数单独"提"出来：
+$$\\begin{pmatrix} 2 & 3 \\\\ 4 & 1 \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} 5 \\\\ 6 \\end{pmatrix}$$
+
+这就是矩阵的由来！**矩阵就是按行列排成的数表**。
+
+---
+
+**📐 矩阵的基本概念**
+
+**定义**：$m \\times n$ 矩阵是有 $m$ 行 $n$ 列的数表：
+$$A = \\begin{pmatrix} a_{11} & a_{12} & \\cdots & a_{1n} \\\\ a_{21} & a_{22} & \\cdots & a_{2n} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ a_{m1} & a_{m2} & \\cdots & a_{mn} \\end{pmatrix}$$
+
+记作 $A = (a_{ij})_{m \\times n}$ 或 $A_{m \\times n}$
+
+**特殊矩阵**：
+| 名称 | 特点 | 例子 |
+|------|------|------|
+| 方阵 | 行数=列数 | $A_{n \\times n}$ |
+| 单位矩阵 $I$ | 对角线全1，其余为0 | $\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$ |
+| 零矩阵 $O$ | 所有元素都是0 | $\\begin{pmatrix}0&0\\\\0&0\\end{pmatrix}$ |
+| 对角矩阵 | 非对角线全为0 | $\\begin{pmatrix}a&0\\\\0&b\\end{pmatrix}$ |
+| 对称矩阵 | $A^T = A$（关于对角线对称）| $\\begin{pmatrix}1&2\\\\2&3\\end{pmatrix}$ |
+
+---
+
+**➕ 矩阵的运算**
+
+**1. 加法**：对应位置相加（必须同型！）
+$$\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix} + \\begin{pmatrix} 5 & 6 \\\\ 7 & 8 \\end{pmatrix} = \\begin{pmatrix} 6 & 8 \\\\ 10 & 12 \\end{pmatrix}$$
+
+**2. 数乘**：每个元素都乘同一个数
+$$2 \\cdot \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix} = \\begin{pmatrix} 2 & 4 \\\\ 6 & 8 \\end{pmatrix}$$
+
+**3. 转置** $A^T$：行列互换
+$$\\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\end{pmatrix}^T = \\begin{pmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{pmatrix}$$
+
+**4. 矩阵乘法** ⭐最核心最独特！
+
+$$AB = C，\\text{其中 } c_{ij} = \\text{A的第i行} \\times \\text{B的第j列}$$
+
+$$\\begin{pmatrix} \\underline{1} & \\underline{2} \\\\ 3 & 4 \\end{pmatrix} \\begin{pmatrix} \\mathbf{5} & 6 \\\\ \\mathbf{7} & 8 \\end{pmatrix} = \\begin{pmatrix} 1\\times5+2\\times7 & \\cdots \\\\ \\cdots & \\cdots \\end{pmatrix} = \\begin{pmatrix} 19 & 22 \\\\ 43 & 50 \\end{pmatrix}$$
+
+**关键**：第(1,1)位置 = A的第1行点乘B的第1列！
+
+---
+
+**⚠️ 矩阵乘法的"坑"**
+
+| 性质 | 说明 | 例子 |
+|------|------|------|
+| **不满足交换律** | $AB \\neq BA$（通常）| $\\begin{pmatrix}1&2\\\\0&0\\end{pmatrix}\\begin{pmatrix}0&0\\\\3&4\\end{pmatrix} \\neq \\begin{pmatrix}0&0\\\\3&4\\end{pmatrix}\\begin{pmatrix}1&2\\\\0&0\\end{pmatrix}$ |
+| **AB=O推不出A=O或B=O** | 非零矩阵乘积可以是零矩阵 | $\\begin{pmatrix}1&0\\\\1&0\\end{pmatrix}\\begin{pmatrix}0&0\\\\1&1\\end{pmatrix}=O$ |
+| **AB=AC推不出B=C** | 消去律不成立！| 需要A可逆才能消去 |
+
+---
+
+**💡 直观理解**
+
+- **矩阵加法**：像向量相加，"同类项合并"
+- **矩阵乘法**：像是"函数复合"，A变换后再做B变换
+- **转置**：把表格"横过来"看
+
+**矩阵乘法的几何意义**：
+- 每个矩阵代表一个线性变换
+- $AB$ 表示先做 $B$ 变换，再做 $A$ 变换
+- 这就是为什么 $AB \\neq BA$——变换顺序很重要！`,
+      highlights: ['矩阵乘法核心：行的元素 × 列的元素，求和', '矩阵乘法不满足交换律和消去律'],
+    },
+    
+    extension: {
+      essence: `**矩阵的本质**
+
+矩阵不仅是"数表"，它是**线性变换的表示**。
+
+想象二维平面上的变换：
+- **旋转矩阵**：$\\begin{pmatrix}\\cos\\theta&-\\sin\\theta\\\\\\sin\\theta&\\cos\\theta\\end{pmatrix}$ 把向量逆时针旋转θ角
+- **伸缩矩阵**：$\\begin{pmatrix}k&0\\\\0&1\\end{pmatrix}$ 把向量在x方向拉伸k倍
+- **剪切矩阵**：$\\begin{pmatrix}1&k\\\\0&1\\end{pmatrix}$ 让图形"倾斜"
+
+**为什么矩阵乘法是行×列？**
+
+设 $A$ 把向量 $v$ 变成 $Av$，$B$ 把向量 $w$ 变成 $Bw$。
+那么"先做B再做A"的变换，作用在 $v$ 上就是 $A(Bv) = (AB)v$。
+
+这正是矩阵乘法的定义！`,
+      further: [
+        {
+          id: 'ext1',
+          title: '单位矩阵的特殊性',
+          content: '$IA = AI = A$，单位矩阵在矩阵乘法中的地位就像数字1在普通乘法中一样——"乘了等于没乘"。',
+        },
+        {
+          id: 'ext2',
+          title: '转置的性质',
+          content: '$(AB)^T = B^T A^T$（顺序颠倒！），$(A+B)^T = A^T + B^T$，$(A^T)^T = A$',
+        },
+      ],
+    },
+    
+    applications: {
+      items: [
+        {
+          id: 'app1',
+          type: 'example',
+          title: '计算矩阵乘积',
+          description: `计算 $AB$，其中 $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$，$B = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$
+
+**解答**：
+$AB = \\begin{pmatrix} 1\\times0+2\\times1 & 1\\times1+2\\times0 \\\\ 3\\times0+4\\times1 & 3\\times1+4\\times0 \\end{pmatrix} = \\begin{pmatrix} 2 & 1 \\\\ 4 & 3 \\end{pmatrix}$
+
+验证 $BA = \\begin{pmatrix} 3 & 4 \\\\ 1 & 2 \\end{pmatrix} \\neq AB$`,
+          scenario: '基础运算练习。',
+        },
+        {
+          id: 'app2',
+          type: 'real',
+          title: '计算机图形学：3D变换',
+          description: `**问题**：在游戏中实现物体的旋转、缩放、平移
+
+**方法**：用矩阵表示变换，组合变换用矩阵乘法
+
+**绕Z轴旋转θ角**：
+$$R_z(\\theta) = \\begin{pmatrix} \\cos\\theta & -\\sin\\theta & 0 \\\\ \\sin\\theta & \\cos\\theta & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$$
+
+**复合变换**：先旋转后缩放 = 缩放矩阵 × 旋转矩阵
+$$T = S \\times R$$
+
+**应用**：游戏引擎、CAD设计、虚拟现实、动画制作。`,
+          scenario: '游戏开发和计算机图形学。',
+        },
+        {
+          id: 'app3',
+          type: 'real',
+          title: '神经网络：前向传播',
+          description: `**问题**：计算神经网络各层的输出
+
+**方法**：矩阵乘法批量计算
+$$Y = W \\cdot X + b$$
+
+其中：
+- $X$：输入矩阵（批量数据）
+- $W$：权重矩阵
+- $b$：偏置向量
+- $Y$：输出矩阵
+
+**GPU加速**：现代GPU专为矩阵运算优化，可并行处理大规模矩阵乘法。
+
+**应用**：深度学习、图像识别、自然语言处理。`,
+          scenario: '人工智能和深度学习。',
+        },
+        {
+          id: 'app4',
+          type: 'real',
+          title: '图像处理：卷积运算',
+          description: `**问题**：图像模糊、边缘检测、锐化等操作
+
+**方法**：用矩阵表示图像，卷积核与图像做运算
+
+**边缘检测核**（Sobel算子）：
+$$G_x = \\begin{pmatrix} -1 & 0 & 1 \\\\ -2 & 0 & 2 \\\\ -1 & 0 & 1 \\end{pmatrix}$$
+
+**卷积操作**：核在图像上滑动，每个位置计算点积（矩阵运算的特例）。
+
+**应用**：Photoshop滤镜、医学影像分析、自动驾驶视觉系统。`,
+          scenario: '数字图像处理。',
+        },
+        {
+          id: 'app5',
+          type: 'real',
+          title: '社交网络：PageRank算法',
+          description: `**问题**：计算网页重要性排名
+
+**方法**：建立链接矩阵，计算稳态概率
+$$\\pi = \\pi \\cdot M$$
+
+其中 $M$ 是转移矩阵，$\\pi$ 是排名向量。
+
+**迭代求解**：$\\pi^{(k+1)} = \\pi^{(k)} \\cdot M$
+
+**应用**：搜索引擎排名、社交网络影响力分析、推荐系统。`,
+          scenario: '互联网搜索和社交网络。',
+        },
+        {
+          id: 'app6',
+          type: 'real',
+          title: '密码学：Hill密码',
+          description: `**问题**：用矩阵实现经典加密
+
+**方法**：将明文分组，用矩阵变换加密
+$$C = K \\cdot P \\mod 26$$
+
+其中：
+- $K$：密钥矩阵（需可逆）
+- $P$：明文向量
+- $C$：密文向量
+
+**解密**：$P = K^{-1} \\cdot C \\mod 26$
+
+**应用**：信息安全、数据加密（现代密码学用更复杂的矩阵运算）。`,
+          scenario: '信息安全。',
+        },
+      ],
+    },
+    
+    method: [
+      { 
+        number: 1, 
+        title: '矩阵乘法的计算技巧', 
+        description: `**口诀：左行右列**
+
+计算 $AB$ 的第 $(i,j)$ 个元素：
+1. 找到 **左边矩阵 A 的第 i 行**
+2. 找到 **右边矩阵 B 的第 j 列**
+3. 对应元素相乘再相加
+
+**检验维度**：
+- $A_{m \\times n}$，$B_{p \\times q}$
+- 能相乘 ⟺ $n = p$（A的列数=B的行数）
+- 结果是 $m \\times q$ 矩阵
+
+**记忆**：$(m \\times \\underline{n})(\\underline{n} \\times q) = m \\times q$`
+      },
+    ],
+  },
+}
+
+// 逆矩阵与伴随矩阵知识点
+const matrixInversePoint: KnowledgePoint = {
+  id: 'matrix-inverse',
+  moduleId: 'matrix',
+  name: '逆矩阵与伴随矩阵',
+  formula: 'A^{-1} = \\frac{1}{|A|}A^*, \\quad A^* = |A|A^{-1}',
+  coreSentence: '逆矩阵是矩阵的"倒数"，伴随矩阵是求逆的桥梁，二者是考研的核心考点。',
+  
+  dimensions: {
+    model: {
+      type: '2d',
+      config: {
+        functions: [],
+        points: [],
+        sliders: [
+          { id: 'a', name: 'a', min: -5, max: 5, step: 1, defaultValue: 3, label: 'a' },
+          { id: 'b', name: 'b', min: -5, max: 5, step: 1, defaultValue: 1, label: 'b' },
+          { id: 'c', name: 'c', min: -5, max: 5, step: 1, defaultValue: 2, label: 'c' },
+          { id: 'd', name: 'd', min: -5, max: 5, step: 1, defaultValue: 1, label: 'd' },
+        ],
+      },
+      animations: [
+        {
+          id: 'inverse-formula',
+          name: '二阶矩阵求逆过程',
+          type: 'auto',
+          duration: 10000,
+          steps: [
+            { id: 's1', description: '二阶矩阵A = [[a,b],[c,d]]，先求行列式|A|=ad-bc', changes: { a: 3, b: 1, c: 2, d: 1 } },
+            { id: 's2', description: '|A| = 3×1 - 1×2 = 1 ≠ 0，A可逆', changes: {} },
+            { id: 's3', description: '主对角线交换：a↔d，得到[[d,b],[c,a]]', changes: {} },
+            { id: 's4', description: '副对角线变号：b→-b, c→-c，得到[[d,-b],[-c,a]]', changes: {} },
+            { id: 's5', description: '结果：A⁻¹ = [[1,-1],[-2,3]]/1 = [[1,-1],[-2,3]]', changes: {} },
+            { id: 's6', description: '验证：AA⁻¹ = I ✓', changes: {} },
+          ],
+        },
+        {
+          id: 'adjugate-demo',
+          name: '伴随矩阵演示',
+          type: 'auto',
+          duration: 8000,
+          steps: [
+            { id: 's1', description: '对于A = [[3,1],[2,1]]，求伴随矩阵A*', changes: { a: 3, b: 1, c: 2, d: 1 } },
+            { id: 's2', description: 'A₁₁ = (-1)²×d = 1, A₁₂ = (-1)³×c = -2', changes: {} },
+            { id: 's3', description: 'A₂₁ = (-1)³×b = -1, A₂₂ = (-1)⁴×a = 3', changes: {} },
+            { id: 's4', description: 'A* = [[1,-1],[-2,3]]（注意转置！）', changes: {} },
+            { id: 's5', description: '验证：AA* = |A|·I = I ✓', changes: {} },
+          ],
+        },
+        {
+          id: 'singular-case',
+          name: '奇异矩阵演示',
+          type: 'auto',
+          duration: 5000,
+          steps: [
+            { id: 's1', description: '设A = [[1,2],[2,4]]', changes: { a: 1, b: 2, c: 2, d: 4 } },
+            { id: 's2', description: '|A| = 1×4 - 2×2 = 0，A不可逆！', changes: {} },
+            { id: 's3', description: '奇异矩阵：行列式为0，没有逆矩阵', changes: {} },
+          ],
+        },
+      ],
+    },
+    
+    explanation: {
+      mainText: `**🎯 从"倒数"说起**
+
+在普通代数中，$a$ 的倒数是 $a^{-1}$，满足 $a \\cdot a^{-1} = 1$。
+
+类似地，矩阵也有"倒数"——**逆矩阵**！
+
+---
+
+**📐 逆矩阵的定义**
+
+若存在矩阵 $B$，使得 $AB = BA = I$，则称 $B$ 是 $A$ 的**逆矩阵**，记作 $A^{-1}$。
+
+**关键问题**：什么样的矩阵有逆？
+
+**定理**：方阵 $A$ 可逆 $\\Leftrightarrow$ $|A| \\neq 0$
+
+| 条件 | 等价说法 |
+|------|----------|
+| $|A| \\neq 0$ | A是非奇异矩阵（满秩矩阵）|
+| $|A| = 0$ | A是奇异矩阵（不满秩）|
+
+---
+
+**🔧 伴随矩阵**
+
+**定义**：$A^* = (A_{ji})$，其中 $A_{ji}$ 是 $a_{ji}$ 的代数余子式。
+
+**核心公式** ⭐：
+$$AA^* = A^*A = |A|I$$
+
+这个公式太重要了！它直接推出：
+$$A^{-1} = \\frac{A^*}{|A|}$$
+
+---
+
+**📝 伴随矩阵的性质**（考研高频！）
+
+| 公式 | 记忆技巧 |
+|------|----------|
+| $AA^* = |A|I$ | 原矩阵×伴随=行列式×单位阵 |
+| $|A^*| = |A|^{n-1}$ | 伴随的行列式=原行列式的n-1次幂 |
+| $(A^*)^* = |A|^{n-2}A$ | 伴随的伴随（n≥3）|
+| $(A^{-1})^* = (A^*)^{-1}$ | 逆和伴随可交换 |
+| $(kA)^* = k^{n-1}A^*$ | 数乘的伴随 |
+| $(AB)^* = B^*A^*$ | 乘积的伴随，顺序颠倒 |
+
+---
+
+**💡 逆矩阵的求法**
+
+**方法一：伴随矩阵法**
+$$A^{-1} = \\frac{1}{|A|}A^*$$
+
+适用于低阶矩阵（2阶、3阶）。
+
+**方法二：初等变换法**
+$$[A | I] \\xrightarrow{\\text{行变换}} [I | A^{-1}]$$
+
+适用于高阶矩阵。
+
+**二阶矩阵快速求逆公式** ⭐：
+若 $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$，$|A| = ad-bc \\neq 0$，则：
+$$A^{-1} = \\frac{1}{ad-bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$$
+
+**口诀**：主对角线交换，副对角线变号，再除以行列式！
+
+---
+
+**🔑 逆矩阵的运算性质**
+
+| 性质 | 公式 |
+|------|------|
+| 逆的逆 | $(A^{-1})^{-1} = A$ |
+| 逆的转置 | $(A^T)^{-1} = (A^{-1})^T$ |
+| 逆的行列式 | $|A^{-1}| = |A|^{-1}$ |
+| 乘积的逆 | $(AB)^{-1} = B^{-1}A^{-1}$ |
+| 数乘的逆 | $(kA)^{-1} = \\frac{1}{k}A^{-1}$（k≠0）|
+
+**记忆**：转置、逆都"反序"——$(AB)^T = B^TA^T$，$(AB)^{-1} = B^{-1}A^{-1}$`,
+      highlights: ['AA*=|A|I 是伴随矩阵最核心的公式', '二阶矩阵求逆：主对角交换，副对角变号'],
+    },
+    
+    extension: {
+      essence: `**伴随矩阵的本质**
+
+伴随矩阵 $A^*$ 的每一列，都是原矩阵 $A$ 各行的"法向量"！
+
+具体来说，$A^*$ 的第 $j$ 列与 $A$ 的第 $i$ 行（$i \\neq j$）正交。
+
+这解释了为什么 $AA^*$ 的非对角线元素都是0！
+
+**几何视角**：
+
+- $A$ 可逆 ⟺ $A$ 将空间"拉伸但不压扁"
+- $|A| = 0$ ⟺ $A$ 将空间"压扁"到低维
+- $A^{-1}$ 就是"把变换还原回去"
+
+$|A| = 2$ 意味着：$A$ 把面积放大2倍。那么 $A^{-1}$ 把面积缩小到1/2，所以 $|A^{-1}| = 1/2$。`,
+      further: [
+        {
+          id: 'ext1',
+          title: '已知A*求A',
+          content: '若已知 $A^*$，如何求 $A$？利用 $A = |A|(A^*)^{-1}$，其中 $|A|$ 由 $|A^*| = |A|^{n-1}$ 确定。',
+        },
+        {
+          id: 'ext2',
+          title: '伴随矩阵的秩',
+          content: '$$r(A^*) = \\begin{cases} n, & r(A) = n \\\\ 1, & r(A) = n-1 \\\\ 0, & r(A) < n-1 \\end{cases}$$',
+        },
+      ],
+    },
+    
+    applications: {
+      items: [
+        {
+          id: 'app1',
+          type: 'example',
+          title: '求二阶矩阵的逆',
+          description: `求 $A = \\begin{pmatrix} 3 & 1 \\\\ 2 & 1 \\end{pmatrix}$ 的逆矩阵。
+
+**解答**：
+$|A| = 3\\times1 - 1\\times2 = 1$
+
+用快速公式：主对角交换，副对角变号：
+$$A^{-1} = \\frac{1}{1}\\begin{pmatrix} 1 & -1 \\\\ -2 & 3 \\end{pmatrix} = \\begin{pmatrix} 1 & -1 \\\\ -2 & 3 \\end{pmatrix}$$
+
+验证：$AA^{-1} = \\begin{pmatrix} 3&1\\\\2&1\\end{pmatrix}\\begin{pmatrix} 1&-1\\\\-2&3\\end{pmatrix} = \\begin{pmatrix} 1&0\\\\0&1\\end{pmatrix}$ ✓`,
+          scenario: '二阶矩阵求逆。',
+        },
+        {
+          id: 'app2',
+          type: 'real',
+          title: '密码学：Hill密码解密',
+          description: `**问题**：已知加密矩阵K和密文C，求明文P
+
+**方法**：解密需要求逆矩阵
+$$P = K^{-1} \\cdot C \\mod 26$$
+
+**例子**：若 $K = \\begin{pmatrix} 3 & 2 \\\\ 3 & 5 \\end{pmatrix}$，则 $K^{-1} = \\begin{pmatrix} 15 & 8 \\\\ 17 & 3 \\end{pmatrix}$
+
+**应用**：现代密码协议中广泛使用矩阵运算，如RSA加密涉及模逆运算。`,
+          scenario: '信息安全。',
+        },
+        {
+          id: 'app3',
+          type: 'real',
+          title: '信号处理：解卷积',
+          description: `**问题**：已知系统输出y和冲激响应h，求输入信号x
+
+**方法**：解卷积方程
+$$y = h * x \\Rightarrow Y = H \\cdot X$$
+
+求逆得：$X = H^{-1} \\cdot Y$
+
+**实际应用**：
+- 图像去模糊：逆滤波
+- 地震信号处理：去除地面响应
+- 声学信号处理：房间传递函数逆运算`,
+          scenario: '数字信号处理。',
+        },
+        {
+          id: 'app4',
+          type: 'real',
+          title: '机器人运动学：逆运动学',
+          description: `**问题**：已知末端执行器位置，求各关节角度
+
+**方法**：正运动学 $x = f(q)$，逆运动学 $q = f^{-1}(x)$
+
+雅可比矩阵方法：
+$$\\dot{q} = J^{-1} \\cdot \\dot{x}$$
+
+**挑战**：雅可比矩阵可能奇异（奇异点），需要特殊处理。
+
+**应用**：工业机器人轨迹规划、手术机器人控制。`,
+          scenario: '机器人学。',
+        },
+        {
+          id: 'app5',
+          type: 'real',
+          title: '数据拟合：最小二乘法',
+          description: `**问题**：求解超定方程组 $Ax = b$（方程数>未知数）
+
+**方法**：正规方程
+$$x = (A^TA)^{-1}A^Tb$$
+
+**注意**：实际计算不用显式求逆，而用QR分解或SVD分解更稳定。
+
+**应用**：曲线拟合、GPS定位、计量经济学回归分析。`,
+          scenario: '统计建模。',
+        },
+        {
+          id: 'app6',
+          type: 'research',
+          title: '伴随矩阵相关的证明',
+          description: `证明：$(AB)^* = B^*A^*$
+
+**证明**：
+$(AB)^* = |AB|(AB)^{-1} = |A||B|B^{-1}A^{-1}$
+$= |B|B^{-1} \\cdot |A|A^{-1} = B^*A^*$
+
+**关键**：利用 $A^* = |A|A^{-1}$ 这个桥梁！`,
+          scenario: '证明技巧。',
+        },
+      ],
+    },
+    
+    method: [
+      { 
+        number: 1, 
+        title: '逆矩阵问题的解题思路', 
+        description: `**遇到逆矩阵问题，三条路**：
+
+1. **定义法**：找 $B$ 使 $AB = I$
+2. **伴随法**：$A^{-1} = A^*/|A|$（低阶）
+3. **初等变换法**：$[A|I] → [I|A^{-1}]$（高阶）
+
+**常见题型**：
+- 求 $A^{-1}$：直接计算
+- 已知 $A^{-1}$ 求 $A$：两边取逆
+- 解矩阵方程 $AX=B$：$X = A^{-1}B$
+- 证明题：用定义或 $A^* = |A|A^{-1}$`
+      },
+    ],
+  },
+}
+
+// 矩阵的秩知识点
+const matrixRankPoint: KnowledgePoint = {
+  id: 'matrix-rank',
+  moduleId: 'matrix',
+  name: '矩阵的秩',
+  formula: 'r(A) = \\text{最高阶非零子式的阶数}',
+  coreSentence: '秩是矩阵的"核心维度"，揭示了矩阵的真实复杂度和方程组解的结构。',
+  
+  dimensions: {
+    model: {
+      type: '2d',
+      config: {
+        functions: [],
+        points: [],
+        sliders: [
+          { id: 'transform', name: '变换步数', min: 0, max: 5, step: 1, defaultValue: 0, label: '变换步数' },
+        ],
+      },
+      animations: [
+        {
+          id: 'echelon-process',
+          name: '阶梯形化简求秩',
+          type: 'auto',
+          duration: 12000,
+          steps: [
+            { id: 's1', description: '原矩阵：[[1,2,3],[2,4,6],[1,1,1]]，观察第2行是否与第1行相关', changes: { transform: 0 } },
+            { id: 's2', description: '第2行 - 2×第1行 → 第2行变零！第1行和第3行独立', changes: { transform: 1 } },
+            { id: 's3', description: '第3行 - 第1行 → 第3行变为[0,-1,-2]', changes: { transform: 2 } },
+            { id: 's4', description: '阶梯形：[[1,2,3],[0,-1,-2],[0,0,0]]，非零行有2行', changes: { transform: 3 } },
+            { id: 's5', description: 'r(A) = 2，第2行是第1行的倍数，只有2个独立行', changes: { transform: 4 } },
+            { id: 's6', description: '结论：秩=非零行数=独立向量个数=列空间维度', changes: { transform: 5 } },
+          ],
+        },
+        {
+          id: 'rank-properties',
+          name: '秩的重要性质演示',
+          type: 'auto',
+          duration: 10000,
+          steps: [
+            { id: 's1', description: '性质1：r(A) = r(Aᵀ)，行秩=列秩', changes: {} },
+            { id: 's2', description: '性质2：r(AB) ≤ min{r(A), r(B)}，乘积秩不超过各因子秩', changes: {} },
+            { id: 's3', description: '性质3：若A可逆，则r(AB)=r(B)，满秩矩阵不降秩', changes: {} },
+            { id: 's4', description: '重要结论：AB=O ⇒ r(A)+r(B) ≤ n', changes: {} },
+            { id: 's5', description: '例子：A₃ₓ₃有秩2，B的列都是Ax=0的解，r(B)≤1', changes: {} },
+          ],
+        },
+        {
+          id: 'full-rank',
+          name: '满秩矩阵的特殊性',
+          type: 'auto',
+          duration: 6000,
+          steps: [
+            { id: 's1', description: '满秩方阵：r(A)=n，等价于|A|≠0，等价于A可逆', changes: {} },
+            { id: 's2', description: '列满秩r(A)=n：Ax=0只有零解，Ax=b若有解则唯一', changes: {} },
+            { id: 's3', description: '行满秩r(A)=m：Ax=b总有解（至少一个解）', changes: {} },
+          ],
+        },
+      ],
+    },
+    
+    explanation: {
+      mainText: `**🎯 引子：矩阵"真正的维度"**
+
+一个 $3 \\times 4$ 矩阵，看起来有3行4列。但它的"真实维度"可能只有2！
+
+这就是**秩**的概念——矩阵中真正"独立"的行（或列）的个数。
+
+---
+
+**📐 秩的定义**
+
+**子式定义**：
+$r(A)$ = 矩阵 $A$ 中**非零子式的最高阶数**
+
+**例子**：
+$$A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 1 & 1 & 1 \\end{pmatrix}$$
+
+第2行 = 2×第1行，所以三阶子式 $|A| = 0$。
+
+但二阶子式 $\\begin{vmatrix} 1&2\\\\1&1\\end{vmatrix} = -1 \\neq 0$。
+
+所以 $r(A) = 2$。
+
+---
+
+**💡 更直观的理解**
+
+**秩 = 行向量组的秩 = 列向量组的秩**
+
+- $r(A) = r$ ⟺ 有 $r$ 个线性无关的行（或列）
+- 其他行（列）都可以被这 $r$ 个线性表示
+
+**几何意义**：
+- $r(A_{m \\times n}) = r$ 意味着 $A$ 的列向量张成一个 $r$ 维空间
+- 比如上面的矩阵，列向量都在一个平面上（2维）
+
+---
+
+**🔧 秩的基本性质**
+
+| 性质 | 公式 | 说明 |
+|------|------|------|
+| 转置不变 | $r(A^T) = r(A)$ | 行秩=列秩 |
+| 范围 | $0 \\leq r(A) \\leq \\min(m,n)$ | 满秩 $\\Leftrightarrow$ $r(A) = \\min(m,n)$ |
+| 子矩阵 | 子矩阵的秩 ≤ 原矩阵的秩 | 删行列不增秩 |
+| $r(0) = 0$ | 零矩阵的秩是0 | 只有一个矩阵秩为0 |
+
+---
+
+**📏 秩的重要不等式**（考研重点！）
+
+**1. 秩的和**：
+$$r(A) + r(B) - n \\leq r(AB) \\leq \\min(r(A), r(B))$$
+
+**2. 秩的和与并**：
+$$\\max(r(A), r(B)) \\leq r(A, B) \\leq r(A) + r(B)$$
+
+**3. Sylvester不等式**：
+$$r(A) + r(B) - n \\leq r(AB)$$
+
+**4. 特别有用的结论**：
+$$r(A) + r(B) \\leq n + r(AB)$$
+
+当 $AB = O$ 时：$r(A) + r(B) \\leq n$
+
+---
+
+**🌟 考研高频性质**
+
+| 条件 | 结论 |
+|------|------|
+| $A$ 可逆 | $r(AB) = r(B)$，$r(BA) = r(B)$ |
+| $A$ 列满秩（$r(A) = n$）| $r(AB) = r(B)$ |
+| $A$ 行满秩（$r(A) = m$）| $r(BA) = r(B)$ |
+| $A^TA$ | $r(A^TA) = r(A)$ |
+| $r(A) = 1$ | $A = \\alpha\\beta^T$，迹=行列式类型问题 |
+
+---
+
+**🔑 秩的求法**
+
+**初等变换法**（最常用）：
+$$A \\xrightarrow{\\text{行变换}} \\begin{pmatrix} 1 & * & * & * \\\\ 0 & 1 & * & * \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}$$
+
+非零行的个数 = 秩
+
+**本质**：把矩阵化成"阶梯形"，数台阶！`,
+      highlights: ['秩 = 非零子式最高阶数 = 线性无关行/列数', 'AB=O时，r(A)+r(B)≤n是重要结论'],
+    },
+    
+    extension: {
+      essence: `**秩的深层意义**
+
+秩是线性代数的"灵魂概念"，它连接了：
+
+1. **代数视角**：非零子式的最高阶数
+2. **几何视角**：列空间（或行空间）的维度
+3. **方程组视角**：独立方程的个数
+4. **变换视角**：线性变换像空间的维度
+
+**为什么行秩=列秩？**
+
+这可以从线性方程组的对偶性理解：
+- $Ax = 0$ 的解空间维数 = $n - r(A)$
+- $A^Ty = 0$ 的解空间维数 = $m - r(A^T)$
+
+但这两个方程组有相同的"本质复杂度"，所以 $r(A) = r(A^T)$。
+
+**满秩矩阵的特殊性**：
+- 满秩方阵 = 可逆矩阵
+- 列满秩：$Ax = 0$ 只有零解
+- 行满秩：$Ax = b$ 总有解`,
+      further: [
+        {
+          id: 'ext1',
+          title: '秩1矩阵',
+          content: '若 $r(A) = 1$，则 $A = \\alpha\\beta^T$（一个列向量×一个行向量）。此时 $A^n = (\\beta^T\\alpha)^{n-1}A$。',
+        },
+        {
+          id: 'ext2',
+          title: '伴随矩阵的秩',
+          content: '$$r(A^*) = \\begin{cases} n, & r(A) = n \\\\ 1, & r(A) = n-1 \\\\ 0, & r(A) < n-1 \\end{cases}$$ 这说明只有满秩和秩为n-1时，伴随矩阵才有意义。',
+        },
+      ],
+    },
+    
+    applications: {
+      items: [
+        {
+          id: 'app1',
+          type: 'example',
+          title: '求矩阵的秩',
+          description: `求 $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{pmatrix}$ 的秩。
+
+**方法：初等变换**
+
+$\\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{pmatrix} \\xrightarrow{r_2-2r_1, r_3-3r_1} \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$
+
+非零行只有1行，所以 $r(A) = 1$。
+
+**观察**：第2、3行都是第1行的倍数，只有1个独立的行。`,
+          scenario: '基础计算。',
+        },
+        {
+          id: 'app2',
+          type: 'real',
+          title: '信息检索：文档相似度',
+          description: `**问题**：搜索引擎如何判断两篇文档的相关性？
+
+**方法**：构建文档-词项矩阵，计算秩和奇异值分解
+
+**LSI（潜在语义索引）**：
+- 文档矩阵的秩反映"主题数量"
+- 低秩近似可捕捉文档的隐含语义
+- 秩截断可降噪并提高检索效率
+
+**应用**：Google搜索、推荐系统、垃圾邮件过滤。`,
+          scenario: '搜索引擎和信息检索。',
+        },
+        {
+          id: 'app3',
+          type: 'real',
+          title: '通信系统：MIMO信道容量',
+          description: `**问题**：多天线系统（MIMO）的最大传输速率？
+
+**方法**：信道矩阵H的秩决定空间复用增益
+
+$$C = \\log_2\\det(I + \\frac{SNR}{n_t}HH^H)$$
+
+- $r(H)$ = 可同时传输的独立数据流数量
+- 满秩信道：最大化空间自由度
+
+**应用**：5G通信、WiFi 6、卫星通信。`,
+          scenario: '无线通信。',
+        },
+        {
+          id: 'app4',
+          type: 'real',
+          title: '图像压缩：低秩近似',
+          description: `**问题**：如何高效压缩图像？
+
+**方法**：奇异值分解（SVD）低秩近似
+
+$$A \\approx \\sum_{i=1}^{k} \\sigma_i u_i v_i^T$$
+
+- 原图秩为r，用前k个奇异值近似
+- k << r 时压缩比高，质量略有损失
+
+**应用**：JPEG压缩、人脸识别、视频编码。`,
+          scenario: '数字图像处理。',
+        },
+        {
+          id: 'app5',
+          type: 'real',
+          title: '机器学习：特征选择',
+          description: `**问题**：数据集中有多少"有效"特征？
+
+**方法**：数据矩阵的秩反映特征独立性
+
+- 满秩：特征相互独立，信息丰富
+- 低秩：特征高度相关，存在冗余
+
+**应用**：
+- 降维：PCA保留主要成分
+- 特征工程：去除共线性特征
+- 模型诊断：检测过拟合风险`,
+          scenario: '数据科学。',
+        },
+        {
+          id: 'app6',
+          type: 'research',
+          title: '秩与方程组解的关系',
+          description: `**核心定理**：
+
+对于 $n$ 元线性方程组 $Ax = b$：
+- $r(A) \\neq r(A|b)$ ⟹ 无解
+- $r(A) = r(A|b) = n$ ⟹ 唯一解
+- $r(A) = r(A|b) < n$ ⟹ 无穷多解
+
+**齐次方程组** $Ax = 0$：
+- $r(A) = n$ ⟹ 只有零解
+- $r(A) < n$ ⟹ 有非零解（自由变量个数为 $n-r(A)$）
+
+这就是为什么秩如此重要——它直接决定了解的情况！`,
+          scenario: '秩的应用。',
+        },
+      ],
+    },
+    
+    method: [
+      { 
+        number: 1, 
+        title: '秩相关问题的解题策略', 
+        description: `**求秩**：初等变换 → 阶梯形 → 数非零行
+
+**证明秩的不等式**：
+1. 利用 $r(AB) \\leq \\min(r(A), r(B))$
+2. 利用 $AB = O \\Rightarrow r(A) + r(B) \\leq n$
+3. 利用 $r(A) + r(B) - n \\leq r(AB)$
+
+**常见题型**：
+- 求 $r(A)$：化阶梯形
+- 已知 $r(A)$ 求参数：分析何时某阶子式为0/非0
+- 证明秩的关系：利用基本不等式`
+      },
+    ],
+  },
+}
+
+// 矩阵方程知识点
+const matrixEquationPoint: KnowledgePoint = {
+  id: 'matrix-equation',
+  moduleId: 'matrix',
+  name: '矩阵方程与特殊矩阵',
+  formula: 'AX = B \\Rightarrow X = A^{-1}B, \\quad XA = B \\Rightarrow X = BA^{-1}',
+  coreSentence: '矩阵方程是线性方程组的"升级版"，特殊矩阵（正交、正定等）是考研的重点考查对象。',
+  
+  dimensions: {
+    model: {
+      type: '2d',
+      config: {
+        functions: [],
+        points: [
+          { x: 1, y: 0, label: 'e₁' },
+          { x: 0, y: 1, label: 'e₂' },
+        ],
+        sliders: [
+          { id: 'theta', name: '旋转角θ', min: 0, max: 6.28, step: 0.1, defaultValue: 0, label: 'θ' },
+          { id: 'lambda1', name: '特征值λ₁', min: 0.1, max: 3, step: 0.1, defaultValue: 1, label: 'λ₁' },
+          { id: 'lambda2', name: '特征值λ₂', min: 0.1, max: 3, step: 0.1, defaultValue: 1, label: 'λ₂' },
+        ],
+      },
+      animations: [
+        {
+          id: 'orthogonal-transform',
+          name: '正交矩阵：旋转变换',
+          type: 'auto',
+          duration: 8000,
+          steps: [
+            { id: 's1', description: '正交矩阵Q = [[cosθ,-sinθ],[sinθ,cosθ]]，θ=0时Q=I', changes: { theta: 0 } },
+            { id: 's2', description: 'θ=π/4：向量逆时针旋转45°，长度不变', changes: { theta: 0.785 } },
+            { id: 's3', description: 'θ=π/2：向量逆时针旋转90°', changes: { theta: 1.57 } },
+            { id: 's4', description: 'θ=π：向量旋转180°，方向相反', changes: { theta: 3.14 } },
+            { id: 's5', description: '关键性质：正交变换保持长度和角度，|Qx|=|x|', changes: { theta: 1 } },
+          ],
+        },
+        {
+          id: 'positive-definite',
+          name: '正定矩阵：特征值全正',
+          type: 'auto',
+          duration: 8000,
+          steps: [
+            { id: 's1', description: '正定矩阵A：所有特征值λ>0，二次型xᵀAx>0（x≠0）', changes: { lambda1: 2, lambda2: 3 } },
+            { id: 's2', description: '几何：xᵀAx = c 是一个椭圆（正定）', changes: { lambda1: 2, lambda2: 1 } },
+            { id: 's3', description: '若λ₁>0, λ₂<0：不定，二次型是双曲线', changes: { lambda1: 2, lambda2: -1 } },
+            { id: 's4', description: '若λ₁=λ₂>0：正定，二次型是圆', changes: { lambda1: 2, lambda2: 2 } },
+            { id: 's5', description: '判定：顺序主子式全>0 ⟺ 正定', changes: { lambda1: 2, lambda2: 3 } },
+          ],
+        },
+        {
+          id: 'matrix-equation-solve',
+          name: '矩阵方程求解',
+          type: 'auto',
+          duration: 6000,
+          steps: [
+            { id: 's1', description: 'AX=B型：X=A⁻¹B，逆矩阵右乘', changes: {} },
+            { id: 's2', description: 'XA=B型：X=BA⁻¹，逆矩阵左乘', changes: {} },
+            { id: 's3', description: 'AXB=C型：X=A⁻¹CB⁻¹，两边取逆', changes: {} },
+            { id: 's4', description: '注意顺序：矩阵乘法不满足交换律！', changes: {} },
+          ],
+        },
+        {
+          id: 'special-matrices',
+          name: '特殊矩阵性质速览',
+          type: 'auto',
+          duration: 10000,
+          steps: [
+            { id: 's1', description: '幂等矩阵A²=A：特征值0或1，r(A)+r(I-A)=n', changes: {} },
+            { id: 's2', description: '对合矩阵A²=I：A⁻¹=A，特征值±1', changes: {} },
+            { id: 's3', description: '幂零矩阵Aᵏ=O：特征值全0，不可对角化', changes: {} },
+            { id: 's4', description: '秩1矩阵A=αβᵀ：Aⁿ=(βᵀα)ⁿ⁻¹A', changes: {} },
+            { id: 's5', description: '实对称矩阵：特征值实数，可正交对角化', changes: {} },
+          ],
+        },
+      ],
+    },
+    
+    explanation: {
+      mainText: `**🎯 从线性方程组到矩阵方程**
+
+线性方程组 $Ax = b$，把 $x$ 和 $b$ 换成矩阵，就得到**矩阵方程** $AX = B$。
+
+矩阵方程是"批量"解线性方程组！
+
+---
+
+**📐 矩阵方程的类型与解法**
+
+| 类型 | 解法 | 条件 |
+|------|------|------|
+| $AX = B$ | $X = A^{-1}B$ | $A$ 可逆 |
+| $XA = B$ | $X = BA^{-1}$ | $A$ 可逆 |
+| $AXB = C$ | $X = A^{-1}CB^{-1}$ | $A,B$ 可逆 |
+
+**注意顺序**：$AX=B$ 右乘逆，$XA=B$ 左乘逆！
+
+---
+
+**🔧 一般矩阵方程的解**
+
+当 $A$ 不可逆时，矩阵方程 $AX = B$ 有解的条件是：
+$$r(A) = r(A|B)$$
+
+解的结构：
+$$X = X^* + C$$
+
+其中 $X^*$ 是特解，$C$ 的每一列都是 $Ax = 0$ 的解。
+
+---
+
+**⭐ 正交矩阵**
+
+**定义**：若 $A^TA = I$，则 $A$ 是正交矩阵。
+
+**等价条件**：
+- $A^T = A^{-1}$
+- $A$ 的列（行）向量是标准正交基
+- $|A| = \\pm 1$
+
+**性质**：
+| 性质 | 说明 |
+|------|------|
+| 保持长度 | $\\|Ax\\| = \\|x\\|$ |
+| 保持角度 | $(Ax)^T(Ay) = x^Ty$ |
+| 行列式 | $|A| = \\pm 1$ |
+| 正交矩阵的乘积 | 还是正交矩阵 |
+
+**几何意义**：正交矩阵代表"旋转"或"反射"——保持距离和角度的变换。
+
+---
+
+**⭐ 正定矩阵**
+
+**定义**：实对称矩阵 $A$ 称为正定矩阵，若对任意 $x \\neq 0$，有 $x^TAx > 0$。
+
+**判定条件**（等价）：
+| 条件 | 说明 |
+|------|------|
+| 特征值全正 | $\\lambda_1, \\cdots, \\lambda_n > 0$ |
+| 顺序主子式全正 | $\\Delta_1 > 0, \\Delta_2 > 0, \\cdots, \\Delta_n > 0$ |
+| 合同于 $I$ | 存在可逆 $P$ 使 $P^TAP = I$ |
+
+**半正定**：$x^TAx \\geq 0$（特征值非负）
+
+**几何意义**：正定矩阵定义的二次型 $x^TAx$ 是一个"碗状"曲面，有唯一的极小值点。
+
+---
+
+**⭐ 相似与合同**
+
+**相似**：$P^{-1}AP = B$，记作 $A \\sim B$
+
+性质：
+- 相似矩阵有相同的特征值
+- 相似矩阵有相同的行列式、迹、秩
+- $A \\sim \\Lambda$（对角矩阵）⟺ $A$ 可对角化
+
+**合同**：$P^TAP = B$，记作 $A \\simeq B$
+
+性质：
+- 合同矩阵有相同的秩
+- 合同变换保持对称性
+- 实对称矩阵可合同对角化
+
+**二者关系**：
+- 相似必等秩，但等秩不一定相似
+- 实对称矩阵：相似 $\\Leftrightarrow$ 合同（正交对角化）
+
+---
+
+**💡 特殊矩阵的考试重点**
+
+| 类型 | 核心性质 | 考点 |
+|------|----------|------|
+| 幂等矩阵 $A^2=A$ | 特征值0或1，$r(A)+r(I-A)=n$ | 证明秩等式 |
+| 对合矩阵 $A^2=I$ | $A^{-1}=A$，特征值±1 | 求特征值 |
+| 幂零矩阵 $A^k=O$ | 特征值全0，不可对角化 | 证明特征值 |
+| 秩1矩阵 | $A=\\alpha\\beta^T$，$A^n=(\\beta^T\\alpha)^{n-1}A$ | 求幂`,
+      highlights: ['矩阵方程解的顺序很重要：AX=B右乘逆，XA=B左乘逆', '正定矩阵判定：特征值全正或顺序主子式全正'],
+    },
+    
+    extension: {
+      essence: `**特殊矩阵的本质**
+
+**正交矩阵**：保持"形状"的线性变换
+- 旋转、反射
+- 不改变向量的长度和夹角
+- 是"刚性变换"
+
+**正定矩阵**：保持"方向性"的二次型
+- $x^TAx > 0$ 对所有非零 $x$ 成立
+- 二次型是一个"碗"，最低点在原点
+- 用于最优化、距离定义（如马氏距离）
+
+**相似 vs 合同**：
+
+| | 相似 $P^{-1}AP$ | 合同 $P^TAP$ |
+|--|----------------|--------------|
+| 保持 | 特征值 | 惯性指数（正负特征值个数）|
+| 适用 | 一般方阵 | 主要用于对称矩阵 |
+| 几何 | 同一线性变换在不同基下的表示 | 同一二次型的不同表达形式 |
+
+**实对称矩阵的特殊性**：
+- 特征值都是实数
+- 不同特征值对应的特征向量正交
+- 可以正交对角化（相似且合同）`,
+      further: [
+        {
+          id: 'ext1',
+          title: '幂等矩阵的秩',
+          content: '若 $A^2 = A$（幂等矩阵），则 $r(A) + r(I-A) = n$。证明：利用 $A(I-A) = O$ 和 $A + (I-A) = I$。',
+        },
+        {
+          id: 'ext2',
+          title: '正定矩阵的等价刻画',
+          content: '$A$ 正定 $\\Leftrightarrow$ $A = B^TB$（$B$ 可逆）$\\Leftrightarrow$ $A$ 的所有主子式都大于0 $\\Leftrightarrow$ 存在对角矩阵 $D$ 使 $A = P^TDP$。',
+        },
+      ],
+    },
+    
+    applications: {
+      items: [
+        {
+          id: 'app1',
+          type: 'example',
+          title: '解矩阵方程',
+          description: `设 $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$，$B = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$，解 $AX = B$。
+
+**解法**：
+$X = A^{-1}B = A^{-1}$
+
+$|A| = -2$，$A^{-1} = \\frac{1}{-2}\\begin{pmatrix} 4 & -2 \\\\ -3 & 1 \\end{pmatrix} = \\begin{pmatrix} -2 & 1 \\\\ \\frac{3}{2} & -\\frac{1}{2} \\end{pmatrix}$
+
+所以 $X = \\begin{pmatrix} -2 & 1 \\\\ \\frac{3}{2} & -\\frac{1}{2} \\end{pmatrix}$`,
+          scenario: '基础矩阵方程。',
+        },
+        {
+          id: 'app2',
+          type: 'real',
+          title: '计算机图形学：3D旋转',
+          description: `**问题**：如何在三维空间中旋转物体？
+
+**方法**：正交矩阵实现旋转变换
+
+**绕z轴旋转θ角**：
+$$R_z(\\theta) = \\begin{pmatrix} \\cos\\theta & -\\sin\\theta & 0 \\\\ \\sin\\theta & \\cos\\theta & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$$
+
+**性质**：
+- 正交矩阵：$R^T R = I$，保持长度不变
+- 行列式 = 1（纯旋转）或 -1（旋转+反射）
+
+**应用**：游戏引擎、动画制作、VR/AR。`,
+          scenario: '计算机图形学。',
+        },
+        {
+          id: 'app3',
+          type: 'real',
+          title: '量子计算：量子门',
+          description: `**问题**：量子计算机如何操作量子比特？
+
+**方法**：酉矩阵（复数域的正交矩阵）
+
+**Hadamard门**（量子叠加）：
+$$H = \\frac{1}{\\sqrt{2}}\\begin{pmatrix} 1 & 1 \\\\ 1 & -1 \\end{pmatrix}$$
+
+**Pauli门**（量子翻转）：
+$$X = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}, Y = \\begin{pmatrix} 0 & -i \\\\ i & 0 \\end{pmatrix}, Z = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$$
+
+**应用**：量子算法、量子纠错、量子通信。`,
+          scenario: '量子计算。',
+        },
+        {
+          id: 'app4',
+          type: 'real',
+          title: '信号处理：离散傅里叶变换',
+          description: `**问题**：如何分析信号的频率成分？
+
+**方法**：傅里叶变换矩阵
+
+$$F = \\frac{1}{\\sqrt{n}}\\begin{pmatrix} 1 & 1 & 1 & \\cdots \\\\ 1 & \\omega & \\omega^2 & \\cdots \\\\ 1 & \\omega^2 & \\omega^4 & \\cdots \\\\ \\vdots & \\vdots & \\vdots & \\ddots \\end{pmatrix}$$
+
+其中 $\\omega = e^{2\\pi i/n}$
+
+**性质**：
+- 酉矩阵：$F^*F = I$
+- 对角化循环矩阵
+
+**应用**：频谱分析、音频处理、图像压缩（JPEG）。`,
+          scenario: '数字信号处理。',
+        },
+        {
+          id: 'app5',
+          type: 'real',
+          title: '统计学习：协方差矩阵',
+          description: `**问题**：如何描述多维数据的分布特征？
+
+**方法**：协方差矩阵（半正定矩阵）
+
+$$\\Sigma = \\frac{1}{n-1}X^TX$$
+
+**性质**：
+- 正定：数据在各方向都有方差
+- 半正定：某些方向方差为0（数据共面）
+
+**应用**：
+- PCA降维：取最大特征值方向
+- 马氏距离：$d = \\sqrt{(x-\\mu)^T\\Sigma^{-1}(x-\\mu)}$
+- 高斯分布建模`,
+          scenario: '统计学与机器学习。',
+        },
+        {
+          id: 'app6',
+          type: 'real',
+          title: '优化理论：牛顿法',
+          description: `**问题**：如何高效求解无约束优化？
+
+**方法**：牛顿法利用Hessian矩阵（二阶导矩阵）
+
+$$x_{k+1} = x_k - H^{-1}\\nabla f(x_k)$$
+
+**Hessian矩阵**：$H_{ij} = \\frac{\\partial^2 f}{\\partial x_i \\partial x_j}$
+
+**性质**：
+- 正定Hessian：局部极小值点
+- 负定Hessian：局部极大值点
+- 不定Hessian：鞍点
+
+**应用**：深度学习优化、工程优化设计。`,
+          scenario: '最优化。',
+        },
+        {
+          id: 'app7',
+          type: 'research',
+          title: '正定矩阵的判定',
+          description: `判断 $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$ 是否正定。
+
+**方法一：顺序主子式**
+$\\Delta_1 = 2 > 0$
+$\\Delta_2 = 4-1 = 3 > 0$
+全正，所以正定。
+
+**方法二：特征值**
+$|A - \\lambda I| = (2-\\lambda)^2 - 1 = 0$
+$\\lambda = 1, 3 > 0$
+特征值全正，所以正定。
+
+**方法三：配方法**
+$x^TAx = 2x_1^2 + 2x_2^2 + 2x_1x_2 = 2(x_1 + \\frac{x_2}{2})^2 + \\frac{3}{2}x_2^2 > 0$
+（当 $x \\neq 0$ 时）`,
+          scenario: '正定判定。',
+        },
+      ],
+    },
+    
+    method: [
+      { 
+        number: 1, 
+        title: '特殊矩阵问题解题策略', 
+        description: `**正交矩阵**：
+- 验证 $A^TA = I$
+- 或检验行/列向量是否标准正交
+
+**正定矩阵判定**：
+1. 求特征值（全正）
+2. 求顺序主子式（全正）
+3. 配方法化为标准形（系数全正）
+
+**相似对角化**：
+1. 求特征值
+2. 求特征向量
+3. 若有n个线性无关特征向量，则可对角化
+
+**实对称矩阵**：一定可正交对角化！`
+      },
+    ],
+  },
+}
+
 // 知识模块定义
 export const knowledgeModules: KnowledgeModule[] = [
   {
@@ -7511,6 +9544,20 @@ export const knowledgeModules: KnowledgeModule[] = [
     icon: '∬',
     description: '多元函数积分是高维空间中积分的自然推广，是物理建模的核心工具',
     knowledgePoints: [doubleIntegralPoint, tripleIntegralPoint, lineIntegralType1Point, lineIntegralType2Point, surfaceIntegralType1Point, surfaceIntegralType2Point],
+  },
+  {
+    id: 'determinant',
+    name: '行列式',
+    icon: '⊞',
+    description: '行列式是将方阵映射到标量的函数，是判断矩阵可逆性和求解线性方程组的核心工具',
+    knowledgePoints: [determinantDefinitionPoint, determinantExpansionPoint, cramerRulePoint],
+  },
+  {
+    id: 'matrix',
+    name: '矩阵',
+    icon: '▦',
+    description: '矩阵是线性变换的代数表示，是现代数学和工程计算的核心语言',
+    knowledgePoints: [matrixDefinitionPoint, matrixInversePoint, matrixRankPoint, matrixEquationPoint],
   },
 ]
 
