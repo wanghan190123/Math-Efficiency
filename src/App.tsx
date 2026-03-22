@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { useAppStore } from './store'
 import { knowledgeModules } from './data/knowledge'
 import TitleBar from './components/layout/TitleBar'
@@ -6,9 +6,25 @@ import Sidebar from './components/layout/Sidebar'
 import MainContent from './components/layout/MainContent'
 import StatusBar from './components/layout/StatusBar'
 import MainMenu from './components/menu/MainMenu'
-import FormulaBook from './components/formulas/FormulaBook'
-import FormulaDerivation from './components/derivation/FormulaDerivation'
 import './styles/components.css'
+
+// 懒加载大组件
+const FormulaBook = lazy(() => import('./components/formulas/FormulaBook'))
+const FormulaDerivation = lazy(() => import('./components/derivation/FormulaDerivation'))
+
+// 加载中组件
+const Loading: React.FC = () => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    fontSize: '18px',
+    color: '#666'
+  }}>
+    加载中...
+  </div>
+)
 
 export type ViewType = 'menu' | 'knowledge' | 'graph' | 'formulas' | 'derivation'
 
@@ -67,7 +83,9 @@ const App: React.FC = () => {
         background: 'var(--color-bg-primary)',
       }}>
         <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
-        <FormulaBook />
+        <Suspense fallback={<Loading />}>
+          <FormulaBook />
+        </Suspense>
         <StatusBar />
       </div>
     )
@@ -83,7 +101,9 @@ const App: React.FC = () => {
         background: 'var(--color-bg-primary)',
       }}>
         <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
-        <FormulaDerivation />
+        <Suspense fallback={<Loading />}>
+          <FormulaDerivation />
+        </Suspense>
         <StatusBar />
       </div>
     )

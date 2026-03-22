@@ -20,18 +20,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@react-three/drei": "^9.92.7",
-    "@react-three/fiber": "^8.15.12",
-    "framer-motion": "^10.16.16",
-    "html2canvas": "^1.4.1",
-    "jsxgraph": "^1.8.0",
     "katex": "^0.16.38",
     "lucide-react": "^0.303.0",
-    "mathjs": "^15.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-katex": "^3.1.0",
-    "three": "^0.160.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
@@ -58,7 +50,10 @@
       "dist-electron/**/*"
     ],
     "win": {
-      "target": ["portable", "dir"]
+      "target": [
+        "portable",
+        "dir"
+      ]
     },
     "mac": {
       "target": "dmg"
