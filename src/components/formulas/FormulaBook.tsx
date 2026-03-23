@@ -4858,12 +4858,11 @@ const CATEGORIES: Category[] = [
 
 const FormulaBook: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
   const [testMode, setTestMode] = useState(false);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [revealedFormulas, setRevealedFormulas] = useState<Set<string>>(new Set());
+  const [searchInput, setSearchInput] = useState('');
   const [favorites, setFavorites] = useState<Set<string>>(() => {
-    // 从localStorage加载收藏
     try {
       const saved = localStorage.getItem('formula-favorites');
       if (saved) {
@@ -4875,6 +4874,15 @@ const FormulaBook: React.FC = () => {
     return new Set();
   });
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
+
+  // 防抖搜索词：300ms 后再更新
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchInput);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
   // 保存收藏到localStorage
   React.useEffect(() => {
@@ -4901,26 +4909,25 @@ const FormulaBook: React.FC = () => {
   // 过滤公式
   const filteredFormulas = useMemo(() => {
     return FORMULAS.filter(formula => {
-      // 收藏分类特殊处理
       if (activeCategory === 'favorites') {
         return favorites.has(formula.id);
       }
-      
-      // 分类筛选
       const matchCategory = activeCategory === 'all' || formula.category === activeCategory;
-      
-      // 只看收藏筛选（在当前分类下）
       const matchFavorite = !showFavoritesOnly || favorites.has(formula.id);
-      
-      // 搜索筛选
-      const matchSearch = !searchQuery || 
-        formula.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        formula.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        formula.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      return matchCategory && matchFavorite && matchSearch;
+      if (debouncedSearchTerm.trim()) {
+        const term = debouncedSearchTerm.toLowerCase().trim();
+        const matchName = formula.name?.toLowerCase().includes(term) ?? false;
+        const matchDescription = formula.description?.toLowerCase().includes(term) ?? false;
+        const matchTags = (formula.tags ?? []).some(tag => tag?.toLowerCase().includes(term));
+        const matchLatex = formula.latex?.toLowerCase().includes(term) ?? false;
+        const matchExample = formula.example?.toLowerCase().includes(term) ?? false;
+        if (!matchName && !matchDescription && !matchTags && !matchLatex && !matchExample) {
+          return false;
+        }
+      }
+      return matchCategory && matchFavorite;
     });
-  }, [activeCategory, searchQuery, favorites, showFavoritesOnly]);
+  }, [activeCategory, favorites, showFavoritesOnly, debouncedSearchTerm]);
   
   // 当前分类下收藏的公式数量
   const favoritesInCurrentCategory = useMemo(() => {
@@ -4974,15 +4981,34 @@ const FormulaBook: React.FC = () => {
       <div className="formula-book__main">
         {/* 搜索栏 */}
         <div className="search-bar">
-          <input
-            type="text"
-            placeholder="搜索公式名称、标签或描述..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-          />
+          <div className="search-input-wrapper">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="搜索公式名称、标签或描述..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  setDebouncedSearchTerm(searchInput);
+                }
+              }}
+            />
+            {searchInput && (
+              <button
+                type="button"
+                className="search-clear-btn"
+                onClick={() => setSearchInput('')}
+                title="清空搜索"
+              >
+                ✕
+              </button>
+            )}
+          </div>
           {activeCategory !== 'favorites' && (
             <button
+              type="button"
               className={`favorites-filter-btn ${showFavoritesOnly ? 'active' : ''}`}
               onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
               title={showFavoritesOnly ? '显示全部公式' : '只看收藏的公式'}
@@ -4992,18 +5018,35 @@ const FormulaBook: React.FC = () => {
             </button>
           )}
           <button
+            type="button"
             className={`test-mode-btn ${testMode ? 'active' : ''}`}
             onClick={() => setTestMode(!testMode)}
             title={testMode ? '退出自测模式' : '进入自测模式'}
           >
             {testMode ? '📖 退出自测' : '🧪 公式自测'}
           </button>
-          <span className="search-count">{filteredFormulas.length} 个公式</span>
+          <span className="search-count">
+            {filteredFormulas.length} {searchInput ? '条搜索结果' : '个公式'}
+          </span>
         </div>
 
         {/* 公式列表 */}
-        <div className="formula-grid">
-          {filteredFormulas.map(formula => (
+        <div className={`formula-grid ${filteredFormulas.length === 0 ? 'formula-grid--empty' : ''}`}>
+          {filteredFormulas.length === 0 ? (
+            <>
+              <div className="empty-state-icon">🔍</div>
+              <div className="empty-state-text">
+                {searchInput
+                  ? `未找到包含"${searchInput}"的公式`
+                  : activeCategory === 'favorites'
+                    ? '暂无收藏公式'
+                    : '该分类下暂无公式'}
+              </div>
+              <div className="empty-state-hint">
+                {searchInput ? '尝试更换关键词或清除搜索' : ''}
+              </div>
+            </>
+          ) : filteredFormulas.map(formula => (
             <div
               key={formula.id}
               className={`formula-card ${selectedFormula?.id === formula.id ? 'selected' : ''}`}
