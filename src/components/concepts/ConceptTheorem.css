@@ -1,0 +1,868 @@
+.concept-theorem {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.concept-sidebar {
+  width: 180px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.chapter-list {
+  padding: 8px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chapter-item {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  margin-bottom: 2px;
+}
+
+.chapter-item:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.chapter-item.active {
+  background: var(--accent-gold);
+  color: white;
+}
+
+.concept-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.concept-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.concept-search .search-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.concept-search .search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.concept-search .search-input:focus {
+  border-color: var(--accent-gold);
+}
+
+.concept-search .search-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.concept-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  flex: 1;
+  align-content: start;
+}
+
+.concept-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.concept-card:hover {
+  border-color: var(--accent-gold);
+}
+
+.concept-card.expanded {
+  border-color: var(--accent-gold);
+  box-shadow: 0 2px 12px rgba(212, 165, 55, 0.15);
+}
+
+.concept-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: var(--bg-card);
+}
+
+.concept-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.concept-category {
+  font-size: 0.65rem;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.concept-title h3 {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.expand-icon {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.expand-icon:hover {
+  background: var(--bg-secondary);
+  color: var(--accent-gold);
+}
+
+.concept-content {
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-primary);
+}
+
+.concept-formula {
+  margin: 10px 0;
+  padding: 10px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.formula-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.formula-display {
+  font-family: 'Times New Roman', serif;
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+  overflow-x: auto;
+  padding: 8px 0;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.formula-display .katex {
+  font-size: 1rem;
+}
+
+.formula-display .katex-display {
+  display: inline-block;
+  margin: 4px 0;
+  text-align: center;
+}
+
+.formula-display .katex .mord, 
+.formula-display .katex .mop,
+.formula-display .katex .mbin {
+  color: var(--primary-dark);
+}
+
+.concept-section {
+  margin-top: 12px;
+}
+
+.concept-section h4 {
+  margin: 0 0 6px 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.concept-section p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* 深色模式 */
+[data-theme="dark"] .concept-sidebar {
+  background: rgba(30, 28, 24, 0.95);
+}
+
+[data-theme="dark"] .sidebar-header h2 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .chapter-item {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .chapter-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #F0E6D2;
+}
+
+[data-theme="dark"] .chapter-item.active {
+  background: var(--accent-gold);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .concept-card {
+  background: rgba(45, 42, 38, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .concept-header {
+  background: rgba(45, 42, 38, 0.8);
+}
+
+[data-theme="dark"] .concept-title h3 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .concept-category {
+  color: #FFD700;
+}
+
+[data-theme="dark"] .concept-content {
+  background: rgba(35, 32, 28, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .concept-formula {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .formula-display {
+  color: #F0E6D2;
+}
+
+[data-theme="dark"] .concept-section h4 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .concept-section p {
+  color: #C4B498;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .concept-theorem {
+    flex-direction: column;
+  }
+
+  .concept-sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .chapter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .chapter-item {
+    width: auto;
+    flex: 1;
+    min-width: 120px;
+    margin-bottom: 0;
+  }
+
+  .concept-main {
+    padding: 12px;
+  }
+
+  .concept-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 宇宙星辰主题 */
+[data-theme="cosmos"] .concept-sidebar {
+  background: linear-gradient(180deg, #12122A 0%, #0B0B1A 100%);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .sidebar-header h2 {
+  color: #E8E8F0;
+  text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+[data-theme="cosmos"] .chapter-item {
+  color: #C8C8D8;
+  border-color: rgba(157, 124, 255, 0.15);
+}
+
+[data-theme="cosmos"] .chapter-item:hover {
+  background: rgba(157, 124, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+}
+
+[data-theme="cosmos"] .chapter-item.active {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+  color: #FFFFFF;
+  border-color: #00D4FF;
+  box-shadow: 0 0 25px rgba(157, 124, 255, 0.5);
+}
+
+[data-theme="cosmos"] .concept-card {
+  background: linear-gradient(145deg, rgba(21, 21, 48, 0.9) 0%, rgba(26, 26, 58, 0.95) 100%);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .concept-card:hover {
+  border-color: #9D7CFF;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 30px rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .concept-header {
+  border-bottom-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .concept-title h3 {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .concept-category {
+  color: #00D4FF;
+  background: rgba(0, 212, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .concept-content {
+  background: rgba(15, 15, 32, 0.95);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .concept-formula {
+  background: linear-gradient(135deg, rgba(157, 124, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+  border-left-color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .formula-display {
+  color: #00D4FF;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+[data-theme="cosmos"] .concept-section h4 {
+  color: #B8A0FF;
+}
+
+[data-theme="cosmos"] .concept-section p {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .concept-search input {
+  background: rgba(21, 21, 48, 0.9);
+  border-color: rgba(157, 124, 255, 0.3);
+  color: #E8E8F0;
+}
+
+[data-theme="cosmos"] .concept-search input:focus {
+  border-color: #00D4FF;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .concept-search input::placeholder {
+  color: #606078;
+}
+
+/* 砚冰清秩主题 */
+[data-theme="iceclear"] .concept-sidebar {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F8FA 100%);
+  border-color: rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .sidebar-header h2 {
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .chapter-item {
+  color: #4A5568;
+  border-color: rgba(203, 213, 224, 0.5);
+}
+
+[data-theme="iceclear"] .chapter-item:hover {
+  background: rgba(91, 138, 114, 0.08);
+  border-color: rgba(91, 138, 114, 0.25);
+}
+
+[data-theme="iceclear"] .chapter-item.active {
+  background: linear-gradient(135deg, #5B8A72, #7BA894);
+  color: #FFFFFF;
+  border-color: #5B8A72;
+}
+
+[data-theme="iceclear"] .concept-card {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+  border-color: rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .concept-card:hover {
+  border-color: #5B8A72;
+  box-shadow: 0 8px 25px rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .concept-header {
+  border-bottom-color: rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .concept-title h3 {
+  color: #2C3E50;
+}
+
+[data-theme="iceclear"] .concept-category {
+  color: #5B8A72;
+  background: rgba(91, 138, 114, 0.1);
+  border-color: rgba(91, 138, 114, 0.2);
+}
+
+[data-theme="iceclear"] .concept-content {
+  background: #FAFBFC;
+  border-color: rgba(203, 213, 224, 0.5);
+}
+
+[data-theme="iceclear"] .concept-formula {
+  background: rgba(91, 138, 114, 0.05);
+  border-left-color: #5B8A72;
+}
+
+[data-theme="iceclear"] .formula-display {
+  color: #2C5282;
+}
+
+[data-theme="iceclear"] .concept-section h4 {
+  color: #5B8A72;
+}
+
+[data-theme="iceclear"] .concept-section p {
+  color: #4A5568;
+}
+
+[data-theme="iceclear"] .concept-search input {
+  background: #FFFFFF;
+  border-color: rgba(91, 138, 114, 0.2);
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .concept-search input:focus {
+  border-color: #5B8A72;
+  box-shadow: 0 0 15px rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .concept-search input::placeholder {
+  color: #A0AEC0;
+}
+
+/* 松烟理序主题 */
+[data-theme="pine"] .concept-sidebar {
+  background: linear-gradient(180deg, #32383F 0%, #2A2F35 100%);
+  border-color: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .sidebar-header h2 {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .chapter-item {
+  color: #C8C4BC;
+  border-color: rgba(74, 80, 88, 0.5);
+}
+
+[data-theme="pine"] .chapter-item:hover {
+  background: rgba(123, 139, 111, 0.1);
+  border-color: rgba(123, 139, 111, 0.25);
+}
+
+[data-theme="pine"] .chapter-item.active {
+  background: linear-gradient(135deg, #7B8B6F, #9AA88E);
+  color: #FFFFFF;
+  border-color: #9AA88E;
+}
+
+[data-theme="pine"] .concept-card {
+  background: linear-gradient(145deg, rgba(50, 56, 63, 0.9) 0%, rgba(60, 66, 74, 0.95) 100%);
+  border-color: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .concept-card:hover {
+  border-color: #7B8B6F;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 25px rgba(123, 139, 111, 0.1);
+}
+
+[data-theme="pine"] .concept-header {
+  border-bottom-color: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .concept-title h3 {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .concept-category {
+  color: #9AA88E;
+  background: rgba(123, 139, 111, 0.12);
+  border-color: rgba(123, 139, 111, 0.2);
+}
+
+[data-theme="pine"] .concept-content {
+  background: rgba(42, 47, 53, 0.95);
+  border-color: rgba(74, 80, 88, 0.5);
+}
+
+[data-theme="pine"] .concept-formula {
+  background: rgba(123, 139, 111, 0.08);
+  border-left-color: #7B8B6F;
+}
+
+[data-theme="pine"] .formula-display {
+  color: #A8C4B8;
+}
+
+[data-theme="pine"] .concept-section h4 {
+  color: #9AA88E;
+}
+
+[data-theme="pine"] .concept-section p {
+  color: #C8C4BC;
+}
+
+[data-theme="pine"] .concept-search input {
+  background: rgba(50, 56, 63, 0.9);
+  border-color: rgba(123, 139, 111, 0.2);
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .concept-search input:focus {
+  border-color: #7B8B6F;
+  box-shadow: 0 0 15px rgba(123, 139, 111, 0.2);
+}
+
+[data-theme="pine"] .concept-search input::placeholder {
+  color: #787470;
+}
+
+/* 夕照青山主题 */
+[data-theme="sunset"] .concept-sidebar {
+  background: linear-gradient(180deg, #F2E8DE 0%, #E8DDD0 100%);
+  border-color: rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .sidebar-header h2 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .chapter-item {
+  color: #6B6256;
+  border-color: rgba(196, 184, 170, 0.5);
+}
+
+[data-theme="sunset"] .chapter-item:hover {
+  background: rgba(196, 125, 78, 0.08);
+  border-color: rgba(196, 125, 78, 0.25);
+}
+
+[data-theme="sunset"] .chapter-item.active {
+  background: linear-gradient(135deg, #C47D4E, #D4966A);
+  color: #FFFFFF;
+  border-color: #D4966A;
+}
+
+[data-theme="sunset"] .concept-card {
+  background: linear-gradient(145deg, #F5ECE2 0%, #EBE2D6 100%);
+  border-color: rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .concept-card:hover {
+  border-color: #C47D4E;
+  box-shadow: 0 8px 25px rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .concept-header {
+  border-bottom-color: rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .concept-title h3 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .concept-category {
+  color: #C47D4E;
+  background: rgba(196, 125, 78, 0.1);
+  border-color: rgba(196, 125, 78, 0.2);
+}
+
+[data-theme="sunset"] .concept-content {
+  background: #F8F3EC;
+  border-color: rgba(196, 184, 170, 0.5);
+}
+
+[data-theme="sunset"] .concept-formula {
+  background: rgba(93, 122, 100, 0.05);
+  border-left-color: #5D7A64;
+}
+
+[data-theme="sunset"] .formula-display {
+  color: #6B8E6B;
+}
+
+[data-theme="sunset"] .concept-section h4 {
+  color: #5D7A64;
+}
+
+[data-theme="sunset"] .concept-section p {
+  color: #6B6256;
+}
+
+[data-theme="sunset"] .concept-search input {
+  background: #F2E8DE;
+  border-color: rgba(196, 125, 78, 0.2);
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .concept-search input:focus {
+  border-color: #C47D4E;
+  box-shadow: 0 0 15px rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .concept-search input::placeholder {
+  color: #A9A196;
+}
+
+/* 百花欲燃主题 */
+[data-theme="blossom"] .concept-sidebar {
+  background: linear-gradient(180deg, #FFF8F8 0%, #FDF2F2 100%);
+  border-color: rgba(214, 80, 118, 0.12);
+}
+
+[data-theme="blossom"] .sidebar-header h2 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .chapter-item {
+  color: #6B5258;
+  border-color: rgba(232, 200, 200, 0.5);
+}
+
+[data-theme="blossom"] .chapter-item:hover {
+  background: rgba(244, 162, 89, 0.08);
+  border-color: rgba(244, 162, 89, 0.2);
+}
+
+[data-theme="blossom"] .chapter-item.active {
+  background: linear-gradient(135deg, #D65076, #F4A259);
+  color: #FFFFFF;
+  border-color: #F6B678;
+}
+
+[data-theme="blossom"] .concept-card {
+  background: linear-gradient(145deg, #FFFDFD 0%, #FFF8F8 100%);
+  border-color: rgba(214, 80, 118, 0.12);
+}
+
+[data-theme="blossom"] .concept-card:hover {
+  border-color: #D65076;
+  box-shadow: 0 8px 25px rgba(214, 80, 118, 0.15);
+}
+
+[data-theme="blossom"] .concept-header {
+  border-bottom-color: rgba(214, 80, 118, 0.12);
+}
+
+[data-theme="blossom"] .concept-title h3 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .concept-category {
+  color: #F4A259;
+  background: rgba(244, 162, 89, 0.1);
+  border-color: rgba(244, 162, 89, 0.2);
+}
+
+[data-theme="blossom"] .concept-content {
+  background: #FFF5F5;
+  border-color: rgba(232, 200, 200, 0.5);
+}
+
+[data-theme="blossom"] .concept-formula {
+  background: rgba(214, 80, 118, 0.05);
+  border-left-color: #D65076;
+}
+
+[data-theme="blossom"] .formula-display {
+  color: #C44D6B;
+}
+
+[data-theme="blossom"] .concept-section h4 {
+  color: #D65076;
+}
+
+[data-theme="blossom"] .concept-section p {
+  color: #6B5258;
+}
+
+[data-theme="blossom"] .concept-search input {
+  background: #FFF8F8;
+  border-color: rgba(244, 162, 89, 0.15);
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .concept-search input:focus {
+  border-color: #D65076;
+  box-shadow: 0 0 15px rgba(214, 80, 118, 0.15);
+}
+
+[data-theme="blossom"] .concept-search input::placeholder {
+  color: #AD8E8E;
+}
+
+/* 中国风主题 */
+[data-theme="chinese"] .concept-sidebar {
+  background: linear-gradient(180deg, #FAF6ED 0%, #F5F0E5 100%);
+  border-color: rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="chinese"] .sidebar-header h2 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .chapter-item {
+  color: #6B6256;
+  border-color: rgba(212, 200, 184, 0.5);
+}
+
+[data-theme="chinese"] .chapter-item:hover {
+  background: rgba(139, 69, 19, 0.06);
+  border-color: rgba(139, 69, 19, 0.15);
+}
+
+[data-theme="chinese"] .chapter-item.active {
+  background: linear-gradient(135deg, #8B4513, #B22222);
+  color: #FFFFFF;
+  border-color: #A65A28;
+}
+
+[data-theme="chinese"] .concept-card {
+  background: linear-gradient(145deg, #FAF6ED 0%, #F2ECE0 100%);
+  border-color: rgba(139, 69, 19, 0.08);
+}
+
+[data-theme="chinese"] .concept-card:hover {
+  border-color: #8B4513;
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="chinese"] .concept-header {
+  border-bottom-color: rgba(139, 69, 19, 0.08);
+}
+
+[data-theme="chinese"] .concept-title h3 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .concept-category {
+  color: #8B4513;
+  background: rgba(139, 69, 19, 0.06);
+  border-color: rgba(139, 69, 19, 0.12);
+}
+
+[data-theme="chinese"] .concept-content {
+  background: #F8F4EB;
+  border-color: rgba(212, 200, 184, 0.5);
+}
+
+[data-theme="chinese"] .concept-formula {
+  background: rgba(139, 69, 19, 0.04);
+  border-left-color: #8B4513;
+}
+
+[data-theme="chinese"] .formula-display {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .concept-section h4 {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .concept-section p {
+  color: #6B6256;
+}
+
+[data-theme="chinese"] .concept-search input {
+  background: #FAF6ED;
+  border-color: rgba(139, 69, 19, 0.1);
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .concept-search input:focus {
+  border-color: #8B4513;
+  box-shadow: 0 0 12px rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="chinese"] .concept-search input::placeholder {
+  color: #AB9F94;
+}

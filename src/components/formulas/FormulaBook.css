@@ -1,6 +1,7 @@
 .formula-book {
   display: flex;
   height: 100%;
+  overflow: hidden;
   background: var(--bg-primary);
 }
 
@@ -172,6 +173,8 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  min-height: 0;
+  height: 100%;
 }
 
 /* 搜索栏 */
@@ -335,17 +338,20 @@
   color: var(--text-primary);
 }
 
-/* 公式网格 - 两列布局，顶部对齐 */
+/* 公式网格 - 两栏均分宽度 */
 .formula-grid {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
-  padding-bottom: 60px;
+  overflow-x: hidden;
+  padding: 12px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  align-content: start;
-  align-items: start;
+  grid-auto-rows: max-content;
+  row-gap: 12px;
+  column-gap: 10px;
+  width: 100%;
+  min-height: 300px;
+  box-sizing: border-box;
 }
 
 /* 空状态 */
@@ -375,17 +381,20 @@
   opacity: 0.7;
 }
 
-/* 公式卡片 - 让内容自然撑开 */
+/* 公式卡片 */
 .formula-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 10px 14px;
   cursor: pointer;
   transition: all 0.2s;
-  display: block;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
 }
 
 .formula-card:hover {
@@ -882,4 +891,675 @@
 
 [data-theme="blackboard"] .detail-section p {
   color: #E8E8D8;
+}
+
+/* ============================================
+   宇宙星辰主题 - Cosmos Theme
+   ============================================ */
+[data-theme="cosmos"] .formula-card:hover {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(157, 124, 255, 0.2);
+  border-color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(157, 124, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%);
+  border-color: #00D4FF;
+  box-shadow: 0 0 25px rgba(0, 212, 255, 0.3), 0 0 50px rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .formula-detail {
+  background: linear-gradient(135deg, #151530 0%, #1A1A3A 100%);
+  border-color: rgba(157, 124, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.15), 0 0 60px rgba(157, 124, 255, 0.1);
+}
+
+[data-theme="cosmos"] .sidebar-header h2 {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .category-item {
+  color: #C8C8D8;
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .category-item:hover {
+  background: rgba(157, 124, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+}
+
+[data-theme="cosmos"] .category-item.active {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+  color: #FFFFFF;
+  border-color: #00D4FF;
+  box-shadow: 0 0 25px rgba(157, 124, 255, 0.5);
+}
+
+[data-theme="cosmos"] .category-name {
+  color: inherit;
+}
+
+[data-theme="cosmos"] .category-item:hover .category-name,
+[data-theme="cosmos"] .category-item.active .category-name {
+  color: #FFFFFF;
+}
+
+[data-theme="cosmos"] .category-count {
+  background: rgba(0, 212, 255, 0.15);
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .favorites-section h3 {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(157, 124, 255, 0.3);
+}
+
+[data-theme="cosmos"] .favorite-item {
+  background: rgba(157, 124, 255, 0.1);
+  border-color: rgba(157, 124, 255, 0.2);
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .favorite-item:hover {
+  background: rgba(0, 212, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+}
+
+[data-theme="cosmos"] .formula-name {
+  color: #E8E8F0;
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .formula-latex {
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .tag {
+  background: rgba(157, 124, 255, 0.2);
+  color: #B8A0FF;
+  border-color: rgba(157, 124, 255, 0.3);
+}
+
+[data-theme="cosmos"] .close-btn {
+  color: #8888A0;
+  background: rgba(157, 124, 255, 0.1);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .close-btn:hover {
+  background: rgba(0, 212, 255, 0.2);
+  color: #00D4FF;
+  border-color: #00D4FF;
+}
+
+/* ============================================
+   砚冰清秩主题 - Ice Clear Theme
+   ============================================ */
+[data-theme="iceclear"] .formula-card:hover {
+  box-shadow: 0 4px 15px rgba(91, 138, 114, 0.2);
+  border-color: #5B8A72;
+}
+
+[data-theme="iceclear"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(91, 138, 114, 0.1) 0%, rgba(91, 138, 114, 0.05) 100%);
+  border-color: #5B8A72;
+  box-shadow: 0 4px 20px rgba(91, 138, 114, 0.2);
+}
+
+[data-theme="iceclear"] .formula-detail {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+  border-color: rgba(91, 138, 114, 0.2);
+  box-shadow: 0 4px 20px rgba(45, 62, 80, 0.1);
+}
+
+[data-theme="iceclear"] .sidebar-header h2 {
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .category-item {
+  color: #4A5568;
+  border-color: rgba(203, 213, 224, 0.5);
+}
+
+[data-theme="iceclear"] .category-item:hover {
+  background: rgba(91, 138, 114, 0.08);
+  border-color: rgba(91, 138, 114, 0.3);
+}
+
+[data-theme="iceclear"] .category-item.active {
+  background: linear-gradient(135deg, #5B8A72, #7BA894);
+  color: #FFFFFF;
+  border-color: #5B8A72;
+}
+
+[data-theme="iceclear"] .category-name {
+  color: inherit;
+}
+
+[data-theme="iceclear"] .category-item:hover .category-name,
+[data-theme="iceclear"] .category-item.active .category-name {
+  color: #FFFFFF;
+}
+
+[data-theme="iceclear"] .category-count {
+  background: rgba(91, 138, 114, 0.1);
+  color: #5B8A72;
+}
+
+[data-theme="iceclear"] .favorites-section h3 {
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .favorite-item {
+  background: rgba(91, 138, 114, 0.05);
+  border-color: rgba(91, 138, 114, 0.15);
+  color: #4A5568;
+}
+
+[data-theme="iceclear"] .favorite-item:hover {
+  background: rgba(91, 138, 114, 0.1);
+  border-color: rgba(91, 138, 114, 0.25);
+}
+
+[data-theme="iceclear"] .formula-name {
+  color: #2C3E50;
+}
+
+[data-theme="iceclear"] .formula-latex {
+  color: #2C5282;
+}
+
+[data-theme="iceclear"] .tag {
+  background: rgba(91, 138, 114, 0.1);
+  color: #5B8A72;
+  border-color: rgba(91, 138, 114, 0.2);
+}
+
+[data-theme="iceclear"] .close-btn {
+  color: #A0AEC0;
+  background: rgba(91, 138, 114, 0.05);
+  border-color: rgba(203, 213, 224, 0.5);
+}
+
+[data-theme="iceclear"] .close-btn:hover {
+  background: rgba(91, 138, 114, 0.15);
+  color: #5B8A72;
+  border-color: #5B8A72;
+}
+
+/* ============================================
+   松烟理序主题 - Pine Smoke Theme
+   ============================================ */
+[data-theme="pine"] .formula-card:hover {
+  box-shadow: 0 4px 15px rgba(196, 181, 160, 0.15);
+  border-color: #7B8B6F;
+}
+
+[data-theme="pine"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(123, 139, 111, 0.15) 0%, rgba(123, 139, 111, 0.08) 100%);
+  border-color: #9AA88E;
+  box-shadow: 0 4px 20px rgba(123, 139, 111, 0.2);
+}
+
+[data-theme="pine"] .formula-detail {
+  background: linear-gradient(135deg, #32383F 0%, #3C424A 100%);
+  border-color: rgba(123, 139, 111, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="pine"] .sidebar-header h2 {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .category-item {
+  color: #C8C4BC;
+  border-color: rgba(74, 80, 88, 0.5);
+}
+
+[data-theme="pine"] .category-item:hover {
+  background: rgba(123, 139, 111, 0.12);
+  border-color: rgba(123, 139, 111, 0.3);
+}
+
+[data-theme="pine"] .category-item.active {
+  background: linear-gradient(135deg, #7B8B6F, #9AA88E);
+  color: #FFFFFF;
+  border-color: #9AA88E;
+}
+
+[data-theme="pine"] .category-name {
+  color: inherit;
+}
+
+[data-theme="pine"] .category-item:hover .category-name,
+[data-theme="pine"] .category-item.active .category-name {
+  color: #FFFFFF;
+}
+
+[data-theme="pine"] .category-count {
+  background: rgba(123, 139, 111, 0.15);
+  color: #9AA88E;
+}
+
+[data-theme="pine"] .favorites-section h3 {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .favorite-item {
+  background: rgba(123, 139, 111, 0.08);
+  border-color: rgba(123, 139, 111, 0.15);
+  color: #C8C4BC;
+}
+
+[data-theme="pine"] .favorite-item:hover {
+  background: rgba(123, 139, 111, 0.15);
+  border-color: rgba(123, 139, 111, 0.25);
+}
+
+[data-theme="pine"] .formula-name {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .formula-latex {
+  color: #A8C4B8;
+}
+
+[data-theme="pine"] .tag {
+  background: rgba(123, 139, 111, 0.15);
+  color: #9AA88E;
+  border-color: rgba(123, 139, 111, 0.25);
+}
+
+[data-theme="pine"] .close-btn {
+  color: #787470;
+  background: rgba(123, 139, 111, 0.08);
+  border-color: rgba(74, 80, 88, 0.5);
+}
+
+[data-theme="pine"] .close-btn:hover {
+  background: rgba(123, 139, 111, 0.15);
+  color: #9AA88E;
+  border-color: #7B8B6F;
+}
+
+/* ============================================
+   夕照青山主题 - Sunset Mountain Theme
+   ============================================ */
+[data-theme="sunset"] .formula-card:hover {
+  box-shadow: 0 4px 15px rgba(196, 125, 78, 0.2);
+  border-color: #C47D4E;
+}
+
+[data-theme="sunset"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(196, 125, 78, 0.1) 0%, rgba(93, 122, 100, 0.08) 100%);
+  border-color: #D4966A;
+  box-shadow: 0 4px 20px rgba(196, 125, 78, 0.2);
+}
+
+[data-theme="sunset"] .formula-detail {
+  background: linear-gradient(135deg, #F2E8DE 0%, #E8DDD0 100%);
+  border-color: rgba(196, 125, 78, 0.2);
+  box-shadow: 0 4px 20px rgba(74, 66, 56, 0.1);
+}
+
+[data-theme="sunset"] .sidebar-header h2 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .category-item {
+  color: #6B6256;
+  border-color: rgba(196, 184, 170, 0.5);
+}
+
+[data-theme="sunset"] .category-item:hover {
+  background: rgba(196, 125, 78, 0.08);
+  border-color: rgba(196, 125, 78, 0.3);
+}
+
+[data-theme="sunset"] .category-item.active {
+  background: linear-gradient(135deg, #C47D4E, #D4966A);
+  color: #FFFFFF;
+  border-color: #D4966A;
+}
+
+[data-theme="sunset"] .category-name {
+  color: inherit;
+}
+
+[data-theme="sunset"] .category-item:hover .category-name,
+[data-theme="sunset"] .category-item.active .category-name {
+  color: #FFFFFF;
+}
+
+[data-theme="sunset"] .category-count {
+  background: rgba(196, 125, 78, 0.1);
+  color: #C47D4E;
+}
+
+[data-theme="sunset"] .favorites-section h3 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .favorite-item {
+  background: rgba(196, 125, 78, 0.05);
+  border-color: rgba(196, 125, 78, 0.15);
+  color: #6B6256;
+}
+
+[data-theme="sunset"] .favorite-item:hover {
+  background: rgba(196, 125, 78, 0.1);
+  border-color: rgba(196, 125, 78, 0.25);
+}
+
+[data-theme="sunset"] .formula-name {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .formula-latex {
+  color: #6B8E6B;
+}
+
+[data-theme="sunset"] .tag {
+  background: rgba(196, 125, 78, 0.1);
+  color: #C47D4E;
+  border-color: rgba(196, 125, 78, 0.2);
+}
+
+[data-theme="sunset"] .close-btn {
+  color: #A9A196;
+  background: rgba(196, 125, 78, 0.05);
+  border-color: rgba(196, 184, 170, 0.5);
+}
+
+[data-theme="sunset"] .close-btn:hover {
+  background: rgba(196, 125, 78, 0.15);
+  color: #C47D4E;
+  border-color: #C47D4E;
+}
+
+/* ============================================
+   春意盎然主题 - Spring Vibrancy Theme
+   ============================================ */
+[data-theme="spring"] .formula-card:hover {
+  box-shadow: 0 4px 15px rgba(232, 123, 123, 0.15);
+  border-color: #E87B7B;
+}
+
+[data-theme="spring"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(232, 123, 123, 0.08) 0%, rgba(91, 140, 90, 0.06) 100%);
+  border-color: #EE9999;
+  box-shadow: 0 4px 20px rgba(232, 123, 123, 0.15);
+}
+
+[data-theme="spring"] .formula-detail {
+  background: linear-gradient(135deg, #FAFDF5 0%, #F5FAEC 100%);
+  border-color: rgba(232, 123, 123, 0.15);
+  box-shadow: 0 4px 20px rgba(61, 71, 56, 0.08);
+}
+
+[data-theme="spring"] .sidebar-header h2 {
+  color: #3D4738;
+}
+
+[data-theme="spring"] .category-item {
+  color: #5A6350;
+  border-color: rgba(197, 209, 181, 0.5);
+}
+
+[data-theme="spring"] .category-item:hover {
+  background: rgba(232, 123, 123, 0.06);
+  border-color: rgba(232, 123, 123, 0.25);
+}
+
+[data-theme="spring"] .category-item.active {
+  background: linear-gradient(135deg, #E87B7B, #F09A9A);
+  color: #FFFFFF;
+  border-color: #EE9999;
+}
+
+[data-theme="spring"] .category-name {
+  color: inherit;
+}
+
+[data-theme="spring"] .category-item:hover .category-name,
+[data-theme="spring"] .category-item.active .category-name {
+  color: #FFFFFF;
+}
+
+[data-theme="spring"] .category-count {
+  background: rgba(232, 123, 123, 0.08);
+  color: #E87B7B;
+}
+
+[data-theme="spring"] .favorites-section h3 {
+  color: #3D4738;
+}
+
+[data-theme="spring"] .favorite-item {
+  background: rgba(232, 123, 123, 0.04);
+  border-color: rgba(232, 123, 123, 0.12);
+  color: #5A6350;
+}
+
+[data-theme="spring"] .favorite-item:hover {
+  background: rgba(232, 123, 123, 0.08);
+  border-color: rgba(232, 123, 123, 0.2);
+}
+
+[data-theme="spring"] .formula-name {
+  color: #3D4738;
+}
+
+[data-theme="spring"] .formula-latex {
+  color: #4A7B4A;
+}
+
+[data-theme="spring"] .tag {
+  background: rgba(232, 123, 123, 0.08);
+  color: #E87B7B;
+  border-color: rgba(232, 123, 123, 0.15);
+}
+
+[data-theme="spring"] .close-btn {
+  color: #9AA28A;
+  background: rgba(232, 123, 123, 0.04);
+  border-color: rgba(197, 209, 181, 0.5);
+}
+
+[data-theme="spring"] .close-btn:hover {
+  background: rgba(232, 123, 123, 0.12);
+  color: #E87B7B;
+  border-color: #E87B7B;
+}
+
+/* ============================================
+   百花欲燃主题 - Blossoming Flame Theme
+   ============================================ */
+[data-theme="blossom"] .formula-card:hover {
+  box-shadow: 0 4px 15px rgba(244, 162, 89, 0.2);
+  border-color: #F4A259;
+}
+
+[data-theme="blossom"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(244, 162, 89, 0.08) 0%, rgba(214, 80, 118, 0.06) 100%);
+  border-color: #F6B678;
+  box-shadow: 0 4px 20px rgba(244, 162, 89, 0.2);
+}
+
+[data-theme="blossom"] .formula-detail {
+  background: linear-gradient(135deg, #FFF8F8 0%, #FFF0F0 100%);
+  border-color: rgba(244, 162, 89, 0.15);
+  box-shadow: 0 4px 20px rgba(214, 80, 118, 0.1);
+}
+
+[data-theme="blossom"] .sidebar-header h2 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .category-item {
+  color: #6B5258;
+  border-color: rgba(232, 200, 200, 0.5);
+}
+
+[data-theme="blossom"] .category-item:hover {
+  background: rgba(244, 162, 89, 0.08);
+  border-color: rgba(244, 162, 89, 0.25);
+}
+
+[data-theme="blossom"] .category-item.active {
+  background: linear-gradient(135deg, #D65076, #F4A259);
+  color: #FFFFFF;
+  border-color: #F6B678;
+}
+
+[data-theme="blossom"] .category-name {
+  color: inherit;
+}
+
+[data-theme="blossom"] .category-item:hover .category-name,
+[data-theme="blossom"] .category-item.active .category-name {
+  color: #FFFFFF;
+}
+
+[data-theme="blossom"] .category-count {
+  background: rgba(244, 162, 89, 0.1);
+  color: #F4A259;
+}
+
+[data-theme="blossom"] .favorites-section h3 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .favorite-item {
+  background: rgba(244, 162, 89, 0.04);
+  border-color: rgba(244, 162, 89, 0.12);
+  color: #6B5258;
+}
+
+[data-theme="blossom"] .favorite-item:hover {
+  background: rgba(244, 162, 89, 0.08);
+  border-color: rgba(244, 162, 89, 0.2);
+}
+
+[data-theme="blossom"] .formula-name {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .formula-latex {
+  color: #C44D6B;
+}
+
+[data-theme="blossom"] .tag {
+  background: rgba(244, 162, 89, 0.1);
+  color: #F4A259;
+  border-color: rgba(244, 162, 89, 0.2);
+}
+
+[data-theme="blossom"] .close-btn {
+  color: #AD8E8E;
+  background: rgba(244, 162, 89, 0.04);
+  border-color: rgba(232, 200, 200, 0.5);
+}
+
+[data-theme="blossom"] .close-btn:hover {
+  background: rgba(244, 162, 89, 0.12);
+  color: #F4A259;
+  border-color: #F4A259;
+}
+
+/* ============================================
+   中国风主题 - Chinese Classical Theme
+   ============================================ */
+[data-theme="chinese"] .formula-card:hover {
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12);
+  border-color: #8B4513;
+}
+
+[data-theme="chinese"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(178, 34, 34, 0.06) 100%);
+  border-color: #A65A28;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.12);
+}
+
+[data-theme="chinese"] .formula-detail {
+  background: linear-gradient(135deg, #FAF6ED 0%, #F2ECE0 100%);
+  border-color: rgba(139, 69, 19, 0.15);
+  box-shadow: 0 4px 15px rgba(74, 66, 56, 0.08);
+}
+
+[data-theme="chinese"] .sidebar-header h2 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .category-item {
+  color: #6B6256;
+  border-color: rgba(212, 200, 184, 0.5);
+}
+
+[data-theme="chinese"] .category-item:hover {
+  background: rgba(139, 69, 19, 0.06);
+  border-color: rgba(139, 69, 19, 0.2);
+}
+
+[data-theme="chinese"] .category-item.active {
+  background: linear-gradient(135deg, #8B4513, #B22222);
+  color: #FFFFFF;
+  border-color: #A65A28;
+}
+
+[data-theme="chinese"] .category-name {
+  color: inherit;
+}
+
+[data-theme="chinese"] .category-item:hover .category-name,
+[data-theme="chinese"] .category-item.active .category-name {
+  color: #FFFFFF;
+}
+
+[data-theme="chinese"] .category-count {
+  background: rgba(139, 69, 19, 0.08);
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .favorites-section h3 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .favorite-item {
+  background: rgba(139, 69, 19, 0.04);
+  border-color: rgba(139, 69, 19, 0.1);
+  color: #6B6256;
+}
+
+[data-theme="chinese"] .favorite-item:hover {
+  background: rgba(139, 69, 19, 0.08);
+  border-color: rgba(139, 69, 19, 0.15);
+}
+
+[data-theme="chinese"] .formula-name {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .formula-latex {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .tag {
+  background: rgba(139, 69, 19, 0.08);
+  color: #8B4513;
+  border-color: rgba(139, 69, 19, 0.15);
+}
+
+[data-theme="chinese"] .close-btn {
+  color: #AB9F94;
+  background: rgba(139, 69, 19, 0.04);
+  border-color: rgba(212, 200, 184, 0.5);
+}
+
+[data-theme="chinese"] .close-btn:hover {
+  background: rgba(139, 69, 19, 0.1);
+  color: #8B4513;
+  border-color: #8B4513;
 }

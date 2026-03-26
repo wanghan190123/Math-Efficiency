@@ -200,7 +200,7 @@ export interface WindowControls {
 }
 
 // 主题类型
-export type ThemeType = 'light' | 'dark' | 'morandi' | 'cyberpunk' | 'blackboard'
+export type ThemeType = 'light' | 'dark' | 'morandi' | 'cyberpunk' | 'blackboard' | 'cosmos' | 'iceclear' | 'pine' | 'sunset' | 'spring' | 'blossom' | 'chinese'
 
 export interface ThemeInfo {
   id: ThemeType

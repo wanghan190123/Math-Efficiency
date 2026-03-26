@@ -11,6 +11,7 @@ import './styles/components.css'
 // 懒加载大组件
 const FormulaBook = lazy(() => import('./components/formulas/FormulaBook'))
 const FormulaDerivation = lazy(() => import('./components/derivation/FormulaDerivation'))
+const ConceptTheorem = lazy(() => import('./components/concepts/ConceptTheorem'))
 
 // 加载中组件
 const Loading: React.FC = () => (
@@ -26,7 +27,7 @@ const Loading: React.FC = () => (
   </div>
 )
 
-export type ViewType = 'menu' | 'knowledge' | 'graph' | 'formulas' | 'derivation'
+export type ViewType = 'menu' | 'knowledge' | 'concepts' | 'formulas' | 'derivation' | 'hidden-gems' | 'question-bank'
 
 const App: React.FC = () => {
   const { theme, currentModuleId, setModule } = useAppStore()
@@ -38,6 +39,10 @@ const App: React.FC = () => {
 
   // 从菜单导航到其他页面
   const handleNavigate = (view: ViewType) => {
+    if (view === 'hidden-gems' || view === 'question-bank') {
+      alert('该功能正在开发中，敬请期待！')
+      return
+    }
     if (view === 'knowledge') {
       setCurrentView('knowledge')
       if (!currentModuleId) {
@@ -47,8 +52,8 @@ const App: React.FC = () => {
       setCurrentView('formulas')
     } else if (view === 'derivation') {
       setCurrentView('derivation')
-    } else if (view === 'graph') {
-      alert('知识图谱功能开发中，敬请期待！')
+    } else if (view === 'concepts') {
+      setCurrentView('concepts')
     }
   }
 
@@ -103,6 +108,24 @@ const App: React.FC = () => {
         <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
         <Suspense fallback={<Loading />}>
           <FormulaDerivation />
+        </Suspense>
+        <StatusBar />
+      </div>
+    )
+  }
+
+  // 概念定理页面
+  if (currentView === 'concepts') {
+    return (
+      <div className="app-container" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        background: 'var(--color-bg-primary)',
+      }}>
+        <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
+        <Suspense fallback={<Loading />}>
+          <ConceptTheorem />
         </Suspense>
         <StatusBar />
       </div>

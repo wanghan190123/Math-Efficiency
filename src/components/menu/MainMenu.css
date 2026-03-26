@@ -305,7 +305,8 @@
 }
 
 .menu-card.disabled,
-.menu-card.developing {
+.menu-card.developing,
+.menu-card.pending {
   cursor: default;
   opacity: 0.75;
 }
@@ -317,6 +318,16 @@
 }
 
 .menu-card.developing:hover::before {
+  opacity: 0;
+}
+
+.menu-card.pending:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border-color);
+}
+
+.menu-card.pending:hover::before {
   opacity: 0;
 }
 
@@ -397,6 +408,12 @@
   border: 1px solid rgba(255, 152, 0, 0.3);
 }
 
+.card-tag.pending {
+  background: linear-gradient(135deg, rgba(158, 158, 158, 0.2), rgba(158, 158, 158, 0.1));
+  color: #9E9E9E;
+  border: 1px solid rgba(158, 158, 158, 0.3);
+}
+
 /* 卡片箭头 */
 .card-arrow {
   position: absolute;
@@ -426,12 +443,12 @@
   color: var(--text-secondary);
 }
 
-.menu-card:hover:not(.developing) .card-arrow:not(.disabled) {
+.menu-card:hover:not(.developing):not(.pending) .card-arrow:not(.disabled) {
   background: var(--accent-gold);
   transform: translateX(4px);
 }
 
-.menu-card:hover:not(.developing) .card-arrow:not(.disabled) svg {
+.menu-card:hover:not(.developing):not(.pending) .card-arrow:not(.disabled) svg {
   color: var(--bg-primary);
 }
 
@@ -480,7 +497,434 @@
   border-color: rgba(212, 165, 116, 0.2);
 }
 
-[data-theme="dark"] .menu-card:hover:not(.developing) {
+[data-theme="dark"] .menu-card:hover:not(.developing):not(.pending) {
   border-color: var(--accent-gold);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* 宇宙星辰主题 */
+[data-theme="cosmos"] .main-menu {
+  background: linear-gradient(135deg, #0B0B1A 0%, #12122A 50%, #1A1A3A 100%);
+}
+
+[data-theme="cosmos"] .menu-card {
+  background: linear-gradient(145deg, rgba(21, 21, 48, 0.9) 0%, rgba(26, 26, 58, 0.95) 100%);
+  border-color: rgba(157, 124, 255, 0.25);
+}
+
+[data-theme="cosmos"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #9D7CFF;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 40px rgba(157, 124, 255, 0.3), 0 0 80px rgba(0, 212, 255, 0.2);
+}
+
+[data-theme="cosmos"] .card-icon {
+  background: linear-gradient(135deg, rgba(157, 124, 255, 0.3), rgba(0, 212, 255, 0.2));
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .card-content h3 {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .card-content p {
+  color: #8888A0;
+}
+
+[data-theme="cosmos"] .card-arrow {
+  background: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .card-arrow svg {
+  color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #9D7CFF, #00D4FF);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+[data-theme="cosmos"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="cosmos"] .menu-title {
+  color: #E8E8F0;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(157, 124, 255, 0.3);
+}
+
+[data-theme="cosmos"] .menu-subtitle {
+  color: #B8A0FF;
+}
+
+[data-theme="cosmos"] .quote-mark {
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .footer-quote {
+  color: #8888A0;
+}
+
+[data-theme="cosmos"] .resource-link-btn {
+  background: rgba(21, 21, 48, 0.9);
+  border-color: rgba(157, 124, 255, 0.3);
+}
+
+[data-theme="cosmos"] .resource-link-btn:hover {
+  border-color: #00D4FF;
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+}
+
+/* 砚冰清秩主题 */
+[data-theme="iceclear"] .main-menu {
+  background: linear-gradient(135deg, #F5F8FA 0%, #E8EEF2 50%, #F5F8FA 100%);
+}
+
+[data-theme="iceclear"] .menu-card {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+  border-color: rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #5B8A72;
+  box-shadow: 0 12px 30px rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .card-icon {
+  background: linear-gradient(135deg, rgba(91, 138, 114, 0.15), rgba(91, 138, 114, 0.08));
+  color: #5B8A72;
+}
+
+[data-theme="iceclear"] .card-content h3 {
+  color: #2C3E50;
+}
+
+[data-theme="iceclear"] .card-content p {
+  color: #718096;
+}
+
+[data-theme="iceclear"] .card-arrow {
+  background: rgba(91, 138, 114, 0.1);
+}
+
+[data-theme="iceclear"] .card-arrow svg {
+  color: #5B8A72;
+}
+
+[data-theme="iceclear"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: #5B8A72;
+}
+
+[data-theme="iceclear"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="iceclear"] .menu-title {
+  color: #2C3E50;
+  text-shadow: none;
+}
+
+[data-theme="iceclear"] .menu-subtitle {
+  color: #5B8A72;
+}
+
+[data-theme="iceclear"] .quote-mark {
+  color: #5B8A72;
+}
+
+[data-theme="iceclear"] .footer-quote {
+  color: #718096;
+}
+
+[data-theme="iceclear"] .resource-link-btn {
+  background: #FFFFFF;
+  border-color: rgba(91, 138, 114, 0.2);
+}
+
+[data-theme="iceclear"] .resource-link-btn:hover {
+  border-color: #5B8A72;
+  box-shadow: 0 4px 12px rgba(91, 138, 114, 0.15);
+}
+
+/* 松烟理序主题 */
+[data-theme="pine"] .main-menu {
+  background: linear-gradient(135deg, #2A2F35 0%, #353A40 50%, #2A2F35 100%);
+}
+
+[data-theme="pine"] .menu-card {
+  background: linear-gradient(145deg, rgba(50, 56, 63, 0.9) 0%, rgba(60, 66, 74, 0.95) 100%);
+  border-color: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #7B8B6F;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .card-icon {
+  background: linear-gradient(135deg, rgba(123, 139, 111, 0.2), rgba(123, 139, 111, 0.1));
+  color: #9AA88E;
+}
+
+[data-theme="pine"] .card-content h3 {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .card-content p {
+  color: #989490;
+}
+
+[data-theme="pine"] .card-arrow {
+  background: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .card-arrow svg {
+  color: #7B8B6F;
+}
+
+[data-theme="pine"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #7B8B6F, #9AA88E);
+}
+
+[data-theme="pine"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="pine"] .menu-title {
+  color: #E8E4DC;
+  text-shadow: 0 0 20px rgba(123, 139, 111, 0.3);
+}
+
+[data-theme="pine"] .menu-subtitle {
+  color: #9AA88E;
+}
+
+[data-theme="pine"] .quote-mark {
+  color: #C4B5A0;
+}
+
+[data-theme="pine"] .footer-quote {
+  color: #989490;
+}
+
+[data-theme="pine"] .resource-link-btn {
+  background: rgba(50, 56, 63, 0.9);
+  border-color: rgba(123, 139, 111, 0.2);
+}
+
+[data-theme="pine"] .resource-link-btn:hover {
+  border-color: #7B8B6F;
+  box-shadow: 0 4px 12px rgba(123, 139, 111, 0.15);
+}
+
+/* 夕照青山主题 */
+[data-theme="sunset"] .main-menu {
+  background: linear-gradient(135deg, #E8DDD0 0%, #DDD0C2 50%, #D2C3B4 100%);
+}
+
+[data-theme="sunset"] .menu-card {
+  background: linear-gradient(145deg, #F5ECE2 0%, #EBE2D6 100%);
+  border-color: rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #C47D4E;
+  box-shadow: 0 12px 30px rgba(196, 125, 78, 0.2);
+}
+
+[data-theme="sunset"] .card-icon {
+  background: linear-gradient(135deg, rgba(196, 125, 78, 0.15), rgba(93, 122, 100, 0.1));
+  color: #C47D4E;
+}
+
+[data-theme="sunset"] .card-content h3 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .card-content p {
+  color: #8A8276;
+}
+
+[data-theme="sunset"] .card-arrow {
+  background: rgba(196, 125, 78, 0.1);
+}
+
+[data-theme="sunset"] .card-arrow svg {
+  color: #C47D4E;
+}
+
+[data-theme="sunset"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #C47D4E, #D4966A);
+}
+
+[data-theme="sunset"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="sunset"] .menu-title {
+  color: #4A4238;
+  text-shadow: 0 0 15px rgba(196, 125, 78, 0.2);
+}
+
+[data-theme="sunset"] .menu-subtitle {
+  color: #5D7A64;
+}
+
+[data-theme="sunset"] .quote-mark {
+  color: #C47D4E;
+}
+
+[data-theme="sunset"] .footer-quote {
+  color: #8A8276;
+}
+
+[data-theme="sunset"] .resource-link-btn {
+  background: #F2E8DE;
+  border-color: rgba(196, 125, 78, 0.2);
+}
+
+[data-theme="sunset"] .resource-link-btn:hover {
+  border-color: #C47D4E;
+  box-shadow: 0 4px 12px rgba(196, 125, 78, 0.15);
+}
+
+/* 百花欲燃主题 */
+[data-theme="blossom"] .main-menu {
+  background: linear-gradient(135deg, #FDF2F2 0%, #FAE5E5 50%, #F7D8D8 100%);
+}
+
+[data-theme="blossom"] .menu-card {
+  background: linear-gradient(145deg, #FFFDFD 0%, #FFF8F8 100%);
+  border-color: rgba(214, 80, 118, 0.12);
+}
+
+[data-theme="blossom"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #D65076;
+  box-shadow: 0 12px 30px rgba(214, 80, 118, 0.2);
+}
+
+[data-theme="blossom"] .card-icon {
+  background: linear-gradient(135deg, rgba(244, 162, 89, 0.15), rgba(214, 80, 118, 0.1));
+  color: #D65076;
+}
+
+[data-theme="blossom"] .card-content h3 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .card-content p {
+  color: #8C7070;
+}
+
+[data-theme="blossom"] .card-arrow {
+  background: rgba(244, 162, 89, 0.1);
+}
+
+[data-theme="blossom"] .card-arrow svg {
+  color: #F4A259;
+}
+
+[data-theme="blossom"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #D65076, #F4A259);
+}
+
+[data-theme="blossom"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="blossom"] .menu-title {
+  color: #4A3540;
+  text-shadow: 0 0 15px rgba(214, 80, 118, 0.2);
+}
+
+[data-theme="blossom"] .menu-subtitle {
+  color: #D65076;
+}
+
+[data-theme="blossom"] .quote-mark {
+  color: #F4A259;
+}
+
+[data-theme="blossom"] .footer-quote {
+  color: #8C7070;
+}
+
+[data-theme="blossom"] .resource-link-btn {
+  background: #FFF8F8;
+  border-color: rgba(214, 80, 118, 0.15);
+}
+
+[data-theme="blossom"] .resource-link-btn:hover {
+  border-color: #D65076;
+  box-shadow: 0 4px 12px rgba(214, 80, 118, 0.15);
+}
+
+/* 中国风主题 */
+[data-theme="chinese"] .main-menu {
+  background: linear-gradient(135deg, #F5F0E5 0%, #EBE5DA 50%, #E1D9CE 100%);
+}
+
+[data-theme="chinese"] .menu-card {
+  background: linear-gradient(145deg, #FAF6ED 0%, #F2ECE0 100%);
+  border-color: rgba(139, 69, 19, 0.08);
+}
+
+[data-theme="chinese"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #8B4513;
+  box-shadow: 0 8px 25px rgba(139, 69, 19, 0.15);
+}
+
+[data-theme="chinese"] .card-icon {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(178, 34, 34, 0.08));
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .card-content h3 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .card-content p {
+  color: #8B8276;
+}
+
+[data-theme="chinese"] .card-arrow {
+  background: rgba(139, 69, 19, 0.08);
+}
+
+[data-theme="chinese"] .card-arrow svg {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #8B4513, #B22222);
+}
+
+[data-theme="chinese"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="chinese"] .menu-title {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .menu-subtitle {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .quote-mark {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .footer-quote {
+  color: #8B8276;
+}
+
+[data-theme="chinese"] .resource-link-btn {
+  background: #FAF6ED;
+  border-color: rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="chinese"] .resource-link-btn:hover {
+  border-color: #8B4513;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
 }
