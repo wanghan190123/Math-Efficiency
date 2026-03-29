@@ -225,6 +225,26 @@
   color: var(--primary-dark);
 }
 
+.inline-formula {
+  display: inline;
+  padding: 0 2px;
+  border-radius: 3px;
+  background: rgba(212, 165, 55, 0.05);
+}
+
+.inline-formula .katex {
+  font-size: 0.95em;
+  color: var(--primary-dark);
+}
+
+.inline-formula + .inline-formula {
+  margin-left: 2px;
+}
+
+.concept-section p .inline-formula {
+  background: rgba(212, 165, 55, 0.08);
+}
+
 .concept-section {
   margin-top: 12px;
 }
@@ -238,7 +258,7 @@
 
 .concept-section p {
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.8;
   color: var(--text-secondary);
   font-size: 0.85rem;
 }
@@ -246,6 +266,14 @@
 /* 深色模式 */
 [data-theme="dark"] .concept-sidebar {
   background: rgba(30, 28, 24, 0.95);
+}
+
+[data-theme="dark"] .inline-formula {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+[data-theme="dark"] .inline-formula .katex {
+  color: #F0E6D2;
 }
 
 [data-theme="dark"] .sidebar-header h2 {
@@ -293,6 +321,14 @@
 }
 
 [data-theme="dark"] .formula-display {
+  color: #F0E6D2;
+}
+
+[data-theme="dark"] .inline-formula {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+[data-theme="dark"] .inline-formula .katex {
   color: #F0E6D2;
 }
 
@@ -409,6 +445,14 @@
   text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
+[data-theme="cosmos"] .inline-formula {
+  background: rgba(0, 212, 255, 0.1);
+}
+
+[data-theme="cosmos"] .inline-formula .katex {
+  color: #00D4FF;
+}
+
 [data-theme="cosmos"] .concept-section h4 {
   color: #B8A0FF;
 }
@@ -493,6 +537,14 @@
 }
 
 [data-theme="iceclear"] .formula-display {
+  color: #2C5282;
+}
+
+[data-theme="iceclear"] .inline-formula {
+  background: rgba(91, 138, 114, 0.1);
+}
+
+[data-theme="iceclear"] .inline-formula .katex {
   color: #2C5282;
 }
 
@@ -583,6 +635,14 @@
   color: #A8C4B8;
 }
 
+[data-theme="pine"] .inline-formula {
+  background: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .inline-formula .katex {
+  color: #A8C4B8;
+}
+
 [data-theme="pine"] .concept-section h4 {
   color: #9AA88E;
 }
@@ -667,6 +727,14 @@
 }
 
 [data-theme="sunset"] .formula-display {
+  color: #6B8E6B;
+}
+
+[data-theme="sunset"] .inline-formula {
+  background: rgba(93, 122, 100, 0.12);
+}
+
+[data-theme="sunset"] .inline-formula .katex {
   color: #6B8E6B;
 }
 
@@ -757,6 +825,14 @@
   color: #C44D6B;
 }
 
+[data-theme="blossom"] .inline-formula {
+  background: rgba(214, 80, 118, 0.1);
+}
+
+[data-theme="blossom"] .inline-formula .katex {
+  color: #C44D6B;
+}
+
 [data-theme="blossom"] .concept-section h4 {
   color: #D65076;
 }
@@ -841,6 +917,14 @@
 }
 
 [data-theme="chinese"] .formula-display {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .inline-formula {
+  background: rgba(139, 69, 19, 0.08);
+}
+
+[data-theme="chinese"] .inline-formula .katex {
   color: #8B4513;
 }
 
