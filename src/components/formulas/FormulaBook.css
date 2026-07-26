@@ -299,6 +299,41 @@
   cursor: not-allowed;
 }
 
+/* 子分类标签栏 */
+.subcategory-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.subcategory-tag {
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.subcategory-tag:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+.subcategory-tag.active {
+  background: var(--accent-gold);
+  color: #333;
+  border-color: var(--accent-gold);
+  font-weight: 600;
+}
+
 /* 公式自测模式样式 */
 .formula-latex.test-mode {
   cursor: pointer;

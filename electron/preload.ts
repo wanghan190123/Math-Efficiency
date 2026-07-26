@@ -1,20 +1,26 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
-// 暴露安全的 API 给渲染进程
 contextBridge.exposeInMainWorld('electronAPI', {
-  // 窗口控制
   minimizeWindow: () => ipcRenderer.send('window-minimize'),
   maximizeWindow: () => ipcRenderer.send('window-maximize'),
   closeWindow: () => ipcRenderer.send('window-close'),
 
-  // 截图保存
   saveScreenshot: (dataUrl: string) => ipcRenderer.invoke('save-screenshot', dataUrl),
 
-  // 平台信息
   platform: process.platform,
+
+  getQuestionsDir: () => ipcRenderer.invoke('get-questions-dir'),
+  readQuestions: () => ipcRenderer.invoke('read-questions'),
+  openQuestionsFolder: () => ipcRenderer.invoke('open-questions-folder'),
+  importQuestions: () => ipcRenderer.invoke('import-questions'),
+
+  captureScreen: () => ipcRenderer.invoke('capture-screen'),
+  getDoubaoPath: () => ipcRenderer.invoke('get-doubao-path'),
+  selectDoubaoPath: () => ipcRenderer.invoke('select-doubao-path'),
+  sendToDoubao: (question: string, imageDataUrl?: string) => 
+    ipcRenderer.invoke('send-to-doubao', question, imageDataUrl),
 })
 
-// 类型定义
 declare global {
   interface Window {
     electronAPI: {
@@ -23,6 +29,15 @@ declare global {
       closeWindow: () => void
       saveScreenshot: (dataUrl: string) => Promise<{ success: boolean; path?: string }>
       platform: string
+      getQuestionsDir: () => Promise<string>
+      readQuestions: () => Promise<{ success: boolean; questions: any[]; error?: string }>
+      openQuestionsFolder: () => Promise<{ success: boolean }>
+      importQuestions: () => Promise<{ success: boolean; imported: number }>
+      captureScreen: () => Promise<{ success: boolean; dataUrl?: string; error?: string }>
+      getDoubaoPath: () => Promise<{ success: boolean; path?: string }>
+      selectDoubaoPath: () => Promise<{ success: boolean; path?: string }>
+      sendToDoubao: (question: string, imageDataUrl?: string) => 
+        Promise<{ success: boolean; response?: string; error?: string }>
     }
   }
 }

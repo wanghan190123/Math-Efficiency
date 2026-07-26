@@ -1,0 +1,318 @@
+.content-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.content-popup {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.25s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cp-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.cp-type-badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  background: rgba(212, 165, 55, 0.15);
+  color: var(--accent-gold);
+  border-radius: 12px;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.cp-title {
+  flex: 1;
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.cp-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cp-favorite-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.cp-favorite-btn:hover {
+  background: rgba(212, 165, 55, 0.1);
+  color: var(--accent-gold);
+}
+
+.cp-favorite-btn.active {
+  color: var(--accent-gold);
+}
+
+.cp-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.cp-close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
+.cp-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.cp-section {
+  margin-bottom: 16px;
+}
+
+.cp-section:last-child {
+  margin-bottom: 0;
+}
+
+.cp-section-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cp-section-content {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.cp-section-content.definition {
+  font-family: 'Noto Serif SC', serif;
+  padding: 12px;
+  background: rgba(212, 165, 55, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-gold);
+}
+
+.cp-section-content.plain {
+  color: var(--text-secondary);
+}
+
+.cp-section-content.why {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.cp-section-content.example {
+  padding: 10px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.cp-formula-display {
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.cp-formula-display .katex {
+  font-size: 1.2em;
+}
+
+.cp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.cp-tag {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  background: rgba(91, 138, 114, 0.15);
+  color: #5B8A72;
+  border-radius: 3px;
+}
+
+/* 深色模式 */
+[data-theme="dark"] .content-popup {
+  background: rgba(45, 42, 38, 0.98);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .cp-header {
+  background: rgba(30, 28, 24, 0.95);
+}
+
+[data-theme="dark"] .cp-title {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .cp-section-content {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .cp-section-content.definition {
+  background: rgba(255, 215, 0, 0.05);
+  border-color: var(--accent-gold);
+}
+
+[data-theme="dark"] .cp-section-content.plain,
+[data-theme="dark"] .cp-section-content.why {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .cp-formula-display {
+  background: rgba(30, 28, 24, 0.8);
+}
+
+/* 宇宙星辰主题 */
+[data-theme="cosmos"] .content-popup-overlay {
+  background: rgba(10, 10, 20, 0.8);
+}
+
+[data-theme="cosmos"] .content-popup {
+  background: linear-gradient(145deg, rgba(21, 21, 48, 0.98) 0%, rgba(26, 26, 58, 0.98) 100%);
+  border-color: rgba(157, 124, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(157, 124, 255, 0.1);
+}
+
+[data-theme="cosmos"] .cp-header {
+  background: rgba(15, 15, 32, 0.95);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .cp-type-badge {
+  background: rgba(0, 212, 255, 0.15);
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .cp-title {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+[data-theme="cosmos"] .cp-favorite-btn:hover {
+  background: rgba(157, 124, 255, 0.15);
+  color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .cp-favorite-btn.active {
+  color: #FFD700;
+}
+
+[data-theme="cosmos"] .cp-section-content {
+  color: #E8E8F0;
+}
+
+[data-theme="cosmos"] .cp-section-content.definition {
+  background: rgba(0, 212, 255, 0.05);
+  border-color: #00D4FF;
+}
+
+[data-theme="cosmos"] .cp-section-content.plain,
+[data-theme="cosmos"] .cp-section-content.why {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .cp-section-content.example {
+  background: rgba(15, 15, 32, 0.95);
+}
+
+[data-theme="cosmos"] .cp-formula-display {
+  background: rgba(15, 15, 32, 0.95);
+}
+
+[data-theme="cosmos"] .cp-tag {
+  background: rgba(0, 212, 255, 0.15);
+  color: #00D4FF;
+}
+
+/* 可点击标签样式 */
+.clickable-tag {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clickable-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.clickable-tag.formula-tag {
+  background: rgba(212, 165, 55, 0.15);
+  color: var(--accent-gold);
+}
+
+.clickable-tag.knowledge-tag {
+  background: rgba(91, 138, 114, 0.15);
+  color: #5B8A72;
+}
+
+[data-theme="cosmos"] .clickable-tag.formula-tag {
+  background: rgba(255, 215, 0, 0.15);
+  color: #FFD700;
+}
+
+[data-theme="cosmos"] .clickable-tag.knowledge-tag {
+  background: rgba(0, 212, 255, 0.15);
+  color: #00D4FF;
+}

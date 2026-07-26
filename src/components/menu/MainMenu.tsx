@@ -180,7 +180,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
           <div className="card-content">
             <h3>沧海遗珠</h3>
             <p>容易被忽略的知识点</p>
-            <span className="card-tag pending">待开发</span>
+            <span className="card-tag available">已上线</span>
           </div>
           <div className="card-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -199,7 +199,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
           <div className="card-content">
             <h3>题库</h3>
             <p>海量题目，专项训练</p>
-            <span className="card-tag pending">待开发</span>
+            <span className="card-tag available">已上线</span>
           </div>
           <div className="card-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

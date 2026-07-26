@@ -368,6 +368,11 @@
   color: var(--accent-brown);
 }
 
+.question-bank-card .card-icon {
+  background: linear-gradient(135deg, rgba(157, 124, 255, 0.3), rgba(0, 212, 255, 0.2));
+  color: #9D7CFF;
+}
+
 /* 卡片内容 */
 .card-content {
   flex: 1;

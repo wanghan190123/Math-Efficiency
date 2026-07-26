@@ -6,12 +6,15 @@ import Sidebar from './components/layout/Sidebar'
 import MainContent from './components/layout/MainContent'
 import StatusBar from './components/layout/StatusBar'
 import MainMenu from './components/menu/MainMenu'
+import AIAssistant from './components/ai/AIAssistant'
 import './styles/components.css'
 
 // 懒加载大组件
 const FormulaBook = lazy(() => import('./components/formulas/FormulaBook'))
 const FormulaDerivation = lazy(() => import('./components/derivation/FormulaDerivation'))
 const ConceptTheorem = lazy(() => import('./components/concepts/ConceptTheorem'))
+const QuestionBank = lazy(() => import('./components/questions/QuestionBank'))
+const HiddenGems = lazy(() => import('./components/hiddenGems/HiddenGems'))
 
 // 加载中组件
 const Loading: React.FC = () => (
@@ -39,8 +42,8 @@ const App: React.FC = () => {
 
   // 从菜单导航到其他页面
   const handleNavigate = (view: ViewType) => {
-    if (view === 'hidden-gems' || view === 'question-bank') {
-      alert('该功能正在开发中，敬请期待！')
+    if (view === 'hidden-gems') {
+      setCurrentView('hidden-gems')
       return
     }
     if (view === 'knowledge') {
@@ -54,6 +57,8 @@ const App: React.FC = () => {
       setCurrentView('derivation')
     } else if (view === 'concepts') {
       setCurrentView('concepts')
+    } else if (view === 'question-bank') {
+      setCurrentView('question-bank')
     }
   }
 
@@ -74,6 +79,7 @@ const App: React.FC = () => {
         <TitleBar showBackButton={false} />
         <MainMenu onNavigate={handleNavigate} />
         <StatusBar />
+        <AIAssistant />
       </div>
     )
   }
@@ -92,6 +98,7 @@ const App: React.FC = () => {
           <FormulaBook />
         </Suspense>
         <StatusBar />
+        <AIAssistant />
       </div>
     )
   }
@@ -110,6 +117,7 @@ const App: React.FC = () => {
           <FormulaDerivation />
         </Suspense>
         <StatusBar />
+        <AIAssistant />
       </div>
     )
   }
@@ -128,6 +136,45 @@ const App: React.FC = () => {
           <ConceptTheorem />
         </Suspense>
         <StatusBar />
+        <AIAssistant />
+      </div>
+    )
+  }
+
+  // 沧海遗珠页面
+  if (currentView === 'hidden-gems') {
+    return (
+      <div className="app-container" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        background: 'var(--color-bg-primary)',
+      }}>
+        <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
+        <Suspense fallback={<Loading />}>
+          <HiddenGems />
+        </Suspense>
+        <StatusBar />
+        <AIAssistant />
+      </div>
+    )
+  }
+
+  // 题库页面
+  if (currentView === 'question-bank') {
+    return (
+      <div className="app-container" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        background: 'var(--color-bg-primary)',
+      }}>
+        <TitleBar showBackButton={true} onBackClick={handleBackToMenu} />
+        <Suspense fallback={<Loading />}>
+          <QuestionBank />
+        </Suspense>
+        <StatusBar />
+        <AIAssistant />
       </div>
     )
   }
@@ -146,6 +193,7 @@ const App: React.FC = () => {
         <MainContent />
       </div>
       <StatusBar />
+      <AIAssistant />
     </div>
   )
 }

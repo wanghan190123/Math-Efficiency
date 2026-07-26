@@ -1,0 +1,1116 @@
+.question-bank {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* 左侧边栏 */
+.qb-sidebar {
+  width: 180px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.qb-sidebar-header {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.qb-sidebar-header h2 {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+/* 搜索框 */
+.qb-search {
+  padding: 6px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.qb-search-input {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.qb-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.qb-search-input:focus {
+  border-color: var(--accent-gold);
+}
+
+/* 筛选标签 */
+.qb-filter-tabs {
+  display: flex;
+  padding: 4px;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.qb-filter-tab {
+  flex: 1;
+  padding: 5px 4px;
+  font-size: 0.7rem;
+  font-family: 'Noto Serif SC', serif;
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.qb-filter-tab:hover {
+  background: var(--bg-card);
+}
+
+.qb-filter-tab.active {
+  background: var(--accent-gold);
+  color: white;
+}
+
+.qb-filter-tab.favorite {
+  color: var(--accent-gold);
+}
+
+.qb-filter-tab.favorite.active {
+  background: var(--accent-gold);
+  color: white;
+}
+
+/* 收藏夹信息 */
+.qb-favorites-info {
+  padding: 12px 8px;
+}
+
+.qb-favorites-stats {
+  background: rgba(212, 165, 55, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.qb-favorites-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qb-favorites-stat-icon {
+  font-size: 1.2rem;
+  color: var(--accent-gold);
+}
+
+.qb-favorites-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.qb-favorites-stat-count {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.qb-favorites-empty {
+  text-align: center;
+  padding: 20px 12px;
+  color: var(--text-muted);
+}
+
+.qb-favorites-empty p {
+  margin: 0 0 6px 0;
+  font-size: 0.85rem;
+}
+
+.qb-favorites-hint {
+  font-size: 0.75rem !important;
+  opacity: 0.7;
+}
+
+/* 收藏开关 */
+.qb-favorites-toggle {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.qb-toggle-favorite-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-family: 'Noto Serif SC', serif;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.qb-toggle-favorite-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.qb-toggle-favorite-btn.active {
+  background: rgba(212, 165, 55, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.qb-toggle-icon {
+  font-size: 1rem;
+}
+
+.qb-favorites-badge {
+  background: var(--accent-gold);
+  color: white;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* 状态筛选 */
+.qb-status-filter {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.qb-status-filter-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+.qb-status-filter-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.qb-status-filter-btn {
+  flex: 1;
+  padding: 5px 4px;
+  font-size: 0.7rem;
+  font-family: 'Noto Serif SC', serif;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.qb-status-filter-btn:hover {
+  border-color: var(--text-secondary);
+}
+
+.qb-status-filter-btn.active {
+  color: white;
+}
+
+.qb-status-filter-btn.correct.active {
+  background: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.qb-status-filter-btn.wrong.active {
+  background: #f44336;
+  border-color: #f44336;
+}
+
+.qb-status-filter-btn.undone.active {
+  background: var(--text-muted);
+  border-color: var(--text-muted);
+}
+
+/* 卡片右侧操作区 */
+.qb-card-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 状态按钮组 */
+.qb-status-btns {
+  display: flex;
+  gap: 2px;
+}
+
+.qb-status-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.qb-status-btn:hover {
+  border-color: var(--text-secondary);
+}
+
+.qb-status-btn.correct.active {
+  background: #4CAF50;
+  border-color: #4CAF50;
+  color: white;
+}
+
+.qb-status-btn.wrong.active {
+  background: #f44336;
+  border-color: #f44336;
+  color: white;
+}
+
+.qb-status-btn.undone.active {
+  background: var(--text-muted);
+  border-color: var(--text-muted);
+  color: white;
+}
+
+/* 年份列表 */
+.qb-year-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.qb-year-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  margin-bottom: 3px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.qb-year-item:hover {
+  border-color: var(--accent-gold);
+}
+
+.qb-year-item.active {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: white;
+}
+
+.qb-year-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.qb-year-count {
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.qb-year-item.active .qb-year-count {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 筛选列表 */
+.qb-filter-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.qb-filter-empty {
+  padding: 20px 12px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.qb-filter-empty-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  opacity: 0.5;
+}
+
+.qb-filter-empty-text {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.qb-filter-empty-hint {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.qb-filter-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  margin-bottom: 2px;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.qb-filter-item:hover {
+  border-color: var(--border-color);
+}
+
+.qb-filter-item.active {
+  background: var(--accent-gold);
+  color: white;
+}
+
+.qb-filter-label {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+
+.qb-filter-item.active .qb-filter-label {
+  color: white;
+}
+
+.qb-filter-count {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.qb-filter-item.active .qb-filter-count {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 右侧主内容区 */
+.qb-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  min-height: 0;
+}
+
+/* 题目视图 */
+.qb-questions-view {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.qb-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.qb-view-header h2 {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.qb-view-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  padding: 3px 10px;
+  border-radius: 10px;
+}
+
+/* 题目列表 */
+.qb-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 题目卡片 - 紧凑版 */
+.qb-question-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: all 0.2s;
+}
+
+.qb-question-card:hover {
+  border-color: var(--accent-gold);
+}
+
+/* 卡片头部行 */
+.qb-card-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* 卡片标题行 */
+.qb-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+/* 收藏按钮 */
+.qb-favorite-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.qb-favorite-btn:hover {
+  background: rgba(212, 165, 55, 0.1);
+  color: var(--accent-gold);
+}
+
+.qb-favorite-btn.active {
+  color: var(--accent-gold);
+}
+
+/* 收藏信息 */
+.qb-favorites-info {
+  padding: 12px;
+}
+
+.qb-favorites-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(212, 165, 55, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--accent-gold);
+}
+
+.qb-favorites-icon {
+  font-size: 1.1rem;
+}
+
+.qb-card-number {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+}
+
+.qb-card-type {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 1px 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.qb-mini-tag {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(91, 138, 114, 0.15);
+  color: #5B8A72;
+}
+
+.qb-mini-tag.clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.qb-mini-tag.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background: rgba(91, 138, 114, 0.25);
+}
+
+/* 公式标签 */
+.qb-card-formulas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.qb-formulas-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.qb-formula-tag {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(212, 165, 55, 0.15);
+  color: var(--accent-gold);
+}
+
+.qb-formula-tag.clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.qb-formula-tag.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background: rgba(212, 165, 55, 0.25);
+}
+
+/* 卡片内容 */
+.qb-card-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+/* 选项 */
+.qb-card-options {
+  margin-bottom: 6px;
+}
+
+.qb-card-option {
+  padding: 4px 8px;
+  margin-bottom: 3px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* 操作按钮 */
+.qb-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.qb-action-btn {
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.qb-action-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.qb-action-btn.active {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: white;
+}
+
+.qb-action-btn.secondary {
+  background: transparent;
+}
+
+.qb-action-btn.secondary:hover {
+  background: rgba(212, 165, 55, 0.1);
+}
+
+.qb-action-btn.secondary.active {
+  background: rgba(212, 165, 55, 0.15);
+  color: var(--accent-gold);
+}
+
+/* 答案区域 - 紧凑版 */
+.qb-answer-section {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.qb-answer-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.qb-answer-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  white-space: nowrap;
+}
+
+.qb-answer-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.qb-analysis-toggle {
+  margin-bottom: 6px;
+}
+
+/* 解析区域 - 紧凑版 */
+.qb-analysis-section {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.qb-analysis-content {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+}
+
+/* 内联公式样式 - 紧凑版 */
+.inline-formula {
+  display: inline;
+}
+
+.inline-formula .katex {
+  font-size: 1em;
+  color: inherit;
+}
+
+/* 空状态 */
+.qb-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+}
+
+.qb-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.qb-empty-text {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.qb-empty-hint {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* 滚动条 */
+.qb-year-list::-webkit-scrollbar,
+.qb-filter-list::-webkit-scrollbar,
+.qb-main::-webkit-scrollbar {
+  width: 5px;
+}
+
+.qb-year-list::-webkit-scrollbar-track,
+.qb-filter-list::-webkit-scrollbar-track,
+.qb-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.qb-year-list::-webkit-scrollbar-thumb,
+.qb-filter-list::-webkit-scrollbar-thumb,
+.qb-main::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+/* 深色模式 */
+[data-theme="dark"] .qb-sidebar {
+  background: rgba(30, 28, 24, 0.95);
+}
+
+[data-theme="dark"] .qb-sidebar-header h2 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .qb-filter-tab {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .qb-filter-tab.active {
+  background: var(--accent-gold);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .qb-toggle-favorite-btn {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #C4B498;
+}
+
+[data-theme="dark"] .qb-toggle-favorite-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+[data-theme="dark"] .qb-toggle-favorite-btn.active {
+  background: rgba(212, 165, 55, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+[data-theme="dark"] .qb-favorites-badge {
+  background: var(--accent-gold);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .qb-filter-tab.favorite {
+  color: var(--accent-gold);
+}
+
+[data-theme="dark"] .qb-filter-tab.favorite.active {
+  background: var(--accent-gold);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .qb-favorites-stats {
+  background: rgba(255, 215, 0, 0.08);
+}
+
+[data-theme="dark"] .qb-status-filter-btn {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #C4B498;
+}
+
+[data-theme="dark"] .qb-status-filter-btn:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .qb-status-btn {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .qb-year-item {
+  background: rgba(45, 42, 38, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .qb-year-item:hover {
+  border-color: var(--accent-gold);
+}
+
+[data-theme="dark"] .qb-year-item.active {
+  background: var(--accent-gold);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .qb-filter-item {
+  background: rgba(45, 42, 38, 0.6);
+}
+
+[data-theme="dark"] .qb-filter-label {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .qb-filter-item.active {
+  background: var(--accent-gold);
+}
+
+[data-theme="dark"] .qb-filter-item.active .qb-filter-label {
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .qb-view-header h2 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .qb-question-card {
+  background: rgba(45, 42, 38, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .qb-card-content {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .qb-card-option {
+  background: rgba(30, 28, 24, 0.8);
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .qb-action-btn {
+  background: rgba(45, 42, 38, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #C4B498;
+}
+
+[data-theme="dark"] .qb-action-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+[data-theme="dark"] .qb-action-btn.active {
+  background: var(--accent-gold);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .qb-answer-text {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .qb-analysis-content {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .inline-formula .katex {
+  color: inherit;
+}
+
+/* 宇宙星辰主题 */
+[data-theme="cosmos"] .qb-sidebar {
+  background: linear-gradient(180deg, #12122A 0%, #0B0B1A 100%);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .qb-sidebar-header h2 {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .qb-filter-tab {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .qb-filter-tab.active {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+  color: #FFFFFF;
+}
+
+[data-theme="cosmos"] .qb-toggle-favorite-btn {
+  border-color: rgba(157, 124, 255, 0.3);
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .qb-toggle-favorite-btn:hover {
+  border-color: #9D7CFF;
+  color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-toggle-favorite-btn.active {
+  background: rgba(157, 124, 255, 0.15);
+  border-color: #9D7CFF;
+  color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-favorites-badge {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+}
+
+[data-theme="cosmos"] .qb-filter-tab.favorite {
+  color: #FFD700;
+}
+
+[data-theme="cosmos"] .qb-filter-tab.favorite.active {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #1A1A2E;
+}
+
+[data-theme="cosmos"] .qb-favorites-stats {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+[data-theme="cosmos"] .qb-favorites-stat-icon {
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+[data-theme="cosmos"] .qb-favorites-stat-label {
+  color: #E8E8F0;
+}
+
+[data-theme="cosmos"] .qb-favorites-stat-count {
+  color: #FFD700;
+}
+
+[data-theme="cosmos"] .qb-status-filter-btn {
+  border-color: rgba(157, 124, 255, 0.3);
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .qb-status-filter-btn:hover {
+  border-color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-status-btn {
+  border-color: rgba(157, 124, 255, 0.3);
+}
+
+[data-theme="cosmos"] .qb-year-item {
+  background: rgba(21, 21, 48, 0.9);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .qb-year-item:hover {
+  border-color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-year-item.active {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+  color: #FFFFFF;
+}
+
+[data-theme="cosmos"] .qb-filter-item {
+  background: rgba(21, 21, 48, 0.6);
+}
+
+[data-theme="cosmos"] .qb-filter-label {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .qb-filter-item.active {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+}
+
+[data-theme="cosmos"] .qb-filter-item.active .qb-filter-label {
+  color: #FFFFFF;
+}
+
+[data-theme="cosmos"] .qb-view-header h2 {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .qb-card-number {
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .qb-favorites-count {
+  background: rgba(0, 212, 255, 0.15);
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .qb-toggle-favorite-btn {
+  border-color: rgba(157, 124, 255, 0.3);
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .qb-toggle-favorite-btn:hover {
+  border-color: #9D7CFF;
+  color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-toggle-favorite-btn.active {
+  background: rgba(157, 124, 255, 0.15);
+  border-color: #9D7CFF;
+  color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-favorites-badge {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+}
+
+[data-theme="cosmos"] .qb-question-card {
+  background: linear-gradient(145deg, rgba(21, 21, 48, 0.9) 0%, rgba(26, 26, 58, 0.95) 100%);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .qb-question-card:hover {
+  border-color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-card-content {
+  color: #E8E8F0;
+}
+
+[data-theme="cosmos"] .qb-card-option {
+  background: rgba(15, 15, 32, 0.95);
+  color: #E8E8F0;
+}
+
+[data-theme="cosmos"] .qb-action-btn {
+  background: rgba(21, 21, 48, 0.8);
+  border-color: rgba(157, 124, 255, 0.3);
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .qb-action-btn:hover {
+  border-color: #9D7CFF;
+  color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .qb-action-btn.active {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+  border-color: transparent;
+  color: #FFFFFF;
+}
+
+[data-theme="cosmos"] .qb-answer-label {
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .qb-answer-text {
+  color: #E8E8F0;
+}
+
+[data-theme="cosmos"] .qb-analysis-content {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .inline-formula .katex {
+  color: inherit;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .question-bank {
+    flex-direction: column;
+  }
+
+  .qb-sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 35vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .qb-main {
+    padding: 10px;
+  }
+}

@@ -27,7 +27,10 @@
 }
 
 .chapter-list {
+  flex: 1;
   padding: 8px;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .chapter-item {
@@ -310,25 +313,29 @@
 /* 滚动条样式 */
 .derivation-content::-webkit-scrollbar,
 .derivation-body::-webkit-scrollbar,
-.sidebar-topics::-webkit-scrollbar {
+.sidebar-topics::-webkit-scrollbar,
+.chapter-list::-webkit-scrollbar {
   width: 6px;
 }
 
 .derivation-content::-webkit-scrollbar-track,
 .derivation-body::-webkit-scrollbar-track,
-.sidebar-topics::-webkit-scrollbar-track {
+.sidebar-topics::-webkit-scrollbar-track,
+.chapter-list::-webkit-scrollbar-track {
   background: transparent;
 }
 
 .derivation-content::-webkit-scrollbar-thumb,
 .derivation-body::-webkit-scrollbar-thumb,
-.sidebar-topics::-webkit-scrollbar-thumb {
+.sidebar-topics::-webkit-scrollbar-thumb,
+.chapter-list::-webkit-scrollbar-thumb {
   background: var(--border-color);
   border-radius: 3px;
 }
 
 .derivation-content::-webkit-scrollbar-thumb:hover,
 .derivation-body::-webkit-scrollbar-thumb:hover,
-.sidebar-topics::-webkit-scrollbar-thumb:hover {
+.sidebar-topics::-webkit-scrollbar-thumb:hover,
+.chapter-list::-webkit-scrollbar-thumb:hover {
   background: var(--accent-gold);
 }

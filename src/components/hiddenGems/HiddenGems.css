@@ -1,0 +1,1787 @@
+.hidden-gems {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ========== 侧边栏 ========== */
+.hidden-gems-sidebar {
+  width: 220px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.hidden-gems-sidebar-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hidden-gems-sidebar-header h2 {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.hidden-gems-chapter-list {
+  padding: 8px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.hidden-gems-chapter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  margin-bottom: 2px;
+}
+
+.hidden-gems-chapter-item:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.hidden-gems-chapter-item.active {
+  background: var(--accent-gold);
+  color: white;
+}
+
+.hidden-gems-chapter-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.hidden-gems-chapter-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hidden-gems-chapter-count {
+  font-size: 0.7rem;
+  background: rgba(0, 0, 0, 0.1);
+  color: inherit;
+  padding: 1px 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+/* 收藏入口 */
+.hidden-gems-fav-entry .hidden-gems-chapter-name {
+  font-weight: 600;
+}
+
+.hidden-gems-fav-entry.active .hidden-gems-chapter-icon {
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
+}
+
+.hidden-gems-chapter-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 6px 12px;
+}
+
+/* ========== 主区域 ========== */
+.hidden-gems-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== 工具栏 ========== */
+.hidden-gems-toolbar {
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+.hidden-gems-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.hidden-gems-search-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.hidden-gems-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.hidden-gems-search-input:focus {
+  border-color: var(--accent-gold);
+}
+
+.hidden-gems-search-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.hidden-gems-filters {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hidden-gems-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hidden-gems-filter-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.hidden-gems-filter-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.hidden-gems-filter-tag {
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.hidden-gems-filter-tag:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+.hidden-gems-filter-tag.active {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: white;
+}
+
+/* ========== 卡片列表 ========== */
+.hidden-gems-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  align-content: start;
+}
+
+.hidden-gems-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  color: var(--text-muted);
+}
+
+.hidden-gems-empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.hidden-gems-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* ========== 卡片 ========== */
+.hidden-gems-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.hidden-gems-card:hover {
+  border-color: var(--accent-gold);
+}
+
+.hidden-gems-card.expanded {
+  border-color: var(--accent-gold);
+  box-shadow: 0 2px 12px rgba(212, 165, 55, 0.15);
+}
+
+/* 卡片头部 */
+.hidden-gems-card-header {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: var(--bg-card);
+  position: relative;
+}
+
+.hidden-gems-card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.hidden-gems-card-title {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.hidden-gems-card-badges {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.hidden-gems-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.hidden-gems-type-badge,
+.hidden-gems-severity-badge {
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  border-radius: 10px;
+  color: #fff;
+  white-space: nowrap;
+  font-family: 'Noto Serif SC', serif;
+  letter-spacing: 0.3px;
+}
+
+.hidden-gems-card-question {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-right: 24px;
+}
+
+.hidden-gems-expand-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  z-index: 1;
+}
+
+.hidden-gems-expand-icon:hover {
+  background: var(--bg-secondary);
+  color: var(--accent-gold);
+}
+
+/* 收藏按钮 - 行内布局 */
+.hidden-gems-fav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(180, 160, 130, 0.4);
+  background: rgba(255, 215, 0, 0.06);
+  cursor: pointer;
+  color: #B8A070;
+  transition: all 0.25s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.hidden-gems-fav-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: #DAA520;
+  color: #DAA520;
+  transform: scale(1.15);
+}
+
+.hidden-gems-fav-btn.active {
+  color: #DAA520;
+  background: rgba(255, 215, 0, 0.18);
+  border-color: #DAA520;
+  filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.4));
+}
+
+.hidden-gems-fav-btn.active:hover {
+  background: rgba(255, 215, 0, 0.3);
+  transform: scale(1.15);
+}
+
+/* 已收藏卡片左侧标记 */
+.hidden-gems-card.favorited {
+  border-left: 3px solid #DAA520;
+}
+
+.hidden-gems-card.favorited .hidden-gems-card-header {
+  padding-left: 11px;
+}
+
+/* 卡片展开内容 */
+.hidden-gems-card-content {
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-primary);
+}
+
+/* ========== 区块通用样式 ========== */
+.hidden-gems-section {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 4px;
+}
+
+.hidden-gems-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.hidden-gems-section-icon {
+  font-size: 0.95rem;
+}
+
+.hidden-gems-section-header h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hidden-gems-section p {
+  margin: 0;
+  line-height: 1.8;
+  font-size: 0.85rem;
+}
+
+/* ========== 错误答案区域 ========== */
+.hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.08);
+  border-left: 3px solid #C62828;
+}
+
+.hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #C62828;
+}
+
+.hidden-gems-wrong p {
+  color: #8B1A1A;
+}
+
+/* ========== 正确答案区域 ========== */
+.hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.08);
+  border-left: 3px solid #2E7D32;
+}
+
+.hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #2E7D32;
+}
+
+.hidden-gems-correct p {
+  color: #1B5E20;
+}
+
+/* ========== 解释区域 ========== */
+.hidden-gems-explanation {
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--accent-gold);
+}
+
+.hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: var(--text-primary);
+}
+
+.hidden-gems-explanation p {
+  color: var(--text-secondary);
+}
+
+/* ========== 公式区域 ========== */
+.hidden-gems-formula {
+  background: rgba(21, 101, 192, 0.06);
+  border-left: 3px solid #1565C0;
+}
+
+.hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #1565C0;
+}
+
+.hidden-gems-formula-display {
+  font-family: 'Times New Roman', serif;
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+  overflow-x: auto;
+  padding: 10px;
+  background: rgba(21, 101, 192, 0.04);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.hidden-gems-formula-display .katex {
+  font-size: 1rem;
+}
+
+.hidden-gems-formula-display .katex-display {
+  display: inline-block;
+  margin: 4px 0;
+  text-align: center;
+}
+
+.hidden-gems-formula-display .katex .mord,
+.hidden-gems-formula-display .katex .mop,
+.hidden-gems-formula-display .katex .mbin {
+  color: var(--primary-dark);
+}
+
+/* ========== 举例区域 ========== */
+.hidden-gems-example {
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--accent-gold);
+}
+
+.hidden-gems-example .hidden-gems-section-header h4 {
+  color: var(--text-primary);
+}
+
+.hidden-gems-example p {
+  color: var(--text-secondary);
+}
+
+/* ========== 考试提醒区域 ========== */
+.hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.12);
+  border-left: 3px solid #FFC107;
+}
+
+.hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #F57F17;
+}
+
+.hidden-gems-exam-tip p {
+  color: #6D4C00;
+}
+
+/* ========== 行内公式 ========== */
+.inline-formula {
+  display: inline;
+  padding: 0 2px;
+  border-radius: 3px;
+  background: rgba(212, 165, 55, 0.05);
+}
+
+.inline-formula .katex {
+  font-size: 0.95em;
+  color: var(--primary-dark);
+}
+
+.inline-formula + .inline-formula {
+  margin-left: 2px;
+}
+
+.hidden-gems-section p .inline-formula {
+  background: rgba(212, 165, 55, 0.08);
+}
+
+/* ========== 深色模式 ========== */
+[data-theme="dark"] .hidden-gems-sidebar {
+  background: rgba(30, 28, 24, 0.95);
+}
+
+[data-theme="dark"] .hidden-gems-sidebar-header h2 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .hidden-gems-chapter-item {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .hidden-gems-chapter-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #F0E6D2;
+}
+
+[data-theme="dark"] .hidden-gems-chapter-item.active {
+  background: var(--accent-gold);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.2);
+  color: #1E1A16;
+}
+
+[data-theme="dark"] .hidden-gems-card {
+  background: rgba(45, 42, 38, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .hidden-gems-card-header {
+  background: rgba(45, 42, 38, 0.8);
+}
+
+[data-theme="dark"] .hidden-gems-card-title {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .hidden-gems-card-question {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .hidden-gems-card-content {
+  background: rgba(35, 32, 28, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.12);
+  border-left-color: #EF5350;
+}
+
+[data-theme="dark"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #EF5350;
+}
+
+[data-theme="dark"] .hidden-gems-wrong p {
+  color: #E0A0A0;
+}
+
+[data-theme="dark"] .hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.12);
+  border-left-color: #66BB6A;
+}
+
+[data-theme="dark"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #66BB6A;
+}
+
+[data-theme="dark"] .hidden-gems-correct p {
+  color: #A0D0A0;
+}
+
+[data-theme="dark"] .hidden-gems-explanation {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="dark"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .hidden-gems-explanation p {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .hidden-gems-formula {
+  background: rgba(21, 101, 192, 0.1);
+  border-left-color: #42A5F5;
+}
+
+[data-theme="dark"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #42A5F5;
+}
+
+[data-theme="dark"] .hidden-gems-formula-display {
+  background: rgba(21, 101, 192, 0.08);
+  color: #F0E6D2;
+}
+
+[data-theme="dark"] .hidden-gems-example {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="dark"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .hidden-gems-example p {
+  color: #C4B498;
+}
+
+[data-theme="dark"] .hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.1);
+  border-left-color: #FFD54F;
+}
+
+[data-theme="dark"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #FFD54F;
+}
+
+[data-theme="dark"] .hidden-gems-exam-tip p {
+  color: #E0D0A0;
+}
+
+[data-theme="dark"] .inline-formula {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+[data-theme="dark"] .inline-formula .katex {
+  color: #F0E6D2;
+}
+
+[data-theme="dark"] .hidden-gems-fav-btn {
+  color: #8A8070;
+  border-color: rgba(180, 160, 130, 0.3);
+  background: rgba(255, 215, 0, 0.05);
+}
+
+[data-theme="dark"] .hidden-gems-fav-btn:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: #FFD700;
+  color: #FFD700;
+}
+
+[data-theme="dark"] .hidden-gems-fav-btn.active {
+  color: #FFD700;
+  background: rgba(255, 215, 0, 0.12);
+  border-color: #FFD700;
+}
+
+[data-theme="dark"] .hidden-gems-card.favorited {
+  border-left-color: #FFD700;
+}
+
+[data-theme="dark"] .hidden-gems-chapter-divider {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .hidden-gems-search-input {
+  background: rgba(30, 28, 24, 0.9);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #E8DCC8;
+}
+
+[data-theme="dark"] .hidden-gems-search-input::placeholder {
+  color: #787470;
+}
+
+[data-theme="dark"] .hidden-gems-search-input:focus {
+  border-color: var(--accent-gold);
+}
+
+[data-theme="dark"] .hidden-gems-filter-tag {
+  background: rgba(45, 42, 38, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #C4B498;
+}
+
+[data-theme="dark"] .hidden-gems-filter-tag:hover {
+  border-color: var(--accent-gold);
+  color: #F0E6D2;
+}
+
+/* ========== 宇宙星辰主题 ========== */
+[data-theme="cosmos"] .hidden-gems-sidebar {
+  background: linear-gradient(180deg, #12122A 0%, #0B0B1A 100%);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .hidden-gems-sidebar-header h2 {
+  color: #E8E8F0;
+  text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+[data-theme="cosmos"] .hidden-gems-chapter-item {
+  color: #C8C8D8;
+  border-color: rgba(157, 124, 255, 0.15);
+}
+
+[data-theme="cosmos"] .hidden-gems-chapter-item:hover {
+  background: rgba(157, 124, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+}
+
+[data-theme="cosmos"] .hidden-gems-chapter-item.active {
+  background: linear-gradient(135deg, #9D7CFF 0%, #00D4FF 100%);
+  color: #FFFFFF;
+  border-color: #00D4FF;
+  box-shadow: 0 0 25px rgba(157, 124, 255, 0.5);
+}
+
+[data-theme="cosmos"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.2);
+  color: #FFFFFF;
+}
+
+[data-theme="cosmos"] .hidden-gems-card {
+  background: linear-gradient(145deg, rgba(21, 21, 48, 0.9) 0%, rgba(26, 26, 58, 0.95) 100%);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .hidden-gems-card:hover {
+  border-color: #9D7CFF;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 30px rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .hidden-gems-card.expanded {
+  border-color: #9D7CFF;
+  box-shadow: 0 0 30px rgba(157, 124, 255, 0.3);
+}
+
+[data-theme="cosmos"] .hidden-gems-card-header {
+  border-bottom-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .hidden-gems-card-title {
+  color: #E8E8F0;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .hidden-gems-card-question {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .hidden-gems-card-content {
+  background: rgba(15, 15, 32, 0.95);
+  border-color: rgba(157, 124, 255, 0.2);
+}
+
+[data-theme="cosmos"] .hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.15);
+  border-left-color: #EF5350;
+}
+
+[data-theme="cosmos"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #EF5350;
+}
+
+[data-theme="cosmos"] .hidden-gems-wrong p {
+  color: #E0A0A0;
+}
+
+[data-theme="cosmos"] .hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.15);
+  border-left-color: #66BB6A;
+}
+
+[data-theme="cosmos"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #66BB6A;
+}
+
+[data-theme="cosmos"] .hidden-gems-correct p {
+  color: #A0D0A0;
+}
+
+[data-theme="cosmos"] .hidden-gems-explanation {
+  background: rgba(157, 124, 255, 0.06);
+  border-left-color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #B8A0FF;
+}
+
+[data-theme="cosmos"] .hidden-gems-explanation p {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .hidden-gems-formula {
+  background: rgba(0, 212, 255, 0.08);
+  border-left-color: #00D4FF;
+}
+
+[data-theme="cosmos"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .hidden-gems-formula-display {
+  background: rgba(0, 212, 255, 0.05);
+  color: #00D4FF;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+[data-theme="cosmos"] .hidden-gems-example {
+  background: rgba(157, 124, 255, 0.06);
+  border-left-color: #9D7CFF;
+}
+
+[data-theme="cosmos"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #B8A0FF;
+}
+
+[data-theme="cosmos"] .hidden-gems-example p {
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.1);
+  border-left-color: #FFD54F;
+}
+
+[data-theme="cosmos"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #FFD54F;
+}
+
+[data-theme="cosmos"] .hidden-gems-exam-tip p {
+  color: #E0D0A0;
+}
+
+[data-theme="cosmos"] .inline-formula {
+  background: rgba(0, 212, 255, 0.1);
+}
+
+[data-theme="cosmos"] .inline-formula .katex {
+  color: #00D4FF;
+}
+
+[data-theme="cosmos"] .hidden-gems-search-input {
+  background: rgba(21, 21, 48, 0.9);
+  border-color: rgba(157, 124, 255, 0.3);
+  color: #E8E8F0;
+}
+
+[data-theme="cosmos"] .hidden-gems-search-input:focus {
+  border-color: #00D4FF;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="cosmos"] .hidden-gems-search-input::placeholder {
+  color: #606078;
+}
+
+[data-theme="cosmos"] .hidden-gems-filter-tag {
+  background: rgba(21, 21, 48, 0.9);
+  border-color: rgba(157, 124, 255, 0.3);
+  color: #C8C8D8;
+}
+
+[data-theme="cosmos"] .hidden-gems-filter-tag:hover {
+  border-color: #9D7CFF;
+  color: #E8E8F0;
+}
+
+/* ========== 砚冰清秩主题 ========== */
+[data-theme="iceclear"] .hidden-gems-sidebar {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F8FA 100%);
+  border-color: rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .hidden-gems-sidebar-header h2 {
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .hidden-gems-chapter-item {
+  color: #4A5568;
+  border-color: rgba(203, 213, 224, 0.5);
+}
+
+[data-theme="iceclear"] .hidden-gems-chapter-item:hover {
+  background: rgba(91, 138, 114, 0.08);
+  border-color: rgba(91, 138, 114, 0.25);
+}
+
+[data-theme="iceclear"] .hidden-gems-chapter-item.active {
+  background: linear-gradient(135deg, #5B8A72, #7BA894);
+  color: #FFFFFF;
+  border-color: #5B8A72;
+}
+
+[data-theme="iceclear"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.15);
+  color: #FFFFFF;
+}
+
+[data-theme="iceclear"] .hidden-gems-card {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+  border-color: rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .hidden-gems-card:hover {
+  border-color: #5B8A72;
+  box-shadow: 0 8px 25px rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .hidden-gems-card.expanded {
+  border-color: #5B8A72;
+  box-shadow: 0 4px 16px rgba(91, 138, 114, 0.2);
+}
+
+[data-theme="iceclear"] .hidden-gems-card-title {
+  color: #2C3E50;
+}
+
+[data-theme="iceclear"] .hidden-gems-card-question {
+  color: #4A5568;
+}
+
+[data-theme="iceclear"] .hidden-gems-card-content {
+  background: #FAFBFC;
+  border-color: rgba(203, 213, 224, 0.5);
+}
+
+[data-theme="iceclear"] .hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.06);
+  border-left-color: #E53E3E;
+}
+
+[data-theme="iceclear"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #E53E3E;
+}
+
+[data-theme="iceclear"] .hidden-gems-wrong p {
+  color: #9B2C2C;
+}
+
+[data-theme="iceclear"] .hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.06);
+  border-left-color: #38A169;
+}
+
+[data-theme="iceclear"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #38A169;
+}
+
+[data-theme="iceclear"] .hidden-gems-correct p {
+  color: #276749;
+}
+
+[data-theme="iceclear"] .hidden-gems-explanation {
+  background: rgba(91, 138, 114, 0.04);
+  border-left-color: #5B8A72;
+}
+
+[data-theme="iceclear"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .hidden-gems-explanation p {
+  color: #4A5568;
+}
+
+[data-theme="iceclear"] .hidden-gems-formula {
+  background: rgba(91, 138, 114, 0.04);
+  border-left-color: #2C5282;
+}
+
+[data-theme="iceclear"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #2C5282;
+}
+
+[data-theme="iceclear"] .hidden-gems-formula-display {
+  background: rgba(91, 138, 114, 0.04);
+  color: #2C5282;
+}
+
+[data-theme="iceclear"] .hidden-gems-example {
+  background: rgba(91, 138, 114, 0.04);
+  border-left-color: #5B8A72;
+}
+
+[data-theme="iceclear"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .hidden-gems-example p {
+  color: #4A5568;
+}
+
+[data-theme="iceclear"] .hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.08);
+  border-left-color: #D69E2E;
+}
+
+[data-theme="iceclear"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #D69E2E;
+}
+
+[data-theme="iceclear"] .hidden-gems-exam-tip p {
+  color: #744210;
+}
+
+[data-theme="iceclear"] .inline-formula {
+  background: rgba(91, 138, 114, 0.1);
+}
+
+[data-theme="iceclear"] .inline-formula .katex {
+  color: #2C5282;
+}
+
+[data-theme="iceclear"] .hidden-gems-search-input {
+  background: #FFFFFF;
+  border-color: rgba(91, 138, 114, 0.2);
+  color: #2D3748;
+}
+
+[data-theme="iceclear"] .hidden-gems-search-input:focus {
+  border-color: #5B8A72;
+  box-shadow: 0 0 15px rgba(91, 138, 114, 0.15);
+}
+
+[data-theme="iceclear"] .hidden-gems-search-input::placeholder {
+  color: #A0AEC0;
+}
+
+[data-theme="iceclear"] .hidden-gems-filter-tag {
+  background: #FFFFFF;
+  border-color: rgba(91, 138, 114, 0.2);
+  color: #4A5568;
+}
+
+/* ========== 松烟理序主题 ========== */
+[data-theme="pine"] .hidden-gems-sidebar {
+  background: linear-gradient(180deg, #32383F 0%, #2A2F35 100%);
+  border-color: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .hidden-gems-sidebar-header h2 {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .hidden-gems-chapter-item {
+  color: #C8C4BC;
+  border-color: rgba(74, 80, 88, 0.5);
+}
+
+[data-theme="pine"] .hidden-gems-chapter-item:hover {
+  background: rgba(123, 139, 111, 0.1);
+  border-color: rgba(123, 139, 111, 0.25);
+}
+
+[data-theme="pine"] .hidden-gems-chapter-item.active {
+  background: linear-gradient(135deg, #7B8B6F, #9AA88E);
+  color: #FFFFFF;
+  border-color: #9AA88E;
+}
+
+[data-theme="pine"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.15);
+  color: #FFFFFF;
+}
+
+[data-theme="pine"] .hidden-gems-card {
+  background: linear-gradient(145deg, rgba(50, 56, 63, 0.9) 0%, rgba(60, 66, 74, 0.95) 100%);
+  border-color: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .hidden-gems-card:hover {
+  border-color: #7B8B6F;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 25px rgba(123, 139, 111, 0.1);
+}
+
+[data-theme="pine"] .hidden-gems-card.expanded {
+  border-color: #7B8B6F;
+  box-shadow: 0 4px 18px rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .hidden-gems-card-title {
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .hidden-gems-card-question {
+  color: #C8C4BC;
+}
+
+[data-theme="pine"] .hidden-gems-card-content {
+  background: rgba(42, 47, 53, 0.95);
+  border-color: rgba(74, 80, 88, 0.5);
+}
+
+[data-theme="pine"] .hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.12);
+  border-left-color: #EF5350;
+}
+
+[data-theme="pine"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #EF5350;
+}
+
+[data-theme="pine"] .hidden-gems-wrong p {
+  color: #E0A0A0;
+}
+
+[data-theme="pine"] .hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.12);
+  border-left-color: #66BB6A;
+}
+
+[data-theme="pine"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #66BB6A;
+}
+
+[data-theme="pine"] .hidden-gems-correct p {
+  color: #A0D0A0;
+}
+
+[data-theme="pine"] .hidden-gems-explanation {
+  background: rgba(123, 139, 111, 0.08);
+  border-left-color: #7B8B6F;
+}
+
+[data-theme="pine"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #9AA88E;
+}
+
+[data-theme="pine"] .hidden-gems-explanation p {
+  color: #C8C4BC;
+}
+
+[data-theme="pine"] .hidden-gems-formula {
+  background: rgba(123, 139, 111, 0.06);
+  border-left-color: #9AA88E;
+}
+
+[data-theme="pine"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #9AA88E;
+}
+
+[data-theme="pine"] .hidden-gems-formula-display {
+  background: rgba(123, 139, 111, 0.05);
+  color: #A8C4B8;
+}
+
+[data-theme="pine"] .hidden-gems-example {
+  background: rgba(123, 139, 111, 0.08);
+  border-left-color: #7B8B6F;
+}
+
+[data-theme="pine"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #9AA88E;
+}
+
+[data-theme="pine"] .hidden-gems-example p {
+  color: #C8C4BC;
+}
+
+[data-theme="pine"] .hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.1);
+  border-left-color: #FFD54F;
+}
+
+[data-theme="pine"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #FFD54F;
+}
+
+[data-theme="pine"] .hidden-gems-exam-tip p {
+  color: #E0D0A0;
+}
+
+[data-theme="pine"] .inline-formula {
+  background: rgba(123, 139, 111, 0.15);
+}
+
+[data-theme="pine"] .inline-formula .katex {
+  color: #A8C4B8;
+}
+
+[data-theme="pine"] .hidden-gems-search-input {
+  background: rgba(50, 56, 63, 0.9);
+  border-color: rgba(123, 139, 111, 0.2);
+  color: #E8E4DC;
+}
+
+[data-theme="pine"] .hidden-gems-search-input:focus {
+  border-color: #7B8B6F;
+  box-shadow: 0 0 15px rgba(123, 139, 111, 0.2);
+}
+
+[data-theme="pine"] .hidden-gems-search-input::placeholder {
+  color: #787470;
+}
+
+[data-theme="pine"] .hidden-gems-filter-tag {
+  background: rgba(50, 56, 63, 0.9);
+  border-color: rgba(123, 139, 111, 0.2);
+  color: #C8C4BC;
+}
+
+/* ========== 夕照青山主题 ========== */
+[data-theme="sunset"] .hidden-gems-sidebar {
+  background: linear-gradient(180deg, #F2E8DE 0%, #E8DDD0 100%);
+  border-color: rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .hidden-gems-sidebar-header h2 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .hidden-gems-chapter-item {
+  color: #6B6256;
+  border-color: rgba(196, 184, 170, 0.5);
+}
+
+[data-theme="sunset"] .hidden-gems-chapter-item:hover {
+  background: rgba(196, 125, 78, 0.08);
+  border-color: rgba(196, 125, 78, 0.25);
+}
+
+[data-theme="sunset"] .hidden-gems-chapter-item.active {
+  background: linear-gradient(135deg, #C47D4E, #D4966A);
+  color: #FFFFFF;
+  border-color: #D4966A;
+}
+
+[data-theme="sunset"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.15);
+  color: #FFFFFF;
+}
+
+[data-theme="sunset"] .hidden-gems-card {
+  background: linear-gradient(145deg, #F5ECE2 0%, #EBE2D6 100%);
+  border-color: rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .hidden-gems-card:hover {
+  border-color: #C47D4E;
+  box-shadow: 0 8px 25px rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .hidden-gems-card.expanded {
+  border-color: #C47D4E;
+  box-shadow: 0 4px 16px rgba(196, 125, 78, 0.2);
+}
+
+[data-theme="sunset"] .hidden-gems-card-title {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .hidden-gems-card-question {
+  color: #6B6256;
+}
+
+[data-theme="sunset"] .hidden-gems-card-content {
+  background: #F8F3EC;
+  border-color: rgba(196, 184, 170, 0.5);
+}
+
+[data-theme="sunset"] .hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.06);
+  border-left-color: #C53030;
+}
+
+[data-theme="sunset"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #C53030;
+}
+
+[data-theme="sunset"] .hidden-gems-wrong p {
+  color: #9B2C2C;
+}
+
+[data-theme="sunset"] .hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.06);
+  border-left-color: #5D7A64;
+}
+
+[data-theme="sunset"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #5D7A64;
+}
+
+[data-theme="sunset"] .hidden-gems-correct p {
+  color: #276749;
+}
+
+[data-theme="sunset"] .hidden-gems-explanation {
+  background: rgba(93, 122, 100, 0.05);
+  border-left-color: #5D7A64;
+}
+
+[data-theme="sunset"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .hidden-gems-explanation p {
+  color: #6B6256;
+}
+
+[data-theme="sunset"] .hidden-gems-formula {
+  background: rgba(93, 122, 100, 0.04);
+  border-left-color: #6B8E6B;
+}
+
+[data-theme="sunset"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #6B8E6B;
+}
+
+[data-theme="sunset"] .hidden-gems-formula-display {
+  background: rgba(93, 122, 100, 0.04);
+  color: #6B8E6B;
+}
+
+[data-theme="sunset"] .hidden-gems-example {
+  background: rgba(93, 122, 100, 0.05);
+  border-left-color: #5D7A64;
+}
+
+[data-theme="sunset"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .hidden-gems-example p {
+  color: #6B6256;
+}
+
+[data-theme="sunset"] .hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.08);
+  border-left-color: #D69E2E;
+}
+
+[data-theme="sunset"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #D69E2E;
+}
+
+[data-theme="sunset"] .hidden-gems-exam-tip p {
+  color: #744210;
+}
+
+[data-theme="sunset"] .inline-formula {
+  background: rgba(93, 122, 100, 0.12);
+}
+
+[data-theme="sunset"] .inline-formula .katex {
+  color: #6B8E6B;
+}
+
+[data-theme="sunset"] .hidden-gems-search-input {
+  background: #F2E8DE;
+  border-color: rgba(196, 125, 78, 0.2);
+  color: #4A4238;
+}
+
+[data-theme="sunset"] .hidden-gems-search-input:focus {
+  border-color: #C47D4E;
+  box-shadow: 0 0 15px rgba(196, 125, 78, 0.15);
+}
+
+[data-theme="sunset"] .hidden-gems-search-input::placeholder {
+  color: #A9A196;
+}
+
+[data-theme="sunset"] .hidden-gems-filter-tag {
+  background: #F2E8DE;
+  border-color: rgba(196, 125, 78, 0.2);
+  color: #6B6256;
+}
+
+/* ========== 百花欲燃主题 ========== */
+[data-theme="blossom"] .hidden-gems-sidebar {
+  background: linear-gradient(180deg, #FFF8F8 0%, #FDF2F2 100%);
+  border-color: rgba(214, 80, 118, 0.12);
+}
+
+[data-theme="blossom"] .hidden-gems-sidebar-header h2 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .hidden-gems-chapter-item {
+  color: #6B5258;
+  border-color: rgba(232, 200, 200, 0.5);
+}
+
+[data-theme="blossom"] .hidden-gems-chapter-item:hover {
+  background: rgba(244, 162, 89, 0.08);
+  border-color: rgba(244, 162, 89, 0.2);
+}
+
+[data-theme="blossom"] .hidden-gems-chapter-item.active {
+  background: linear-gradient(135deg, #D65076, #F4A259);
+  color: #FFFFFF;
+  border-color: #F6B678;
+}
+
+[data-theme="blossom"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.15);
+  color: #FFFFFF;
+}
+
+[data-theme="blossom"] .hidden-gems-card {
+  background: linear-gradient(145deg, #FFFDFD 0%, #FFF8F8 100%);
+  border-color: rgba(214, 80, 118, 0.12);
+}
+
+[data-theme="blossom"] .hidden-gems-card:hover {
+  border-color: #D65076;
+  box-shadow: 0 8px 25px rgba(214, 80, 118, 0.15);
+}
+
+[data-theme="blossom"] .hidden-gems-card.expanded {
+  border-color: #D65076;
+  box-shadow: 0 4px 16px rgba(214, 80, 118, 0.2);
+}
+
+[data-theme="blossom"] .hidden-gems-card-title {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .hidden-gems-card-question {
+  color: #6B5258;
+}
+
+[data-theme="blossom"] .hidden-gems-card-content {
+  background: #FFF5F5;
+  border-color: rgba(232, 200, 200, 0.5);
+}
+
+[data-theme="blossom"] .hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.06);
+  border-left-color: #D65076;
+}
+
+[data-theme="blossom"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #D65076;
+}
+
+[data-theme="blossom"] .hidden-gems-wrong p {
+  color: #9B2C2C;
+}
+
+[data-theme="blossom"] .hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.06);
+  border-left-color: #38A169;
+}
+
+[data-theme="blossom"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #38A169;
+}
+
+[data-theme="blossom"] .hidden-gems-correct p {
+  color: #276749;
+}
+
+[data-theme="blossom"] .hidden-gems-explanation {
+  background: rgba(214, 80, 118, 0.04);
+  border-left-color: #D65076;
+}
+
+[data-theme="blossom"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .hidden-gems-explanation p {
+  color: #6B5258;
+}
+
+[data-theme="blossom"] .hidden-gems-formula {
+  background: rgba(214, 80, 118, 0.04);
+  border-left-color: #C44D6B;
+}
+
+[data-theme="blossom"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #C44D6B;
+}
+
+[data-theme="blossom"] .hidden-gems-formula-display {
+  background: rgba(214, 80, 118, 0.04);
+  color: #C44D6B;
+}
+
+[data-theme="blossom"] .hidden-gems-example {
+  background: rgba(214, 80, 118, 0.04);
+  border-left-color: #D65076;
+}
+
+[data-theme="blossom"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .hidden-gems-example p {
+  color: #6B5258;
+}
+
+[data-theme="blossom"] .hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.08);
+  border-left-color: #F4A259;
+}
+
+[data-theme="blossom"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #F4A259;
+}
+
+[data-theme="blossom"] .hidden-gems-exam-tip p {
+  color: #744210;
+}
+
+[data-theme="blossom"] .inline-formula {
+  background: rgba(214, 80, 118, 0.1);
+}
+
+[data-theme="blossom"] .inline-formula .katex {
+  color: #C44D6B;
+}
+
+[data-theme="blossom"] .hidden-gems-search-input {
+  background: #FFF8F8;
+  border-color: rgba(244, 162, 89, 0.15);
+  color: #4A3540;
+}
+
+[data-theme="blossom"] .hidden-gems-search-input:focus {
+  border-color: #D65076;
+  box-shadow: 0 0 15px rgba(214, 80, 118, 0.15);
+}
+
+[data-theme="blossom"] .hidden-gems-search-input::placeholder {
+  color: #AD8E8E;
+}
+
+[data-theme="blossom"] .hidden-gems-filter-tag {
+  background: #FFF8F8;
+  border-color: rgba(244, 162, 89, 0.15);
+  color: #6B5258;
+}
+
+/* ========== 中国风主题 ========== */
+[data-theme="chinese"] .hidden-gems-sidebar {
+  background: linear-gradient(180deg, #FAF6ED 0%, #F5F0E5 100%);
+  border-color: rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="chinese"] .hidden-gems-sidebar-header h2 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .hidden-gems-chapter-item {
+  color: #6B6256;
+  border-color: rgba(212, 200, 184, 0.5);
+}
+
+[data-theme="chinese"] .hidden-gems-chapter-item:hover {
+  background: rgba(139, 69, 19, 0.06);
+  border-color: rgba(139, 69, 19, 0.15);
+}
+
+[data-theme="chinese"] .hidden-gems-chapter-item.active {
+  background: linear-gradient(135deg, #8B4513, #B22222);
+  color: #FFFFFF;
+  border-color: #A65A28;
+}
+
+[data-theme="chinese"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.15);
+  color: #FFFFFF;
+}
+
+[data-theme="chinese"] .hidden-gems-card {
+  background: linear-gradient(145deg, #FAF6ED 0%, #F2ECE0 100%);
+  border-color: rgba(139, 69, 19, 0.08);
+}
+
+[data-theme="chinese"] .hidden-gems-card:hover {
+  border-color: #8B4513;
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="chinese"] .hidden-gems-card.expanded {
+  border-color: #8B4513;
+  box-shadow: 0 4px 16px rgba(139, 69, 19, 0.12);
+}
+
+[data-theme="chinese"] .hidden-gems-card-title {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .hidden-gems-card-question {
+  color: #6B6256;
+}
+
+[data-theme="chinese"] .hidden-gems-card-content {
+  background: #F8F4EB;
+  border-color: rgba(212, 200, 184, 0.5);
+}
+
+[data-theme="chinese"] .hidden-gems-wrong {
+  background: rgba(198, 40, 40, 0.06);
+  border-left-color: #B22222;
+}
+
+[data-theme="chinese"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #B22222;
+}
+
+[data-theme="chinese"] .hidden-gems-wrong p {
+  color: #9B2C2C;
+}
+
+[data-theme="chinese"] .hidden-gems-correct {
+  background: rgba(46, 125, 50, 0.06);
+  border-left-color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-correct p {
+  color: #276749;
+}
+
+[data-theme="chinese"] .hidden-gems-explanation {
+  background: rgba(139, 69, 19, 0.04);
+  border-left-color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .hidden-gems-explanation p {
+  color: #6B6256;
+}
+
+[data-theme="chinese"] .hidden-gems-formula {
+  background: rgba(139, 69, 19, 0.03);
+  border-left-color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-formula-display {
+  background: rgba(139, 69, 19, 0.03);
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-example {
+  background: rgba(139, 69, 19, 0.04);
+  border-left-color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .hidden-gems-example p {
+  color: #6B6256;
+}
+
+[data-theme="chinese"] .hidden-gems-exam-tip {
+  background: rgba(255, 193, 7, 0.08);
+  border-left-color: #D69E2E;
+}
+
+[data-theme="chinese"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #D69E2E;
+}
+
+[data-theme="chinese"] .hidden-gems-exam-tip p {
+  color: #744210;
+}
+
+[data-theme="chinese"] .inline-formula {
+  background: rgba(139, 69, 19, 0.08);
+}
+
+[data-theme="chinese"] .inline-formula .katex {
+  color: #8B4513;
+}
+
+[data-theme="chinese"] .hidden-gems-search-input {
+  background: #FAF6ED;
+  border-color: rgba(139, 69, 19, 0.1);
+  color: #4A4238;
+}
+
+[data-theme="chinese"] .hidden-gems-search-input:focus {
+  border-color: #8B4513;
+  box-shadow: 0 0 12px rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="chinese"] .hidden-gems-search-input::placeholder {
+  color: #AB9F94;
+}
+
+[data-theme="chinese"] .hidden-gems-filter-tag {
+  background: #FAF6ED;
+  border-color: rgba(139, 69, 19, 0.1);
+  color: #6B6256;
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+  .hidden-gems {
+    flex-direction: column;
+  }
+
+  .hidden-gems-sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .hidden-gems-chapter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .hidden-gems-chapter-item {
+    width: auto;
+    flex: 1;
+    min-width: 140px;
+    margin-bottom: 0;
+  }
+
+  .hidden-gems-main {
+    padding: 12px;
+  }
+
+  .hidden-gems-filters {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hidden-gems-card-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .hidden-gems-card-badges {
+    align-self: flex-start;
+  }
+}
