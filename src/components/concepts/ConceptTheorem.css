@@ -476,99 +476,99 @@
   color: #606078;
 }
 
-/* 砚冰清秩主题 */
+/* 疏林茶烟主题 */
 [data-theme="iceclear"] .concept-sidebar {
-  background: linear-gradient(180deg, #FFFFFF 0%, #F5F8FA 100%);
-  border-color: rgba(91, 138, 114, 0.15);
+  background: linear-gradient(180deg, #E1D8C7 0%, #D8CFC0 100%);
+  border-color: rgba(203, 175, 152, 0.15);
 }
 
 [data-theme="iceclear"] .sidebar-header h2 {
-  color: #2D3748;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .chapter-item {
-  color: #4A5568;
-  border-color: rgba(203, 213, 224, 0.5);
+  color: #5A5048;
+  border-color: rgba(219, 185, 164, 0.5);
 }
 
 [data-theme="iceclear"] .chapter-item:hover {
-  background: rgba(91, 138, 114, 0.08);
-  border-color: rgba(91, 138, 114, 0.25);
+  background: rgba(203, 175, 152, 0.08);
+  border-color: rgba(203, 175, 152, 0.25);
 }
 
 [data-theme="iceclear"] .chapter-item.active {
-  background: linear-gradient(135deg, #5B8A72, #7BA894);
+  background: linear-gradient(135deg, #7A6555, #958068);
   color: #FFFFFF;
-  border-color: #5B8A72;
+  border-color: #7A6555;
 }
 
 [data-theme="iceclear"] .concept-card {
-  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
-  border-color: rgba(91, 138, 114, 0.15);
+  background: linear-gradient(145deg, #E8DFD0 0%, #E1D8C7 100%);
+  border-color: rgba(203, 175, 152, 0.15);
 }
 
 [data-theme="iceclear"] .concept-card:hover {
-  border-color: #5B8A72;
-  box-shadow: 0 8px 25px rgba(91, 138, 114, 0.15);
+  border-color: #CBAF98;
+  box-shadow: 0 8px 25px rgba(203, 175, 152, 0.15);
 }
 
 [data-theme="iceclear"] .concept-header {
-  border-bottom-color: rgba(91, 138, 114, 0.15);
+  border-bottom-color: rgba(203, 175, 152, 0.15);
 }
 
 [data-theme="iceclear"] .concept-title h3 {
-  color: #2C3E50;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .concept-category {
-  color: #5B8A72;
-  background: rgba(91, 138, 114, 0.1);
-  border-color: rgba(91, 138, 114, 0.2);
+  color: #7A6555;
+  background: rgba(203, 175, 152, 0.1);
+  border-color: rgba(203, 175, 152, 0.2);
 }
 
 [data-theme="iceclear"] .concept-content {
-  background: #FAFBFC;
-  border-color: rgba(203, 213, 224, 0.5);
+  background: #E8DFD0;
+  border-color: rgba(219, 185, 164, 0.5);
 }
 
 [data-theme="iceclear"] .concept-formula {
-  background: rgba(91, 138, 114, 0.05);
-  border-left-color: #5B8A72;
+  background: rgba(203, 175, 152, 0.05);
+  border-left-color: #7A6555;
 }
 
 [data-theme="iceclear"] .formula-display {
-  color: #2C5282;
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .inline-formula {
-  background: rgba(91, 138, 114, 0.1);
+  background: rgba(203, 175, 152, 0.1);
 }
 
 [data-theme="iceclear"] .inline-formula .katex {
-  color: #2C5282;
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .concept-section h4 {
-  color: #5B8A72;
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .concept-section p {
-  color: #4A5568;
+  color: #5A5048;
 }
 
 [data-theme="iceclear"] .concept-search input {
-  background: #FFFFFF;
-  border-color: rgba(91, 138, 114, 0.2);
-  color: #2D3748;
+  background: #E8DFD0;
+  border-color: rgba(203, 175, 152, 0.2);
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .concept-search input:focus {
-  border-color: #5B8A72;
-  box-shadow: 0 0 15px rgba(91, 138, 114, 0.15);
+  border-color: #CBAF98;
+  box-shadow: 0 0 15px rgba(203, 175, 152, 0.15);
 }
 
 [data-theme="iceclear"] .concept-search input::placeholder {
-  color: #A0AEC0;
+  color: #7A7068;
 }
 
 /* 松烟理序主题 */
@@ -761,192 +761,287 @@
   color: #A9A196;
 }
 
-/* 百花欲燃主题 */
+/* 芦汀初雪主题 */
 [data-theme="blossom"] .concept-sidebar {
-  background: linear-gradient(180deg, #FFF8F8 0%, #FDF2F2 100%);
-  border-color: rgba(214, 80, 118, 0.12);
+  background: linear-gradient(180deg, #E6E1DA 0%, #DFDAD3 100%);
+  border-color: rgba(107, 143, 107, 0.12);
 }
 
 [data-theme="blossom"] .sidebar-header h2 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .chapter-item {
-  color: #6B5258;
-  border-color: rgba(232, 200, 200, 0.5);
+  color: #555B50;
+  border-color: rgba(139, 169, 149, 0.5);
 }
 
 [data-theme="blossom"] .chapter-item:hover {
-  background: rgba(244, 162, 89, 0.08);
-  border-color: rgba(244, 162, 89, 0.2);
+  background: rgba(139, 169, 149, 0.08);
+  border-color: rgba(139, 169, 149, 0.2);
 }
 
 [data-theme="blossom"] .chapter-item.active {
-  background: linear-gradient(135deg, #D65076, #F4A259);
+  background: linear-gradient(135deg, #6B8F6B, #8BA995);
   color: #FFFFFF;
-  border-color: #F6B678;
+  border-color: #8BA995;
 }
 
 [data-theme="blossom"] .concept-card {
-  background: linear-gradient(145deg, #FFFDFD 0%, #FFF8F8 100%);
-  border-color: rgba(214, 80, 118, 0.12);
+  background: linear-gradient(145deg, #E6E1DA 0%, #E0DBD4 100%);
+  border-color: rgba(107, 143, 107, 0.12);
 }
 
 [data-theme="blossom"] .concept-card:hover {
-  border-color: #D65076;
-  box-shadow: 0 8px 25px rgba(214, 80, 118, 0.15);
+  border-color: #6B8F6B;
+  box-shadow: 0 8px 25px rgba(107, 143, 107, 0.15);
 }
 
 [data-theme="blossom"] .concept-header {
-  border-bottom-color: rgba(214, 80, 118, 0.12);
+  border-bottom-color: rgba(107, 143, 107, 0.12);
 }
 
 [data-theme="blossom"] .concept-title h3 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .concept-category {
-  color: #F4A259;
-  background: rgba(244, 162, 89, 0.1);
-  border-color: rgba(244, 162, 89, 0.2);
+  color: #8BA995;
+  background: rgba(139, 169, 149, 0.1);
+  border-color: rgba(139, 169, 149, 0.2);
 }
 
 [data-theme="blossom"] .concept-content {
-  background: #FFF5F5;
-  border-color: rgba(232, 200, 200, 0.5);
+  background: #E6E1DA;
+  border-color: rgba(139, 169, 149, 0.5);
 }
 
 [data-theme="blossom"] .concept-formula {
-  background: rgba(214, 80, 118, 0.05);
-  border-left-color: #D65076;
+  background: rgba(107, 143, 107, 0.05);
+  border-left-color: #6B8F6B;
 }
 
 [data-theme="blossom"] .formula-display {
-  color: #C44D6B;
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .inline-formula {
-  background: rgba(214, 80, 118, 0.1);
+  background: rgba(107, 143, 107, 0.1);
 }
 
 [data-theme="blossom"] .inline-formula .katex {
-  color: #C44D6B;
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .concept-section h4 {
-  color: #D65076;
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .concept-section p {
-  color: #6B5258;
+  color: #555B50;
 }
 
 [data-theme="blossom"] .concept-search input {
-  background: #FFF8F8;
-  border-color: rgba(244, 162, 89, 0.15);
-  color: #4A3540;
+  background: #E0DBD4;
+  border-color: rgba(139, 169, 149, 0.15);
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .concept-search input:focus {
-  border-color: #D65076;
-  box-shadow: 0 0 15px rgba(214, 80, 118, 0.15);
+  border-color: #6B8F6B;
+  box-shadow: 0 0 15px rgba(107, 143, 107, 0.15);
 }
 
 [data-theme="blossom"] .concept-search input::placeholder {
-  color: #AD8E8E;
+  color: #787D70;
 }
 
-/* 中国风主题 */
+/* 绣日摇风主题 */
 [data-theme="chinese"] .concept-sidebar {
-  background: linear-gradient(180deg, #FAF6ED 0%, #F5F0E5 100%);
-  border-color: rgba(139, 69, 19, 0.1);
+  background: linear-gradient(180deg, #F8DFE2 0%, #F3D8DC 100%);
+  border-color: rgba(234, 191, 195, 0.1);
 }
 
 [data-theme="chinese"] .sidebar-header h2 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .chapter-item {
-  color: #6B6256;
-  border-color: rgba(212, 200, 184, 0.5);
+  color: #5E404A;
+  border-color: rgba(234, 191, 195, 0.5);
 }
 
 [data-theme="chinese"] .chapter-item:hover {
-  background: rgba(139, 69, 19, 0.06);
-  border-color: rgba(139, 69, 19, 0.15);
+  background: rgba(234, 191, 195, 0.06);
+  border-color: rgba(234, 191, 195, 0.15);
 }
 
 [data-theme="chinese"] .chapter-item.active {
-  background: linear-gradient(135deg, #8B4513, #B22222);
+  background: linear-gradient(135deg, #8A6068, #EAC077);
   color: #FFFFFF;
-  border-color: #A65A28;
+  border-color: #EABFC3;
 }
 
 [data-theme="chinese"] .concept-card {
-  background: linear-gradient(145deg, #FAF6ED 0%, #F2ECE0 100%);
-  border-color: rgba(139, 69, 19, 0.08);
+  background: linear-gradient(145deg, #F8DFE2 0%, #F3D8DC 100%);
+  border-color: rgba(234, 191, 195, 0.08);
 }
 
 [data-theme="chinese"] .concept-card:hover {
-  border-color: #8B4513;
-  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.1);
+  border-color: #8A6068;
+  box-shadow: 0 6px 20px rgba(234, 191, 195, 0.1);
 }
 
 [data-theme="chinese"] .concept-header {
-  border-bottom-color: rgba(139, 69, 19, 0.08);
+  border-bottom-color: rgba(234, 191, 195, 0.08);
 }
 
 [data-theme="chinese"] .concept-title h3 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .concept-category {
-  color: #8B4513;
-  background: rgba(139, 69, 19, 0.06);
-  border-color: rgba(139, 69, 19, 0.12);
+  color: #8A6068;
+  background: rgba(234, 191, 195, 0.06);
+  border-color: rgba(234, 191, 195, 0.12);
 }
 
 [data-theme="chinese"] .concept-content {
-  background: #F8F4EB;
-  border-color: rgba(212, 200, 184, 0.5);
+  background: #F8DFE2;
+  border-color: rgba(234, 191, 195, 0.5);
 }
 
 [data-theme="chinese"] .concept-formula {
-  background: rgba(139, 69, 19, 0.04);
-  border-left-color: #8B4513;
+  background: rgba(234, 191, 195, 0.04);
+  border-left-color: #8A6068;
 }
 
 [data-theme="chinese"] .formula-display {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .inline-formula {
-  background: rgba(139, 69, 19, 0.08);
+  background: rgba(234, 191, 195, 0.08);
 }
 
 [data-theme="chinese"] .inline-formula .katex {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .concept-section h4 {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .concept-section p {
-  color: #6B6256;
+  color: #5E404A;
 }
 
 [data-theme="chinese"] .concept-search input {
-  background: #FAF6ED;
-  border-color: rgba(139, 69, 19, 0.1);
-  color: #4A4238;
+  background: #F8DFE2;
+  border-color: rgba(234, 191, 195, 0.1);
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .concept-search input:focus {
-  border-color: #8B4513;
-  box-shadow: 0 0 12px rgba(139, 69, 19, 0.1);
+  border-color: #8A6068;
+  box-shadow: 0 0 12px rgba(234, 191, 195, 0.1);
 }
 
 [data-theme="chinese"] .concept-search input::placeholder {
-  color: #AB9F94;
+  color: #806068;
+}
+
+/* ========== 蓝色轻梦主题 ========== */
+[data-theme="bluedream"] .concept-sidebar {
+  background: linear-gradient(180deg, #D6EBF3 0%, #CCE3ED 100%);
+  border-color: rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .sidebar-header h2 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .chapter-item {
+  color: #4A6878;
+  border-color: rgba(98, 155, 181, 0.5);
+}
+
+[data-theme="bluedream"] .chapter-item:hover {
+  background: rgba(98, 155, 181, 0.08);
+  border-color: rgba(98, 155, 181, 0.25);
+}
+
+[data-theme="bluedream"] .chapter-item.active {
+  background: linear-gradient(135deg, #629BB5, #447F98);
+  color: #FFFFFF;
+  border-color: #629BB5;
+}
+
+[data-theme="bluedream"] .concept-card {
+  background: linear-gradient(145deg, #DADEE1 0%, #D0D8DC 100%);
+  border-color: rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .concept-card:hover {
+  border-color: #447F98;
+  box-shadow: 0 8px 25px rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .concept-header {
+  border-bottom-color: rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .concept-title h3 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .concept-category {
+  color: #447F98;
+  background: rgba(98, 155, 181, 0.1);
+  border-color: rgba(98, 155, 181, 0.2);
+}
+
+[data-theme="bluedream"] .concept-content {
+  background: #DADEE1;
+  border-color: rgba(98, 155, 181, 0.5);
+}
+
+[data-theme="bluedream"] .concept-formula {
+  background: rgba(98, 155, 181, 0.05);
+  border-left-color: #447F98;
+}
+
+[data-theme="bluedream"] .formula-display {
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .inline-formula {
+  background: rgba(98, 155, 181, 0.1);
+}
+
+[data-theme="bluedream"] .inline-formula .katex {
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .concept-section h4 {
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .concept-section p {
+  color: #4A6878;
+}
+
+[data-theme="bluedream"] .concept-search input {
+  background: #DADEE1;
+  border-color: rgba(98, 155, 181, 0.3);
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .concept-search input:focus {
+  border-color: #629BB5;
+  box-shadow: 0 0 15px rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .concept-search input::placeholder {
+  color: #90A8B5;
 }

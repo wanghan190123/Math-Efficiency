@@ -904,63 +904,63 @@
   color: #E8E8F0;
 }
 
-/* ========== 砚冰清秩主题 ========== */
+/* ========== 疏林茶烟主题 ========== */
 [data-theme="iceclear"] .hidden-gems-sidebar {
-  background: linear-gradient(180deg, #FFFFFF 0%, #F5F8FA 100%);
-  border-color: rgba(91, 138, 114, 0.15);
+  background: linear-gradient(180deg, #E8DFD0 0%, #E1D8C7 100%);
+  border-color: rgba(122, 101, 85, 0.15);
 }
 
 [data-theme="iceclear"] .hidden-gems-sidebar-header h2 {
-  color: #2D3748;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .hidden-gems-chapter-item {
-  color: #4A5568;
-  border-color: rgba(203, 213, 224, 0.5);
+  color: #5A5048;
+  border-color: rgba(219, 185, 164, 0.5);
 }
 
 [data-theme="iceclear"] .hidden-gems-chapter-item:hover {
-  background: rgba(91, 138, 114, 0.08);
-  border-color: rgba(91, 138, 114, 0.25);
+  background: rgba(122, 101, 85, 0.08);
+  border-color: rgba(122, 101, 85, 0.25);
 }
 
 [data-theme="iceclear"] .hidden-gems-chapter-item.active {
-  background: linear-gradient(135deg, #5B8A72, #7BA894);
-  color: #FFFFFF;
-  border-color: #5B8A72;
+  background: linear-gradient(135deg, #7A6555, #958068);
+  color: #E8DFD0;
+  border-color: #7A6555;
 }
 
 [data-theme="iceclear"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
   background: rgba(0, 0, 0, 0.15);
-  color: #FFFFFF;
+  color: #E8DFD0;
 }
 
 [data-theme="iceclear"] .hidden-gems-card {
-  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
-  border-color: rgba(91, 138, 114, 0.15);
+  background: linear-gradient(145deg, #E8DFD0 0%, #D8CFC0 100%);
+  border-color: rgba(122, 101, 85, 0.15);
 }
 
 [data-theme="iceclear"] .hidden-gems-card:hover {
-  border-color: #5B8A72;
-  box-shadow: 0 8px 25px rgba(91, 138, 114, 0.15);
+  border-color: #7A6555;
+  box-shadow: 0 8px 25px rgba(122, 101, 85, 0.15);
 }
 
 [data-theme="iceclear"] .hidden-gems-card.expanded {
-  border-color: #5B8A72;
-  box-shadow: 0 4px 16px rgba(91, 138, 114, 0.2);
+  border-color: #7A6555;
+  box-shadow: 0 4px 16px rgba(122, 101, 85, 0.2);
 }
 
 [data-theme="iceclear"] .hidden-gems-card-title {
-  color: #2C3E50;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .hidden-gems-card-question {
-  color: #4A5568;
+  color: #5A5048;
 }
 
 [data-theme="iceclear"] .hidden-gems-card-content {
-  background: #FAFBFC;
-  border-color: rgba(203, 213, 224, 0.5);
+  background: #D0C6B5;
+  border-color: rgba(219, 185, 164, 0.5);
 }
 
 [data-theme="iceclear"] .hidden-gems-wrong {
@@ -977,98 +977,98 @@
 }
 
 [data-theme="iceclear"] .hidden-gems-correct {
-  background: rgba(46, 125, 50, 0.06);
-  border-left-color: #38A169;
+  background: rgba(122, 101, 85, 0.06);
+  border-left-color: #CBAF98;
 }
 
 [data-theme="iceclear"] .hidden-gems-correct .hidden-gems-section-header h4 {
-  color: #38A169;
+  color: #CBAF98;
 }
 
 [data-theme="iceclear"] .hidden-gems-correct p {
-  color: #276749;
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .hidden-gems-explanation {
-  background: rgba(91, 138, 114, 0.04);
-  border-left-color: #5B8A72;
+  background: rgba(122, 101, 85, 0.04);
+  border-left-color: #7A6555;
 }
 
 [data-theme="iceclear"] .hidden-gems-explanation .hidden-gems-section-header h4 {
-  color: #2D3748;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .hidden-gems-explanation p {
-  color: #4A5568;
+  color: #5A5048;
 }
 
 [data-theme="iceclear"] .hidden-gems-formula {
-  background: rgba(91, 138, 114, 0.04);
-  border-left-color: #2C5282;
+  background: rgba(122, 101, 85, 0.04);
+  border-left-color: #5E4D40;
 }
 
 [data-theme="iceclear"] .hidden-gems-formula .hidden-gems-section-header h4 {
-  color: #2C5282;
+  color: #5E4D40;
 }
 
 [data-theme="iceclear"] .hidden-gems-formula-display {
-  background: rgba(91, 138, 114, 0.04);
-  color: #2C5282;
+  background: rgba(122, 101, 85, 0.04);
+  color: #5E4D40;
 }
 
 [data-theme="iceclear"] .hidden-gems-example {
-  background: rgba(91, 138, 114, 0.04);
-  border-left-color: #5B8A72;
+  background: rgba(122, 101, 85, 0.04);
+  border-left-color: #7A6555;
 }
 
 [data-theme="iceclear"] .hidden-gems-example .hidden-gems-section-header h4 {
-  color: #2D3748;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .hidden-gems-example p {
-  color: #4A5568;
+  color: #5A5048;
 }
 
 [data-theme="iceclear"] .hidden-gems-exam-tip {
-  background: rgba(255, 193, 7, 0.08);
-  border-left-color: #D69E2E;
+  background: rgba(203, 175, 152, 0.1);
+  border-left-color: #CBAF98;
 }
 
 [data-theme="iceclear"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
-  color: #D69E2E;
+  color: #CBAF98;
 }
 
 [data-theme="iceclear"] .hidden-gems-exam-tip p {
-  color: #744210;
+  color: #5E4D40;
 }
 
 [data-theme="iceclear"] .inline-formula {
-  background: rgba(91, 138, 114, 0.1);
+  background: rgba(122, 101, 85, 0.1);
 }
 
 [data-theme="iceclear"] .inline-formula .katex {
-  color: #2C5282;
+  color: #5E4D40;
 }
 
 [data-theme="iceclear"] .hidden-gems-search-input {
-  background: #FFFFFF;
-  border-color: rgba(91, 138, 114, 0.2);
-  color: #2D3748;
+  background: #E8DFD0;
+  border-color: rgba(122, 101, 85, 0.2);
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .hidden-gems-search-input:focus {
-  border-color: #5B8A72;
-  box-shadow: 0 0 15px rgba(91, 138, 114, 0.15);
+  border-color: #7A6555;
+  box-shadow: 0 0 15px rgba(122, 101, 85, 0.15);
 }
 
 [data-theme="iceclear"] .hidden-gems-search-input::placeholder {
-  color: #A0AEC0;
+  color: #7A7068;
 }
 
 [data-theme="iceclear"] .hidden-gems-filter-tag {
-  background: #FFFFFF;
-  border-color: rgba(91, 138, 114, 0.2);
-  color: #4A5568;
+  background: #E8DFD0;
+  border-color: rgba(122, 101, 85, 0.2);
+  color: #5A5048;
 }
 
 /* ========== 松烟理序主题 ========== */
@@ -1405,30 +1405,30 @@
   color: #6B6256;
 }
 
-/* ========== 百花欲燃主题 ========== */
+/* ========== 芦汀初雪主题 ========== */
 [data-theme="blossom"] .hidden-gems-sidebar {
-  background: linear-gradient(180deg, #FFF8F8 0%, #FDF2F2 100%);
-  border-color: rgba(214, 80, 118, 0.12);
+  background: linear-gradient(180deg, #E6E1DA 0%, #DFDAD3 100%);
+  border-color: rgba(107, 143, 107, 0.12);
 }
 
 [data-theme="blossom"] .hidden-gems-sidebar-header h2 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .hidden-gems-chapter-item {
-  color: #6B5258;
-  border-color: rgba(232, 200, 200, 0.5);
+  color: #555B50;
+  border-color: rgba(168, 187, 168, 0.5);
 }
 
 [data-theme="blossom"] .hidden-gems-chapter-item:hover {
-  background: rgba(244, 162, 89, 0.08);
-  border-color: rgba(244, 162, 89, 0.2);
+  background: rgba(139, 169, 149, 0.08);
+  border-color: rgba(139, 169, 149, 0.2);
 }
 
 [data-theme="blossom"] .hidden-gems-chapter-item.active {
-  background: linear-gradient(135deg, #D65076, #F4A259);
+  background: linear-gradient(135deg, #6B8F6B, #8BA995);
   color: #FFFFFF;
-  border-color: #F6B678;
+  border-color: #A1C1A1;
 }
 
 [data-theme="blossom"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
@@ -1437,40 +1437,40 @@
 }
 
 [data-theme="blossom"] .hidden-gems-card {
-  background: linear-gradient(145deg, #FFFDFD 0%, #FFF8F8 100%);
-  border-color: rgba(214, 80, 118, 0.12);
+  background: linear-gradient(145deg, #E6E1DA 0%, #E0DBD4 100%);
+  border-color: rgba(107, 143, 107, 0.12);
 }
 
 [data-theme="blossom"] .hidden-gems-card:hover {
-  border-color: #D65076;
-  box-shadow: 0 8px 25px rgba(214, 80, 118, 0.15);
+  border-color: #6B8F6B;
+  box-shadow: 0 8px 25px rgba(107, 143, 107, 0.15);
 }
 
 [data-theme="blossom"] .hidden-gems-card.expanded {
-  border-color: #D65076;
-  box-shadow: 0 4px 16px rgba(214, 80, 118, 0.2);
+  border-color: #6B8F6B;
+  box-shadow: 0 4px 16px rgba(107, 143, 107, 0.2);
 }
 
 [data-theme="blossom"] .hidden-gems-card-title {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .hidden-gems-card-question {
-  color: #6B5258;
+  color: #555B50;
 }
 
 [data-theme="blossom"] .hidden-gems-card-content {
-  background: #FFF5F5;
-  border-color: rgba(232, 200, 200, 0.5);
+  background: #E0DBD4;
+  border-color: rgba(168, 187, 168, 0.5);
 }
 
 [data-theme="blossom"] .hidden-gems-wrong {
   background: rgba(198, 40, 40, 0.06);
-  border-left-color: #D65076;
+  border-left-color: #6B8F6B;
 }
 
 [data-theme="blossom"] .hidden-gems-wrong .hidden-gems-section-header h4 {
-  color: #D65076;
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .hidden-gems-wrong p {
@@ -1478,124 +1478,124 @@
 }
 
 [data-theme="blossom"] .hidden-gems-correct {
-  background: rgba(46, 125, 50, 0.06);
-  border-left-color: #38A169;
+  background: rgba(107, 143, 107, 0.06);
+  border-left-color: #6B8F6B;
 }
 
 [data-theme="blossom"] .hidden-gems-correct .hidden-gems-section-header h4 {
-  color: #38A169;
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .hidden-gems-correct p {
-  color: #276749;
+  color: #527252;
 }
 
 [data-theme="blossom"] .hidden-gems-explanation {
-  background: rgba(214, 80, 118, 0.04);
-  border-left-color: #D65076;
+  background: rgba(107, 143, 107, 0.04);
+  border-left-color: #6B8F6B;
 }
 
 [data-theme="blossom"] .hidden-gems-explanation .hidden-gems-section-header h4 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .hidden-gems-explanation p {
-  color: #6B5258;
+  color: #555B50;
 }
 
 [data-theme="blossom"] .hidden-gems-formula {
-  background: rgba(214, 80, 118, 0.04);
-  border-left-color: #C44D6B;
+  background: rgba(107, 143, 107, 0.04);
+  border-left-color: #527252;
 }
 
 [data-theme="blossom"] .hidden-gems-formula .hidden-gems-section-header h4 {
-  color: #C44D6B;
+  color: #527252;
 }
 
 [data-theme="blossom"] .hidden-gems-formula-display {
-  background: rgba(214, 80, 118, 0.04);
-  color: #C44D6B;
+  background: rgba(107, 143, 107, 0.04);
+  color: #527252;
 }
 
 [data-theme="blossom"] .hidden-gems-example {
-  background: rgba(214, 80, 118, 0.04);
-  border-left-color: #D65076;
+  background: rgba(107, 143, 107, 0.04);
+  border-left-color: #6B8F6B;
 }
 
 [data-theme="blossom"] .hidden-gems-example .hidden-gems-section-header h4 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .hidden-gems-example p {
-  color: #6B5258;
+  color: #555B50;
 }
 
 [data-theme="blossom"] .hidden-gems-exam-tip {
-  background: rgba(255, 193, 7, 0.08);
-  border-left-color: #F4A259;
+  background: rgba(161, 193, 161, 0.08);
+  border-left-color: #8BA995;
 }
 
 [data-theme="blossom"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
-  color: #F4A259;
+  color: #8BA995;
 }
 
 [data-theme="blossom"] .hidden-gems-exam-tip p {
-  color: #744210;
+  color: #527252;
 }
 
 [data-theme="blossom"] .inline-formula {
-  background: rgba(214, 80, 118, 0.1);
+  background: rgba(107, 143, 107, 0.1);
 }
 
 [data-theme="blossom"] .inline-formula .katex {
-  color: #C44D6B;
+  color: #527252;
 }
 
 [data-theme="blossom"] .hidden-gems-search-input {
-  background: #FFF8F8;
-  border-color: rgba(244, 162, 89, 0.15);
-  color: #4A3540;
+  background: #E6E1DA;
+  border-color: rgba(139, 169, 149, 0.15);
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .hidden-gems-search-input:focus {
-  border-color: #D65076;
-  box-shadow: 0 0 15px rgba(214, 80, 118, 0.15);
+  border-color: #6B8F6B;
+  box-shadow: 0 0 15px rgba(107, 143, 107, 0.15);
 }
 
 [data-theme="blossom"] .hidden-gems-search-input::placeholder {
-  color: #AD8E8E;
+  color: #787D70;
 }
 
 [data-theme="blossom"] .hidden-gems-filter-tag {
-  background: #FFF8F8;
-  border-color: rgba(244, 162, 89, 0.15);
-  color: #6B5258;
+  background: #E6E1DA;
+  border-color: rgba(139, 169, 149, 0.15);
+  color: #555B50;
 }
 
-/* ========== 中国风主题 ========== */
+/* ========== 绣日摇风主题 ========== */
 [data-theme="chinese"] .hidden-gems-sidebar {
-  background: linear-gradient(180deg, #FAF6ED 0%, #F5F0E5 100%);
-  border-color: rgba(139, 69, 19, 0.1);
+  background: linear-gradient(180deg, #F8DFE2 0%, #F5D5D9 100%);
+  border-color: rgba(138, 96, 104, 0.1);
 }
 
 [data-theme="chinese"] .hidden-gems-sidebar-header h2 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .hidden-gems-chapter-item {
-  color: #6B6256;
-  border-color: rgba(212, 200, 184, 0.5);
+  color: #5E404A;
+  border-color: rgba(234, 191, 195, 0.5);
 }
 
 [data-theme="chinese"] .hidden-gems-chapter-item:hover {
-  background: rgba(139, 69, 19, 0.06);
-  border-color: rgba(139, 69, 19, 0.15);
+  background: rgba(138, 96, 104, 0.06);
+  border-color: rgba(138, 96, 104, 0.15);
 }
 
 [data-theme="chinese"] .hidden-gems-chapter-item.active {
-  background: linear-gradient(135deg, #8B4513, #B22222);
+  background: linear-gradient(135deg, #8A6068, #EAC077);
   color: #FFFFFF;
-  border-color: #A65A28;
+  border-color: #6E4A52;
 }
 
 [data-theme="chinese"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
@@ -1604,139 +1604,306 @@
 }
 
 [data-theme="chinese"] .hidden-gems-card {
-  background: linear-gradient(145deg, #FAF6ED 0%, #F2ECE0 100%);
-  border-color: rgba(139, 69, 19, 0.08);
+  background: linear-gradient(145deg, #F8DFE2 0%, #F3D8DC 100%);
+  border-color: rgba(138, 96, 104, 0.08);
 }
 
 [data-theme="chinese"] .hidden-gems-card:hover {
-  border-color: #8B4513;
-  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.1);
+  border-color: #8A6068;
+  box-shadow: 0 6px 20px rgba(138, 96, 104, 0.1);
 }
 
 [data-theme="chinese"] .hidden-gems-card.expanded {
-  border-color: #8B4513;
-  box-shadow: 0 4px 16px rgba(139, 69, 19, 0.12);
+  border-color: #8A6068;
+  box-shadow: 0 4px 16px rgba(138, 96, 104, 0.12);
 }
 
 [data-theme="chinese"] .hidden-gems-card-title {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .hidden-gems-card-question {
-  color: #6B6256;
+  color: #5E404A;
 }
 
 [data-theme="chinese"] .hidden-gems-card-content {
-  background: #F8F4EB;
-  border-color: rgba(212, 200, 184, 0.5);
+  background: #F0D0D3;
+  border-color: rgba(234, 191, 195, 0.5);
 }
 
 [data-theme="chinese"] .hidden-gems-wrong {
-  background: rgba(198, 40, 40, 0.06);
-  border-left-color: #B22222;
+  background: rgba(234, 192, 119, 0.06);
+  border-left-color: #EAC077;
 }
 
 [data-theme="chinese"] .hidden-gems-wrong .hidden-gems-section-header h4 {
-  color: #B22222;
+  color: #EAC077;
 }
 
 [data-theme="chinese"] .hidden-gems-wrong p {
-  color: #9B2C2C;
+  color: #F2CB8E;
 }
 
 [data-theme="chinese"] .hidden-gems-correct {
-  background: rgba(46, 125, 50, 0.06);
-  border-left-color: #8B4513;
+  background: rgba(138, 96, 104, 0.06);
+  border-left-color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-correct .hidden-gems-section-header h4 {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-correct p {
-  color: #276749;
+  color: #6E4A52;
 }
 
 [data-theme="chinese"] .hidden-gems-explanation {
-  background: rgba(139, 69, 19, 0.04);
-  border-left-color: #8B4513;
+  background: rgba(138, 96, 104, 0.04);
+  border-left-color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-explanation .hidden-gems-section-header h4 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .hidden-gems-explanation p {
-  color: #6B6256;
+  color: #5E404A;
 }
 
 [data-theme="chinese"] .hidden-gems-formula {
-  background: rgba(139, 69, 19, 0.03);
-  border-left-color: #8B4513;
+  background: rgba(138, 96, 104, 0.03);
+  border-left-color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-formula .hidden-gems-section-header h4 {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-formula-display {
-  background: rgba(139, 69, 19, 0.03);
-  color: #8B4513;
+  background: rgba(138, 96, 104, 0.03);
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-example {
-  background: rgba(139, 69, 19, 0.04);
-  border-left-color: #8B4513;
+  background: rgba(138, 96, 104, 0.04);
+  border-left-color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-example .hidden-gems-section-header h4 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .hidden-gems-example p {
-  color: #6B6256;
+  color: #5E404A;
 }
 
 [data-theme="chinese"] .hidden-gems-exam-tip {
-  background: rgba(255, 193, 7, 0.08);
-  border-left-color: #D69E2E;
+  background: rgba(242, 203, 142, 0.08);
+  border-left-color: #F2CB8E;
 }
 
 [data-theme="chinese"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
-  color: #D69E2E;
+  color: #F2CB8E;
 }
 
 [data-theme="chinese"] .hidden-gems-exam-tip p {
-  color: #744210;
+  color: #806068;
 }
 
 [data-theme="chinese"] .inline-formula {
-  background: rgba(139, 69, 19, 0.08);
+  background: rgba(138, 96, 104, 0.08);
 }
 
 [data-theme="chinese"] .inline-formula .katex {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .hidden-gems-search-input {
-  background: #FAF6ED;
-  border-color: rgba(139, 69, 19, 0.1);
-  color: #4A4238;
+  background: #F8DFE2;
+  border-color: rgba(138, 96, 104, 0.1);
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .hidden-gems-search-input:focus {
-  border-color: #8B4513;
-  box-shadow: 0 0 12px rgba(139, 69, 19, 0.1);
+  border-color: #8A6068;
+  box-shadow: 0 0 12px rgba(138, 96, 104, 0.1);
 }
 
 [data-theme="chinese"] .hidden-gems-search-input::placeholder {
-  color: #AB9F94;
+  color: #806068;
 }
 
 [data-theme="chinese"] .hidden-gems-filter-tag {
-  background: #FAF6ED;
-  border-color: rgba(139, 69, 19, 0.1);
-  color: #6B6256;
+  background: #F8DFE2;
+  border-color: rgba(138, 96, 104, 0.1);
+  color: #5E404A;
+}
+
+/* ========== 蓝色轻梦主题 ========== */
+[data-theme="bluedream"] .hidden-gems-sidebar {
+  background: linear-gradient(180deg, #D6EBF3 0%, #CCE3ED 100%);
+  border-color: rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .hidden-gems-sidebar-header h2 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .hidden-gems-chapter-item {
+  color: #4A6878;
+  border-color: rgba(98, 155, 181, 0.5);
+}
+
+[data-theme="bluedream"] .hidden-gems-chapter-item:hover {
+  background: rgba(98, 155, 181, 0.08);
+  border-color: rgba(98, 155, 181, 0.25);
+}
+
+[data-theme="bluedream"] .hidden-gems-chapter-item.active {
+  background: linear-gradient(135deg, #629BB5, #447F98);
+  color: #FFFFFF;
+  border-color: #629BB5;
+}
+
+[data-theme="bluedream"] .hidden-gems-chapter-item.active .hidden-gems-chapter-count {
+  background: rgba(0, 0, 0, 0.15);
+  color: #FFFFFF;
+}
+
+[data-theme="bluedream"] .hidden-gems-card {
+  background: linear-gradient(145deg, #D6EBF3 0%, #CCE3ED 100%);
+  border-color: rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .hidden-gems-card:hover {
+  border-color: #447F98;
+  box-shadow: 0 8px 25px rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .hidden-gems-card.expanded {
+  border-color: #447F98;
+  box-shadow: 0 4px 16px rgba(98, 155, 181, 0.2);
+}
+
+[data-theme="bluedream"] .hidden-gems-card-title {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .hidden-gems-card-question {
+  color: #4A6878;
+}
+
+[data-theme="bluedream"] .hidden-gems-card-content {
+  background: #DADEE1;
+  border-color: rgba(98, 155, 181, 0.5);
+}
+
+[data-theme="bluedream"] .hidden-gems-wrong {
+  background: rgba(184, 104, 104, 0.06);
+  border-left-color: #B86868;
+}
+
+[data-theme="bluedream"] .hidden-gems-wrong .hidden-gems-section-header h4 {
+  color: #B86868;
+}
+
+[data-theme="bluedream"] .hidden-gems-wrong p {
+  color: #985050;
+}
+
+[data-theme="bluedream"] .hidden-gems-correct {
+  background: rgba(90, 158, 122, 0.06);
+  border-left-color: #5A9E7A;
+}
+
+[data-theme="bluedream"] .hidden-gems-correct .hidden-gems-section-header h4 {
+  color: #5A9E7A;
+}
+
+[data-theme="bluedream"] .hidden-gems-correct p {
+  color: #4A8A68;
+}
+
+[data-theme="bluedream"] .hidden-gems-explanation {
+  background: rgba(98, 155, 181, 0.05);
+  border-left-color: #447F98;
+}
+
+[data-theme="bluedream"] .hidden-gems-explanation .hidden-gems-section-header h4 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .hidden-gems-explanation p {
+  color: #4A6878;
+}
+
+[data-theme="bluedream"] .hidden-gems-formula {
+  background: rgba(98, 155, 181, 0.04);
+  border-left-color: #447F98;
+}
+
+[data-theme="bluedream"] .hidden-gems-formula .hidden-gems-section-header h4 {
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .hidden-gems-formula-display {
+  background: rgba(98, 155, 181, 0.04);
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .hidden-gems-example {
+  background: rgba(98, 155, 181, 0.05);
+  border-left-color: #447F98;
+}
+
+[data-theme="bluedream"] .hidden-gems-example .hidden-gems-section-header h4 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .hidden-gems-example p {
+  color: #4A6878;
+}
+
+[data-theme="bluedream"] .hidden-gems-exam-tip {
+  background: rgba(196, 160, 96, 0.08);
+  border-left-color: #C4A060;
+}
+
+[data-theme="bluedream"] .hidden-gems-exam-tip .hidden-gems-section-header h4 {
+  color: #C4A060;
+}
+
+[data-theme="bluedream"] .hidden-gems-exam-tip p {
+  color: #744210;
+}
+
+[data-theme="bluedream"] .inline-formula {
+  background: rgba(98, 155, 181, 0.12);
+}
+
+[data-theme="bluedream"] .inline-formula .katex {
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .hidden-gems-search-input {
+  background: #D6EBF3;
+  border-color: rgba(98, 155, 181, 0.2);
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .hidden-gems-search-input:focus {
+  border-color: #447F98;
+  box-shadow: 0 0 15px rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .hidden-gems-search-input::placeholder {
+  color: #708898;
+}
+
+[data-theme="bluedream"] .hidden-gems-filter-tag {
+  background: #D6EBF3;
+  border-color: rgba(98, 155, 181, 0.2);
+  color: #4A6878;
 }
 
 /* ========== 响应式 ========== */

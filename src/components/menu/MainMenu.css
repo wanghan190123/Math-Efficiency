@@ -1,7 +1,8 @@
 .main-menu {
   position: relative;
   height: 100%;
-  min-height: calc(100vh - 80px);
+  min-height: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +10,7 @@
   padding: 40px 20px;
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .menu-bg-pattern {
@@ -580,44 +582,44 @@
   box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
 }
 
-/* 砚冰清秩主题 */
+/* 疏林茶烟主题 */
 [data-theme="iceclear"] .main-menu {
-  background: linear-gradient(135deg, #F5F8FA 0%, #E8EEF2 50%, #F5F8FA 100%);
+  background: linear-gradient(135deg, #E1D8C7 0%, #D8CFC0 50%, #E5DCD0 100%);
 }
 
 [data-theme="iceclear"] .menu-card {
-  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
-  border-color: rgba(91, 138, 114, 0.15);
+  background: linear-gradient(145deg, #E8DFD0 0%, #E2D9CA 100%);
+  border-color: rgba(203, 175, 152, 0.2);
 }
 
 [data-theme="iceclear"] .menu-card:hover:not(.developing):not(.pending) {
-  border-color: #5B8A72;
-  box-shadow: 0 12px 30px rgba(91, 138, 114, 0.15);
+  border-color: #CBAF98;
+  box-shadow: 0 12px 30px rgba(203, 175, 152, 0.2);
 }
 
 [data-theme="iceclear"] .card-icon {
-  background: linear-gradient(135deg, rgba(91, 138, 114, 0.15), rgba(91, 138, 114, 0.08));
-  color: #5B8A72;
+  background: linear-gradient(135deg, rgba(203, 175, 152, 0.2), rgba(203, 175, 152, 0.1));
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .card-content h3 {
-  color: #2C3E50;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .card-content p {
-  color: #718096;
+  color: #5A5048;
 }
 
 [data-theme="iceclear"] .card-arrow {
-  background: rgba(91, 138, 114, 0.1);
+  background: rgba(203, 175, 152, 0.15);
 }
 
 [data-theme="iceclear"] .card-arrow svg {
-  color: #5B8A72;
+  color: #CBAF98;
 }
 
 [data-theme="iceclear"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
-  background: #5B8A72;
+  background: linear-gradient(135deg, #CBAF98, #DBB9A4);
 }
 
 [data-theme="iceclear"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
@@ -625,30 +627,30 @@
 }
 
 [data-theme="iceclear"] .menu-title {
-  color: #2C3E50;
+  color: #3A332A;
   text-shadow: none;
 }
 
 [data-theme="iceclear"] .menu-subtitle {
-  color: #5B8A72;
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .quote-mark {
-  color: #5B8A72;
+  color: #CBAF98;
 }
 
 [data-theme="iceclear"] .footer-quote {
-  color: #718096;
+  color: #5A5048;
 }
 
 [data-theme="iceclear"] .resource-link-btn {
-  background: #FFFFFF;
-  border-color: rgba(91, 138, 114, 0.2);
+  background: #E8DFD0;
+  border-color: rgba(203, 175, 152, 0.3);
 }
 
 [data-theme="iceclear"] .resource-link-btn:hover {
-  border-color: #5B8A72;
-  box-shadow: 0 4px 12px rgba(91, 138, 114, 0.15);
+  border-color: #CBAF98;
+  box-shadow: 0 4px 12px rgba(203, 175, 152, 0.2);
 }
 
 /* 松烟理序主题 */
@@ -793,44 +795,44 @@
   box-shadow: 0 4px 12px rgba(196, 125, 78, 0.15);
 }
 
-/* 百花欲燃主题 */
+/* 芦汀初雪主题 */
 [data-theme="blossom"] .main-menu {
-  background: linear-gradient(135deg, #FDF2F2 0%, #FAE5E5 50%, #F7D8D8 100%);
+  background: linear-gradient(135deg, #DFDAD3 0%, #D5D0C9 50%, #E2DDD6 100%);
 }
 
 [data-theme="blossom"] .menu-card {
-  background: linear-gradient(145deg, #FFFDFD 0%, #FFF8F8 100%);
-  border-color: rgba(214, 80, 118, 0.12);
+  background: linear-gradient(145deg, #E6E1DA 0%, #E0DBD4 100%);
+  border-color: rgba(161, 193, 161, 0.2);
 }
 
 [data-theme="blossom"] .menu-card:hover:not(.developing):not(.pending) {
-  border-color: #D65076;
-  box-shadow: 0 12px 30px rgba(214, 80, 118, 0.2);
+  border-color: #A1C1A1;
+  box-shadow: 0 12px 30px rgba(161, 193, 161, 0.2);
 }
 
 [data-theme="blossom"] .card-icon {
-  background: linear-gradient(135deg, rgba(244, 162, 89, 0.15), rgba(214, 80, 118, 0.1));
-  color: #D65076;
+  background: linear-gradient(135deg, rgba(161, 193, 161, 0.2), rgba(161, 193, 161, 0.1));
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .card-content h3 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .card-content p {
-  color: #8C7070;
+  color: #555B50;
 }
 
 [data-theme="blossom"] .card-arrow {
-  background: rgba(244, 162, 89, 0.1);
+  background: rgba(161, 193, 161, 0.15);
 }
 
 [data-theme="blossom"] .card-arrow svg {
-  color: #F4A259;
+  color: #A1C1A1;
 }
 
 [data-theme="blossom"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
-  background: linear-gradient(135deg, #D65076, #F4A259);
+  background: linear-gradient(135deg, #A1C1A1, #8BA995);
 }
 
 [data-theme="blossom"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
@@ -838,70 +840,70 @@
 }
 
 [data-theme="blossom"] .menu-title {
-  color: #4A3540;
-  text-shadow: 0 0 15px rgba(214, 80, 118, 0.2);
+  color: #3A3F38;
+  text-shadow: none;
 }
 
 [data-theme="blossom"] .menu-subtitle {
-  color: #D65076;
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .quote-mark {
-  color: #F4A259;
+  color: #A1C1A1;
 }
 
 [data-theme="blossom"] .footer-quote {
-  color: #8C7070;
+  color: #555B50;
 }
 
 [data-theme="blossom"] .resource-link-btn {
-  background: #FFF8F8;
-  border-color: rgba(214, 80, 118, 0.15);
+  background: #E6E1DA;
+  border-color: rgba(161, 193, 161, 0.3);
 }
 
 [data-theme="blossom"] .resource-link-btn:hover {
-  border-color: #D65076;
-  box-shadow: 0 4px 12px rgba(214, 80, 118, 0.15);
+  border-color: #A1C1A1;
+  box-shadow: 0 4px 12px rgba(161, 193, 161, 0.2);
 }
 
-/* 中国风主题 */
+/* 绣日摇风主题 */
 [data-theme="chinese"] .main-menu {
-  background: linear-gradient(135deg, #F5F0E5 0%, #EBE5DA 50%, #E1D9CE 100%);
+  background: linear-gradient(135deg, #F5D5D9 0%, #F0CACF 50%, #F8D8DC 100%);
 }
 
 [data-theme="chinese"] .menu-card {
-  background: linear-gradient(145deg, #FAF6ED 0%, #F2ECE0 100%);
-  border-color: rgba(139, 69, 19, 0.08);
+  background: linear-gradient(145deg, #F8DFE2 0%, #F3D8DC 100%);
+  border-color: rgba(242, 203, 142, 0.25);
 }
 
 [data-theme="chinese"] .menu-card:hover:not(.developing):not(.pending) {
-  border-color: #8B4513;
-  box-shadow: 0 8px 25px rgba(139, 69, 19, 0.15);
+  border-color: #F2CB8E;
+  box-shadow: 0 8px 25px rgba(242, 203, 142, 0.2);
 }
 
 [data-theme="chinese"] .card-icon {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(178, 34, 34, 0.08));
-  color: #8B4513;
+  background: linear-gradient(135deg, rgba(234, 191, 195, 0.2), rgba(234, 192, 119, 0.1));
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .card-content h3 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .card-content p {
-  color: #8B8276;
+  color: #5E404A;
 }
 
 [data-theme="chinese"] .card-arrow {
-  background: rgba(139, 69, 19, 0.08);
+  background: rgba(234, 191, 195, 0.15);
 }
 
 [data-theme="chinese"] .card-arrow svg {
-  color: #8B4513;
+  color: #EABFC3;
 }
 
 [data-theme="chinese"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
-  background: linear-gradient(135deg, #8B4513, #B22222);
+  background: linear-gradient(135deg, #EABFC3, #F2CB8E);
 }
 
 [data-theme="chinese"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
@@ -909,27 +911,241 @@
 }
 
 [data-theme="chinese"] .menu-title {
-  color: #4A4238;
+  color: #3E2830;
+  text-shadow: 0 0 15px rgba(234, 191, 195, 0.3);
 }
 
 [data-theme="chinese"] .menu-subtitle {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .quote-mark {
-  color: #8B4513;
+  color: #EAC077;
 }
 
 [data-theme="chinese"] .footer-quote {
-  color: #8B8276;
+  color: #5E404A;
 }
 
 [data-theme="chinese"] .resource-link-btn {
-  background: #FAF6ED;
-  border-color: rgba(139, 69, 19, 0.1);
+  background: #F8DFE2;
+  border-color: rgba(242, 203, 142, 0.3);
 }
 
 [data-theme="chinese"] .resource-link-btn:hover {
-  border-color: #8B4513;
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
+  border-color: #F2CB8E;
+  box-shadow: 0 4px 12px rgba(242, 203, 142, 0.2);
+}
+
+/* 远山素影主题 */
+[data-theme="spring"] .main-menu {
+  background: linear-gradient(135deg, #EFE4D4 0%, #E3D8C8 50%, #F2EAD8 100%);
+}
+
+[data-theme="spring"] .menu-card {
+  background: linear-gradient(145deg, #F5EDE0 0%, #F0E8DA 100%);
+  border-color: rgba(168, 190, 223, 0.2);
+}
+
+[data-theme="spring"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #A8BEDF;
+  box-shadow: 0 12px 30px rgba(168, 190, 223, 0.2);
+}
+
+[data-theme="spring"] .card-icon {
+  background: linear-gradient(135deg, rgba(168, 190, 223, 0.2), rgba(168, 190, 223, 0.1));
+  color: #6B89A8;
+}
+
+[data-theme="spring"] .card-content h3 {
+  color: #3A4050;
+}
+
+[data-theme="spring"] .card-content p {
+  color: #556070;
+}
+
+[data-theme="spring"] .card-arrow {
+  background: rgba(168, 190, 223, 0.15);
+}
+
+[data-theme="spring"] .card-arrow svg {
+  color: #A8BEDF;
+}
+
+[data-theme="spring"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #A8BEDF, #C7D5E8);
+}
+
+[data-theme="spring"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="spring"] .menu-title {
+  color: #3A4050;
+  text-shadow: none;
+}
+
+[data-theme="spring"] .menu-subtitle {
+  color: #6B89A8;
+}
+
+[data-theme="spring"] .quote-mark {
+  color: #A8BEDF;
+}
+
+[data-theme="spring"] .footer-quote {
+  color: #556070;
+}
+
+[data-theme="spring"] .resource-link-btn {
+  background: #F5EDE0;
+  border-color: rgba(168, 190, 223, 0.3);
+}
+
+[data-theme="spring"] .resource-link-btn:hover {
+  border-color: #A8BEDF;
+  box-shadow: 0 4px 12px rgba(168, 190, 223, 0.2);
+}
+
+/* 赤岩暖釉主题 */
+[data-theme="yunjian"] .main-menu {
+  background: linear-gradient(135deg, #E8D5B8 0%, #E0CBAC 50%, #ECDCC0 100%);
+}
+
+[data-theme="yunjian"] .menu-card {
+  background: linear-gradient(145deg, #EEDCBE 0%, #E8D6B5 100%);
+  border-color: rgba(220, 142, 20, 0.2);
+}
+
+[data-theme="yunjian"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #DC8E14;
+  box-shadow: 0 12px 30px rgba(220, 142, 20, 0.2);
+}
+
+[data-theme="yunjian"] .card-icon {
+  background: linear-gradient(135deg, rgba(220, 142, 20, 0.2), rgba(206, 118, 14, 0.1));
+  color: #8A3005;
+}
+
+[data-theme="yunjian"] .card-content h3 {
+  color: #3A2210;
+}
+
+[data-theme="yunjian"] .card-content p {
+  color: #5A3A20;
+}
+
+[data-theme="yunjian"] .card-arrow {
+  background: rgba(220, 142, 20, 0.15);
+}
+
+[data-theme="yunjian"] .card-arrow svg {
+  color: #DC8E14;
+}
+
+[data-theme="yunjian"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #DC8E14, #CE760E);
+}
+
+[data-theme="yunjian"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="yunjian"] .menu-title {
+  color: #3A2210;
+  text-shadow: 0 0 15px rgba(220, 142, 20, 0.15);
+}
+
+[data-theme="yunjian"] .menu-subtitle {
+  color: #8A3005;
+}
+
+[data-theme="yunjian"] .quote-mark {
+  color: #DC8E14;
+}
+
+[data-theme="yunjian"] .footer-quote {
+  color: #5A3A20;
+}
+
+[data-theme="yunjian"] .resource-link-btn {
+  background: #EEDCBE;
+  border-color: rgba(220, 142, 20, 0.3);
+}
+
+[data-theme="yunjian"] .resource-link-btn:hover {
+  border-color: #DC8E14;
+  box-shadow: 0 4px 12px rgba(220, 142, 20, 0.2);
+}
+
+/* 蓝色轻梦主题 */
+[data-theme="bluedream"] .main-menu {
+  background: linear-gradient(135deg, #D6EBF3 0%, #CCE3ED 50%, #DADEE1 100%);
+}
+
+[data-theme="bluedream"] .menu-card {
+  background: linear-gradient(145deg, #DADEE1 0%, #D0D8DC 100%);
+  border-color: rgba(98, 155, 181, 0.2);
+}
+
+[data-theme="bluedream"] .menu-card:hover:not(.developing):not(.pending) {
+  border-color: #629BB5;
+  box-shadow: 0 12px 30px rgba(98, 155, 181, 0.2);
+}
+
+[data-theme="bluedream"] .card-icon {
+  background: linear-gradient(135deg, rgba(98, 155, 181, 0.2), rgba(68, 127, 152, 0.1));
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .card-content h3 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .card-content p {
+  color: #4A6878;
+}
+
+[data-theme="bluedream"] .card-arrow {
+  background: rgba(98, 155, 181, 0.15);
+}
+
+[data-theme="bluedream"] .card-arrow svg {
+  color: #629BB5;
+}
+
+[data-theme="bluedream"] .menu-card:hover:not(.developing):not(.pending) .card-arrow {
+  background: linear-gradient(135deg, #629BB5, #447F98);
+}
+
+[data-theme="bluedream"] .menu-card:hover:not(.developing):not(.pending) .card-arrow svg {
+  color: #FFFFFF;
+}
+
+[data-theme="bluedream"] .menu-title {
+  color: #2A4A58;
+  text-shadow: 0 0 15px rgba(98, 155, 181, 0.2);
+}
+
+[data-theme="bluedream"] .menu-subtitle {
+  color: #447F98;
+}
+
+[data-theme="bluedream"] .quote-mark {
+  color: #629BB5;
+}
+
+[data-theme="bluedream"] .footer-quote {
+  color: #4A6878;
+}
+
+[data-theme="bluedream"] .resource-link-btn {
+  background: #DADEE1;
+  border-color: rgba(98, 155, 181, 0.3);
+}
+
+[data-theme="bluedream"] .resource-link-btn:hover {
+  border-color: #629BB5;
+  box-shadow: 0 4px 12px rgba(98, 155, 181, 0.2);
 }

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Math-Efficiency</string>
+    <string name="title_activity_main">Math-Efficiency</string>
+    <string name="package_name">com.mathefficiency.app</string>
+    <string name="custom_url_scheme">com.mathefficiency.app</string>
+</resources>

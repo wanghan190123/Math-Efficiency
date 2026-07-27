@@ -10,12 +10,14 @@ const themes: ThemeInfo[] = [
   { id: 'cyberpunk', name: '赛博朋克', icon: '🌃', description: '霓虹科技风' },
   { id: 'blackboard', name: '黑板板书', icon: '📝', description: '复古教学风' },
   { id: 'cosmos', name: '宇宙星辰', icon: '✨', description: '星空深邃风' },
-  { id: 'iceclear', name: '砚冰清秩', icon: '🧊', description: '冰润砚台风' },
+  { id: 'iceclear', name: '疏林茶烟', icon: '🍵', description: '茶烟疏林风' },
   { id: 'pine', name: '松烟理序', icon: '🌲', description: '苍松烟岚风' },
   { id: 'sunset', name: '夕照青山', icon: '🌅', description: '夕照层林风' },
-  { id: 'spring', name: '春意盎然', icon: '🌸', description: '生机勃发风' },
-  { id: 'blossom', name: '百花欲燃', icon: '🌺', description: '火红花海风' },
-  { id: 'chinese', name: '中国风', icon: '🎎', description: '传统古典风' },
+  { id: 'spring', name: '远山素影', icon: '🏔️', description: '远山如黛风' },
+  { id: 'blossom', name: '芦汀初雪', icon: '🎋', description: '水泽淡绿风' },
+  { id: 'chinese', name: '绣日摇风', icon: '🌅', description: '缂桃暖霞风' },
+  { id: 'yunjian', name: '赤岩暖釉', icon: '🏺', description: '暖橘矿韵风' },
+  { id: 'bluedream', name: '蓝色轻梦', icon: '💧', description: '清蓝柔雾风' },
 ]
 
 const StatusBar: React.FC = () => {
@@ -82,7 +84,8 @@ const StatusBar: React.FC = () => {
               borderRadius: '8px',
               boxShadow: 'var(--shadow-lg)',
               minWidth: '160px',
-              overflow: 'hidden',
+              maxHeight: '400px',
+              overflowY: 'auto',
               zIndex: 1000,
             }}
           >

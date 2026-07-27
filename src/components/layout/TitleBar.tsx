@@ -6,7 +6,18 @@ interface TitleBarProps {
   onBackClick?: () => void
 }
 
+// 检测是否为 Capacitor 移动端
+const isNative = () => {
+  try {
+    return (window as any).Capacitor?.isNativePlatform?.() ?? false
+  } catch {
+    return false
+  }
+}
+
 const TitleBar: React.FC<TitleBarProps> = ({ showBackButton = false, onBackClick }) => {
+  const native = isNative()
+
   const handleMinimize = () => {
     window.electronAPI?.minimizeWindow()
   }
@@ -23,8 +34,8 @@ const TitleBar: React.FC<TitleBarProps> = ({ showBackButton = false, onBackClick
     <div className="title-bar">
       <div className="title-bar__left">
         {showBackButton && (
-          <button 
-            className="title-bar__back-btn" 
+          <button
+            className="title-bar__back-btn"
             onClick={onBackClick}
             title="返回菜单"
           >
@@ -38,15 +49,20 @@ const TitleBar: React.FC<TitleBarProps> = ({ showBackButton = false, onBackClick
         <span>Math-Efficiency</span>
       </div>
       <div className="title-bar__controls">
-        <button className="title-bar__btn" onClick={handleMinimize} title="最小化">
-          <Minus size={14} />
-        </button>
-        <button className="title-bar__btn" onClick={handleMaximize} title="最大化">
-          <Square size={12} />
-        </button>
-        <button className="title-bar__btn title-bar__btn--close" onClick={handleClose} title="关闭">
-          <X size={14} />
-        </button>
+        {/* 移动端隐藏窗口控制按钮 */}
+        {!native && (
+          <>
+            <button className="title-bar__btn" onClick={handleMinimize} title="最小化">
+              <Minus size={14} />
+            </button>
+            <button className="title-bar__btn" onClick={handleMaximize} title="最大化">
+              <Square size={12} />
+            </button>
+            <button className="title-bar__btn title-bar__btn--close" onClick={handleClose} title="关闭">
+              <X size={14} />
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

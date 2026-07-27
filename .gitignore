@@ -5,3 +5,21 @@ out/
 *.log
 .DS_Store
 Thumbs.db
+
+# Android
+android/app/build/
+android/.gradle/
+android/build/
+android/app/src/main/assets/public/
+
+# Temp scripts & data
+docx-content*.txt
+pdf-content.txt
+read-docx*.cjs
+read-pdf.cjs
+test-pdf.cjs
+
+# IDE
+.idea/
+.vscode/
+*.swp

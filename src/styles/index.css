@@ -163,6 +163,22 @@ body {
   user-select: none;
 }
 
+/* 移动端触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .title-bar__controls {
+    display: none !important;
+  }
+
+  .title-bar {
+    height: 44px;
+    -webkit-app-region: no-drag;
+  }
+}
+
 /* === 羊皮纸纹理背景 === */
 .parchment-bg {
   background: 
@@ -696,92 +712,89 @@ a:hover {
 }
 
 /* ============================================
-   砚冰清秩主题 - Ice Clear Theme
-   冰润清透、砚台墨韵、中式雅致
+   疏林茶烟主题 - Sparse Forest Tea Smoke Theme
+   疏林淡茶、烟香轻绕、素陶温润
    ============================================ */
 [data-theme="iceclear"] {
-  --color-bg-primary: #F5F8FA;
-  --color-bg-secondary: #E8EEF2;
-  --color-bg-tertiary: #DDE4E9;
-  --color-bg-card: #FFFFFF;
-  --color-bg-card-hover: #F0F4F7;
+  --color-bg-primary: #E1D8C7;
+  --color-bg-secondary: #D8CFC0;
+  --color-bg-tertiary: #D0C6B5;
+  --color-bg-card: #E8DFD0;
+  --color-bg-card-hover: #E2D9CA;
   
-  --color-primary: #2C3E50;
-  --color-primary-light: #4A5568;
-  --color-primary-dark: #1A252F;
+  --color-primary: #7A6555;
+  --color-primary-light: #958068;
+  --color-primary-dark: #5E4D40;
   
-  --color-accent: #5B8A72;
-  --color-accent-light: #7BA894;
-  --color-accent-dark: #3D6B54;
-  --color-accent-glow: rgba(91, 138, 114, 0.3);
+  --color-accent: #CBAF98;
+  --color-accent-light: #D8C4B0;
+  --color-accent-dark: #DBB9A4;
+  --color-accent-glow: rgba(203, 175, 152, 0.3);
   
-  --color-text-primary: #2D3748;
-  --color-text-secondary: #4A5568;
-  --color-text-muted: #718096;
-  --color-text-light: #A0AEC0;
-  --color-text-formula: #2C5282;
+  --color-text-primary: #3A332A;
+  --color-text-secondary: #5A5048;
+  --color-text-muted: #7A7068;
+  --color-text-light: #9A9088;
+  --color-text-formula: #7A6555;
   
-  --color-border: #CBD5E0;
-  --color-border-light: #E2E8F0;
-  --color-border-dark: #A0AEC0;
+  --color-border: #DBB9A4;
+  --color-border-light: #E5CCBA;
+  --color-border-dark: #C5A28E;
   
-  --color-success: #48BB78;
-  --color-warning: #ECC94B;
-  --color-error: #F56565;
-  --color-info: #4299E1;
+  --color-success: #7BA88A;
+  --color-warning: #B8A47A;
+  --color-error: #B87878;
+  --color-info: #7A9FB5;
   
-  --shadow-sm: 0 1px 2px rgba(45, 62, 80, 0.08);
-  --shadow-md: 0 4px 6px rgba(45, 62, 80, 0.12);
-  --shadow-lg: 0 10px 15px rgba(45, 62, 80, 0.15);
-  --shadow-glow: 0 0 20px rgba(91, 138, 114, 0.2);
+  --shadow-sm: 0 1px 2px rgba(58, 51, 42, 0.06);
+  --shadow-md: 0 4px 6px rgba(58, 51, 42, 0.1);
+  --shadow-lg: 0 10px 15px rgba(58, 51, 42, 0.12);
+  --shadow-glow: 0 0 20px rgba(203, 175, 152, 0.2);
 }
 
 [data-theme="iceclear"] .parchment-bg {
-  background: linear-gradient(135deg, #F5F8FA 0%, #E8EEF2 50%, #DDE4E9 100%);
+  background: linear-gradient(135deg, #E1D8C7 0%, #D8CFC0 50%, #E5DCD0 100%);
 }
 
 [data-theme="iceclear"] .katex {
-  color: #2C5282 !important;
+  color: #7A6555 !important;
 }
 
 [data-theme="iceclear"] .katex-display {
-  background: rgba(91, 138, 114, 0.08);
-  border-left-color: #5B8A72;
+  background: rgba(122, 101, 85, 0.08);
+  border-left-color: #7A6555;
 }
 
 [data-theme="iceclear"] .formula-card:hover,
 [data-theme="iceclear"] .category-item:hover {
-  box-shadow: 0 4px 15px rgba(91, 138, 114, 0.2);
-  border-color: #5B8A72;
+  box-shadow: 0 4px 15px rgba(203, 175, 152, 0.2);
+  border-color: #CBAF98;
 }
 
 [data-theme="iceclear"] .category-item.active {
-  background: linear-gradient(135deg, #5B8A72, #7BA894);
-  color: #FFFFFF;
-  box-shadow: 0 4px 15px rgba(91, 138, 114, 0.3);
+  background: linear-gradient(135deg, #CBAF98, #DBB9A4);
+  color: #3A332A;
+  box-shadow: 0 4px 15px rgba(203, 175, 152, 0.3);
 }
 
-/* 冰润光泽 */
+/* 疏林茶烟 */
 [data-theme="iceclear"] .formula-name {
-  background: linear-gradient(135deg, #2C3E50, #5B8A72);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .card-tag.available {
-  background: linear-gradient(135deg, rgba(91, 138, 114, 0.15), rgba(91, 138, 114, 0.08));
-  color: #5B8A72;
-  border: 1px solid rgba(91, 138, 114, 0.25);
+  background: linear-gradient(135deg, rgba(203, 175, 152, 0.15), rgba(203, 175, 152, 0.06));
+  color: #7A6555;
+  border: 1px solid rgba(203, 175, 152, 0.25);
 }
 
 [data-theme="iceclear"] .menu-card {
-  border-color: rgba(91, 138, 114, 0.2);
+  border-color: rgba(203, 175, 152, 0.2);
 }
 
 [data-theme="iceclear"] .menu-card:hover {
-  border-color: #5B8A72;
-  box-shadow: 0 8px 25px rgba(91, 138, 114, 0.15);
+  border-color: #CBAF98;
+  box-shadow: 0 8px 25px rgba(203, 175, 152, 0.2);
 }
 
 /* ============================================
@@ -957,302 +970,433 @@ a:hover {
 }
 
 /* ============================================
-   春意盎然主题 - Spring Vibrancy Theme
-   百花争艳、春意盎然、生机勃发
+   远山素影主题 - Distant Mountain Silhouette Theme
+   远山如黛、素影清幽、雾沙淡远
    ============================================ */
 [data-theme="spring"] {
-  --color-bg-primary: #F0F5E8;
-  --color-bg-secondary: #E5EBD8;
-  --color-bg-tertiary: #DAE1C8;
-  --color-bg-card: #FAFDF5;
-  --color-bg-card-hover: #F2F7EA;
+  --color-bg-primary: #EFE4D4;
+  --color-bg-secondary: #E3D8C8;
+  --color-bg-tertiary: #D8C9BA;
+  --color-bg-card: #F5EDE0;
+  --color-bg-card-hover: #F0E8DA;
   
-  --color-primary: #5B8C5A;
-  --color-primary-light: #7AAD7A;
-  --color-primary-dark: #3D6B3D;
+  --color-primary: #6B89A8;
+  --color-primary-light: #8FA7BF;
+  --color-primary-dark: #4D6D8A;
   
-  --color-accent: #E87B7B;
-  --color-accent-light: #EE9999;
-  --color-accent-dark: #D45D5D;
-  --color-accent-glow: rgba(232, 123, 123, 0.3);
+  --color-accent: #A8BEDF;
+  --color-accent-light: #BFCEE6;
+  --color-accent-dark: #8AA3C7;
+  --color-accent-glow: rgba(168, 190, 223, 0.3);
   
-  --color-text-primary: #3D4738;
-  --color-text-secondary: #5A6350;
-  --color-text-muted: #7A826A;
-  --color-text-light: #9AA28A;
-  --color-text-formula: #4A7B4A;
+  --color-text-primary: #3A4050;
+  --color-text-secondary: #556070;
+  --color-text-muted: #7A8595;
+  --color-text-light: #9AA5B2;
+  --color-text-formula: #5A7A9A;
   
-  --color-border: #C5D1B5;
-  --color-border-light: #D5E1C5;
-  --color-border-dark: #B5C1A5;
+  --color-border: #C7D5E8;
+  --color-border-light: #D5DFEB;
+  --color-border-dark: #B0BFD0;
   
-  --color-success: #7BAD7B;
-  --color-warning: #E8B84A;
-  --color-error: #E87B7B;
-  --color-info: #6BA5BA;
+  --color-success: #7BA88A;
+  --color-warning: #C9A86C;
+  --color-error: #C47878;
+  --color-info: #6B9DBA;
   
-  --shadow-sm: 0 1px 2px rgba(61, 71, 56, 0.06);
-  --shadow-md: 0 4px 6px rgba(61, 71, 56, 0.1);
-  --shadow-lg: 0 10px 15px rgba(61, 71, 56, 0.12);
-  --shadow-glow: 0 0 20px rgba(232, 123, 123, 0.2);
+  --shadow-sm: 0 1px 2px rgba(58, 64, 80, 0.06);
+  --shadow-md: 0 4px 6px rgba(58, 64, 80, 0.1);
+  --shadow-lg: 0 10px 15px rgba(58, 64, 80, 0.12);
+  --shadow-glow: 0 0 20px rgba(168, 190, 223, 0.2);
 }
 
 [data-theme="spring"] .parchment-bg {
-  background: linear-gradient(135deg, #F0F5E8 0%, #E5EBD8 50%, #F5FAEC 100%);
+  background: linear-gradient(135deg, #EFE4D4 0%, #E3D8C8 50%, #F2EAD8 100%);
 }
 
 [data-theme="spring"] .katex {
-  color: #4A7B4A !important;
+  color: #5A7A9A !important;
 }
 
 [data-theme="spring"] .katex-display {
-  background: rgba(91, 140, 90, 0.08);
-  border-left-color: #5B8C5A;
+  background: rgba(107, 137, 168, 0.08);
+  border-left-color: #6B89A8;
 }
 
 [data-theme="spring"] .formula-card:hover,
 [data-theme="spring"] .category-item:hover {
-  box-shadow: 0 4px 15px rgba(232, 123, 123, 0.15);
-  border-color: #E87B7B;
+  box-shadow: 0 4px 15px rgba(168, 190, 223, 0.2);
+  border-color: #A8BEDF;
 }
 
 [data-theme="spring"] .category-item.active {
-  background: linear-gradient(135deg, #E87B7B, #F09A9A);
-  color: #FFFFFF;
-  box-shadow: 0 4px 15px rgba(232, 123, 123, 0.25);
+  background: linear-gradient(135deg, #A8BEDF, #C7D5E8);
+  color: #3A4050;
+  box-shadow: 0 4px 15px rgba(168, 190, 223, 0.3);
 }
 
-/* 春风花语 */
+/* 远山素影 */
 [data-theme="spring"] .formula-name {
-  color: #3D4738;
+  color: #3A4050;
 }
 
 [data-theme="spring"] .card-tag.available {
-  background: linear-gradient(135deg, rgba(232, 123, 123, 0.12), rgba(232, 123, 123, 0.06));
-  color: #E87B7B;
-  border: 1px solid rgba(232, 123, 123, 0.2);
+  background: linear-gradient(135deg, rgba(168, 190, 223, 0.15), rgba(168, 190, 223, 0.06));
+  color: #6B89A8;
+  border: 1px solid rgba(168, 190, 223, 0.25);
 }
 
 [data-theme="spring"] .menu-card {
-  border-color: rgba(232, 123, 123, 0.15);
+  border-color: rgba(168, 190, 223, 0.2);
 }
 
 [data-theme="spring"] .menu-card:hover {
-  border-color: #E87B7B;
-  box-shadow: 0 8px 25px rgba(232, 123, 123, 0.15);
+  border-color: #A8BEDF;
+  box-shadow: 0 8px 25px rgba(168, 190, 223, 0.2);
 }
 
 /* ============================================
-   百花欲燃主题 - Blossoming Flame Theme
-   繁花似锦、热情如火、绚烂夺目
+   芦汀初雪主题 - Reed Marsh First Snow Theme
+   芦汀落雪、水泽淡绿、雪松温棕
    ============================================ */
 [data-theme="blossom"] {
-  --color-bg-primary: #FDF2F2;
-  --color-bg-secondary: #FAE5E5;
-  --color-bg-tertiary: #F7D8D8;
-  --color-bg-card: #FFF8F8;
-  --color-bg-card-hover: #FFF0F0;
+  --color-bg-primary: #DFDAD3;
+  --color-bg-secondary: #D5D0C9;
+  --color-bg-tertiary: #D2C4B2;
+  --color-bg-card: #E6E1DA;
+  --color-bg-card-hover: #E0DBD4;
   
-  --color-primary: #D65076;
-  --color-primary-light: #E8738F;
-  --color-primary-dark: #B83A5E;
+  --color-primary: #6B8F6B;
+  --color-primary-light: #8BA995;
+  --color-primary-dark: #527252;
   
-  --color-accent: #F4A259;
-  --color-accent-light: #F6B678;
-  --color-accent-dark: #E08A3E;
-  --color-accent-glow: rgba(244, 162, 89, 0.3);
+  --color-accent: #A1C1A1;
+  --color-accent-light: #B5D1B5;
+  --color-accent-dark: #8BA995;
+  --color-accent-glow: rgba(161, 193, 161, 0.3);
   
-  --color-text-primary: #4A3540;
-  --color-text-secondary: #6B5258;
-  --color-text-muted: #8C7070;
-  --color-text-light: #AD8E8E;
-  --color-text-formula: #C44D6B;
+  --color-text-primary: #3A3F38;
+  --color-text-secondary: #555B50;
+  --color-text-muted: #787D70;
+  --color-text-light: #989D90;
+  --color-text-formula: #5A8060;
   
-  --color-border: #E8C8C8;
-  --color-border-light: #F2D8D8;
-  --color-border-dark: #D8B8B8;
+  --color-border: #8BA995;
+  --color-border-light: #A5BBA5;
+  --color-border-dark: #7A9580;
   
-  --color-success: #7BC77C;
-  --color-warning: #F4A259;
-  --color-error: #E85A5A;
-  --color-info: #7AA5C4;
+  --color-success: #7BAE7B;
+  --color-warning: #B8A47A;
+  --color-error: #B87878;
+  --color-info: #7A9FB5;
   
-  --shadow-sm: 0 1px 2px rgba(214, 80, 118, 0.08);
-  --shadow-md: 0 4px 6px rgba(214, 80, 118, 0.12);
-  --shadow-lg: 0 10px 15px rgba(214, 80, 118, 0.15);
-  --shadow-glow: 0 0 20px rgba(244, 162, 89, 0.25);
+  --shadow-sm: 0 1px 2px rgba(58, 63, 56, 0.06);
+  --shadow-md: 0 4px 6px rgba(58, 63, 56, 0.1);
+  --shadow-lg: 0 10px 15px rgba(58, 63, 56, 0.12);
+  --shadow-glow: 0 0 20px rgba(161, 193, 161, 0.2);
 }
 
 [data-theme="blossom"] .parchment-bg {
-  background: linear-gradient(135deg, #FDF2F2 0%, #FAE5E5 50%, #FDF2F2 100%);
+  background: linear-gradient(135deg, #DFDAD3 0%, #D5D0C9 50%, #E2DDD6 100%);
 }
 
 [data-theme="blossom"] .katex {
-  color: #C44D6B !important;
+  color: #5A8060 !important;
 }
 
 [data-theme="blossom"] .katex-display {
-  background: rgba(214, 80, 118, 0.08);
-  border-left-color: #D65076;
+  background: rgba(107, 143, 107, 0.08);
+  border-left-color: #6B8F6B;
 }
 
 [data-theme="blossom"] .formula-card:hover,
 [data-theme="blossom"] .category-item:hover {
-  box-shadow: 0 4px 15px rgba(244, 162, 89, 0.2);
-  border-color: #F4A259;
+  box-shadow: 0 4px 15px rgba(161, 193, 161, 0.2);
+  border-color: #A1C1A1;
 }
 
 [data-theme="blossom"] .category-item.active {
-  background: linear-gradient(135deg, #D65076, #F4A259);
-  color: #FFFFFF;
-  box-shadow: 0 4px 15px rgba(214, 80, 118, 0.3);
+  background: linear-gradient(135deg, #A1C1A1, #8BA995);
+  color: #3A3F38;
+  box-shadow: 0 4px 15px rgba(161, 193, 161, 0.3);
 }
 
-/* 繁花似锦 */
+/* 芦汀初雪 */
 [data-theme="blossom"] .formula-name {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .card-tag.available {
-  background: linear-gradient(135deg, rgba(244, 162, 89, 0.15), rgba(244, 162, 89, 0.08));
-  color: #F4A259;
-  border: 1px solid rgba(244, 162, 89, 0.25);
+  background: linear-gradient(135deg, rgba(161, 193, 161, 0.15), rgba(161, 193, 161, 0.06));
+  color: #6B8F6B;
+  border: 1px solid rgba(161, 193, 161, 0.25);
 }
 
 [data-theme="blossom"] .menu-card {
-  border-color: rgba(214, 80, 118, 0.15);
+  border-color: rgba(161, 193, 161, 0.2);
 }
 
 [data-theme="blossom"] .menu-card:hover {
-  border-color: #D65076;
-  box-shadow: 0 8px 25px rgba(214, 80, 118, 0.2);
+  border-color: #A1C1A1;
+  box-shadow: 0 8px 25px rgba(161, 193, 161, 0.2);
 }
 
 /* ============================================
-   中国风主题 - Chinese Classical Theme
-   传统古典、诗词意境、红楼梦韵
+   绣日摇风主题 - Embroidered Sun Swaying Wind Theme
+   缂桃轻粉、迎曦暖黄、绯羽霞光
    ============================================ */
 [data-theme="chinese"] {
-  --color-bg-primary: #F5F0E5;
-  --color-bg-secondary: #EBE5DA;
-  --color-bg-tertiary: #E1D9CE;
-  --color-bg-card: #FAF6ED;
-  --color-bg-card-hover: #F2ECE0;
+  --color-bg-primary: #F5D5D9;
+  --color-bg-secondary: #F0CACF;
+  --color-bg-tertiary: #EBC0C5;
+  --color-bg-card: #F8DFE2;
+  --color-bg-card-hover: #F3D8DC;
   
-  --color-primary: #8B4513;
-  --color-primary-light: #A65A28;
-  --color-primary-dark: #6B3510;
+  --color-primary: #8A6068;
+  --color-primary-light: #A88088;
+  --color-primary-dark: #6E4A52;
   
-  --color-accent: #B22222;
-  --color-accent-light: #C43535;
-  --color-accent-dark: #8B1A1A;
-  --color-accent-glow: rgba(178, 34, 34, 0.2);
+  --color-accent: #EABFC3;
+  --color-accent-light: #F0D0D3;
+  --color-accent-dark: #EAC077;
+  --color-accent-glow: rgba(234, 191, 195, 0.3);
   
-  --color-text-primary: #4A4238;
-  --color-text-secondary: #6B6256;
-  --color-text-muted: #8B8276;
-  --color-text-light: #AB9F94;
-  --color-text-formula: #8B4513;
+  --color-text-primary: #3E2830;
+  --color-text-secondary: #5E404A;
+  --color-text-muted: #806068;
+  --color-text-light: #A08888;
+  --color-text-formula: #8A6068;
   
-  --color-border: #D4C8B8;
-  --color-border-light: #E4D8C8;
-  --color-border-dark: #C4B8A8;
+  --color-border: #F2CB8E;
+  --color-border-light: #F5D8A8;
+  --color-border-dark: #E5B870;
   
-  --color-success: #6B8E4A;
-  --color-warning: #C9A227;
-  --color-error: #B22222;
-  --color-info: #6B7A8B;
+  --color-success: #7BAE8A;
+  --color-warning: #EAC077;
+  --color-error: #C47878;
+  --color-info: #7A9FB5;
   
-  --shadow-sm: 0 1px 2px rgba(74, 66, 56, 0.06);
-  --shadow-md: 0 4px 6px rgba(74, 66, 56, 0.1);
-  --shadow-lg: 0 10px 15px rgba(74, 66, 56, 0.12);
-  --shadow-glow: 0 0 15px rgba(139, 69, 19, 0.1);
+  --shadow-sm: 0 1px 2px rgba(62, 40, 48, 0.06);
+  --shadow-md: 0 4px 6px rgba(62, 40, 48, 0.1);
+  --shadow-lg: 0 10px 15px rgba(62, 40, 48, 0.12);
+  --shadow-glow: 0 0 20px rgba(234, 191, 195, 0.2);
 }
 
 [data-theme="chinese"] .parchment-bg {
-  background: linear-gradient(135deg, #F5F0E5 0%, #EBE5DA 50%, #E1D9CE 100%);
+  background: linear-gradient(135deg, #F5D5D9 0%, #F0CACF 50%, #F8D8DC 100%);
 }
 
 [data-theme="chinese"] .katex {
-  color: #8B4513 !important;
+  color: #8A6068 !important;
 }
 
 [data-theme="chinese"] .katex-display {
-  background: rgba(139, 69, 19, 0.06);
-  border-left-color: #8B4513;
+  background: rgba(138, 96, 104, 0.08);
+  border-left-color: #8A6068;
 }
 
 [data-theme="chinese"] .formula-card:hover,
 [data-theme="chinese"] .category-item:hover {
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12);
-  border-color: #8B4513;
+  box-shadow: 0 4px 15px rgba(234, 191, 195, 0.25);
+  border-color: #EABFC3;
 }
 
 [data-theme="chinese"] .category-item.active {
-  background: linear-gradient(135deg, #8B4513, #B22222);
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+  background: linear-gradient(135deg, #EABFC3, #F2CB8E);
+  color: #3E2830;
+  box-shadow: 0 4px 15px rgba(234, 192, 119, 0.3);
 }
 
-/* 诗词意境 */
+/* 绣日摇风 */
 [data-theme="chinese"] .formula-name {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .card-tag.available {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(178, 34, 34, 0.08));
-  color: #8B4513;
-  border: 1px solid rgba(139, 69, 19, 0.2);
+  background: linear-gradient(135deg, rgba(234, 191, 195, 0.15), rgba(242, 203, 142, 0.08));
+  color: #8A6068;
+  border: 1px solid rgba(242, 203, 142, 0.3);
 }
 
 [data-theme="chinese"] .menu-card {
-  border-color: rgba(139, 69, 19, 0.1);
+  border-color: rgba(242, 203, 142, 0.25);
 }
 
 [data-theme="chinese"] .menu-card:hover {
-  border-color: #8B4513;
-  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.12);
+  border-color: #F2CB8E;
+  box-shadow: 0 8px 25px rgba(242, 203, 142, 0.2);
 }
 
-[data-theme="chinese"] .katex {
-  color: #D4A84A !important;
+/* ============================================
+   赤岩暖釉主题 - Warm Terracotta Glaze Theme
+   暖橘过渡、赤陶深红、亮金高光、矿质厚重
+   ============================================ */
+[data-theme="yunjian"] {
+  --color-bg-primary: #E8D5B8;
+  --color-bg-secondary: #E0CBAC;
+  --color-bg-tertiary: #D8C2A0;
+  --color-bg-card: #EEDCBE;
+  --color-bg-card-hover: #E8D6B5;
+  
+  --color-primary: #8A3005;
+  --color-primary-light: #AD4D05;
+  --color-primary-dark: #6A2005;
+  
+  --color-accent: #DC8E14;
+  --color-accent-light: #E7A91A;
+  --color-accent-dark: #CE760E;
+  --color-accent-glow: rgba(220, 142, 20, 0.25);
+  
+  --color-text-primary: #3A2210;
+  --color-text-secondary: #5A3A20;
+  --color-text-muted: #7A5838;
+  --color-text-light: #9A7858;
+  --color-text-formula: #8A3005;
+  
+  --color-border: #CE760E;
+  --color-border-light: #DC8E14;
+  --color-border-dark: #AD4D05;
+  
+  --color-success: #7BAE5A;
+  --color-warning: #E7A91A;
+  --color-error: #C44830;
+  --color-info: #7A9FB5;
+  
+  --shadow-sm: 0 1px 2px rgba(58, 34, 16, 0.06);
+  --shadow-md: 0 4px 6px rgba(58, 34, 16, 0.1);
+  --shadow-lg: 0 10px 15px rgba(58, 34, 16, 0.12);
+  --shadow-glow: 0 0 20px rgba(220, 142, 20, 0.15);
 }
 
-[data-theme="chinese"] .katex-display {
-  background: rgba(139, 35, 35, 0.1);
-  border-left-color: #C9A227;
+[data-theme="yunjian"] .parchment-bg {
+  background: linear-gradient(180deg, #E7A91A 0%, #DC8E14 15%, #E8D5B8 40%, #CE760E 80%, #8A3005 100%);
 }
 
-[data-theme="chinese"] .formula-card:hover,
-[data-theme="chinese"] .category-item:hover {
-  box-shadow: 0 4px 15px rgba(139, 35, 35, 0.15);
-  border-color: #8B2323;
+[data-theme="yunjian"] .katex {
+  color: #8A3005 !important;
 }
 
-[data-theme="chinese"] .category-item.active {
-  background: linear-gradient(135deg, #8B2323, #C9A227);
+[data-theme="yunjian"] .katex-display {
+  background: rgba(138, 48, 5, 0.06);
+  border-left-color: #8A3005;
+}
+
+[data-theme="yunjian"] .formula-card:hover,
+[data-theme="yunjian"] .category-item:hover {
+  box-shadow: 0 4px 15px rgba(220, 142, 20, 0.2);
+  border-color: #DC8E14;
+}
+
+[data-theme="yunjian"] .category-item.active {
+  background: linear-gradient(135deg, #DC8E14, #CE760E);
   color: #FFFFFF;
-  box-shadow: 0 4px 15px rgba(139, 35, 35, 0.25);
+  box-shadow: 0 4px 15px rgba(220, 142, 20, 0.3);
 }
 
-/* 诗词意境 */
-[data-theme="chinese"] .formula-name {
-  color: #3D3328;
+/* 三釉矿彩 */
+[data-theme="yunjian"] .formula-name {
+  color: #3A2210;
 }
 
-[data-theme="chinese"] .card-tag.available {
-  background: linear-gradient(135deg, rgba(139, 35, 35, 0.1), rgba(201, 162, 39, 0.08));
-  color: #8B2323;
-  border: 1px solid rgba(139, 35, 35, 0.2);
+[data-theme="yunjian"] .card-tag.available {
+  background: linear-gradient(135deg, rgba(220, 142, 20, 0.12), rgba(206, 118, 14, 0.08));
+  color: #8A3005;
+  border: 1px solid rgba(220, 142, 20, 0.25);
 }
 
-[data-theme="chinese"] .menu-card {
-  border-color: rgba(139, 35, 35, 0.12);
+[data-theme="yunjian"] .menu-card {
+  border-color: rgba(173, 77, 5, 0.2);
 }
 
-[data-theme="chinese"] .menu-card:hover {
-  border-color: #8B2323;
-  box-shadow: 0 8px 25px rgba(139, 35, 35, 0.15);
+[data-theme="yunjian"] .menu-card:hover {
+  border-color: #DC8E14;
+  box-shadow: 0 8px 25px rgba(220, 142, 20, 0.2);
+}
+
+/* ============================================
+   蓝色轻梦主题 - Blue Light Dream Theme
+   清蓝柔雾、轻梦浅波、澄澈通透
+   ============================================ */
+[data-theme="bluedream"] {
+  --color-bg-primary: #D6EBF3;
+  --color-bg-secondary: #CCE3ED;
+  --color-bg-tertiary: #C2DBE7;
+  --color-bg-card: #DADEE1;
+  --color-bg-card-hover: #D0D8DC;
+
+  --color-primary: #447F98;
+  --color-primary-light: #629BB5;
+  --color-primary-dark: #356578;
+
+  --color-accent: #629BB5;
+  --color-accent-light: #8AB5C8;
+  --color-accent-dark: #4A8BA0;
+  --color-accent-glow: rgba(98, 155, 181, 0.3);
+
+  --color-text-primary: #2A4A58;
+  --color-text-secondary: #4A6878;
+  --color-text-muted: #708898;
+  --color-text-light: #90A8B5;
+  --color-text-formula: #447F98;
+
+  --color-border: #629BB5;
+  --color-border-light: #8AB5C8;
+  --color-border-dark: #4A8BA0;
+
+  --color-success: #5A9E7A;
+  --color-warning: #C4A060;
+  --color-error: #B86868;
+  --color-info: #447F98;
+
+  --shadow-sm: 0 1px 2px rgba(42, 74, 88, 0.06);
+  --shadow-md: 0 4px 6px rgba(42, 74, 88, 0.1);
+  --shadow-lg: 0 10px 15px rgba(42, 74, 88, 0.12);
+  --shadow-glow: 0 0 20px rgba(98, 155, 181, 0.2);
+}
+
+[data-theme="bluedream"] .parchment-bg {
+  background: linear-gradient(180deg, #D6EBF3 0%, #B9D8E1 30%, #DADEE1 60%, #B9D8E1 85%, #629BB5 100%);
+}
+
+[data-theme="bluedream"] .katex {
+  color: #447F98 !important;
+}
+
+[data-theme="bluedream"] .katex-display {
+  background: rgba(68, 127, 152, 0.06);
+  border-left-color: #447F98;
+}
+
+[data-theme="bluedream"] .formula-card:hover,
+[data-theme="bluedream"] .category-item:hover {
+  box-shadow: 0 4px 15px rgba(98, 155, 181, 0.2);
+  border-color: #629BB5;
+}
+
+[data-theme="bluedream"] .category-item.active {
+  background: linear-gradient(135deg, #629BB5, #447F98);
+  color: #FFFFFF;
+  box-shadow: 0 4px 15px rgba(98, 155, 181, 0.3);
+}
+
+/* 蓝色轻梦 */
+[data-theme="bluedream"] .formula-name {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .card-tag.available {
+  background: linear-gradient(135deg, rgba(98, 155, 181, 0.12), rgba(68, 127, 152, 0.08));
+  color: #447F98;
+  border: 1px solid rgba(98, 155, 181, 0.25);
+}
+
+[data-theme="bluedream"] .menu-card {
+  border-color: rgba(98, 155, 181, 0.2);
+}
+
+[data-theme="bluedream"] .menu-card:hover {
+  border-color: #629BB5;
+  box-shadow: 0 8px 25px rgba(98, 155, 181, 0.2);
 }
 
 /* === 讲解文本样式 === */

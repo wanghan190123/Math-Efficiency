@@ -1030,43 +1030,43 @@
 }
 
 /* ============================================
-   砚冰清秩主题 - Ice Clear Theme
+   疏林茶烟主题 - Sparse Forest Tea Smoke Theme
    ============================================ */
 [data-theme="iceclear"] .formula-card:hover {
-  box-shadow: 0 4px 15px rgba(91, 138, 114, 0.2);
-  border-color: #5B8A72;
+  box-shadow: 0 4px 15px rgba(203, 175, 152, 0.2);
+  border-color: #CBAF98;
 }
 
 [data-theme="iceclear"] .formula-card.selected {
-  background: linear-gradient(135deg, rgba(91, 138, 114, 0.1) 0%, rgba(91, 138, 114, 0.05) 100%);
-  border-color: #5B8A72;
-  box-shadow: 0 4px 20px rgba(91, 138, 114, 0.2);
+  background: linear-gradient(135deg, rgba(203, 175, 152, 0.1) 0%, rgba(122, 101, 85, 0.06) 100%);
+  border-color: #958068;
+  box-shadow: 0 4px 20px rgba(203, 175, 152, 0.15);
 }
 
 [data-theme="iceclear"] .formula-detail {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
-  border-color: rgba(91, 138, 114, 0.2);
-  box-shadow: 0 4px 20px rgba(45, 62, 80, 0.1);
+  background: linear-gradient(135deg, #E8DFD0 0%, #E2D9CA 100%);
+  border-color: rgba(203, 175, 152, 0.2);
+  box-shadow: 0 4px 20px rgba(58, 51, 42, 0.08);
 }
 
 [data-theme="iceclear"] .sidebar-header h2 {
-  color: #2D3748;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .category-item {
-  color: #4A5568;
-  border-color: rgba(203, 213, 224, 0.5);
+  color: #5A5048;
+  border-color: rgba(219, 185, 164, 0.5);
 }
 
 [data-theme="iceclear"] .category-item:hover {
-  background: rgba(91, 138, 114, 0.08);
-  border-color: rgba(91, 138, 114, 0.3);
+  background: rgba(203, 175, 152, 0.08);
+  border-color: rgba(203, 175, 152, 0.3);
 }
 
 [data-theme="iceclear"] .category-item.active {
-  background: linear-gradient(135deg, #5B8A72, #7BA894);
-  color: #FFFFFF;
-  border-color: #5B8A72;
+  background: linear-gradient(135deg, #CBAF98, #DBB9A4);
+  color: #3A332A;
+  border-color: #D8C4B0;
 }
 
 [data-theme="iceclear"] .category-name {
@@ -1075,53 +1075,53 @@
 
 [data-theme="iceclear"] .category-item:hover .category-name,
 [data-theme="iceclear"] .category-item.active .category-name {
-  color: #FFFFFF;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .category-count {
-  background: rgba(91, 138, 114, 0.1);
-  color: #5B8A72;
+  background: rgba(203, 175, 152, 0.1);
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .favorites-section h3 {
-  color: #2D3748;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .favorite-item {
-  background: rgba(91, 138, 114, 0.05);
-  border-color: rgba(91, 138, 114, 0.15);
-  color: #4A5568;
+  background: rgba(203, 175, 152, 0.05);
+  border-color: rgba(203, 175, 152, 0.15);
+  color: #5A5048;
 }
 
 [data-theme="iceclear"] .favorite-item:hover {
-  background: rgba(91, 138, 114, 0.1);
-  border-color: rgba(91, 138, 114, 0.25);
+  background: rgba(203, 175, 152, 0.1);
+  border-color: rgba(203, 175, 152, 0.25);
 }
 
 [data-theme="iceclear"] .formula-name {
-  color: #2C3E50;
+  color: #3A332A;
 }
 
 [data-theme="iceclear"] .formula-latex {
-  color: #2C5282;
+  color: #7A6555;
 }
 
 [data-theme="iceclear"] .tag {
-  background: rgba(91, 138, 114, 0.1);
-  color: #5B8A72;
-  border-color: rgba(91, 138, 114, 0.2);
+  background: rgba(203, 175, 152, 0.1);
+  color: #7A6555;
+  border-color: rgba(203, 175, 152, 0.2);
 }
 
 [data-theme="iceclear"] .close-btn {
-  color: #A0AEC0;
-  background: rgba(91, 138, 114, 0.05);
-  border-color: rgba(203, 213, 224, 0.5);
+  color: #9A9088;
+  background: rgba(203, 175, 152, 0.05);
+  border-color: rgba(219, 185, 164, 0.5);
 }
 
 [data-theme="iceclear"] .close-btn:hover {
-  background: rgba(91, 138, 114, 0.15);
-  color: #5B8A72;
-  border-color: #5B8A72;
+  background: rgba(203, 175, 152, 0.15);
+  color: #7A6555;
+  border-color: #CBAF98;
 }
 
 /* ============================================
@@ -1315,43 +1315,43 @@
 }
 
 /* ============================================
-   春意盎然主题 - Spring Vibrancy Theme
+   远山素影主题 - Distant Mountain Silhouette Theme
    ============================================ */
 [data-theme="spring"] .formula-card:hover {
-  box-shadow: 0 4px 15px rgba(232, 123, 123, 0.15);
-  border-color: #E87B7B;
+  box-shadow: 0 4px 15px rgba(168, 190, 223, 0.2);
+  border-color: #A8BEDF;
 }
 
 [data-theme="spring"] .formula-card.selected {
-  background: linear-gradient(135deg, rgba(232, 123, 123, 0.08) 0%, rgba(91, 140, 90, 0.06) 100%);
-  border-color: #EE9999;
-  box-shadow: 0 4px 20px rgba(232, 123, 123, 0.15);
+  background: linear-gradient(135deg, rgba(168, 190, 223, 0.1) 0%, rgba(107, 137, 168, 0.06) 100%);
+  border-color: #8AA3C7;
+  box-shadow: 0 4px 20px rgba(168, 190, 223, 0.15);
 }
 
 [data-theme="spring"] .formula-detail {
-  background: linear-gradient(135deg, #FAFDF5 0%, #F5FAEC 100%);
-  border-color: rgba(232, 123, 123, 0.15);
-  box-shadow: 0 4px 20px rgba(61, 71, 56, 0.08);
+  background: linear-gradient(135deg, #F5EDE0 0%, #F0E8DA 100%);
+  border-color: rgba(168, 190, 223, 0.2);
+  box-shadow: 0 4px 20px rgba(58, 64, 80, 0.08);
 }
 
 [data-theme="spring"] .sidebar-header h2 {
-  color: #3D4738;
+  color: #3A4050;
 }
 
 [data-theme="spring"] .category-item {
-  color: #5A6350;
-  border-color: rgba(197, 209, 181, 0.5);
+  color: #556070;
+  border-color: rgba(199, 213, 232, 0.5);
 }
 
 [data-theme="spring"] .category-item:hover {
-  background: rgba(232, 123, 123, 0.06);
-  border-color: rgba(232, 123, 123, 0.25);
+  background: rgba(168, 190, 223, 0.08);
+  border-color: rgba(168, 190, 223, 0.3);
 }
 
 [data-theme="spring"] .category-item.active {
-  background: linear-gradient(135deg, #E87B7B, #F09A9A);
-  color: #FFFFFF;
-  border-color: #EE9999;
+  background: linear-gradient(135deg, #A8BEDF, #C7D5E8);
+  color: #3A4050;
+  border-color: #BFCEE6;
 }
 
 [data-theme="spring"] .category-name {
@@ -1360,93 +1360,93 @@
 
 [data-theme="spring"] .category-item:hover .category-name,
 [data-theme="spring"] .category-item.active .category-name {
-  color: #FFFFFF;
+  color: #3A4050;
 }
 
 [data-theme="spring"] .category-count {
-  background: rgba(232, 123, 123, 0.08);
-  color: #E87B7B;
+  background: rgba(168, 190, 223, 0.1);
+  color: #6B89A8;
 }
 
 [data-theme="spring"] .favorites-section h3 {
-  color: #3D4738;
+  color: #3A4050;
 }
 
 [data-theme="spring"] .favorite-item {
-  background: rgba(232, 123, 123, 0.04);
-  border-color: rgba(232, 123, 123, 0.12);
-  color: #5A6350;
+  background: rgba(168, 190, 223, 0.05);
+  border-color: rgba(168, 190, 223, 0.15);
+  color: #556070;
 }
 
 [data-theme="spring"] .favorite-item:hover {
-  background: rgba(232, 123, 123, 0.08);
-  border-color: rgba(232, 123, 123, 0.2);
+  background: rgba(168, 190, 223, 0.1);
+  border-color: rgba(168, 190, 223, 0.25);
 }
 
 [data-theme="spring"] .formula-name {
-  color: #3D4738;
+  color: #3A4050;
 }
 
 [data-theme="spring"] .formula-latex {
-  color: #4A7B4A;
+  color: #5A7A9A;
 }
 
 [data-theme="spring"] .tag {
-  background: rgba(232, 123, 123, 0.08);
-  color: #E87B7B;
-  border-color: rgba(232, 123, 123, 0.15);
+  background: rgba(168, 190, 223, 0.1);
+  color: #6B89A8;
+  border-color: rgba(168, 190, 223, 0.2);
 }
 
 [data-theme="spring"] .close-btn {
-  color: #9AA28A;
-  background: rgba(232, 123, 123, 0.04);
-  border-color: rgba(197, 209, 181, 0.5);
+  color: #9AA5B2;
+  background: rgba(168, 190, 223, 0.05);
+  border-color: rgba(199, 213, 232, 0.5);
 }
 
 [data-theme="spring"] .close-btn:hover {
-  background: rgba(232, 123, 123, 0.12);
-  color: #E87B7B;
-  border-color: #E87B7B;
+  background: rgba(168, 190, 223, 0.15);
+  color: #6B89A8;
+  border-color: #A8BEDF;
 }
 
 /* ============================================
-   百花欲燃主题 - Blossoming Flame Theme
+   芦汀初雪主题 - Reed Marsh First Snow Theme
    ============================================ */
 [data-theme="blossom"] .formula-card:hover {
-  box-shadow: 0 4px 15px rgba(244, 162, 89, 0.2);
-  border-color: #F4A259;
+  box-shadow: 0 4px 15px rgba(161, 193, 161, 0.2);
+  border-color: #A1C1A1;
 }
 
 [data-theme="blossom"] .formula-card.selected {
-  background: linear-gradient(135deg, rgba(244, 162, 89, 0.08) 0%, rgba(214, 80, 118, 0.06) 100%);
-  border-color: #F6B678;
-  box-shadow: 0 4px 20px rgba(244, 162, 89, 0.2);
+  background: linear-gradient(135deg, rgba(161, 193, 161, 0.1) 0%, rgba(107, 143, 107, 0.06) 100%);
+  border-color: #8BA995;
+  box-shadow: 0 4px 20px rgba(161, 193, 161, 0.15);
 }
 
 [data-theme="blossom"] .formula-detail {
-  background: linear-gradient(135deg, #FFF8F8 0%, #FFF0F0 100%);
-  border-color: rgba(244, 162, 89, 0.15);
-  box-shadow: 0 4px 20px rgba(214, 80, 118, 0.1);
+  background: linear-gradient(135deg, #E6E1DA 0%, #E0DBD4 100%);
+  border-color: rgba(161, 193, 161, 0.2);
+  box-shadow: 0 4px 20px rgba(58, 63, 56, 0.08);
 }
 
 [data-theme="blossom"] .sidebar-header h2 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .category-item {
-  color: #6B5258;
-  border-color: rgba(232, 200, 200, 0.5);
+  color: #555B50;
+  border-color: rgba(139, 169, 149, 0.5);
 }
 
 [data-theme="blossom"] .category-item:hover {
-  background: rgba(244, 162, 89, 0.08);
-  border-color: rgba(244, 162, 89, 0.25);
+  background: rgba(161, 193, 161, 0.08);
+  border-color: rgba(161, 193, 161, 0.3);
 }
 
 [data-theme="blossom"] .category-item.active {
-  background: linear-gradient(135deg, #D65076, #F4A259);
-  color: #FFFFFF;
-  border-color: #F6B678;
+  background: linear-gradient(135deg, #A1C1A1, #8BA995);
+  color: #3A3F38;
+  border-color: #B5D1B5;
 }
 
 [data-theme="blossom"] .category-name {
@@ -1455,93 +1455,93 @@
 
 [data-theme="blossom"] .category-item:hover .category-name,
 [data-theme="blossom"] .category-item.active .category-name {
-  color: #FFFFFF;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .category-count {
-  background: rgba(244, 162, 89, 0.1);
-  color: #F4A259;
+  background: rgba(161, 193, 161, 0.1);
+  color: #6B8F6B;
 }
 
 [data-theme="blossom"] .favorites-section h3 {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .favorite-item {
-  background: rgba(244, 162, 89, 0.04);
-  border-color: rgba(244, 162, 89, 0.12);
-  color: #6B5258;
+  background: rgba(161, 193, 161, 0.05);
+  border-color: rgba(161, 193, 161, 0.15);
+  color: #555B50;
 }
 
 [data-theme="blossom"] .favorite-item:hover {
-  background: rgba(244, 162, 89, 0.08);
-  border-color: rgba(244, 162, 89, 0.2);
+  background: rgba(161, 193, 161, 0.1);
+  border-color: rgba(161, 193, 161, 0.25);
 }
 
 [data-theme="blossom"] .formula-name {
-  color: #4A3540;
+  color: #3A3F38;
 }
 
 [data-theme="blossom"] .formula-latex {
-  color: #C44D6B;
+  color: #5A8060;
 }
 
 [data-theme="blossom"] .tag {
-  background: rgba(244, 162, 89, 0.1);
-  color: #F4A259;
-  border-color: rgba(244, 162, 89, 0.2);
+  background: rgba(161, 193, 161, 0.1);
+  color: #6B8F6B;
+  border-color: rgba(161, 193, 161, 0.2);
 }
 
 [data-theme="blossom"] .close-btn {
-  color: #AD8E8E;
-  background: rgba(244, 162, 89, 0.04);
-  border-color: rgba(232, 200, 200, 0.5);
+  color: #989D90;
+  background: rgba(161, 193, 161, 0.05);
+  border-color: rgba(139, 169, 149, 0.5);
 }
 
 [data-theme="blossom"] .close-btn:hover {
-  background: rgba(244, 162, 89, 0.12);
-  color: #F4A259;
-  border-color: #F4A259;
+  background: rgba(161, 193, 161, 0.15);
+  color: #6B8F6B;
+  border-color: #A1C1A1;
 }
 
 /* ============================================
-   中国风主题 - Chinese Classical Theme
+   绣日摇风主题 - Embroidered Sun Swaying Wind Theme
    ============================================ */
 [data-theme="chinese"] .formula-card:hover {
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12);
-  border-color: #8B4513;
+  box-shadow: 0 4px 15px rgba(234, 191, 195, 0.25);
+  border-color: #EABFC3;
 }
 
 [data-theme="chinese"] .formula-card.selected {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(178, 34, 34, 0.06) 100%);
-  border-color: #A65A28;
-  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.12);
+  background: linear-gradient(135deg, rgba(234, 191, 195, 0.1) 0%, rgba(138, 96, 104, 0.06) 100%);
+  border-color: #A88088;
+  box-shadow: 0 4px 20px rgba(234, 191, 195, 0.15);
 }
 
 [data-theme="chinese"] .formula-detail {
-  background: linear-gradient(135deg, #FAF6ED 0%, #F2ECE0 100%);
-  border-color: rgba(139, 69, 19, 0.15);
-  box-shadow: 0 4px 15px rgba(74, 66, 56, 0.08);
+  background: linear-gradient(135deg, #F8DFE2 0%, #F3D8DC 100%);
+  border-color: rgba(242, 203, 142, 0.2);
+  box-shadow: 0 4px 20px rgba(62, 40, 48, 0.08);
 }
 
 [data-theme="chinese"] .sidebar-header h2 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .category-item {
-  color: #6B6256;
-  border-color: rgba(212, 200, 184, 0.5);
+  color: #5E404A;
+  border-color: rgba(242, 203, 142, 0.5);
 }
 
 [data-theme="chinese"] .category-item:hover {
-  background: rgba(139, 69, 19, 0.06);
-  border-color: rgba(139, 69, 19, 0.2);
+  background: rgba(234, 191, 195, 0.08);
+  border-color: rgba(234, 191, 195, 0.3);
 }
 
 [data-theme="chinese"] .category-item.active {
-  background: linear-gradient(135deg, #8B4513, #B22222);
-  color: #FFFFFF;
-  border-color: #A65A28;
+  background: linear-gradient(135deg, #EABFC3, #F2CB8E);
+  color: #3E2830;
+  border-color: #F0D0D3;
 }
 
 [data-theme="chinese"] .category-name {
@@ -1550,51 +1550,241 @@
 
 [data-theme="chinese"] .category-item:hover .category-name,
 [data-theme="chinese"] .category-item.active .category-name {
-  color: #FFFFFF;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .category-count {
-  background: rgba(139, 69, 19, 0.08);
-  color: #8B4513;
+  background: rgba(242, 203, 142, 0.12);
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .favorites-section h3 {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .favorite-item {
-  background: rgba(139, 69, 19, 0.04);
-  border-color: rgba(139, 69, 19, 0.1);
-  color: #6B6256;
+  background: rgba(234, 191, 195, 0.05);
+  border-color: rgba(234, 191, 195, 0.15);
+  color: #5E404A;
 }
 
 [data-theme="chinese"] .favorite-item:hover {
-  background: rgba(139, 69, 19, 0.08);
-  border-color: rgba(139, 69, 19, 0.15);
+  background: rgba(234, 191, 195, 0.1);
+  border-color: rgba(234, 191, 195, 0.25);
 }
 
 [data-theme="chinese"] .formula-name {
-  color: #4A4238;
+  color: #3E2830;
 }
 
 [data-theme="chinese"] .formula-latex {
-  color: #8B4513;
+  color: #8A6068;
 }
 
 [data-theme="chinese"] .tag {
-  background: rgba(139, 69, 19, 0.08);
-  color: #8B4513;
-  border-color: rgba(139, 69, 19, 0.15);
+  background: rgba(242, 203, 142, 0.12);
+  color: #8A6068;
+  border-color: rgba(242, 203, 142, 0.25);
 }
 
 [data-theme="chinese"] .close-btn {
-  color: #AB9F94;
-  background: rgba(139, 69, 19, 0.04);
-  border-color: rgba(212, 200, 184, 0.5);
+  color: #A08888;
+  background: rgba(234, 191, 195, 0.05);
+  border-color: rgba(242, 203, 142, 0.4);
 }
 
 [data-theme="chinese"] .close-btn:hover {
-  background: rgba(139, 69, 19, 0.1);
-  color: #8B4513;
-  border-color: #8B4513;
+  background: rgba(234, 191, 195, 0.15);
+  color: #8A6068;
+  border-color: #EABFC3;
+}
+
+/* ============================================
+   赤岩暖釉主题 - Warm Terracotta Glaze Theme
+   ============================================ */
+[data-theme="yunjian"] .formula-card:hover {
+  box-shadow: 0 4px 15px rgba(220, 142, 20, 0.2);
+  border-color: #DC8E14;
+}
+
+[data-theme="yunjian"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(220, 142, 20, 0.08) 0%, rgba(206, 118, 14, 0.06) 100%);
+  border-color: #AD4D05;
+  box-shadow: 0 4px 20px rgba(220, 142, 20, 0.12);
+}
+
+[data-theme="yunjian"] .formula-detail {
+  background: linear-gradient(135deg, #EEDCBE 0%, #E8D6B5 100%);
+  border-color: rgba(206, 118, 14, 0.25);
+  box-shadow: 0 4px 20px rgba(58, 34, 16, 0.06);
+}
+
+[data-theme="yunjian"] .sidebar-header h2 {
+  color: #3A2210;
+}
+
+[data-theme="yunjian"] .category-item {
+  color: #5A3A20;
+  border-color: rgba(206, 118, 14, 0.5);
+}
+
+[data-theme="yunjian"] .category-item:hover {
+  background: rgba(220, 142, 20, 0.1);
+  border-color: rgba(206, 118, 14, 0.35);
+}
+
+[data-theme="yunjian"] .category-item.active {
+  background: linear-gradient(135deg, #DC8E14, #CE760E);
+  color: #FFFFFF;
+  border-color: #CE760E;
+}
+
+[data-theme="yunjian"] .category-name {
+  color: inherit;
+}
+
+[data-theme="yunjian"] .category-item:hover .category-name,
+[data-theme="yunjian"] .category-item.active .category-name {
+  color: inherit;
+}
+
+[data-theme="yunjian"] .category-count {
+  background: rgba(220, 142, 20, 0.08);
+  color: #7A5838;
+}
+
+[data-theme="yunjian"] .favorites-section h3 {
+  color: #3A2210;
+}
+
+[data-theme="yunjian"] .favorite-item {
+  background: rgba(206, 118, 14, 0.06);
+  border-color: rgba(206, 118, 14, 0.2);
+  color: #5A3A20;
+}
+
+[data-theme="yunjian"] .favorite-item:hover {
+  background: rgba(220, 142, 20, 0.12);
+  border-color: rgba(206, 118, 14, 0.3);
+}
+
+[data-theme="yunjian"] .formula-name {
+  color: #3A2210;
+}
+
+[data-theme="yunjian"] .formula-latex {
+  color: #7A5838;
+}
+
+[data-theme="yunjian"] .tag {
+  background: rgba(220, 142, 20, 0.08);
+  color: #7A5838;
+  border-color: rgba(220, 142, 20, 0.18);
+}
+
+[data-theme="yunjian"] .close-btn {
+  color: #9A7858;
+  background: rgba(206, 118, 14, 0.06);
+  border-color: rgba(206, 118, 14, 0.4);
+}
+
+[data-theme="yunjian"] .close-btn:hover {
+  background: rgba(220, 142, 20, 0.12);
+  color: #7A5838;
+  border-color: #DC8E14;
+}
+
+/* ============================================
+   蓝色轻梦主题 - Blue Light Dream Theme
+   ============================================ */
+[data-theme="bluedream"] .formula-card:hover {
+  box-shadow: 0 4px 15px rgba(98, 155, 181, 0.2);
+  border-color: #629BB5;
+}
+
+[data-theme="bluedream"] .formula-card.selected {
+  background: linear-gradient(135deg, rgba(98, 155, 181, 0.08) 0%, rgba(68, 127, 152, 0.06) 100%);
+  border-color: #4A8BA0;
+  box-shadow: 0 4px 20px rgba(98, 155, 181, 0.12);
+}
+
+[data-theme="bluedream"] .formula-detail {
+  background: linear-gradient(135deg, #DADEE1 0%, #D0D8DC 100%);
+  border-color: rgba(98, 155, 181, 0.2);
+  box-shadow: 0 4px 20px rgba(42, 74, 88, 0.06);
+}
+
+[data-theme="bluedream"] .sidebar-header h2 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .category-item {
+  color: #4A6878;
+  border-color: rgba(98, 155, 181, 0.5);
+}
+
+[data-theme="bluedream"] .category-item:hover {
+  background: rgba(98, 155, 181, 0.1);
+  border-color: rgba(98, 155, 181, 0.35);
+}
+
+[data-theme="bluedream"] .category-item.active {
+  background: linear-gradient(135deg, #629BB5, #447F98);
+  color: #FFFFFF;
+  border-color: #447F98;
+}
+
+[data-theme="bluedream"] .category-name {
+  color: inherit;
+}
+
+[data-theme="bluedream"] .category-item:hover .category-name,
+[data-theme="bluedream"] .category-item.active .category-name {
+  color: inherit;
+}
+
+[data-theme="bluedream"] .category-count {
+  background: rgba(98, 155, 181, 0.08);
+  color: #708898;
+}
+
+[data-theme="bluedream"] .favorites-section h3 {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .favorite-item {
+  background: rgba(98, 155, 181, 0.06);
+  border-color: rgba(98, 155, 181, 0.2);
+  color: #4A6878;
+}
+
+[data-theme="bluedream"] .favorite-item:hover {
+  background: rgba(98, 155, 181, 0.12);
+  border-color: rgba(98, 155, 181, 0.3);
+}
+
+[data-theme="bluedream"] .formula-name {
+  color: #2A4A58;
+}
+
+[data-theme="bluedream"] .formula-latex {
+  color: #708898;
+}
+
+[data-theme="bluedream"] .tag {
+  background: rgba(98, 155, 181, 0.08);
+  color: #708898;
+  border-color: rgba(98, 155, 181, 0.18);
+}
+
+[data-theme="bluedream"] .close-btn {
+  color: #90A8B5;
+  background: rgba(98, 155, 181, 0.06);
+  border-color: rgba(98, 155, 181, 0.4);
+}
+
+[data-theme="bluedream"] .close-btn:hover {
+  background: rgba(98, 155, 181, 0.12);
+  color: #708898;
+  border-color: #629BB5;
 }
