@@ -1452,6 +1452,339 @@ export const FORMULAS: FormulaItem[] = [
     description: '1-β称为检验功效，度量检验发现真实差异的能力。好的检验功效应接近1',
     category: '概率论与数理统计-假设检验',
     tags: ['假设检验', '二级结论']
+  },
+
+  // ==================== 高等数学-n阶导数 ====================
+
+  // ---- n阶导数定义与基本公式 ----
+  {
+    id: 'highmath-ndef-definition',
+    name: 'n阶导数定义',
+    latex: 'f^{(n)}(x) = \\frac{d^n f}{dx^n} = \\underbrace{\\frac{d}{dx}\\left(\\frac{d}{dx}\\cdots\\frac{d}{dx}\\right)}_{n\\text{次}} f(x)',
+    description: '对函数f(x)连续求n次导数。f⁽ⁿ⁾(x)称为f(x)的n阶导数，二阶及以上统称高阶导数',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '定义'],
+    example: 'f(x)=x³，则f′(x)=3x²，f″(x)=6x，f‴(x)=6，f⁽⁴⁾(x)=0'
+  },
+  {
+    id: 'highmath-ndef-linearity',
+    name: 'n阶导数线性性质',
+    latex: '[af(x) + bg(x)]^{(n)} = af^{(n)}(x) + bg^{(n)}(x)',
+    description: 'n阶导数具有线性性，和的n阶导等于n阶导的和，常数倍可提出',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '线性性', '基础']
+  },
+  {
+    id: 'highmath-ndef-leibniz',
+    name: '莱布尼茨公式',
+    latex: '[f(x)g(x)]^{(n)} = \\sum_{k=0}^{n} \\binom{n}{k} f^{(k)}(x) g^{(n-k)}(x)',
+    description: '乘积的n阶导数公式，类比二项式定理。C(n,k)为组合数，展开后共n+1项。考研高频考点',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '莱布尼茨', '核心'],
+    example: '求(x²eˣ)⁽ⁿ⁾：当k≥3时(x²)⁽ᵏ⁾=0，只剩3项：C(n,0)x²eˣ+C(n,1)·2xeˣ+C(n,2)·2eˣ'
+  },
+  {
+    id: 'highmath-ndef-polynomial',
+    name: '多项式的n阶导数',
+    latex: '(x^m)^{(n)} = \\begin{cases} \\frac{m!}{(m-n)!}x^{m-n}, & n \\leq m \\\\ 0, & n > m \\end{cases}',
+    description: 'm次多项式的n阶导：n≤m时为m!/(m-n)!·x^(m-n)；n>m时恒为零。这是n阶导数最常见的题型之一',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '多项式', '核心'],
+    example: '(x⁵)‴=5!/2!·x²=60x²；(x⁵)⁽⁶⁾=0'
+  },
+
+  // ---- 基本初等函数的n阶导数 ----
+  {
+    id: 'highmath-ndef-exp',
+    name: '指数函数的n阶导数',
+    latex: '(e^x)^{(n)} = e^x, \\quad (a^x)^{(n)} = a^x (\\ln a)^n',
+    description: 'eˣ的n阶导仍是eˣ，这是唯一各阶导数不变的函数。aˣ的n阶导多出(ln a)ⁿ因子',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '指数函数', '基础']
+  },
+  {
+    id: 'highmath-ndef-sin',
+    name: '三角函数的n阶导数',
+    latex: '(\\sin x)^{(n)} = \\sin\\left(x + \\frac{n\\pi}{2}\\right), \\quad (\\cos x)^{(n)} = \\cos\\left(x + \\frac{n\\pi}{2}\\right)',
+    description: '正余弦的n阶导呈周期4循环，可统一写成平移nπ/2的形式。考研必背',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '三角函数', '核心'],
+    example: '(sin x)‴=sin(x+3π/2)=-cos x；(cos x)⁽⁵⁾=cos(x+5π/2)=sin x'
+  },
+  {
+    id: 'highmath-ndef-sec-tan',
+    name: '正割正切的n阶导数递推',
+    latex: '(\\tan x)^{(n)} = \\sum_{k=0}^{n-1} \\binom{n-1}{k} (\\tan x)^{(k)} \\cdot (\\sec x)^{(n-1-k)}',
+    description: '正割和正切的n阶导无简洁闭式，需用递推或莱布尼茨公式处理。考研偶见，注意sec²x=(tan x)′',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '三角函数', '拓展']
+  },
+  {
+    id: 'highmath-ndef-power',
+    name: '幂函数的n阶导数',
+    latex: '(x^\\alpha)^{(n)} = \\alpha(\\alpha-1)\\cdots(\\alpha-n+1) x^{\\alpha-n} = \\frac{\\Gamma(\\alpha+1)}{\\Gamma(\\alpha-n+1)} x^{\\alpha-n}',
+    description: 'α为正整数m时即多项式公式；α非整数时用Gamma函数表示。降阶乘是关键',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '幂函数', '拓展']
+  },
+  {
+    id: 'highmath-ndef-ln',
+    name: '对数函数的n阶导数',
+    latex: '(\\ln x)^{(n)} = (-1)^{n-1} \\frac{(n-1)!}{x^n}',
+    description: 'n阶导通项含(-1)ⁿ⁻¹和(n-1)!，分母为xⁿ。推导：(ln x)′=1/x，再用幂函数n阶导公式',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '对数函数', '核心'],
+    example: '(ln x)″=-1/x²；(ln x)‴=2/x³'
+  },
+  {
+    id: 'highmath-ndef-ln-axb',
+    name: 'ln(ax+b)的n阶导数',
+    latex: '[\\ln(ax+b)]^{(n)} = (-1)^{n-1} \\frac{a^n (n-1)!}{(ax+b)^n}',
+    description: '复合对数函数的n阶导，比ln x多出aⁿ因子。考研常见',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '对数函数', '二级结论']
+  },
+  {
+    id: 'highmath-ndef-1-over-axb',
+    name: '1/(ax+b)的n阶导数',
+    latex: '\\left(\\frac{1}{ax+b}\\right)^{(n)} = (-1)^n \\frac{a^n \\cdot n!}{(ax+b)^{n+1}}',
+    description: '有理分式的n阶导通项，考研极高频。注意分母幂次为n+1而非n',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '有理分式', '核心'],
+    example: '[1/(2x+1)]⁽ⁿ⁾=(-1)ⁿ·2ⁿn!/(2x+1)ⁿ⁺¹'
+  },
+
+  // ---- n阶导数的常用技巧 ----
+  {
+    id: 'highmath-ndef-decompose',
+    name: '部分分式分解法',
+    latex: '\\frac{1}{x^2-a^2} = \\frac{1}{2a}\\left(\\frac{1}{x-a} - \\frac{1}{x+a}\\right)',
+    description: '将有理分式拆成1/(ax+b)型的和，再分别套n阶导通项公式。考研求n阶导的标准套路',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '部分分式', '核心'],
+    example: '[1/(x²-1)]⁽ⁿ⁾=½[1/(x-1)-1/(x+1)]⁽ⁿ⁾=½(-1)ⁿn![(x-1)⁻ⁿ⁻¹-(x+1)⁻ⁿ⁻¹]'
+  },
+  {
+    id: 'highmath-ndef-shift',
+    name: '平移不变性',
+    latex: '[f(ax+b)]^{(n)} = a^n f^{(n)}(ax+b)',
+    description: '线性复合函数的n阶导：先求f的n阶导通项，再将x替换为ax+b并乘aⁿ',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '复合函数', '二级结论']
+  },
+  {
+    id: 'highmath-ndef-euler-formula',
+    name: '欧拉公式法求三角n阶导',
+    latex: 'e^{ix} = \\cos x + i\\sin x \\Rightarrow (\\cos x)^{(n)} = \\text{Re}[(ix)^n e^{ix}]',
+    description: '利用eⁱˣ=cos x+i sin x，将三角函数的n阶导归结为指数函数的n阶导再取实/虚部',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '欧拉公式', '拓展']
+  },
+  {
+    id: 'highmath-ndef-taylor-method',
+    name: '泰勒展开法求n阶导',
+    latex: 'f(x) = \\sum_{k=0}^{\\infty} \\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k \\Rightarrow f^{(n)}(x_0) = n! \\cdot [x^n\\text{系数}]',
+    description: '先求出f在某点的泰勒展开，则f⁽ⁿ⁾(x₀)=n!×(x-x₀)ⁿ的系数。间接求n阶导的重要方法',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '泰勒展开', '核心'],
+    example: 'f(x)=1/(1-x-x²)，先展开为幂级数再读系数即可得f⁽ⁿ⁾(0)'
+  },
+  {
+    id: 'highmath-ndef-recursive',
+    name: '递推法求n阶导',
+    latex: 'f^{(n)}(x) = g\\left(f^{(n-1)}(x), x\\right)',
+    description: '对无法写出通项的函数，通过建立相邻阶导数之间的递推关系求解。常配合数学归纳法证明',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '递推', '拓展']
+  },
+
+  // ---- 常见n阶导数速查 ----
+  {
+    id: 'highmath-ndef-quick-sin-cos',
+    name: 'sinx和cosx的n阶导速查',
+    latex: '\\begin{aligned} &(\\sin x)^{(4k)} = \\sin x, \\quad (\\sin x)^{(4k+1)} = \\cos x \\\\ &(\\sin x)^{(4k+2)} = -\\sin x, \\quad (\\sin x)^{(4k+3)} = -\\cos x \\end{aligned}',
+    description: '周期4循环速查表。cos x同理：(cos x)⁽⁴ᵏ⁾=cos x，(cos x)⁽⁴ᵏ⁺¹⁾=-sin x，…',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '速查', '二级结论']
+  },
+  {
+    id: 'highmath-ndef-quick-exp-sin',
+    name: 'eˣsinx的n阶导数',
+    latex: '(e^x \\sin x)^{(n)} = (\\sqrt{2})^n e^x \\sin\\left(x + \\frac{n\\pi}{4}\\right)',
+    description: '利用欧拉公式：eˣsin x=Im[eˣ·eⁱˣ]=Im[e⁽¹⁺ⁱ⁾ˣ]，取虚部即得。√2=|1+i|',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '指数三角', '二级结论'],
+    example: '(eˣsin x)″=2eˣcos x'
+  },
+  {
+    id: 'highmath-ndef-quick-exp-cos',
+    name: 'eˣcosx的n阶导数',
+    latex: '(e^x \\cos x)^{(n)} = (\\sqrt{2})^n e^x \\cos\\left(x + \\frac{n\\pi}{4}\\right)',
+    description: '取e⁽¹⁺ⁱ⁾ˣ的实部即得。与eˣsin x配对记忆',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '指数三角', '二级结论']
+  },
+  {
+    id: 'highmath-ndef-quick-sinh-cosh',
+    name: '双曲函数的n阶导数',
+    latex: '(\\sinh x)^{(n)} = \\begin{cases} \\cosh x, & n\\text{奇} \\\\ \\sinh x, & n\\text{偶} \\end{cases}, \\quad (\\cosh x)^{(n)} = \\begin{cases} \\sinh x, & n\\text{奇} \\\\ \\cosh x, & n\\text{偶} \\end{cases}',
+    description: '双曲正余弦的n阶导与三角函数类似但无负号，因为(sinh x)″=sinh x而非-sinh x',
+    category: '高等数学-n阶导数',
+    tags: ['n阶导数', '双曲函数', '拓展']
+  },
+
+  // ==================== 高等数学-n阶积分 ====================
+
+  // ---- n阶积分（累次积分）定义 ----
+  {
+    id: 'highmath-nint-definition',
+    name: 'n阶积分（累次积分）定义',
+    latex: '\\underbrace{\\int \\int \\cdots \\int}_{n} f(x)\\,dx^n = \\int \\left(\\int \\cdots \\int f(x)\\,dx \\cdots dx\\right) dx',
+    description: '对函数f(x)连续求n次不定积分。注意：每层积分产生一个独立常数C，n阶积分含n个独立常数',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '定义']
+  },
+  {
+    id: 'highmath-nint-constants',
+    name: 'n阶积分的常数项',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} f(x)\\,dx^n = F(x) + C_1 x^{n-1} + C_2 x^{n-2} + \\cdots + C_n',
+    description: 'n次不定积分的结果 = 特解F(x) + n个独立常数生成的n-1至0次多项式。这是n阶积分与n阶导数的对偶关系',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '常数项', '核心']
+  },
+  {
+    id: 'highmath-nint-repeated',
+    name: '累次积分的递推公式',
+    latex: 'F_n(x) = \\int F_{n-1}(x)\\,dx, \\quad F_0(x) = f(x)',
+    description: '定义Fₙ为f的第n次不定积分，则Fₙ=∫Fₙ₋₁dx。递推求解是求n阶积分的基本方法',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '递推', '基础']
+  },
+
+  // ---- n阶积分的基本公式 ----
+  {
+    id: 'highmath-nint-power',
+    name: '幂函数的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} x^m\\,dx^n = \\frac{x^{m+n}}{(m+1)(m+2)\\cdots(m+n)} + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: '每积分一次幂次升1，分母多一个因子。m为负整数且|m|<n时分母出现零，需用对数处理',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '幂函数', '核心'],
+    example: '∫∫x³dxdx=x⁵/(4·5)+C₁x+C₂'
+  },
+  {
+    id: 'highmath-nint-exp',
+    name: '指数函数的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} e^x\\,dx^n = e^x + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: 'eˣ的n阶积分特解仍为eˣ（与n阶导数对偶），加上n个常数项',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '指数函数', '基础']
+  },
+  {
+    id: 'highmath-nint-exp-a',
+    name: 'aˣ的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} a^x\\,dx^n = \\frac{a^x}{(\\ln a)^n} + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: '每积分一次除以ln a，n次积分除以(ln a)ⁿ',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '指数函数', '二级结论']
+  },
+  {
+    id: 'highmath-nint-sin',
+    name: '三角函数的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} \\sin x\\,dx^n = \\sin\\left(x - \\frac{n\\pi}{2}\\right) + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: '与n阶导数对偶：求导向左移nπ/2，积分向右移nπ/2。cos x同理',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '三角函数', '核心'],
+    example: '∫∫sin x dxdx = -sin x + C₁x + C₂'
+  },
+  {
+    id: 'highmath-nint-1-over-x',
+    name: '1/x的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} \\frac{1}{x}\\,dx^n = \\frac{x^{n-1}}{(n-1)!}(\\ln x - H_{n-1}) + \\sum_{k=1}^{n-1} C_k x^{n-1-k}',
+    description: 'Hₙ₋₁为调和数1+1/2+…+1/(n-1)。1/x的积分产生对数，再次积分产生含ln x的多项式',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '对数', '拓展']
+  },
+
+  // ---- Cauchy n阶积分公式 ----
+  {
+    id: 'highmath-nint-cauchy',
+    name: 'Cauchy n阶积分公式（复分析）',
+    latex: 'f^{(n)}(z_0) = \\frac{n!}{2\\pi i} \\oint_\\gamma \\frac{f(z)}{(z-z_0)^{n+1}}\\,dz',
+    description: '复分析中用围道积分表示n阶导数，是n阶导数与积分的深刻统一。解析函数的n阶导可由积分表示',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', 'Cauchy公式', '拓展']
+  },
+
+  // ---- 定积分的n次累次积分 ----
+  {
+    id: 'highmath-nint-definite',
+    name: '定积分的n次累次积分',
+    latex: '\\underbrace{\\int_a^x \\int_a^{t_1} \\cdots \\int_a^{t_{n-1}}}_{n} f(t_n)\\,dt_n \\cdots dt_1 = \\frac{1}{(n-1)!} \\int_a^x (x-t)^{n-1} f(t)\\,dt',
+    description: 'n次累次定积分可化为单次积分（Cauchy重复积分公式），这是考研和数学分析的重要结论',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', 'Cauchy重复积分', '核心'],
+    example: '∫₀ˣ∫₀ᵗ f(s)dsdt = ∫₀ˣ(x-s)f(s)ds（n=2的特例）'
+  },
+  {
+    id: 'highmath-nint-gamma',
+    name: 'n阶积分与Gamma函数',
+    latex: '\\frac{1}{(n-1)!} \\int_0^x (x-t)^{n-1} f(t)\\,dt = \\frac{1}{\\Gamma(n)} \\int_0^x (x-t)^{n-1} f(t)\\,dt',
+    description: '当n推广为非整数α时，(n-1)!→Γ(α)，即分数阶积分（Riemann-Liouville积分）的定义',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', 'Gamma函数', '拓展']
+  },
+
+  // ---- n阶积分常用技巧 ----
+  {
+    id: 'highmath-nint-duality',
+    name: 'n阶导数与n阶积分的对偶性',
+    latex: '\\frac{d^n}{dx^n}\\left[\\underbrace{\\int \\cdots \\int}_{n} f(x)\\,dx^n\\right] = f(x)',
+    description: 'n阶导数与n阶积分互为逆运算（忽略常数项）。这一定义层面的对偶性是验证n阶积分结果的基本方法',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '对偶性', '核心']
+  },
+  {
+    id: 'highmath-nint-verification',
+    name: 'n阶积分结果的验证方法',
+    latex: '\\text{验证：对结果求n阶导} = f(x)',
+    description: 'n阶积分没有常数项不确定性的统一标准答案，验证方法就是对结果求n阶导应等于原函数',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '验证', '二级结论']
+  },
+  {
+    id: 'highmath-nint-reduction',
+    name: '分部积分法求n阶积分',
+    latex: '\\int_a^x \\int_a^{t_1} f(t_2)\\,dt_2\\,dt_1 = (x-a)\\int_a^x f(t)\\,dt - \\int_a^x (t-a)f(t)\\,dt',
+    description: '将累次积分通过分部积分法降阶，配合Cauchy重复积分公式可简化计算',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '分部积分', '拓展']
+  },
+  {
+    id: 'highmath-nint-convolution',
+    name: 'n阶积分与卷积',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} f(x)\\,dx^n = \\frac{1}{(n-1)!} (x^{n-1} * f)(x)',
+    description: '累次积分本质是f与xⁿ⁻¹/(n-1)!的卷积。卷积观点是理解Cauchy重复积分公式的最简洁方式',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '卷积', '拓展']
+  },
+
+  // ---- 考研常见n阶积分题型 ----
+  {
+    id: 'highmath-nint-exam-poly',
+    name: '多项式的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} x^m\\,dx^n = \\frac{m!}{(m+n)!}x^{m+n} + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: 'm为正整数时，特解系数可写成m!/(m+n)!形式。这是考研n阶积分最基础的题型',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '多项式', '二级结论'],
+    example: '∫∫∫x²dxdxdx=x⁵/60+C₁x²+C₂x+C₃（5!=120，2!·3!=12，系数120/12÷5!=1/60）'
+  },
+  {
+    id: 'highmath-nint-exam-exp-trig',
+    name: 'eˣsinx的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} e^x \\sin x\\,dx^n = (\\sqrt{2})^{-n} e^x \\sin\\left(x - \\frac{n\\pi}{4}\\right) + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: '与n阶导数对偶：系数从(√2)ⁿ变为(√2)⁻ⁿ，角度从+nπ/4变为-nπ/4',
+    category: '高等数学-n阶积分',
+    tags: ['n阶积分', '指数三角', '二级结论']
   }
 ]
 
