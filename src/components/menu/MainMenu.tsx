@@ -16,6 +16,12 @@ const RESOURCE_LINKS: ResourceLink[] = [
     description: 'B站高等数学教学视频'
   },
   {
+    id: 'gaoshu',
+    name: '一高数主页',
+    url: 'https://space.bilibili.com/1035929235?spm_id_from=333.337.0.0',
+    description: 'B站一高数教学视频'
+  },
+  {
     id: 'geogebra',
     name: 'GeoGebra网页版',
     url: 'https://www.geogebra.org/calculator',
@@ -151,7 +157,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
         </div>
 
         {/* 公式推导 */}
-        <div className="menu-card derivation-card" onClick={() => onNavigate('derivation')}>
+        <div className="menu-card derivation-card available" onClick={() => onNavigate('derivation')}>
           <div className="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" />
@@ -161,7 +167,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ onNavigate }) => {
           <div className="card-content">
             <h3>公式推导</h3>
             <p>公式由来，推导过程</p>
-            <span className="card-tag developing">开发中</span>
+            <span className="card-tag available">已上线</span>
           </div>
           <div className="card-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
