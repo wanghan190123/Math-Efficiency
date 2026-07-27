@@ -413,6 +413,303 @@ const FORMULAS: Formula[] = [
   
   // ===== 概率论与数理统计 =====
 
+  // ===== n阶导数 =====
+  {
+    id: 'nth-deriv-def',
+    name: 'n阶导数定义',
+    latex: 'f^{(n)}(x) = \\frac{d^n f}{dx^n} = \\underbrace{\\frac{d}{dx}\\left(\\frac{d}{dx}\\cdots\\frac{d}{dx}\\right)}_{n\\text{次}} f(x)',
+    description: '对函数f(x)连续求n次导数。二阶及以上统称高阶导数',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '定义'],
+    example: 'f(x)=x³，f′=3x²，f″=6x，f‴=6，f⁽⁴⁾=0'
+  },
+  {
+    id: 'nth-deriv-linearity',
+    name: '线性性质',
+    latex: '[af(x) + bg(x)]^{(n)} = af^{(n)}(x) + bg^{(n)}(x)',
+    description: 'n阶导数具有线性性，和的n阶导等于n阶导的和',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '线性性']
+  },
+  {
+    id: 'nth-deriv-leibniz',
+    name: '莱布尼茨公式',
+    latex: '[f(x)g(x)]^{(n)} = \\sum_{k=0}^{n} \\binom{n}{k} f^{(k)}(x) g^{(n-k)}(x)',
+    description: '乘积的n阶导数公式，类比二项式定理。C(n,k)为组合数，共n+1项。考研高频考点',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '莱布尼茨', '核心'],
+    example: '求(x²eˣ)⁽ⁿ⁾：k≥3时(x²)⁽ᵏ⁾=0，只剩3项'
+  },
+  {
+    id: 'nth-deriv-poly',
+    name: '多项式的n阶导',
+    latex: '(x^m)^{(n)} = \\begin{cases} \\frac{m!}{(m-n)!}x^{m-n}, & n \\leq m \\\\ 0, & n > m \\end{cases}',
+    description: 'n≤m时为m!/(m-n)!·x^(m-n)；n>m时恒为零',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '多项式', '核心'],
+    example: '(x⁵)‴=60x²；(x⁵)⁽⁶⁾=0'
+  },
+  {
+    id: 'nth-deriv-exp',
+    name: '指数函数',
+    latex: '(e^x)^{(n)} = e^x, \\quad (a^x)^{(n)} = a^x (\\ln a)^n',
+    description: 'eˣ的n阶导仍是eˣ，aˣ多出(ln a)ⁿ因子',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '指数']
+  },
+  {
+    id: 'nth-deriv-sin-cos',
+    name: '三角函数',
+    latex: '(\\sin x)^{(n)} = \\sin\\!\\left(x + \\frac{n\\pi}{2}\\right), \\quad (\\cos x)^{(n)} = \\cos\\!\\left(x + \\frac{n\\pi}{2}\\right)',
+    description: '正余弦n阶导呈周期4循环，统一写成平移nπ/2。考研必背',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '三角', '核心'],
+    example: '(sin x)‴=sin(x+3π/2)=-cos x'
+  },
+  {
+    id: 'nth-deriv-sin-cycle',
+    name: 'sin/cos周期4速查',
+    latex: '\\begin{aligned} &(\\sin x)^{(4k)}\\!=\\!\\sin x,\\;(\\sin x)^{(4k+1)}\\!=\\!\\cos x \\\\ &(\\sin x)^{(4k+2)}\\!=\\!-\\sin x,\\;(\\sin x)^{(4k+3)}\\!=\\!-\\cos x \\end{aligned}',
+    description: '周期4循环速查表。cos x同理',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '速查', '二级结论']
+  },
+  {
+    id: 'nth-deriv-power',
+    name: '幂函数',
+    latex: '(x^\\alpha)^{(n)} = \\alpha(\\alpha\\!-\\!1)\\cdots(\\alpha\\!-\\!n\\!+\\!1)\\, x^{\\alpha-n} = \\frac{\\Gamma(\\alpha\\!+\\!1)}{\\Gamma(\\alpha\\!-\\!n\\!+\\!1)} x^{\\alpha-n}',
+    description: '降阶乘是关键。α为正整数m时即多项式公式；非整数时用Gamma函数',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '幂函数', '拓展']
+  },
+  {
+    id: 'nth-deriv-ln',
+    name: '对数函数',
+    latex: '(\\ln x)^{(n)} = (-1)^{n-1} \\frac{(n-1)!}{x^n}',
+    description: '通项含(-1)ⁿ⁻¹和(n-1)!，分母xⁿ',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '对数', '核心'],
+    example: '(ln x)″=-1/x²；(ln x)‴=2/x³'
+  },
+  {
+    id: 'nth-deriv-ln-axb',
+    name: 'ln(ax+b)',
+    latex: '[\\ln(ax+b)]^{(n)} = (-1)^{n-1} \\frac{a^n (n-1)!}{(ax+b)^n}',
+    description: '比ln x多出aⁿ因子，考研常见',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '对数', '二级结论']
+  },
+  {
+    id: 'nth-deriv-rational',
+    name: '1/(ax+b)',
+    latex: '\\left(\\frac{1}{ax+b}\\right)^{(n)} = (-1)^n \\frac{a^n \\cdot n!}{(ax+b)^{n+1}}',
+    description: '有理分式n阶导通项，考研极高频。注意分母幂次为n+1',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '有理分式', '核心'],
+    example: '[1/(2x+1)]⁽ⁿ⁾=(-1)ⁿ·2ⁿn!/(2x+1)ⁿ⁺¹'
+  },
+  {
+    id: 'nth-deriv-decompose',
+    name: '部分分式分解法',
+    latex: '\\frac{1}{x^2-a^2} = \\frac{1}{2a}\\!\\left(\\frac{1}{x-a} - \\frac{1}{x+a}\\right)',
+    description: '将有理分式拆成1/(ax+b)型再套通项公式。考研标准套路',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '部分分式', '核心'],
+    example: '[1/(x²-1)]⁽ⁿ⁾=½(-1)ⁿn![(x-1)⁻ⁿ⁻¹-(x+1)⁻ⁿ⁻¹]'
+  },
+  {
+    id: 'nth-deriv-shift',
+    name: '平移不变性',
+    latex: '[f(ax+b)]^{(n)} = a^n f^{(n)}(ax+b)',
+    description: '先求f的n阶导通项，再将x替换为ax+b并乘aⁿ',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '复合', '二级结论']
+  },
+  {
+    id: 'nth-deriv-taylor',
+    name: '泰勒展开法',
+    latex: 'f^{(n)}(x_0) = n! \\cdot [x^n\\text{系数}]',
+    description: '先求f在某点的泰勒展开，(x-x₀)ⁿ的系数乘n!即得f⁽ⁿ⁾(x₀)',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '泰勒', '核心'],
+    example: 'f(x)=1/(1-x-x²)，展开幂级数读系数得f⁽ⁿ⁾(0)'
+  },
+  {
+    id: 'nth-deriv-exp-sin',
+    name: 'eˣsinx',
+    latex: '(e^x \\sin x)^{(n)} = (\\sqrt{2})^n e^x \\sin\\!\\left(x + \\frac{n\\pi}{4}\\right)',
+    description: '利用欧拉公式：eˣsinx=Im[e⁽¹⁺ⁱ⁾ˣ]，√2=|1+i|',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '指数三角', '二级结论'],
+    example: '(eˣsin x)″=2eˣcos x'
+  },
+  {
+    id: 'nth-deriv-exp-cos',
+    name: 'eˣcosx',
+    latex: '(e^x \\cos x)^{(n)} = (\\sqrt{2})^n e^x \\cos\\!\\left(x + \\frac{n\\pi}{4}\\right)',
+    description: '取e⁽¹⁺ⁱ⁾ˣ的实部即得',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '指数三角', '二级结论']
+  },
+  {
+    id: 'nth-deriv-sinh-cosh',
+    name: '双曲函数',
+    latex: '(\\sinh x)^{(n)} = \\begin{cases} \\cosh x, & n\\text{奇} \\\\ \\sinh x, & n\\text{偶} \\end{cases}',
+    description: '与三角函数类似但无负号，(sinh x)″=sinh x',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '双曲', '拓展']
+  },
+  {
+    id: 'nth-deriv-euler',
+    name: '欧拉公式法',
+    latex: 'e^{ix} = \\cos x + i\\sin x \\Rightarrow (\\cos x)^{(n)} = \\text{Re}[(ix)^n e^{ix}]',
+    description: '将三角n阶导归结为指数n阶导再取实/虚部',
+    category: 'nth-derivative',
+    tags: ['n阶导数', '欧拉公式', '拓展']
+  },
+
+  // ===== n阶积分 =====
+  {
+    id: 'nth-int-def',
+    name: 'n阶积分定义',
+    latex: '\\underbrace{\\int \\!\\int \\cdots \\!\\int}_{n} f(x)\\,dx^n = \\int \\!\\left(\\int \\cdots \\!\\int f(x)\\,dx \\cdots dx\\right) dx',
+    description: '对函数f(x)连续求n次不定积分，每层产生一个独立常数',
+    category: 'nth-integral',
+    tags: ['n阶积分', '定义']
+  },
+  {
+    id: 'nth-int-constants',
+    name: '常数项结构',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} f(x)\\,dx^n = F(x) + C_1 x^{n-1} + C_2 x^{n-2} + \\cdots + C_n',
+    description: 'n次不定积分=特解F(x)+n个常数生成的n-1至0次多项式',
+    category: 'nth-integral',
+    tags: ['n阶积分', '常数项', '核心']
+  },
+  {
+    id: 'nth-int-recur',
+    name: '递推公式',
+    latex: 'F_n(x) = \\int F_{n-1}(x)\\,dx, \\quad F_0(x) = f(x)',
+    description: '定义Fₙ为f的第n次不定积分，递推求解是基本方法',
+    category: 'nth-integral',
+    tags: ['n阶积分', '递推']
+  },
+  {
+    id: 'nth-int-power',
+    name: '幂函数n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} x^m\\,dx^n = \\frac{x^{m+n}}{(m+1)(m+2)\\cdots(m+n)} + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: '每积分一次幂次升1，分母多一个因子',
+    category: 'nth-integral',
+    tags: ['n阶积分', '幂函数', '核心'],
+    example: '∫∫x³dxdx=x⁵/20+C₁x+C₂'
+  },
+  {
+    id: 'nth-int-poly-coeff',
+    name: '多项式n阶积分系数',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} x^m\\,dx^n = \\frac{m!}{(m+n)!}x^{m+n} + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: 'm为正整数时系数可写成m!/(m+n)!',
+    category: 'nth-integral',
+    tags: ['n阶积分', '多项式', '二级结论'],
+    example: '∫∫∫x²dxdxdx=x⁵/60+C₁x²+C₂x+C₃'
+  },
+  {
+    id: 'nth-int-exp',
+    name: '指数函数n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} e^x\\,dx^n = e^x + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: 'eˣ的n阶积分特解仍为eˣ（与n阶导数对偶）',
+    category: 'nth-integral',
+    tags: ['n阶积分', '指数']
+  },
+  {
+    id: 'nth-int-a-exp',
+    name: 'aˣ的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} a^x\\,dx^n = \\frac{a^x}{(\\ln a)^n} + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: '每积分一次除以ln a，n次除以(ln a)ⁿ',
+    category: 'nth-integral',
+    tags: ['n阶积分', '指数', '二级结论']
+  },
+  {
+    id: 'nth-int-sin',
+    name: '三角函数n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} \\sin x\\,dx^n = \\sin\\!\\left(x - \\frac{n\\pi}{2}\\right) + \\sum_{k=1}^{n} C_k x^{n-k}',
+    description: '与n阶导数对偶：求导向左移nπ/2，积分向右移nπ/2',
+    category: 'nth-integral',
+    tags: ['n阶积分', '三角', '核心'],
+    example: '∫∫sin x dxdx=-sin x+C₁x+C₂'
+  },
+  {
+    id: 'nth-int-1-over-x',
+    name: '1/x的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} \\frac{1}{x}\\,dx^n = \\frac{x^{n-1}}{(n-1)!}(\\ln x - H_{n-1}) + \\sum C_k x^{n-1-k}',
+    description: 'Hₙ₋₁为调和数1+1/2+…+1/(n-1)，产生含ln x的多项式',
+    category: 'nth-integral',
+    tags: ['n阶积分', '对数', '拓展']
+  },
+  {
+    id: 'nth-int-duality',
+    name: '导数与积分对偶性',
+    latex: '\\frac{d^n}{dx^n}\\!\\left[\\underbrace{\\int \\cdots \\int}_{n} f(x)\\,dx^n\\right] = f(x)',
+    description: 'n阶导数与n阶积分互为逆运算，验证结果的基本方法',
+    category: 'nth-integral',
+    tags: ['n阶积分', '对偶性', '核心']
+  },
+  {
+    id: 'nth-int-verify',
+    name: '结果验证法',
+    latex: '\\text{对结果求n阶导} = f(x) \\Rightarrow \\text{正确}',
+    description: 'n阶积分无统一标准答案，验证：对结果求n阶导应等于原函数',
+    category: 'nth-integral',
+    tags: ['n阶积分', '验证', '二级结论']
+  },
+  {
+    id: 'nth-int-cauchy-repeat',
+    name: 'Cauchy重复积分公式',
+    latex: '\\underbrace{\\int_a^x \\int_a^{t_1} \\cdots \\int_a^{t_{n-1}}}_{n} f(t_n)\\,dt_n \\cdots dt_1 = \\frac{1}{(n-1)!} \\int_a^x (x\\!-\\!t)^{n-1} f(t)\\,dt',
+    description: 'n次累次定积分化为单次积分，考研和数学分析的重要结论',
+    category: 'nth-integral',
+    tags: ['n阶积分', 'Cauchy', '核心'],
+    example: '∫₀ˣ∫₀ᵗf(s)dsdt=∫₀ˣ(x-s)f(s)ds（n=2特例）'
+  },
+  {
+    id: 'nth-int-gamma',
+    name: 'Gamma函数推广',
+    latex: '\\frac{1}{(n-1)!} \\to \\frac{1}{\\Gamma(\\alpha)} \\Rightarrow \\text{Riemann-Liouville分数阶积分}',
+    description: 'n推广为非整数α时，(n-1)!→Γ(α)，即分数阶积分定义',
+    category: 'nth-integral',
+    tags: ['n阶积分', 'Gamma', '拓展']
+  },
+  {
+    id: 'nth-int-convolution',
+    name: '卷积观点',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} f(x)\\,dx^n = \\frac{1}{(n-1)!}(x^{n-1} * f)(x)',
+    description: '累次积分本质是f与xⁿ⁻¹/(n-1)!的卷积',
+    category: 'nth-integral',
+    tags: ['n阶积分', '卷积', '拓展']
+  },
+  {
+    id: 'nth-int-exp-sin',
+    name: 'eˣsinx的n阶积分',
+    latex: '\\underbrace{\\int \\cdots \\int}_{n} e^x \\sin x\\,dx^n = (\\sqrt{2})^{-n} e^x \\sin\\!\\left(x - \\frac{n\\pi}{4}\\right) + \\sum C_k x^{n-k}',
+    description: '与n阶导对偶：系数(√2)⁻ⁿ，角度-nπ/4',
+    category: 'nth-integral',
+    tags: ['n阶积分', '指数三角', '二级结论']
+  },
+  {
+    id: 'nth-int-cauchy-complex',
+    name: 'Cauchy积分公式（复分析）',
+    latex: 'f^{(n)}(z_0) = \\frac{n!}{2\\pi i} \\oint_\\gamma \\frac{f(z)}{(z-z_0)^{n+1}}\\,dz',
+    description: '用围道积分表示n阶导数，是导数与积分的深刻统一',
+    category: 'nth-integral',
+    tags: ['n阶积分', 'Cauchy复分析', '拓展']
+  },
+  {
+    id: 'nth-int-reduction',
+    name: '分部积分降阶',
+    latex: '\\int_a^x \\int_a^{t_1} f(t_2)\\,dt_2\\,dt_1 = (x\\!-\\!a)\\!\\int_a^x f(t)\\,dt - \\int_a^x (t\\!-\\!a)f(t)\\,dt',
+    description: '通过分部积分将累次积分降阶，配合Cauchy重复积分公式简化',
+    category: 'nth-integral',
+    tags: ['n阶积分', '分部积分', '拓展']
+  },
+
   // ---- 第一章 随机事件和概率 ----
   {
     id: 'prob-event-contain',
@@ -6151,6 +6448,8 @@ const CATEGORIES: Category[] = [
   { id: 'line-integral', name: '曲线积分', icon: '〰' },
   { id: 'surface-integral', name: '曲面积分', icon: '🌐' },
   { id: 'differential-equations', name: '微分方程', icon: '📐' },
+  { id: 'nth-derivative', name: 'n阶导数', icon: 'ⁿ' },
+  { id: 'nth-integral', name: 'n阶积分', icon: '∫ⁿ' },
   { id: 'prob-events', name: '随机事件和概率', icon: '🎲' },
   { id: 'prob-one-dim', name: '一维随机变量', icon: '📊' },
   { id: 'prob-two-dim', name: '二维随机变量', icon: '📈' },
