@@ -11,6 +11,29 @@ const ModelPanel: React.FC<ModelPanelProps> = ({ config }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { modelState, updateModelParams } = useAppStore()
   
+  // 从CSS变量读取当前主题颜色
+  const getThemeColors = useCallback(() => {
+    const style = getComputedStyle(document.documentElement)
+    const get = (varName: string, fallback: string) => style.getPropertyValue(varName).trim() || fallback
+    return {
+      bgPrimary: get('--color-bg-primary', '#F4E4BC'),
+      primary: get('--color-primary', '#5D4037'),
+      primaryDark: get('--color-primary-dark', '#3E2723'),
+      accent: get('--color-accent', '#D4A574'),
+      border: get('--color-border', '#C4A77D'),
+      error: get('--color-error', '#C62828'),
+      info: get('--color-info', '#1565C0'),
+      textPrimary: get('--color-text-primary', '#3E2723'),
+    }
+  }, [])
+  
+  const withAlpha = useCallback((hex: string, alpha: number) => {
+    const r = parseInt(hex.slice(1,3), 16)
+    const g = parseInt(hex.slice(3,5), 16)
+    const b = parseInt(hex.slice(5,7), 16)
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  }, [])
+  
   // 获取当前参数值
   const getParam = (id: string, defaultValue: number): number => {
     return modelState.params[id] ?? defaultValue
@@ -18,6 +41,7 @@ const ModelPanel: React.FC<ModelPanelProps> = ({ config }) => {
 
   // 绘制数学图形
   const draw = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const tc = getThemeColors()
     // 清空画布
     ctx.fillStyle = 'var(--color-bg-primary)'
     ctx.fillRect(0, 0, width, height)
@@ -28,7 +52,7 @@ const ModelPanel: React.FC<ModelPanelProps> = ({ config }) => {
     const scale = 50 * modelState.zoom
     
     // 绘制网格
-    ctx.strokeStyle = 'rgba(196, 167, 125, 0.3)'
+    ctx.strokeStyle = withAlpha(tc.border, 0.3)
     ctx.lineWidth = 1
     for (let x = 0; x < width; x += scale) {
       ctx.beginPath()
@@ -115,11 +139,11 @@ const ModelPanel: React.FC<ModelPanelProps> = ({ config }) => {
         ctx.setLineDash([])
         
         // 绘制ε区间
-        ctx.fillStyle = 'rgba(212, 165, 116, 0.2)'
+        ctx.fillStyle = withAlpha(tc.accent, 0.2)
         ctx.fillRect(0, centerY - (1 + epsilon) * scale, width, epsilon * 2 * scale)
         
         // 绘制当前点
-        ctx.fillStyle = '#C62828'
+        ctx.fillStyle = tc.error
         ctx.beginPath()
         ctx.arc(pointX, pointY, 8, 0, Math.PI * 2)
         ctx.fill()
@@ -142,7 +166,7 @@ const ModelPanel: React.FC<ModelPanelProps> = ({ config }) => {
         
         // 绘制切线
         const slope = 2 * x0 // 导数
-        ctx.strokeStyle = '#C62828'
+        ctx.strokeStyle = tc.error
         ctx.lineWidth = 2
         ctx.beginPath()
         ctx.moveTo(px - 100, py + slope * 100)
@@ -150,7 +174,7 @@ const ModelPanel: React.FC<ModelPanelProps> = ({ config }) => {
         ctx.stroke()
         
         // 绘制割线
-        ctx.strokeStyle = '#1565C0'
+        ctx.strokeStyle = tc.info
         ctx.lineWidth = 2
         ctx.setLineDash([5, 5])
         ctx.beginPath()
@@ -160,12 +184,12 @@ const ModelPanel: React.FC<ModelPanelProps> = ({ config }) => {
         ctx.setLineDash([])
         
         // 绘制点P和Q
-        ctx.fillStyle = '#C62828'
+        ctx.fillStyle = tc.error
         ctx.beginPath()
         ctx.arc(px, py, 8, 0, Math.PI * 2)
         ctx.fill()
         
-        ctx.fillStyle = '#1565C0'
+        ctx.fillStyle = tc.info
         ctx.beginPath()
         ctx.arc(qx, qy, 8, 0, Math.PI * 2)
         ctx.fill()

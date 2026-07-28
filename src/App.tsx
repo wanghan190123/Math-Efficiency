@@ -245,7 +245,6 @@ const App: React.FC = () => {
         <MainContent />
       </div>
       <StatusBar />
-      <AIAssistant />
     </div>
   )
 }

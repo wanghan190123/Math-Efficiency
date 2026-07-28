@@ -23,7 +23,7 @@ export interface KnowledgePoint {
   dimensions: {
     // 1. 动态模型
     model: {
-      type: '2d' | '3d'
+      type: '2d' | '3d' | 'none'
       config: ModelConfig
       animations: Animation[]
     }

@@ -60,12 +60,11 @@
   display: flex;
   gap: 12px;
   min-height: 380px;
-  height: 450px;
   flex-shrink: 0;
 }
 
 .main-visualization.compare-mode {
-  height: 500px;
+  min-height: 500px;
 }
 
 .model-section {
@@ -75,7 +74,7 @@
   background: var(--color-bg-card);
   border: 2px solid var(--color-border);
   border-radius: 16px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* 控制工具栏 */
@@ -137,6 +136,12 @@
   min-height: 280px;
   position: relative;
   background: var(--color-bg-primary);
+  overflow: hidden;
+  cursor: grab;
+}
+
+.canvas-container:active {
+  cursor: grabbing;
 }
 
 .model-canvas {
@@ -145,19 +150,53 @@
   display: block;
 }
 
+/* Canvas操作提示 */
+.canvas-hint {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 12px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* 缩放指示器 */
+.zoom-indicator {
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  min-width: 40px;
+  text-align: center;
+  user-select: none;
+}
+
+.zoom-indicator:hover {
+  color: var(--color-accent);
+}
+
+.zoom-btn {
+  padding: 4px 8px !important;
+  min-width: 28px;
+}
+
 /* 滑块面板 */
 .sliders-panel {
   padding: 12px;
   background: var(--color-bg-secondary);
   border-top: 1px solid var(--color-border);
   flex-shrink: 0;
+  overflow-y: auto;
 }
 
 @media (min-width: 768px) {
   .sliders-panel {
     padding: 16px;
-    max-height: 200px;
-    overflow-y: auto;
   }
 }
 

@@ -1572,7 +1572,10 @@ const derivativeRulesPoint: KnowledgePoint = {
           { id: 'f3', expression: 'x^2*e^x', color: '#558B2F', visible: true },
         ],
         points: [],
-        sliders: [],
+        sliders: [
+          { id: 'x0', name: 'x0', min: -3, max: 3, step: 0.1, defaultValue: 1, label: '观察点 x₀' },
+          { id: 'rule_type', name: 'rule_type', min: 0, max: 2, step: 1, defaultValue: 0, label: '法则类型' },
+        ],
       },
       animations: [],
     },
@@ -2635,7 +2638,10 @@ const integrationByPartsPoint: KnowledgePoint = {
       config: {
         functions: [],
         points: [],
-        sliders: [],
+        sliders: [
+          { id: 'x_max', name: 'x_max', min: 0.5, max: 3, step: 0.1, defaultValue: 2, label: '积分上限' },
+          { id: 'part_type', name: 'part_type', min: 0, max: 2, step: 1, defaultValue: 0, label: '示例类型' },
+        ],
       },
       animations: [],
     },
@@ -6499,7 +6505,10 @@ const vectorOperationsPoint: KnowledgePoint = {
           { x: 2, y: 1, z: 1, label: 'a' },
           { x: 1, y: 2, z: 1, label: 'b' },
         ],
-        sliders: [],
+        sliders: [
+          { id: 'angle_a', name: 'angle_a', min: 0, max: 6.28, step: 0.1, defaultValue: 0.46, label: '向量a方向角' },
+          { id: 'angle_b', name: 'angle_b', min: 0, max: 6.28, step: 0.1, defaultValue: 1.1, label: '向量b方向角' },
+        ],
       },
       animations: [],
     },
@@ -7697,7 +7706,9 @@ const compositeImplicitPoint: KnowledgePoint = {
       config: {
         functions: [],
         points: [],
-        sliders: [],
+        sliders: [
+          { id: 't', name: 't', min: 0.5, max: 3, step: 0.1, defaultValue: 1, label: '路径追踪参数' },
+        ],
       },
       animations: [],
     },
@@ -8132,7 +8143,9 @@ const multivariableExtremumPoint: KnowledgePoint = {
       config: {
         functions: [],
         points: [],
-        sliders: [],
+        sliders: [
+          { id: 'surface_type', name: 'surface_type', min: 0, max: 2, step: 1, defaultValue: 0, label: '曲面类型' },
+        ],
       },
       animations: [],
     },
@@ -10000,6 +10013,7 @@ const matrixEquationPoint: KnowledgePoint = {
           { x: 0, y: 1, label: 'e₂' },
         ],
         sliders: [
+          { id: 'eq_type', name: 'eq_type', min: 0, max: 2, step: 1, defaultValue: 0, label: '方程类型' },
           { id: 'theta', name: '旋转角θ', min: 0, max: 6.28, step: 0.1, defaultValue: 0, label: 'θ' },
           { id: 'lambda1', name: '特征值λ₁', min: 0.1, max: 3, step: 0.1, defaultValue: 1, label: 'λ₁' },
           { id: 'lambda2', name: '特征值λ₂', min: 0.1, max: 3, step: 0.1, defaultValue: 1, label: 'λ₂' },

@@ -1304,7 +1304,7 @@ const chapters = [
         definition: '形如 y^(n) = f(x) 的方程，可通过 n 次积分求解。形如 y\'\' = f(x, y\') 的方程，令 p = y\'，则 p\' = f(x, p)，降为一阶方程。形如 y\'\' = f(y, y\') 的方程，令 p = y\'，则 p·dp/dy = f(y, p)，降为一阶方程。',
         plainTranslation: '可降阶的高阶方程就是"能降为一阶"的方程。核心口诀："缺谁降谁"——缺 y 就令 p = y\'，缺 x 就令 p = y\' 并注意 y\'\' = p·dp/dy。通过换元，把高阶问题转化为低阶问题！',
         whyNeedIt: '很多实际问题的微分方程是高阶的，但降阶法让我们能把复杂的高阶方程拆成多个简单的一阶方程来求解。这是求解高阶方程的基础技巧。',
-        formula: "y'' = f(x, y') → 令 p = y', 则 p' = f(x, p)",
+        formula: "y'' = f(x, y') \\to \\text{令} p = y', \\text{则} p' = f(x, p)",
         example: 'y\'\' = x + 1，两边积分得 y\' = x²/2 + x + C₁，再积分得 y = x³/6 + x²/2 + C₁x + C₂。'
       },
       {
@@ -1314,7 +1314,7 @@ const chapters = [
         definition: '对于非齐次线性微分方程 y\'\' + p(x)y\' + q(x)y = f(x)，若对应的齐次方程通解为 y = C₁y₁(x) + C₂y₂(x)，则设非齐次方程的解为 y = u₁(x)y₁(x) + u₂(x)y₂(x)，通过求解 u₁\'、u₂\' 的方程组确定 u₁、u₂。',
         plainTranslation: '常数变易法的思想是"把常数变成函数"！齐次方程的解是 C₁y₁ + C₂y₂，非齐次方程的解则是 u₁y₁ + u₂y₂。这里的 u₁、u₂ 不是常数，而是待定函数。通过让导数满足特定条件来确定它们。',
         whyNeedIt: '当待定系数法失效时（比如 f(x) 不是多项式×指数或多项式×三角的组合），常数变易法是最后的"万能解法"。它适用于任何非齐次线性方程。',
-        formula: "y = u₁y₁ + u₂y₂, 其中 u₁' = -y₂f/(y₁y₂' - y₁'y₂), u₂' = y₁f/(y₁y₂' - y₁'y₂)",
+        formula: "y = u_1 y_1 + u_2 y_2, \\text{其中} u_1' = \\frac{-y_2 f}{y_1 y_2' - y_1' y_2}, u_2' = \\frac{y_1 f}{y_1 y_2' - y_1' y_2}",
         example: 'y\'\' + y = sec x。对应齐次方程 y\'\' + y = 0 的解为 y₁ = cos x, y₂ = sin x。设 y = u₁cos x + u₂sin x，解得 u₁\' = -sin x·sec x = -tan x，u₂\' = cos x·sec x = 1，故 u₁ = ln|cos x| + C₁，u₂ = x + C₂，通解 y = cos x·ln|cos x| + x·sin x。'
       },
       {
@@ -1444,7 +1444,7 @@ const chapters = [
         definition: '若幂级数 Σaₙ(x-x₀)ⁿ 在 x = x₁ 处收敛，则对所有满足 |x-x₀| < |x₁-x₀| 的 x 都绝对收敛。若在 x = x₂ 处发散，则对所有满足 |x-x₀| > |x₂-x₀| 的 x 都发散。',
         plainTranslation: '阿贝尔定理告诉我们：幂级数的收敛域是一个以 x₀ 为中心的区间！从收敛点往里都是收敛的，从发散点往外都是发散的。这让幂级数的收敛域必定是一个区间（可能缺几个点）。',
         whyNeedIt: '阿贝尔定理是研究幂级数收敛域的核心工具。它让我们能通过"探测"边界点来确定整个收敛区间。这是求收敛半径的基础。',
-        formula: '收敛半径 R = lim |aₙ/aₙ₊₁| 或 R = lim 1/|aₙ|^(1/n)',
+        formula: '\\text{收敛半径} R = \\lim \\left|\\frac{a_n}{a_{n+1}}\\right| \\text{或} R = \\lim \\frac{1}{|a_n|^{1/n}}',
         example: 'Σxⁿ 的收敛半径 R = 1，因为在 x = 1 处发散，在 x = -1 处条件收敛，所以收敛域是 (-1, 1]。'
       },
       {
@@ -1804,7 +1804,7 @@ const chapters = [
         definition: '向量场 F = (P, Q, R) 的散度为 div F = ∂P/∂x + ∂Q/∂y + ∂R/∂z。散度是向量场"源头强度"的度量：散度 > 0 表示该点有"源"，散度 < 0 表示该点有"汇"，散度 = 0 表示无源场。',
         plainTranslation: '散度描述的是空间中某一点是"Source"还是"Sink"——就像水流：有的地方水从地下冒出来（源，div > 0），有的地方水渗入地下（汇，div < 0），有的地方水只是流过（无源，div = 0）。散度就是量化这个"冒出"或"渗入"的强度。',
         whyNeedIt: '散度是描述向量场性质的基本工具。在电磁学中，电场的散度与电荷密度有关；在流体力学中，流场的散度与流体的可压缩性有关。高斯公式本质上就是散度定理。',
-        formula: '\\nabla \\cdot \\mathbf{F} = \\frac{\\partial P}{\partial x} + \\frac{\partial Q}{\partial y} + \\frac{\partial R}{\partial z}',
+        formula: '\\nabla \\cdot \\mathbf{F} = \\frac{\\partial P}{\\partial x} + \\frac{\\partial Q}{\\partial y} + \\frac{\\partial R}{\\partial z}',
         example: 'F = (x, y, z)，div F = 1 + 1 + 1 = 3 > 0，说明该向量场处处有源。'
       },
       {
@@ -1814,7 +1814,7 @@ const chapters = [
         definition: '向量场 F = (P, Q, R) 的旋度为 curl F = (∂R/∂y - ∂Q/∂z, ∂P/∂z - ∂R/∂x, ∂Q/∂x - ∂P/∂y)。旋度是向量场"旋转强度"的度量：旋度不为零表示该点存在"旋涡"，旋度为零表示无旋场（保守场）。',
         plainTranslation: '旋度描述的是空间中某一点"旋转"的强度。想象一条河流：有的地方水流会形成漩涡（旋度 ≠ 0），有的地方水流平直没有漩涡（旋度 = 0）。旋度向量垂直于旋转平面，方向由右手定则确定——手指沿旋转方向，拇指指向旋度方向。',
         whyNeedIt: '旋度是描述向量场"旋转性质"的核心工具。在电磁学中，磁场的旋度与电流密度有关（安培环路定理）；在流体力学中，旋度决定了涡旋的形成和发展。斯托克斯公式本质上是旋度定理。',
-        formula: '\\nabla \\times \\mathbf{F} = \\left|\\begin{matrix} \\mathbf{i} & \\mathbf{j} & \\mathbf{k} \\\\ \\frac{\partial}{\partial x} & \\frac{\partial}{\partial y} & \\frac{\partial}{\partial z} \\\\ P & Q & R \\end{matrix}\\right|',
+        formula: '\\nabla \\times \\mathbf{F} = \\left|\\begin{matrix} \\mathbf{i} & \\mathbf{j} & \\mathbf{k} \\\\ \\frac{\\partial}{\\partial x} & \\frac{\\partial}{\\partial y} & \\frac{\\partial}{\\partial z} \\\\ P & Q & R \\end{matrix}\\right|',
         example: 'F = (-y, x, 0)（平面旋涡），curl F = (0, 0, 2)，旋度指向 z 轴方向，表示逆时针旋转。'
       },
       {
