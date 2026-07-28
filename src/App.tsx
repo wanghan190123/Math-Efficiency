@@ -59,7 +59,6 @@ const App: React.FC = () => {
     if (!isNative()) return
 
     let App: any
-    let cleanup: (() => void) | null = null
 
     ;(async () => {
       try {

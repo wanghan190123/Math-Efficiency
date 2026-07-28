@@ -5,7 +5,6 @@ import './QuestionBank.css'
 import { Question, QuestionType } from '@/types/question'
 import { sampleQuestions } from '@/data/questions'
 import ContentPopup, { ContentType } from '@/components/common/ContentPopup'
-import { FORMULAS } from '@/data/formulas'
 import { CONCEPTS } from '@/data/concepts'
 
 const renderKatex = (latex: string, displayMode = false): string => {
@@ -56,8 +55,6 @@ const unicodeToLatexMap: Record<string, string> = {
   '⊤': '\\top', '⊥': '\\perp', '∥': '\\parallel', '∠': '\\angle', '°': '^\\circ',
   '·': '\\cdot', '…': '\\ldots', '⋯': '\\cdots', '⋮': '\\vdots', '⋱': '\\ddots',
 }
-
-const mathUnicodeChars = new Set(Object.keys(unicodeToLatexMap))
 
 const convertUnicodeToLatex = (text: string): string => {
   let result = text
@@ -277,15 +274,6 @@ const QuestionBank: React.FC = () => {
     }
   })
   
-  const openFormulaPopup = useCallback((formulaName: string) => {
-    const formula = FORMULAS.find(f => f.name === formulaName || f.id === formulaName)
-    if (formula) {
-      setPopupType('formula')
-      setPopupData(formula)
-      setPopupVisible(true)
-    }
-  }, [])
-  
   const openConceptPopup = useCallback((conceptName: string) => {
     const concept = CONCEPTS.find(c => c.name === conceptName || c.id === conceptName)
     if (concept) {
@@ -362,43 +350,6 @@ const QuestionBank: React.FC = () => {
       return newStatus
     })
   }, [])
-  
-  const getFilteredQuestions = useCallback((additionalFilters?: {
-    year?: number
-    chapter?: string
-    knowledgePoint?: string
-    method?: string
-  }) => {
-    let result = questions
-    
-    if (showOnlyFavorites) {
-      result = result.filter(q => favorites.has(q.id))
-    }
-    
-    if (statusFilter) {
-      result = result.filter(q => {
-        const currentStatus = questionStatus[q.id] || 'unDone'
-        return currentStatus === statusFilter
-      })
-    }
-    
-    if (additionalFilters) {
-      if (additionalFilters.year !== undefined) {
-        result = result.filter(q => q.year === additionalFilters.year)
-      }
-      if (additionalFilters.chapter) {
-        result = result.filter(q => q.chapter === additionalFilters.chapter)
-      }
-      if (additionalFilters.knowledgePoint) {
-        result = result.filter(q => q.knowledgePoints.includes(additionalFilters.knowledgePoint))
-      }
-      if (additionalFilters.method) {
-        result = result.filter(q => q.methods.includes(additionalFilters.method))
-      }
-    }
-    
-    return result
-  }, [questions, showOnlyFavorites, favorites, statusFilter, questionStatus])
   
   const getFilteredCount = useCallback((filterType: string, filterValue: string | number) => {
     let filtered = questions.filter(q => {
@@ -481,7 +432,7 @@ const QuestionBank: React.FC = () => {
       result = result.filter(q => favorites.has(q.id))
     } else if (filterMode === 'year' && selectedYear !== null) {
       result = result.filter(q => q.year === selectedYear)
-    } else if (filterMode !== 'year' && filterMode !== 'favorites' && selectedFilter) {
+    } else if (filterMode !== 'year' && filterMode as string !== 'favorites' && selectedFilter) {
       if (filterMode === 'chapter') {
         result = result.filter(q => q.chapter === selectedFilter)
       } else if (filterMode === 'knowledge') {
@@ -489,7 +440,7 @@ const QuestionBank: React.FC = () => {
       } else if (filterMode === 'method') {
         result = result.filter(q => q.methods.includes(selectedFilter))
       }
-    } else if (filterMode !== 'year' && filterMode !== 'favorites' && !selectedFilter) {
+    } else if (filterMode !== 'year' && filterMode as string !== 'favorites' && !selectedFilter) {
       return []
     } else if (filterMode === 'year' && selectedYear === null) {
       return []
@@ -579,21 +530,6 @@ const QuestionBank: React.FC = () => {
       case 'answer': return '☆'
     }
   }
-  
-  const filterOptions = useMemo(() => {
-    switch (filterMode) {
-      case 'year':
-        return filteredYears.map(y => ({ value: y.toString(), label: `${y}年` }))
-      case 'chapter':
-        return filteredChapters.map(c => ({ value: c, label: c }))
-      case 'knowledge':
-        return filteredKnowledgePoints.map(kp => ({ value: kp, label: kp }))
-      case 'method':
-        return filteredMethods.map(m => ({ value: m, label: m }))
-      default:
-        return []
-    }
-  }, [filterMode, filteredYears, filteredChapters, filteredKnowledgePoints, filteredMethods])
   
   const renderQuestionCard = (q: Question) => {
     const currentStatus = questionStatus[q.id] || 'unDone'

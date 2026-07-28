@@ -6501,9 +6501,9 @@ const vectorOperationsPoint: KnowledgePoint = {
       config: {
         functions: [],
         points: [
-          { x: 0, y: 0, z: 0, label: 'O' },
-          { x: 2, y: 1, z: 1, label: 'a' },
-          { x: 1, y: 2, z: 1, label: 'b' },
+          { id: 'O', x: 0, y: 0, z: 0, label: 'O' },
+          { id: 'a', x: 2, y: 1, z: 1, label: 'a' },
+          { id: 'b', x: 1, y: 2, z: 1, label: 'b' },
         ],
         sliders: [
           { id: 'angle_a', name: 'angle_a', min: 0, max: 6.28, step: 0.1, defaultValue: 0.46, label: '向量a方向角' },
@@ -8359,10 +8359,10 @@ const determinantDefinitionPoint: KnowledgePoint = {
       config: {
         functions: [],
         points: [
-          { x: 0, y: 0, label: 'O' },
-          { x: 2, y: 1, label: 'a₁' },
-          { x: 1, y: 2, label: 'a₂' },
-          { x: 3, y: 3, label: 'a₁+a₂' },
+          { id: 'O', x: 0, y: 0, label: 'O' },
+          { id: 'a1', x: 2, y: 1, label: 'a₁' },
+          { id: 'a2', x: 1, y: 2, label: 'a₂' },
+          { id: 'a1+a2', x: 3, y: 3, label: 'a₁+a₂' },
         ],
         sliders: [
           { id: 'a11', name: 'a₁₁', min: -3, max: 3, step: 0.5, defaultValue: 2, label: 'a₁₁' },
@@ -9108,9 +9108,9 @@ const matrixDefinitionPoint: KnowledgePoint = {
       config: {
         functions: [],
         points: [
-          { x: 1, y: 1, label: 'A' },
-          { x: 3, y: 1, label: 'B' },
-          { x: 5, y: 1, label: 'AB' },
+          { id: 'A', x: 1, y: 1, label: 'A' },
+          { id: 'B', x: 3, y: 1, label: 'B' },
+          { id: 'AB', x: 5, y: 1, label: 'AB' },
         ],
         sliders: [
           { id: 'a11', name: 'a₁₁', min: -3, max: 3, step: 1, defaultValue: 1, label: 'a₁₁' },
@@ -10009,8 +10009,8 @@ const matrixEquationPoint: KnowledgePoint = {
       config: {
         functions: [],
         points: [
-          { x: 1, y: 0, label: 'e₁' },
-          { x: 0, y: 1, label: 'e₂' },
+          { id: 'e1', x: 1, y: 0, label: 'e₁' },
+          { id: 'e2', x: 0, y: 1, label: 'e₂' },
         ],
         sliders: [
           { id: 'eq_type', name: 'eq_type', min: 0, max: 2, step: 1, defaultValue: 0, label: '方程类型' },

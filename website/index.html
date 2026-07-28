@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math-Efficiency - 高等数学学习助手</title>
+    <meta name="description" content="让抽象的数学概念变得可视、可感、可理解。Math-Efficiency是一款专为大学生设计的桌面端高等数学学习应用。">
+    <meta name="keywords" content="高等数学,数学学习,可视化,微积分,学习软件,大学生">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           Math-Efficiency 羊皮纸古典风格网站
+           ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --color-bg-primary: #F4E4BC;
+            --color-bg-secondary: #E8D5A3;
+            --color-bg-tertiary: #DCC78F;
+            --color-bg-card: #FAF0D7;
+            --color-bg-card-hover: #FFF5E6;
+            
+            --color-primary: #5D4037;
+            --color-primary-light: #795548;
+            --color-primary-dark: #3E2723;
+            
+            --color-accent: #D4A574;
+            --color-accent-light: #E8C19A;
+            --color-accent-dark: #B8956A;
+            --color-accent-glow: rgba(212, 165, 116, 0.3);
+            
+            --color-text-primary: #3E2723;
+            --color-text-secondary: #5D4037;
+            --color-text-muted: #8D6E63;
+            --color-text-light: #A1887F;
+            
+            --color-border: #C4A77D;
+            --color-border-light: #D4B896;
+            --color-border-dark: #8B7355;
+            
+            --color-success: #558B2F;
+            --color-warning: #F9A825;
+            --color-error: #C62828;
+            
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Noto Serif SC', 'Songti SC', serif;
+            
+            --shadow-sm: 0 1px 2px rgba(62, 39, 35, 0.1);
+            --shadow-md: 0 4px 6px rgba(62, 39, 35, 0.15);
+            --shadow-lg: 0 10px 15px rgba(62, 39, 35, 0.2);
+            --shadow-xl: 0 20px 25px rgba(62, 39, 35, 0.25);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --transition-slow: 400ms ease;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            background: var(--color-bg-primary);
+            overflow-x: hidden;
+        }
+        
+        /* 羊皮纸纹理背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(244, 228, 188, 0.9) 0%, rgba(232, 213, 163, 0.95) 50%, rgba(220, 199, 143, 0.9) 100%);
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(244, 228, 188, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+            transition: all var(--transition-normal);
+        }
+        
+        .navbar.scrolled {
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--color-text-primary);
+            font-weight: 700;
+        }
+        
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        
+        .nav-link {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transition: width var(--transition-normal);
+        }
+        
+        .nav-link:hover {
+            color: var(--color-primary-dark);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-cta {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+            color: var(--color-text-primary);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-decoration: none;
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Hero 区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 40px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(212, 165, 116, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 90, 43, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(212, 165, 116, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(212, 165, 116, 0.2);
+            border: 1px solid var(--color-accent);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            margin-bottom: 24px;
+        }
+        
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .hero-title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .hero-decoration {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+        }
+        
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(93, 64, 55, 0.15);
+            margin: 0;
+        }
+        
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin: 0 0 12px 0;
+            letter-spacing: 2px;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+        
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-decoration: none;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+            color: var(--color-text-primary);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-bg-card);
+            border-color: var(--color-accent);
+        }
+        
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--color-border-light);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+        }
+        
+        /* 功能介绍区域 */
+        .features {
+            padding: 100px 40px;
+            position: relative;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(212, 165, 116, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            margin: 0 0 16px 0;
+        }
+        
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .feature-card {
+            background: linear-gradient(145deg, var(--color-bg-card) 0%, var(--color-bg-secondary) 100%);
+            border: 2px solid var(--color-border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark), var(--color-accent));
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--color-accent);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.3), rgba(139, 90, 43, 0.2));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon svg {
+            width: 32px;
+            height: 32px;
+            color: var(--color-accent-dark);
+        }
+        
+        .feature-title {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-primary-dark);
+            margin: 0 0 12px 0;
+        }
+        
+        .feature-description {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin: 0 0 16px 0;
+        }
+        
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .feature-tag {
+            padding: 4px 12px;
+            background: rgba(212, 165, 116, 0.15);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--color-primary);
+        }
+        
+        /* 产品截图区域 */
+        .screenshots {
+            padding: 100px 40px;
+            background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+        }
+        
+        .screenshots-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .screenshot-main {
+            background: var(--color-bg-card);
+            border: 3px solid var(--color-border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 40px;
+        }
+        
+        .screenshot-main img {
+            width: 100%;
+            border-radius: 12px;
+            display: block;
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .screenshot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .screenshot-item {
+            background: var(--color-bg-card);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: 12px;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+        
+        .screenshot-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-accent);
+        }
+        
+        .screenshot-item img {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+        }
+        
+        .screenshot-placeholder {
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-tertiary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* 用户评价区域 */
+        .testimonials {
+            padding: 100px 40px;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 900px) {
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .testimonial-card {
+            background: var(--color-bg-card);
+            border: 2px solid var(--color-border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all var(--transition-normal);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-accent);
+        }
+        
+        .testimonial-quote {
+            font-size: 1rem;
+            color: var(--color-text-primary);
+            line-height: 1.8;
+            margin: 0 0 20px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .testimonial-quote::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -5px;
+            font-size: 2rem;
+            color: var(--color-accent);
+            font-family: var(--font-display);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--color-text-primary);
+            font-weight: 700;
+        }
+        
+        .testimonial-info {
+            flex: 1;
+        }
+        
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--color-primary-dark);
+            margin: 0;
+        }
+        
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+        
+        /* 下载区域 */
+        .download {
+            padding: 100px 40px;
+            background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+        }
+        
+        .download-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .download-card {
+            background: linear-gradient(145deg, var(--color-bg-card) 0%, var(--color-bg-secondary) 100%);
+            border: 3px solid var(--color-border);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+        
+        .download-card::before,
+        .download-card::after {
+            content: '❧';
+            position: absolute;
+            font-size: 2rem;
+            color: var(--color-accent);
+            opacity: 0.5;
+        }
+        
+        .download-card::before {
+            top: 20px;
+            left: 30px;
+        }
+        
+        .download-card::after {
+            bottom: 20px;
+            right: 30px;
+            transform: rotate(180deg);
+        }
+        
+        .download-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            margin: 0 0 16px 0;
+        }
+        
+        .download-description {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            margin: 0 0 32px 0;
+        }
+        
+        .download-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 36px;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+            color: var(--color-text-primary);
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .download-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .download-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+        
+        .download-info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            padding: 40px;
+            border-top: 2px solid var(--color-border);
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-quote {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .footer-quote .quote-mark {
+            color: var(--color-accent);
+            font-size: 1.3rem;
+            margin: 0 8px;
+        }
+        
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-link {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            color: var(--color-primary);
+        }
+        
+        .footer-copyright {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 100px 20px 60px;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .features,
+            .screenshots,
+            .testimonials,
+            .download {
+                padding: 60px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .download-card {
+                padding: 30px 20px;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">M</div>
+            <span class="nav-logo-text">Math-Efficiency</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features" class="nav-link">功能特点</a>
+            <a href="#screenshots" class="nav-link">产品截图</a>
+            <a href="#testimonials" class="nav-link">用户评价</a>
+            <a href="#download" class="nav-cta">立即下载</a>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                <span>v1.0.0 正式发布</span>
+            </div>
+            <div class="hero-title-wrapper">
+                <div class="hero-decoration"></div>
+                <h1 class="hero-title">Math-Efficiency</h1>
+                <div class="hero-decoration"></div>
+            </div>
+            <h2 class="hero-subtitle">高等数学学习助手</h2>
+            <p class="hero-description">
+                让抽象的数学概念变得可视、可感、可理解。<br>
+                专为大学生设计的桌面端高等数学学习应用。
+            </p>
+            <div class="hero-cta-group">
+                <a href="#download" class="btn btn-primary">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                    </svg>
+                    免费下载
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polygon points="10 8 16 12 10 16 10 8"/>
+                    </svg>
+                    了解更多
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value">1000+</div>
+                    <div class="stat-label">活跃用户</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">知识点</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">练习题目</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能介绍 -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-tag">核心功能</span>
+            <h2 class="section-title">四大核心模块，全方位提升学习效率</h2>
+            <p class="section-description">从概念理解到题目练习，一站式解决高数学习难题</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">知识点学习</h3>
+                <p class="feature-description">五维展示法，将抽象的数学概念通过动态演示呈现出来。极限的逼近过程、导数的几何意义、积分的面积表示……让看不见的数学变得看得见！</p>
+                <div class="feature-tags">
+                    <span class="feature-tag">动态演示</span>
+                    <span class="feature-tag">五维展示</span>
+                    <span class="feature-tag">交互探索</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">概念定理</h3>
+                <p class="feature-description">每个定理都有两种解读方式：严谨定义适合考试答题，白话解释帮助理解本质。不再"知其然不知其所以然"！</p>
+                <div class="feature-tags">
+                    <span class="feature-tag">严格定义</span>
+                    <span class="feature-tag">白话解释</span>
+                    <span class="feature-tag">典型例题</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M9 7h6m-6 4h6m-6 4h4m-7 6h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">公式手册</h3>
+                <p class="feature-description">常用公式一网打尽，分类清晰，查找便捷。极限、导数、积分、微分方程……考前复习、作业解题，随时翻阅，效率翻倍！</p>
+                <div class="feature-tags">
+                    <span class="feature-tag">分类整理</span>
+                    <span class="feature-tag">快速检索</span>
+                    <span class="feature-tag">收藏功能</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">题库训练</h3>
+                <p class="feature-description">精选典型题目，覆盖高数核心知识点。专项练习，查漏补缺，考前冲刺必备！详细解析，步骤清晰，举一反三。</p>
+                <div class="feature-tags">
+                    <span class="feature-tag">海量题目</span>
+                    <span class="feature-tag">分类练习</span>
+                    <span class="feature-tag">详细解析</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品截图 -->
+    <section class="screenshots" id="screenshots">
+        <div class="section-header">
+            <span class="section-tag">产品展示</span>
+            <h2 class="section-title">简洁优雅的界面设计</h2>
+            <p class="section-description">羊皮纸古典风格，让学习成为一种享受</p>
+        </div>
+        <div class="screenshots-container">
+            <div class="screenshot-main">
+                <div class="screenshot-placeholder">主界面截图 - 知识点学习模块</div>
+            </div>
+            <div class="screenshot-grid">
+                <div class="screenshot-item">
+                    <div class="screenshot-placeholder">公式手册</div>
+                </div>
+                <div class="screenshot-item">
+                    <div class="screenshot-placeholder">概念定理</div>
+                </div>
+                <div class="screenshot-item">
+                    <div class="screenshot-placeholder">题库训练</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 用户评价 -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header">
+            <span class="section-tag">用户评价</span>
+            <h2 class="section-title">听听他们怎么说</h2>
+            <p class="section-description">来自真实用户的反馈</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-quote">以前极限的概念总是理解不了，看了动态演示后一下子就懂了！这个软件真的帮了我大忙。</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">王</div>
+                    <div class="testimonial-info">
+                        <p class="testimonial-name">小王</p>
+                        <p class="testimonial-role">大一学生 · 理工科</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-quote">公式手册太实用了，考前复习不用翻书，效率提升好几倍！强烈推荐给所有学高数的同学。</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">李</div>
+                    <div class="testimonial-info">
+                        <p class="testimonial-name">小李</p>
+                        <p class="testimonial-role">大二学生 · 经管类</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-quote">概念定理的双视角解读很棒，既有严谨性又通俗易懂。考研复习必备神器！</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">张</div>
+                    <div class="testimonial-info">
+                        <p class="testimonial-name">小张</p>
+                        <p class="testimonial-role">考研学生 · 目标985</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载区域 -->
+    <section class="download" id="download">
+        <div class="download-container">
+            <div class="download-card">
+                <h2 class="download-title">立即开始你的高效学习之旅</h2>
+                <p class="download-description">免费下载，支持 Windows 和 macOS 系统</p>
+                <div class="download-buttons">
+                    <a href="#" class="download-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                        </svg>
+                        Windows 下载
+                    </a>
+                    <a href="#" class="download-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        macOS 下载
+                    </a>
+                </div>
+                <div class="download-info">
+                    <span class="download-info-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        约 80MB
+                    </span>
+                    <span class="download-info-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        v1.0.0
+                    </span>
+                    <span class="download-info-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        安全无毒
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-quote">
+                <span class="quote-mark">"</span>
+                数学是人类智慧的皇冠
+                <span class="quote-mark">"</span>
+            </p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">使用指南</a>
+                <a href="#" class="footer-link">常见问题</a>
+                <a href="#" class="footer-link">联系我们</a>
+                <a href="#" class="footer-link">隐私政策</a>
+            </div>
+            <p class="footer-copyright">© 2024 Math-Efficiency. 面向大学生的高效学习工具</p>
+        </div>
+    </footer>
+
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .testimonial-card, .screenshot-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

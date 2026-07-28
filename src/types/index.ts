@@ -105,11 +105,11 @@ export interface AnimationStep {
 }
 
 // 文本高亮
-export interface TextHighlight {
+export type TextHighlight = {
   start: number
   end: number
   type: 'formula' | 'emphasis' | 'definition'
-}
+} | string
 
 // 进一步延伸项
 export interface FurtherItem {

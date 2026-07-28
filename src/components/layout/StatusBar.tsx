@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useAppStore } from '@/store'
-import { Moon, Sun, Palette, ChevronDown, Check } from 'lucide-react'
-import { ThemeType, ThemeInfo } from '@/types'
+import { ChevronDown, Check } from 'lucide-react'
+import { ThemeInfo } from '@/types'
 
 const themes: ThemeInfo[] = [
   { id: 'light', name: '日间模式', icon: '☀️', description: '羊皮纸古典风' },

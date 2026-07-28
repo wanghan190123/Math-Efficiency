@@ -4068,7 +4068,7 @@ const TextWithInlineFormula: React.FC<{ text: string }> = ({ text }) => {
       // 处理加粗和行内公式
       const boldParts = section.split(/(\*\*[^*]+\*\*)/g);
       
-      boldParts.forEach((part, partIdx) => {
+      boldParts.forEach((part, _partIdx) => {
         if (part.startsWith('**') && part.endsWith('**')) {
           // 加粗文本
           result.push(<strong key={`bold-${keyIndex++}`}>{part.slice(2, -2)}</strong>);

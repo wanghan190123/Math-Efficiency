@@ -53,26 +53,12 @@ const unicodeToLatexMap: Record<string, string> = {
   '·': '\\cdot', '…': '\\ldots', '⋯': '\\cdots', '⋮': '\\vdots', '⋱': '\\ddots',
 }
 
-const mathUnicodeChars = new Set(Object.keys(unicodeToLatexMap))
-
-const containsMathUnicode = (text: string): boolean => {
-  for (const char of text) {
-    if (mathUnicodeChars.has(char)) return true
-  }
-  return false
-}
-
 const convertUnicodeToLatex = (text: string): string => {
   let result = text
   for (const [unicode, latex] of Object.entries(unicodeToLatexMap)) {
     result = result.split(unicode).join(latex)
   }
   return result
-}
-
-const isMathExpression = (text: string): boolean => {
-  const mathPattern = /[a-zA-Z]+\s*[=<>≤≥≠≈]|\([^)]*\)|\[[^\]]*\]|\{[^}]*\}|[∑∏∫∂∇√]|_[$_0-9i-jknmrxy]|\^[$_0-9i-jknmrxyTta-f]|\\[a-zA-Z]+/
-  return mathPattern.test(text) || containsMathUnicode(text)
 }
 
 const splitByMathSegments = (text: string): { text: string; isMath: boolean }[] => {

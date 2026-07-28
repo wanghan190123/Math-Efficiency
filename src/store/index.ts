@@ -9,7 +9,7 @@ const initialModelState: ModelState = {
   rotation: { x: 0, y: 0, z: 0 },
 }
 
-export const useAppStore = create<AppState>((set, get) => ({
+export const useAppStore = create<AppState>((set, _get) => ({
   // 初始状态
   currentModuleId: 'limits',
   currentKnowledgeId: 'sequence-limit',

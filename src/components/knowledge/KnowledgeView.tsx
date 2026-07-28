@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { KnowledgePoint } from '@/types'
 import { useAppStore } from '@/store'
-import { Play, Pause, SkipForward, RotateCcw, SplitSquareHorizontal, Volume2, VolumeX, Eye, EyeOff, ZoomIn, ZoomOut } from 'lucide-react'
+import { Play, Pause, SkipForward, RotateCcw, SplitSquareHorizontal, Eye, EyeOff, ZoomIn, ZoomOut } from 'lucide-react'
 import MathFormula from './MathFormula'
 import MathText from './MathText'
 import './KnowledgeView.css'
@@ -62,8 +62,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
   
   // 动画状态
   const [currentStep, setCurrentStep] = useState(0)
-  const [animationSpeed, setAnimationSpeed] = useState(1)
-  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [animationSpeed] = useState(1)
   const [showFormula, setShowFormula] = useState(true)
   const [activeTab, setActiveTab] = useState<'explanation' | 'extension' | 'application' | 'method'>('explanation')
   const [compareType, setCompareType] = useState<'converge' | 'diverge'>('diverge')
@@ -222,7 +221,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       
       const scaleX = graphWidth / 50
       const scaleY = graphHeight / 4
-      const limitY = originY - 2 * scaleY
       
       // 绘制点
       for (let i = 1; i <= Math.min(n, 50); i++) {
@@ -359,7 +357,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
   }, [modelState.params])
 
   // 绘制导数几何意义
-  const drawDerivative = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number, isCompare: boolean = false) => {
+  const drawDerivative = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number, _isCompare: boolean = false) => {
     const tc = getThemeColors()
     const x0 = getParam('x0', 1)
     const dx = getParam('dx', 1)
@@ -519,7 +517,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     // 示例函数: f(x) = sin(x)/x 在 x→0 时极限为1
     const f = (x: number) => Math.abs(x) < 0.001 ? 1 : Math.sin(x) / x
     const A = 1  // 极限值
-    const x0 = 0 // 极限点
     
     // 绘制网格
     ctx.strokeStyle = withAlpha(tc.border, 0.3)
@@ -851,7 +848,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     // 标记间断点
     const leftLimit = f(-0.001) // 左极限 ≈ -1
     const rightLimit = f(0.001) // 右极限 = 1
-    const funcValue = f(0) // 函数值 = 1
     
     // 左极限点 (空心)
     ctx.strokeStyle = tc.info
@@ -1175,6 +1171,86 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText(`Δ = p² - 4q = ${discriminant.toFixed(2)}`, 380, canvasHeight + 30)
     ctx.fillStyle = tc.success
     ctx.fillText(`调节p,q观察解的变化`, 550, canvasHeight + 30)
+  }, [modelState.params])
+
+  // 绘制可降阶微分方程
+  const drawReducibleODE = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const tc = getThemeColors()
+    const C1 = getParam('C1', 1)
+    const C2 = getParam('C2', 0)
+    
+    ctx.fillStyle = tc.bgPrimary
+    ctx.fillRect(0, 0, width, height)
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    const centerX = width / 2
+    const centerY = canvasHeight / 2
+    const scale = 25
+    
+    // 绘制网格
+    ctx.strokeStyle = withAlpha(tc.border, 0.3)
+    ctx.lineWidth = 1
+    for (let i = -15; i <= 15; i++) {
+      ctx.beginPath(); ctx.moveTo(centerX + i * scale, 0); ctx.lineTo(centerX + i * scale, canvasHeight); ctx.stroke()
+      ctx.beginPath(); ctx.moveTo(0, centerY + i * scale); ctx.lineTo(width, centerY + i * scale); ctx.stroke()
+    }
+    
+    // 坐标轴
+    ctx.strokeStyle = tc.primary; ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(width, centerY); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, canvasHeight); ctx.stroke()
+    
+    // 类型一：y'' = x² 型，解 y = x⁴/12 + C₁x + C₂
+    ctx.strokeStyle = tc.error; ctx.lineWidth = 3
+    ctx.beginPath()
+    let started = false
+    for (let px = 0; px < width; px++) {
+      const x = (px - centerX) / scale
+      const y = x * x * x * x / 12 + C1 * x + C2
+      const py = centerY - y * scale
+      if (py > -100 && py < canvasHeight + 100) {
+        if (!started) { ctx.moveTo(px, py); started = true } else ctx.lineTo(px, py)
+      }
+    }
+    ctx.stroke()
+    
+    // 类型二辅助线：y' = x³/3 + C₁（导函数）
+    ctx.strokeStyle = tc.info; ctx.lineWidth = 2
+    ctx.beginPath()
+    started = false
+    for (let px = 0; px < width; px++) {
+      const x = (px - centerX) / scale
+      const y = x * x * x / 3 + C1
+      const py = centerY - y * scale
+      if (py > -100 && py < canvasHeight + 100) {
+        if (!started) { ctx.moveTo(px, py); started = true } else ctx.lineTo(px, py)
+      }
+    }
+    ctx.stroke()
+    
+    // 标注解曲线上的关键点
+    const yAt0 = C2
+    const dyAt0 = C1
+    ctx.fillStyle = tc.error
+    ctx.beginPath()
+    ctx.arc(centerX, centerY - yAt0 * scale, 5, 0, 2 * Math.PI)
+    ctx.fill()
+    ctx.strokeStyle = tc.success; ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY - yAt0 * scale)
+    ctx.lineTo(centerX + 3 * scale, centerY - yAt0 * scale - dyAt0 * 3 * scale)
+    ctx.stroke()
+    
+    // 底部信息栏
+    ctx.fillStyle = tc.bgSecondary
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.fillStyle = tc.primary; ctx.font = '13px "Noto Serif SC", serif'
+    ctx.fillText(`y'' = x² → y = x⁴/12 + ${C1.toFixed(1)}x + ${C2.toFixed(1)}`, 20, canvasHeight + 30)
+    ctx.fillStyle = tc.info
+    ctx.fillText(`y' = x³/3 + ${C1.toFixed(1)}`, 350, canvasHeight + 30)
+    ctx.fillStyle = tc.success
+    ctx.fillText('红=原函数解 蓝=导函数解', 550, canvasHeight + 30)
   }, [modelState.params])
 
   const drawDerivativeRules = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
@@ -1981,7 +2057,7 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     const examples = [
       { u: (x: number) => x, dv: (x: number) => Math.exp(x), uName: 'x', dvName: 'eˣ', result: 'xeˣ - eˣ + C', resultF: (x: number) => (x - 1) * Math.exp(x) },
       { u: (x: number) => x, dv: (x: number) => Math.sin(x), uName: 'x', dvName: 'sinx', result: '-xcosx + sinx + C', resultF: (x: number) => -x * Math.cos(x) + Math.sin(x) },
-      { u: (x: number) => Math.log(x), dv: (x: number) => 1, uName: 'lnx', dvName: '1', result: 'xlnx - x + C', resultF: (x: number) => x * Math.log(x) - x },
+      { u: (x: number) => Math.log(x), dv: (_x: number) => 1, uName: 'lnx', dvName: '1', result: 'xlnx - x + C', resultF: (x: number) => x * Math.log(x) - x },
     ]
     const ex = examples[partType % examples.length]
     
@@ -2162,7 +2238,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       const half = cellSize * 0.4
       
       // 柱体四个角点
-      const p1 = project3D(x - half, y - half, 0, centerX, centerY, scale)
       const p2 = project3D(x + half, y - half, 0, centerX, centerY, scale)
       const p3 = project3D(x + half, y + half, 0, centerX, centerY, scale)
       const p4 = project3D(x - half, y + half, 0, centerX, centerY, scale)
@@ -3504,7 +3579,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     const p1 = project3D(2, 0, 0)
     const p2 = project3D(0, 2, 0)
     const p3 = project3D(0, 0, 2)
-    const p4 = project3D(2, 0, 0)
     
     ctx.beginPath()
     ctx.moveTo(p1.px, p1.py)
@@ -5485,6 +5559,154 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillStyle = tc.error; ctx.fillText(`解法: ${eq.desc}`, 250, canvasHeight + 30)
   }, [modelState.params])
 
+  // 克拉默法则
+  const drawCramerRule = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const tc = getThemeColors()
+    const a11 = getParam('a11', 2), a12 = getParam('a12', 3)
+    const a21 = getParam('a21', 1), a22 = getParam('a22', 2)
+    const b1 = getParam('b1', 8), b2 = getParam('b2', 5)
+    
+    ctx.fillStyle = tc.bgPrimary
+    ctx.fillRect(0, 0, width, height)
+    
+    const infoBarHeight = 50
+    const canvasHeight = height - infoBarHeight
+    const centerX = width / 2
+    
+    // 计算行列式
+    const D = a11 * a22 - a12 * a21
+    const D1 = b1 * a22 - b2 * a12
+    const D2 = a11 * b2 - a21 * b1
+    
+    // 绘制方程组文字
+    ctx.font = '16px "Noto Serif SC", serif'
+    ctx.fillStyle = tc.primary
+    ctx.textAlign = 'center'
+    ctx.fillText('线性方程组与克拉默法则', centerX, 30)
+    
+    ctx.font = '14px "Noto Serif SC", serif'
+    ctx.fillStyle = tc.textPrimary
+    ctx.fillText(`${a11}x + ${a12}y = ${b1}`, centerX - 100, 60)
+    ctx.fillText(`${a21}x + ${a22}y = ${b2}`, centerX - 100, 82)
+    
+    // 绘制行列式 D
+    const detX = 80, detY = 120, detW = 80, detH = 50
+    ctx.strokeStyle = tc.primary; ctx.lineWidth = 2
+    // 左竖线
+    ctx.beginPath(); ctx.moveTo(detX, detY); ctx.lineTo(detX, detY + detH); ctx.stroke()
+    // 右竖线
+    ctx.beginPath(); ctx.moveTo(detX + detW, detY); ctx.lineTo(detX + detW, detY + detH); ctx.stroke()
+    ctx.font = '14px monospace'; ctx.fillStyle = tc.error; ctx.textAlign = 'center'
+    ctx.fillText(`${a11}`, detX + detW * 0.3, detY + 20)
+    ctx.fillText(`${a12}`, detX + detW * 0.7, detY + 20)
+    ctx.fillStyle = tc.info
+    ctx.fillText(`${a21}`, detX + detW * 0.3, detY + 40)
+    ctx.fillText(`${a22}`, detX + detW * 0.7, detY + 40)
+    ctx.font = '13px "Noto Serif SC", serif'; ctx.fillStyle = tc.textSecondary; ctx.textAlign = 'left'
+    ctx.fillText(`= ${D}`, detX + detW + 8, detY + 30)
+    
+    // 绘制 D₁
+    const d1X = detX, d1Y = detY + 70
+    ctx.strokeStyle = tc.primary; ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(d1X, d1Y); ctx.lineTo(d1X, d1Y + detH); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(d1X + detW, d1Y); ctx.lineTo(d1X + detW, d1Y + detH); ctx.stroke()
+    ctx.font = '14px monospace'; ctx.fillStyle = tc.success; ctx.textAlign = 'center'
+    ctx.fillText(`${b1}`, d1X + detW * 0.3, d1Y + 20)
+    ctx.fillStyle = tc.error
+    ctx.fillText(`${a12}`, d1X + detW * 0.7, d1Y + 20)
+    ctx.fillStyle = tc.success
+    ctx.fillText(`${b2}`, d1X + detW * 0.3, d1Y + 40)
+    ctx.fillStyle = tc.info
+    ctx.fillText(`${a22}`, d1X + detW * 0.7, d1Y + 40)
+    ctx.font = '13px "Noto Serif SC", serif'; ctx.fillStyle = tc.textSecondary; ctx.textAlign = 'left'
+    ctx.fillText(`= ${D1}`, d1X + detW + 8, d1Y + 30)
+    
+    // 绘制 D₂
+    const d2X = detX, d2Y = d1Y + 70
+    ctx.strokeStyle = tc.primary; ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(d2X, d2Y); ctx.lineTo(d2X, d2Y + detH); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(d2X + detW, d2Y); ctx.lineTo(d2X + detW, d2Y + detH); ctx.stroke()
+    ctx.font = '14px monospace'; ctx.fillStyle = tc.error; ctx.textAlign = 'center'
+    ctx.fillText(`${a11}`, d2X + detW * 0.3, d2Y + 20)
+    ctx.fillStyle = tc.success
+    ctx.fillText(`${b1}`, d2X + detW * 0.7, d2Y + 20)
+    ctx.fillStyle = tc.info
+    ctx.fillText(`${a21}`, d2X + detW * 0.3, d2Y + 40)
+    ctx.fillStyle = tc.success
+    ctx.fillText(`${b2}`, d2X + detW * 0.7, d2Y + 40)
+    ctx.font = '13px "Noto Serif SC", serif'; ctx.fillStyle = tc.textSecondary; ctx.textAlign = 'left'
+    ctx.fillText(`= ${D2}`, d2X + detW + 8, d2Y + 30)
+    
+    // 右侧：几何解释（两条直线交点）
+    const plotX = centerX + 40, plotY = 110
+    const plotW = width / 2 - 80, plotH = canvasHeight - 160
+    const pscale = Math.min(plotW, plotH) / 16
+    
+    ctx.strokeStyle = withAlpha(tc.border, 0.3); ctx.lineWidth = 1
+    for (let i = -8; i <= 8; i++) {
+      ctx.beginPath(); ctx.moveTo(plotX + i * pscale, plotY); ctx.lineTo(plotX + i * pscale, plotY + plotH); ctx.stroke()
+      ctx.beginPath(); ctx.moveTo(plotX, plotY + plotH / 2 + i * pscale); ctx.lineTo(plotX + plotW, plotY + plotH / 2 + i * pscale); ctx.stroke()
+    }
+    const plotCX = plotX + plotW / 2, plotCY = plotY + plotH / 2
+    ctx.strokeStyle = tc.primary; ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(plotX, plotCY); ctx.lineTo(plotX + plotW, plotCY); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(plotCX, plotY); ctx.lineTo(plotCX, plotY + plotH); ctx.stroke()
+    
+    // 画两条直线
+    if (Math.abs(a12) > 0.01 || Math.abs(a11) > 0.01) {
+      ctx.strokeStyle = tc.error; ctx.lineWidth = 2
+      ctx.beginPath(); let s = false
+      for (let px = 0; px < plotW; px++) {
+        const x = (px - plotW / 2) / pscale
+        let y: number
+        if (Math.abs(a12) > 0.01) y = (b1 - a11 * x) / a12
+        else continue
+        const py = plotCY - y * pscale
+        if (py > plotY - 20 && py < plotY + plotH + 20) {
+          if (!s) { ctx.moveTo(plotX + px, py); s = true } else ctx.lineTo(plotX + px, py)
+        }
+      }
+      ctx.stroke()
+    }
+    if (Math.abs(a22) > 0.01 || Math.abs(a21) > 0.01) {
+      ctx.strokeStyle = tc.info; ctx.lineWidth = 2
+      ctx.beginPath(); let s = false
+      for (let px = 0; px < plotW; px++) {
+        const x = (px - plotW / 2) / pscale
+        let y: number
+        if (Math.abs(a22) > 0.01) y = (b2 - a21 * x) / a22
+        else continue
+        const py = plotCY - y * pscale
+        if (py > plotY - 20 && py < plotY + plotH + 20) {
+          if (!s) { ctx.moveTo(plotX + px, py); s = true } else ctx.lineTo(plotX + px, py)
+        }
+      }
+      ctx.stroke()
+    }
+    
+    // 交点
+    if (Math.abs(D) > 0.01) {
+      const xSol = D1 / D, ySol = D2 / D
+      const solPx = plotCX + xSol * pscale, solPy = plotCY - ySol * pscale
+      ctx.fillStyle = tc.success
+      ctx.beginPath(); ctx.arc(solPx, solPy, 6, 0, 2 * Math.PI); ctx.fill()
+      ctx.font = '12px "Noto Serif SC", serif'; ctx.textAlign = 'left'
+      ctx.fillText(`(${xSol.toFixed(2)}, ${ySol.toFixed(2)})`, solPx + 10, solPy - 10)
+    }
+    
+    // 底部信息栏
+    ctx.fillStyle = tc.bgSecondary
+    ctx.fillRect(0, canvasHeight, width, infoBarHeight)
+    ctx.font = '13px "Noto Serif SC", serif'; ctx.textAlign = 'left'
+    if (Math.abs(D) > 0.01) {
+      ctx.fillStyle = tc.success
+      ctx.fillText(`D=${D} ≠ 0, 唯一解: x=D₁/D=${(D1 / D).toFixed(2)}, y=D₂/D=${(D2 / D).toFixed(2)}`, 20, canvasHeight + 30)
+    } else {
+      ctx.fillStyle = tc.error
+      ctx.fillText(`D=${D} = 0, 方程组无唯一解（平行或重合）`, 20, canvasHeight + 30)
+    }
+  }, [modelState.params])
+
   // ==================== 第一章：随机事件和概率 ====================
 
   // 1. 随机试验与样本空间
@@ -6293,7 +6515,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     const treeX = 80
     const treeMidX = width * 0.4
     const treeRightX = width * 0.7
-    const _treeTopY = 80
     const treeMidY1 = canvasHeight * 0.3
     const treeMidY2 = canvasHeight * 0.7
     const treeBotY1 = canvasHeight * 0.15
@@ -6551,7 +6772,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     ctx.fillText(`失败次数: ${n - successCount}/${n}`, 170, seqY + 45)
 
     // 概率计算
-    const _pK = binomialPMF(n, successCount, p)
     ctx.fillStyle = tc.primary
     ctx.font = '13px "Noto Serif SC", serif'
     ctx.fillText(`P(X=${successCount}) = C(${n},${successCount})×${p.toFixed(2)}^${successCount}×${(1 - p).toFixed(2)}^${n - successCount}`, 20, seqY + 70)
@@ -7810,9 +8030,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
     const transformLabels = ['Y = X²', 'Y = 2X', 'Y = eˣ']
     const transformLabel = transformLabels[gtype] || transformLabels[0]
 
-    // X~U(0,1)的PDF在[0,1]上恒为1
-    const xPDF = (x: number) => (x >= 0 && x <= 1) ? 1 : 0
-
     // 变换后Y的PDF
     const yPDF = (y: number) => {
       if (gtype === 0) { // Y=X², h(y)=sqrt(y), h'(y)=1/(2*sqrt(y))
@@ -7860,7 +8077,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       yMax = Math.max(yMax, yPDF(y))
     }
     const newScaleY = (graphHeight * 0.85) / Math.max(yMax, 0.01)
-    const newScaleX = halfW / (yRange - yStart + 0.5)
 
     // 变换后 PDF 填充
     ctx.fillStyle = withAlpha(tc.info, 0.15)
@@ -9929,6 +10145,8 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawFirstOrderODE(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'second-order-ode') {
       drawSecondOrderODE(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'reducible-ode') {
+      drawReducibleODE(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'implicit-parametric') {
       drawImplicitParametric(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'differential') {
@@ -9977,6 +10195,8 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawMatrixRank(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'matrix-equation') {
       drawMatrixEquation(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'cramer-rule') {
+      drawCramerRule(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'multivariable-basic') {
       drawMultivariableBasic(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'partial-derivative') {
@@ -10080,7 +10300,6 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
 
   // 对比画布绘制>绘制
   const drawCompare = useCallback(() => {
-    const tc = getThemeColors()
     const canvas = compareCanvasRef.current
     if (!canvas) return
     
@@ -10109,6 +10328,8 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawFirstOrderODE(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'second-order-ode') {
       drawSecondOrderODE(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'reducible-ode') {
+      drawReducibleODE(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'implicit-parametric') {
       drawImplicitParametric(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'differential') {
@@ -10157,6 +10378,8 @@ const KnowledgeView: React.FC<KnowledgeViewProps> = ({ knowledge }) => {
       drawMatrixRank(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'matrix-equation') {
       drawMatrixEquation(ctx, rect.width, rect.height)
+    } else if (knowledge.id === 'cramer-rule') {
+      drawCramerRule(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'multivariable-basic') {
       drawMultivariableBasic(ctx, rect.width, rect.height)
     } else if (knowledge.id === 'partial-derivative') {

@@ -12,12 +12,12 @@ const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
     let result = text
     
     // 处理代码块 ```...```
-    result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+    result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (_match, _lang, code) => {
       return `<pre class="code-block"><code>${code.trim()}</code></pre>`
     })
     
     // 处理块级公式 $$...$$
-    result = result.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+    result = result.replace(/\$\$([\s\S]*?)\$\$/g, (_match, formula) => {
       try {
         const rendered = katex.renderToString(formula.trim(), {
           displayMode: true,
@@ -31,7 +31,7 @@ const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
     })
     
     // 处理行内公式 $...$
-    result = result.replace(/\$([^$\n]+?)\$/g, (match, formula) => {
+    result = result.replace(/\$([^$\n]+?)\$/g, (_match, formula) => {
       try {
         const rendered = katex.renderToString(formula.trim(), {
           displayMode: false,
@@ -46,7 +46,7 @@ const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
     
     // 处理表格 - 改进的正则
     const tableRegex = /^\|(.+)\|\s*\n\|([-:\s|]+)\|\s*\n((?:\|.+\|\s*\n?)+)/gm
-    result = result.replace(tableRegex, (match, header, separator, body) => {
+    result = result.replace(tableRegex, (_match, header, _separator, body) => {
       const headers = header.split('|').map((h: string) => h.trim()).filter((h: string) => h)
       const rows = body.trim().split('\n').map((row: string) => 
         row.split('|').map((cell: string) => cell.trim()).filter((cell: string) => cell)

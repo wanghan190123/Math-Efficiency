@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef } from 'react'
 
 interface GestureState {
   isDragging: boolean
@@ -42,7 +42,7 @@ export const useGesture = (options: UseGestureOptions = {}) => {
   const lastTouchRef = useRef<{ x: number; y: number; time: number } | null>(null)
   const initialDistanceRef = useRef<number>(0)
 
-  const getTouchDistance = (touches: TouchList): number => {
+  const getTouchDistance = (touches: React.TouchList): number => {
     if (touches.length < 2) return 0
     const dx = touches[0].clientX - touches[1].clientX
     const dy = touches[0].clientY - touches[1].clientY
@@ -62,7 +62,7 @@ export const useGesture = (options: UseGestureOptions = {}) => {
   }, [])
 
   const handleMove = useCallback(
-    (clientX: number, clientY: number, touches?: TouchList) => {
+    (clientX: number, clientY: number, touches?: React.TouchList) => {
       if (!state.isDragging) return
 
       const deltaX = clientX - state.startX
@@ -97,7 +97,7 @@ export const useGesture = (options: UseGestureOptions = {}) => {
   )
 
   const handleEnd = useCallback(() => {
-    const { deltaX, deltaY, velocity } = state
+    const { deltaX, deltaY, velocity: _velocity } = state
 
     // 判断滑动方向
     const absX = Math.abs(deltaX)

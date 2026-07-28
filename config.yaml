@@ -1,0 +1,92 @@
+# 大型公共场所人群智能连续跟踪及异常行为分析系统配置文件
+
+# 目标检测配置
+detection:
+  model: "yolov8s.pt"          # YOLO模型路径
+  conf_thresh: 0.4              # 置信度阈值 (密集场景可适当降低)
+  iou_thresh: 0.5               # NMS IOU阈值
+  classes: [0]                  # 只检测人 (COCO类别0)
+  img_size: 640                 # 输入图像尺寸
+  device: "cuda"                # 运行设备: cuda 或 cpu
+  
+  # 密集人群优化
+  dense_crowd:
+    enable: true                # 启用密集人群优化
+    min_box_area: 500           # 最小检测框面积 (过滤误检)
+    overlap_thresh: 0.3         # 重叠阈值 (检测密集度)
+    multi_scale: true           # 多尺度检测
+    small_object_enhance: true  # 小目标增强
+
+# 多目标跟踪配置
+tracking:
+  max_age: 30                   # 轨迹最大丢失帧数
+  n_init: 3                     # 轨迹初始化确认帧数
+  max_iou_distance: 0.7         # IOU距离阈值
+  max_dist: 0.2                 # 外观特征距离阈值
+  min_hits: 3                   # 最小命中次数
+
+# 轨迹管理配置
+trajectory:
+  max_history: 100              # 轨迹历史最大长度
+  velocity_window: 5            # 速度计算窗口大小
+
+# 行为分析配置
+behavior:
+  # 奔跑检测（使用相对速度，以人体高度为参考）
+  running:
+    enable: true
+    relative_velocity_threshold: 2.0  # 相对速度阈值（高度倍数/秒）
+                                      # 正常行走: 0.5-1.0
+                                      # 快走: 1.0-1.5
+                                      # 奔跑: 1.5-3.0
+                                      # 推荐阈值: 2.0
+    
+  # 滞留检测
+  loitering:
+    enable: true
+    time_threshold: 30          # 滞留时间阈值 (秒)
+    distance_threshold: 50      # 移动距离阈值 (像素)
+    
+  # 跌倒检测（多条件判断）
+  falling:
+    enable: true
+    aspect_ratio_threshold: 1.2     # 宽高比阈值
+                                      # 正常站立: 0.3-0.5
+                                      # 弯腰/蹲下: 0.6-1.0
+                                      # 跌倒: >1.0
+                                      # 推荐阈值: 1.2
+    height_drop_threshold: 0.3      # 高度下降比例阈值
+                                      # 正常行走: 0-10%
+                                      # 弯腰: 10-30%
+                                      # 蹲下: 30-50%
+                                      # 跌倒: >30%
+                                      # 推荐阈值: 0.3 (30%)
+    duration_threshold: 0.5         # 跌倒持续时间阈值（秒）
+                                      # 用于排除瞬间动作（如弯腰捡东西）
+                                      # 推荐阈值: 0.5秒
+
+# 告警配置
+alert:
+  enable: true
+  cooldown: 5                   # 同一目标告警冷却时间 (秒)
+  log_file: "outputs/alerts.log"
+
+# 视频处理配置
+video:
+  input: null                   # 输入视频路径，null表示使用摄像头
+  output: "outputs/result.mp4"  # 输出视频路径
+  fps: 30                       # 输出视频帧率
+  resolution: [1280, 720]       # 输出分辨率 [宽, 高]
+
+# 可视化配置
+visualization:
+  show_bbox: true               # 显示边界框
+  show_id: true                 # 显示ID
+  show_trajectory: true         # 显示轨迹
+  show_velocity: true           # 显示速度
+  show_alert: true              # 显示告警
+  trajectory_length: 50         # 显示轨迹长度
+  colors:
+    bbox_normal: [0, 255, 0]    # 正常边界框颜色 (BGR)
+    bbox_alert: [0, 0, 255]     # 告警边界框颜色 (BGR)
+    trajectory: [255, 0, 0]     # 轨迹颜色 (BGR)

@@ -82,15 +82,6 @@ const unicodeToLatexMap: Record<string, string> = {
   '·': '\\cdot', '…': '\\ldots', '⋯': '\\cdots', '⋮': '\\vdots', '⋱': '\\ddots',
 }
 
-const mathUnicodeChars = new Set(Object.keys(unicodeToLatexMap))
-
-const containsMathUnicode = (text: string): boolean => {
-  for (const char of text) {
-    if (mathUnicodeChars.has(char)) return true
-  }
-  return false
-}
-
 const convertUnicodeToLatex = (text: string): string => {
   let result = text
   for (const [unicode, latex] of Object.entries(unicodeToLatexMap)) {
@@ -322,7 +313,6 @@ const HiddenGems: React.FC = () => {
     return items
   }, [searchQuery, typeFilter, severityFilter, activeCategory, currentCategory, allItems, showFavoritesOnly, favorites])
 
-  const totalItems = hiddenGemCategories.reduce((sum, cat) => sum + cat.items.length, 0)
   const totalFavorites = favorites.size
 
   return (
