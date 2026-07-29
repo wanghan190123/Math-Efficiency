@@ -44,9 +44,10 @@ const unicodeToLatexMap: Record<string, string> = {
   '∛': '\\sqrt[3]', '∜': '\\sqrt[4]',
   '₁': '_1', '₂': '_2', '₃': '_3', '₄': '_4', '₅': '_5', '₆': '_6', '₇': '_7', '₈': '_8', '₉': '_9', '₀': '_0',
   '¹': '^1', '²': '^2', '³': '^3', '⁴': '^4', '⁵': '^5', '⁶': '^6', '⁷': '^7', '⁸': '^8', '⁹': '^9', '⁰': '^0',
-  'ⁿ': '^n', 'ᵀ': '^T', 'ᵗ': '^t', '⁻': '^-', 'ᵢ': '_i', 'ⱼ': '_j', 'ₖ': '_k', 'ₙ': '_n', 'ₘ': '_m',
+  'ⁿ': '^n', 'ᵀ': '^T', 'ᵗ': '^t', '⁻': '^-', '⁺': '^+', '⁼': '^=', '⁽': '^{', '⁾': '^}',
+  'ᵢ': '_i', 'ⱼ': '_j', 'ₖ': '_k', 'ₙ': '_n', 'ₘ': '_m', '₌': '_=', '₊': '_+', '₋': '_-', '₍': '_{', '₎': '_}',
   'ᵃ': '^a', 'ᵇ': '^b', 'ᶜ': '^c', 'ᵈ': '^d', 'ᵉ': '^e', 'ᶠ': '^f',
-  'ᵣ': '_r', 'ₛ': '_s', 'ₓ': '_x', 'ᵧ': '_y',
+  'ᵣ': '_r', 'ₛ': '_s', 'ₓ': '_x', 'ᵧ': '_y', 'ₗ': '_l', 'ₜ': '_t', 'ₕ': '_h', 'ₑ': '_e', 'ₒ': '_o', 'ₚ': '_p', 'ₐ': '_a', 'ₔ': '_d',
   '′': "'", '″': "''", '‴': "'''",
   'ℕ': '\\mathbb{N}', 'ℤ': '\\mathbb{Z}', 'ℚ': '\\mathbb{Q}', 'ℝ': '\\mathbb{R}', 'ℂ': '\\mathbb{C}',
   '⊤': '\\top', '⊥': '\\perp', '∥': '\\parallel', '∠': '\\angle', '°': '^\\circ',
@@ -55,9 +56,65 @@ const unicodeToLatexMap: Record<string, string> = {
 
 const convertUnicodeToLatex = (text: string): string => {
   let result = text
-  for (const [unicode, latex] of Object.entries(unicodeToLatexMap)) {
+
+  // 先处理组合上下标括号：⁽...⁾ → ^{(...)} 和 ₍...₎ → _{(...)}
+  // 内部的单个上下标字符也需要转换
+  const superscriptChars: Record<string, string> = {
+    '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
+    'ⁿ': 'n', '⁺': '+', '⁻': '-', '⁼': '=', 'ᵀ': 'T', 'ᵗ': 't',
+    'ᵃ': 'a', 'ᵇ': 'b', 'ᶜ': 'c', 'ᵈ': 'd', 'ᵉ': 'e', 'ᶠ': 'f',
+  }
+  const subscriptChars: Record<string, string> = {
+    '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4', '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9',
+    'ₙ': 'n', 'ₘ': 'm', 'ₖ': 'k', '₌': '=', '₊': '+', '₋': '-',
+    'ᵢ': 'i', 'ⱼ': 'j', 'ᵣ': 'r', 'ₛ': 's', 'ₓ': 'x', 'ᵧ': 'y', 'ₗ': 'l', 'ₜ': 't', 'ₕ': 'h',
+    'ₑ': 'e', 'ₒ': 'o', 'ₚ': 'p', 'ₐ': 'a', 'ₔ': 'd', '₎': '',
+  }
+
+  // 处理 ⁽...⁾ → ^{(...)}
+  result = result.replace(/⁽([^⁾]*)⁾/g, (_match: string, inner: string) => {
+    let converted = inner
+    for (const [unicode, ascii] of Object.entries(superscriptChars)) {
+      converted = converted.split(unicode).join(ascii)
+    }
+    for (const [unicode, ascii] of Object.entries(subscriptChars)) {
+      converted = converted.split(unicode).join(ascii)
+    }
+    return `^{(${converted})}`
+  })
+
+  // 处理 ₍...₎ → _{(...)}
+  result = result.replace(/₍([^₎]*)₎/g, (_match: string, inner: string) => {
+    let converted = inner
+    for (const [unicode, ascii] of Object.entries(subscriptChars)) {
+      converted = converted.split(unicode).join(ascii)
+    }
+    for (const [unicode, ascii] of Object.entries(superscriptChars)) {
+      converted = converted.split(unicode).join(ascii)
+    }
+    return `_{(${converted})}`
+  })
+
+  // 然后做逐字符替换（排除已处理的组合括号字符）
+  const singleCharMap: Record<string, string> = { ...unicodeToLatexMap }
+  delete singleCharMap['⁽']; delete singleCharMap['⁾']; delete singleCharMap['₍']; delete singleCharMap['₎']
+
+  for (const [unicode, latex] of Object.entries(singleCharMap)) {
     result = result.split(unicode).join(latex)
   }
+
+  // 合并连续的 ^X 和 _X 为 ^{XYZ} 和 _{XYZ}，避免KaTeX解析多个独立上下标出错
+  // 例如 ^n^+^1 → ^{n+1}，但 ^1dx 不应被合并（^1是上标，dx是普通文本）
+  // 每个 ^X 或 _X 只匹配紧跟的1个字符（数字、字母、运算符）
+  result = result.replace(/((\^[a-zA-Z0-9+\-=])(\^[a-zA-Z0-9+\-=])+)/g, (match: string) => {
+    const inner = match.replace(/\^/g, '')
+    return `^{${inner}}`
+  })
+  result = result.replace(/((_[a-zA-Z0-9+\-=])(_[a-zA-Z0-9+\-=])+)/g, (match: string) => {
+    const inner = match.replace(/_/g, '')
+    return `_{${inner}}`
+  })
+
   return result
 }
 
