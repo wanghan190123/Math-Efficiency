@@ -57,8 +57,16 @@ const unicodeToLatexMap: Record<string, string> = {
 const convertUnicodeToLatex = (text: string): string => {
   let result = text
 
+  // 先处理裸数学函数名：lim, max, min, sup, inf, sin, cos, tan, log, exp, ln, arcsin, arccos, arctan
+  // 这些在文本中是普通文本，但在LaTeX中需要加反斜杠才能正确渲染
+  const mathFunctions = ['lim', 'max', 'min', 'sup', 'inf', 'sin', 'cos', 'tan', 'log', 'exp', 'ln', 'arcsin', 'arccos', 'arctan', 'sec', 'csc', 'cot']
+  for (const fn of mathFunctions) {
+    // 只替换裸函数名（前后是括号或运算符，不是已有反斜杠前导的）
+    // 避免把已有的 \lim 重复替换
+    result = result.replace(new RegExp(`(?<!\\\\)${fn}(?=\\(|\\s|→|\\[|,|;|=|_|\\^|\\$|\\\\|_|\\n)`, 'g'), `\\${fn}`)
+  }
+
   // 先处理组合上下标括号：⁽...⁾ → ^{(...)} 和 ₍...₎ → _{(...)}
-  // 内部的单个上下标字符也需要转换
   const superscriptChars: Record<string, string> = {
     '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
     'ⁿ': 'n', '⁺': '+', '⁻': '-', '⁼': '=', 'ᵀ': 'T', 'ᵗ': 't',
@@ -103,9 +111,7 @@ const convertUnicodeToLatex = (text: string): string => {
     result = result.split(unicode).join(latex)
   }
 
-  // 合并连续的 ^X 和 _X 为 ^{XYZ} 和 _{XYZ}，避免KaTeX解析多个独立上下标出错
-  // 例如 ^n^+^1 → ^{n+1}，但 ^1dx 不应被合并（^1是上标，dx是普通文本）
-  // 每个 ^X 或 _X 只匹配紧跟的1个字符（数字、字母、运算符）
+  // 合并连续的 ^X 和 _X 为 ^{XYZ} 和 _{XYZ}
   result = result.replace(/((\^[a-zA-Z0-9+\-=])(\^[a-zA-Z0-9+\-=])+)/g, (match: string) => {
     const inner = match.replace(/\^/g, '')
     return `^{${inner}}`
@@ -118,55 +124,143 @@ const convertUnicodeToLatex = (text: string): string => {
   return result
 }
 
-const splitByMathSegments = (text: string): { text: string; isMath: boolean }[] => {
-  const segments: { text: string; isMath: boolean }[] = []
+// 将混合了中文和数学Unicode字符的文本转为一个完整的LaTeX表达式
+// 中文部分用 \text{} 包裹，数学部分保留LaTeX语法
+const convertMixedTextToLatex = (text: string): string => {
+  // 先用 convertUnicodeToLatex 转换所有Unicode数学字符为LaTeX
+  const converted = convertUnicodeToLatex(text)
   
-  const mathPatterns = [
-    /\$\$[\s\S]*?\$\$/g,
-    /\\[[\s\S]*?\\]/g,
-    /\$[^$\n]+\$/g,
-    /\\\([\s\S]*?\\\)/g,
-    /[a-zA-Z]+\s*\([^)]*\)/g,
-    /\|[^|]+\|/g,
-    /[a-zA-Z]\s*[=<>≤≥≠≈]\s*[^,，。；;]+/g,
-    /[∑∏∫][^,，。；;]*/g,
-    /[\d]+\s*[\+\-\×÷]\s*[\d]+/g,
-    /[a-zA-Z][₁₂₃₄₅₆₇₈₉₀ᵢⱼₖₙₘₓᵧ]+/g,
-    /[a-zA-Z][¹²³⁴⁵⁶⁷⁸⁹⁰ⁿᵀᵗᵃᵇᶜᵈᵉᶠ]+/g,
-    /[α-ωΑ-Ω][₁₂₃₄₅₆₇₈₉₀ᵢⱼₖₙₘₓᵧ]*/g,
-    /[\(\[][^\)\]]*[∈⊂⊃⊆⊇∪∩∅∀∃⇒⇔→←↔][^\)\]]*[\)\]]/g,
-    /[\(\[][^\)\]]*[\+\-\×÷\·][^\)\]]*[\)\]]/g,
-    /[\(\[][^\)\]]*[≤≥≠≈≡][^\)\]]*[\)\]]/g,
-  ]
+  // 处理换行符：\n 在KaTeX中不是有效的换行，需转为 \\quad 分隔不同部分
+  let processed = converted.replace(/\n/g, '\\quad ')
   
-  let remaining = text
+  // 处理花括号：集合花括号 {xₙ} 需转义为 \{x_n\}，
+  // LaTeX分组花括号 ^{(n+1)} 等需保留
+  // 规则：保护 ^{...} 和 _{...} 中的花括号，其余裸花括号转义
+  const protectedBraces: string[] = []
+  let protectedIndex = 0
+  processed = processed.replace(/(\^|\_)\{([^{}]*)\}/g, (_match: string, prefix: string, inner: string) => {
+    const placeholder = `§PROTECT${protectedIndex}§`
+    protectedBraces.push(`${prefix}{${inner}}`)
+    protectedIndex++
+    return placeholder
+  })
+  // 转义所有剩余的裸花括号（集合花括号）
+  processed = processed.replace(/\{/g, '\\{')
+  processed = processed.replace(/\}/g, '\\}')
+  // 恢复保护的花括号（LaTeX分组）
+  for (let i = 0; i < protectedBraces.length; i++) {
+    processed = processed.replace(`§PROTECT${i}§`, protectedBraces[i])
+  }
   
-  while (remaining.length > 0) {
-    let earliestMatch: { index: number; length: number } | null = null
+  // 然后识别中文字符片段并用 \text{} 包裹
+  const result: string[] = []
+  let currentText = ''
+  let inText = false
+  
+  const isChineseOrPunct = (ch: string): boolean => {
+    const code = ch.charCodeAt(0)
+    if (code >= 0x4e00 && code <= 0x9fff) return true
+    if (code >= 0x3400 && code <= 0x4dbf) return true
+    if (code >= 0x3000 && code <= 0x303f) return true
+    if (code >= 0xff00 && code <= 0xffef) return true
+    // 中文标点字符列表（避免特殊字符导致的TypeScript解析问题）
+    const punctChars = ['\uFF0C', '\u3002', '\u3001', '\uFF1B', '\uFF1A', '\uFF01', '\uFF1F',
+      '\u2026', '\u2014', '\u201C', '\u201D', '\u2018', '\u2019', '\uFF08', '\uFF09',
+      '\u300A', '\u300B', '\u3010', '\u3011', '\u300C', '\u300D', '\u300E', '\u300F',
+      '\u3008', '\u3009']
+    if (punctChars.includes(ch)) return true
+    return false
+  }
+  
+  for (let i = 0; i < processed.length; i++) {
+    const ch = processed[i]
     
-    for (const pattern of mathPatterns) {
-      const regex = new RegExp(pattern.source, pattern.flags)
-      const match = regex.exec(remaining)
-      if (match && (earliestMatch === null || match.index < earliestMatch.index)) {
-        earliestMatch = { index: match.index, length: match[0].length }
+    // 处理LaTeX命令（如 \alpha, \infty, \{ \} 等反斜杠开头的命令）
+    if (ch === '\\' && i + 1 < processed.length) {
+      // 先把累积的中文文本输出
+      if (inText && currentText) {
+        result.push(`\\text{${currentText}}`)
+        currentText = ''
+        inText = false
+      }
+      // 读取整个LaTeX命令
+      let cmd = '\\'
+      let j = i + 1
+      while (j < processed.length && /[a-zA-Z]/.test(processed[j])) {
+        cmd += processed[j]
+        j++
+      }
+      // 特殊情况：\{ \} 等单字符命令
+      if (cmd === '\\' && j < processed.length && /[{}\s]/.test(processed[j])) {
+        cmd += processed[j]
+        j++
+      }
+      result.push(cmd)
+      i = j - 1
+      continue
+    }
+    
+    // 处理保护占位符 §PROTECT...§
+    if (ch === '§' && i + 1 < processed.length && processed.substring(i, i + 8) === '§PROTECT') {
+      if (inText && currentText) {
+        result.push(`\\text{${currentText}}`)
+        currentText = ''
+        inText = false
+      }
+      const endIdx = processed.indexOf('§', i + 8)
+      if (endIdx !== -1) {
+        const placeholder = processed.substring(i, endIdx + 1)
+        const idxMatch = placeholder.match(/§PROTECT(\d+)§/)
+        if (idxMatch) {
+          const idx = parseInt(idxMatch[1])
+          if (idx < protectedBraces.length) {
+            result.push(protectedBraces[idx])
+          }
+        }
+        i = endIdx
+        continue
       }
     }
     
-    if (earliestMatch) {
-      if (earliestMatch.index > 0) {
-        segments.push({ text: remaining.slice(0, earliestMatch.index), isMath: false })
-      }
-      segments.push({ text: remaining.slice(earliestMatch.index, earliestMatch.index + earliestMatch.length), isMath: true })
-      remaining = remaining.slice(earliestMatch.index + earliestMatch.length)
+    if (isChineseOrPunct(ch)) {
+      if (!inText) inText = true
+      currentText += ch
     } else {
-      if (remaining.length > 0) {
-        segments.push({ text: remaining, isMath: false })
+      if (inText && currentText) {
+        result.push(`\\text{${currentText}}`)
+        currentText = ''
+        inText = false
       }
-      break
+      result.push(ch)
     }
   }
   
-  return segments.length > 0 ? segments : [{ text, isMath: false }]
+  if (currentText) {
+    result.push(`\\text{${currentText}}`)
+  }
+  
+  return result.join('')
+}
+
+const splitByMathSegments = (text: string): { text: string; isMath: boolean }[] => {
+  // 检测文本中是否包含任何Unicode数学字符
+  const mathUnicodeChars = /[¹²³⁴⁵⁶⁷⁸⁹⁰ⁿ⁺⁻⁼⁽⁾ᵀᵗᵃᵇᶜᵈᵉᶠ₁₂₃₄₅₆₇₈₉₀ₙₘₖ₌₊₋₍₎ᵢⱼᵣₛₓᵧₗₜₕₑₒₚₐₔ∑∏∫∬∭∮∂∇∈⊂⊃⊆⊇∪∩∅∀∃⇒⇔→←↔≤≥≠≈≡±∓×÷⋅∞′″‴ℕℤℚℝℂ⊤⊥∥∠·…⋯⋮⋱αβγδεζηθικλμνξπρστυφχψωΓΔΘΛΞΠΣΥΦΨΩ]/
+  
+  // 也检测纯数学表达式（不含中文但含数学运算符的片段）
+  const mathAsciiPattern = /[<>]=?\s*\d|\\frac|\\lim|\\sum|\\int|\\sqrt|\\partial|\^[0-9n]|_[0-9n]/
+  
+  if (mathUnicodeChars.test(text)) {
+    // 整段含有Unicode数学字符，整体转为LaTeX表达式
+    // 用 convertMixedTextToLatex 将中文包裹在 \text{} 中
+    return [{ text, isMath: true }]
+  }
+  
+  if (mathAsciiPattern.test(text)) {
+    return [{ text, isMath: true }]
+  }
+  
+  // 否则作为纯文本
+  return [{ text, isMath: false }]
 }
 
 const renderTextWithLatex = (text: string): React.ReactNode[] => {
@@ -215,7 +309,7 @@ const renderTextWithLatex = (text: string): React.ReactNode[] => {
       const segments = splitByMathSegments(plainText)
       for (const segment of segments) {
         if (segment.isMath) {
-          const converted = convertUnicodeToLatex(segment.text)
+          const converted = convertMixedTextToLatex(segment.text)
           try {
             const html = katex.renderToString(converted, { 
               throwOnError: false, 
@@ -225,6 +319,7 @@ const renderTextWithLatex = (text: string): React.ReactNode[] => {
             })
             parts.push(<span key={key++} className="inline-formula" dangerouslySetInnerHTML={{ __html: html }} />)
           } catch {
+            // KaTeX渲染失败时，回退为原始文本显示
             parts.push(<span key={key++}>{segment.text}</span>)
           }
         } else {
@@ -245,7 +340,7 @@ const renderTextWithLatex = (text: string): React.ReactNode[] => {
     const segments = splitByMathSegments(plainText)
     for (const segment of segments) {
       if (segment.isMath) {
-        const converted = convertUnicodeToLatex(segment.text)
+        const converted = convertMixedTextToLatex(segment.text)
         try {
           const html = katex.renderToString(converted, { 
             throwOnError: false, 
@@ -1156,7 +1251,7 @@ const chapters = [
         id: 'taylor-approximation',
         name: '泰勒近似与误差估计',
         category: '泰勒公式',
-        definition: '泰勒近似的误差可通过余项公式估计：|Rₙ(x)| ≤ M|x-x₀|ⁿ⁺¹/(n+1)!，其中 M = max|f⁽ⁿ⁺¹(ξ)| 在区间 |ξ-x₀| ≤ |x-x₀| 上。',
+        definition: '泰勒近似的误差可通过余项公式估计：|Rₙ(x)| ≤ M|x-x₀|ⁿ⁺¹/(n+1)!，其中 M = max|f⁽ⁿ⁺¹⁾(ξ)| 在区间 |ξ-x₀| ≤ |x-x₀| 上。',
         plainTranslation: '泰勒展开不是展开越多项越好——而是需要根据精度要求选择合适的项数。误差估计告诉我们：当你用 n 次多项式近似时，误差不会超过某个值。这样我们就能事先确定需要计算到第几项。',
         whyNeedIt: '误差估计让近似计算变得可控。在实际应用中，我们不可能无限展开，必须在精度和计算量之间权衡。余项公式给了我们这个判断标准。',
         example: '用 sin x ≈ x - x³/6 计算 sin 0.1，误差 ≤ max|cos ξ|·|x|⁵/5! ≤ 1·10⁻⁵/120 ≈ 8.3×10⁻⁸'
@@ -8577,12 +8672,12 @@ const ConceptTheorem: React.FC = () => {
 
                   <div className="concept-section">
                     <h4>💡 白话翻译</h4>
-                    <p>{concept.plainTranslation}</p>
+                    <p><TextWithLatex text={concept.plainTranslation} /></p>
                   </div>
 
                   <div className="concept-section">
                     <h4>🎯 为什么需要它</h4>
-                    <p>{concept.whyNeedIt}</p>
+                    <p><TextWithLatex text={concept.whyNeedIt} /></p>
                   </div>
 
                   {concept.example && (
